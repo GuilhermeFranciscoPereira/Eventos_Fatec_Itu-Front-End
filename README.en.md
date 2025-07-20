@@ -26,9 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./public/assets/images/readme`: Folder that will store our photos to use in the documentation ( README )
+### `./src/components/Buttons/ButtonRay:` Button that is reused in several parts of the code, changing the text, etc., based on props
 
-### `README.md // README.en.md:` Added tutorial on how to navigate through commits and view the entire creation process
+### `./src/components/Sidebar:` Added the ButtonRay button to the sidebar, to be used as a link to the Login page
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -73,6 +73,7 @@
 - `./src/components`: This is where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
         - `ButtonDarkMode:` The button responsible for managing the site's dark mode (light/dark mode).
+        - `ButtonRay:` Button that is reused in several parts of the code, changing the text, etc., based on props
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site
 
 - `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separated our hooks by types such as pages, components, and API.

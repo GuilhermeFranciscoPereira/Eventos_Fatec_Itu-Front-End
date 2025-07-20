@@ -26,9 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./public/assets/images/readme`: Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
+### `./src/components/Buttons/ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
 
-### `README.md // README.en.md:` Adicionado o tutorial de como navegar pelos commits e visualizar todo o processo e criação
+### `./src/components/Sidebar:` Adicionado ao sidebar o botão ButtonRay, para ser utilizado de link para a página de Login
 
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
@@ -73,7 +73,8 @@
 
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
     - `Buttons:`
-        - `ButtonDarkMode`: Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
+        - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
+        - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
     - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
 

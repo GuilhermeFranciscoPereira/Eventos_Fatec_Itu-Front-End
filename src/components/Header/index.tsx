@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import ButtonDarkMode from '../Buttons/ButtonDarkMode';
 import styles from '@/components/Header/Header.module.css';
+import ButtonDarkMode from '@/components/Buttons/ButtonDarkMode';
 
 export default function Header(): React.ReactElement {
     return (

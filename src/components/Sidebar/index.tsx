@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import type { IconType } from 'react-icons';
+import ButtonRay from '@/components/Buttons/ButtonRay/index';
 import styles from '@/components/Sidebar/Sidebar.module.css';
 import { GiKnightBanner, GiPartyPopper } from 'react-icons/gi';
 import { FaHome, FaUserEdit, FaLayerGroup } from 'react-icons/fa';
@@ -45,7 +46,7 @@ export default function Sidebar(): React.ReactElement {
             </nav>
 
             <Link href={'/Login'}>
-                <button>Login</button>
+                <ButtonRay text='Login' type='button' />
             </Link>
         </aside>
     )
