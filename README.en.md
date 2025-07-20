@@ -26,19 +26,13 @@
 
 ## 🛎️ Updates to this commit
 
-### `src/components:` Created to store the components that will be reused in various parts of the code.
+### `public/assets:` Directory within public to organize additional static resources.
 
-### `src/components/Buttons:` Stores all reusable buttons.
+### `public/assets/images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
 
-### `src/components/Buttons/ButtonDarkMode:` Button responsible for managing the site's dark mode (light/dark mode).
+### `public/assets/images/Logo_FatecItu_WithoutBackground.png:` Added the Fatec Itu logo to the Header component.
 
-### `src/hooks:` We will store our custom hooks here with the logical parts of the application.
-
-### `src/hooks/components:` We separate our hooks by types such as pages, components, and api. And since we're going to use a component hook, we created this file:
-
-### `src/hooks/components/Buttons:` Logical parts of our button components
-
-### `src/hooks/components/Buttons/useButtonDarkMode/index.ts:` Responsible for handling dark mode, changing the theme based on user clicks!
+### `src/components/Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -64,6 +58,11 @@
 
 ## 🛈 How the project is structured
 
+- `./public:` Folder containing the static files that Next.js serves directly from the site root, bypassing the build pipeline.
+    - `favicon.ico:` Site icon displayed in browser tabs, bookmarks, and on mobile devices.
+    - `assets:` Directory within public to organize additional static resources.
+        - `images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
+
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
     - `layout.tsx:` Imports global styles and fonts, sets metadata (such as title and description), and encapsulates the application.
     - `global.css:` Global styling, imported into our layout.tsx to pass throughout the application
@@ -76,7 +75,8 @@
 
 - `./src/components`: This is where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
-    ButtonDarkMode: The button responsible for managing the site's dark mode (light/dark mode).
+        - `ButtonDarkMode:` The button responsible for managing the site's dark mode (light/dark mode).
+    - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site
 
 - `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separated our hooks by types such as pages, components, and API.
     - `components:`

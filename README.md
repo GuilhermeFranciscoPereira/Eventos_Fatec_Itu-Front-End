@@ -26,19 +26,13 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `src/components:` Criado onde está os componentes que serão reutilizados em diversas partes do código.
+### `public/assets:` Diretório dentro de public para organizar recursos estáticos adicionais.
 
-### `src/components/Buttons:` Armazena todos os botões reutilizáveis
+### `public/assets/images:` Subpasta de assets que armazena todas as imagens do projeto (PNG, JPG, SVG), como logos, backgrounds e ícones personalizados.
 
-### `src/components/Buttons/ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
+### `public/assets/images/Logo_FatecItu_WithoutBackground.png:` Adicionado a logo da faculdade Fatec Itu para ficar no componente Header
 
-### `src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação. 
-
-### `src/hooks/components:` Separamos os nossos hooks, por tipos como: pages, components e api. E como vamos usar um hook de componente criamos este arquivo
-
-### `src/hooks/components/Buttons:` Partes lógicas dos nossos componentes de botões
-
-### `src/hooks/components/Buttons/useButtonDarkMode/index.ts:` Responsável por lidar com o dark mode, mudando o tema com base no click do usuário!
+### `src/components/Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site 
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -64,6 +58,11 @@
 
 ## 🛈 Como o projeto está estruturado
 
+- `./public:` Pasta que contém os arquivos estáticos que o Next.js serve diretamente da raiz do site, sem passar pelo pipeline de build.
+    - `favicon.ico:` ícone do site exibido na aba do navegador, nos favoritos e em dispositivos móveis.
+    - `assets:` diretório dentro de public para organizar recursos estáticos adicionais.
+        - `images:` subpasta de assets que armazena todas as imagens do projeto (PNG, JPG, SVG), como logos, backgrounds e ícones personalizados.
+
 - `./src/app:` Este é um projeto Next, caso não possua conhecimento em Next procure sobre "App Router Next" para entender mais sobre o projeto e sua estrutura de pastas e rotas! Dentro do app temos: 
   - `layout.tsx:` Importa estilos globais e fontes, configura metadados (como título e descrição), e encapsula a aplicação.
   - `global.css:` Estilizações globais, importado dentro do nosso layout.tsx para passar para toda a aplicação
@@ -76,7 +75,8 @@
 
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
     - `Buttons:`
-        ButtonDarkMode: Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
+        - `ButtonDarkMode`: Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
+    - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site 
 
 - `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.
     - `components:`
