@@ -1,0 +1,205 @@
+.sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 60px;
+    height: calc(100vh - 70px);
+    padding: 10px 0;
+    overflow: hidden;
+    color: var(--text-color);
+    background: var(--background);
+    z-index: 999;
+    border-right: 1px solid var(--red-primary);
+    transition: width .3s ease-in-out, background .4s ease-in-out;
+}
+
+.sidebar~*,
+.sidebar.closed~* {
+    margin-left: 60px;
+}
+
+.sidebar:not(.closed):hover,
+.sidebar.open~* {
+    width: 220px;
+    box-shadow: 0px 1px 5px var(--red-primary);
+}
+
+.sidebar svg {
+    width: 1.3em;
+    height: 1.3em;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+.sidebar>.logo {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.sidebar>.logo>.xAnimated {
+    height: 1.3em;
+    width: 1.3em;
+    cursor: pointer;
+    transition: transform .6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar>.logo>.xAnimated>.lineTopBottom {
+    stroke-dasharray: 12 63;
+    stroke: var(--text-color);
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition:
+        stroke-dasharray 2s cubic-bezier(0.4, 0, 0.2, 1),
+        stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar>.logo>.xAnimated>.line {
+    stroke: var(--text-color);
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.sidebar:not(.closed):hover .xAnimated {
+    transform: rotate(-45deg);
+}
+
+.sidebar:not(.closed):hover .xAnimated>.lineTopBottom {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: -32.42;
+}
+
+.sidebar>.logo>span {
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    transition: opacity 0.3s ease 0.3s;
+}
+
+.sidebar:not(.closed):hover>.logo>span {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sidebar>nav>ul {
+    list-style: none;
+    margin: 0;
+    padding: 20px 0;
+}
+
+.sidebar>nav>ul>li>a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar>nav>ul>li>a:not(.closed):hover {
+    background: var(--background-reverse);
+    color: var(--text-color-reverse);
+}
+
+.sidebar>nav>ul>li>a>span {
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    transition: opacity 0.3s ease 0.3s;
+}
+
+.sidebar:not(.closed):hover>nav>ul>li>a>span {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sidebar>a {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+    padding: 10px 0px;
+    width: 100%;
+    gap: 10px;
+}
+
+.sidebar>a>div {
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        border: none;
+        width: 60px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar>.logo>span,
+    .sidebar>nav,
+    .sidebar>a {
+        display: none;
+    }
+
+    .sidebar~*,
+    .sidebar.closed~* {
+        margin-left: 0px;
+    }
+
+    .sidebar:not(.closed):hover,
+    .sidebar.open~* {
+        width: 220px;
+    }
+
+    .sidebar:not(.closed):hover {
+        border-right: 1px solid var(--red-primary);
+        width: 220px;
+        height: 100vh;
+        padding: 10px 0;
+        overflow: hidden;
+    }
+
+    .sidebar>.logo {
+        width: 100%;
+        padding: 0px 10px;
+    }
+
+    .sidebar>.logo>.xAnimated {
+        height: 50px;
+        width: 50px;
+    }
+
+    .sidebar:not(.closed):hover>.logo>span,
+    .sidebar:not(.closed):hover>nav,
+    .sidebar:not(.closed):hover>a {
+        display: block;
+    }
+
+    .sidebar:not(.closed):hover>a {
+        display: inline;
+        display: flex;
+        margin-bottom: 70px;
+    }
+
+    .sidebar:not(.closed):hover>nav>ul {
+        display: block;
+    }
+
+    .sidebar:not(.closed):hover>nav>ul>li>a>span {
+        display: inline;
+        opacity: 1;
+        visibility: visible;
+    }
+}

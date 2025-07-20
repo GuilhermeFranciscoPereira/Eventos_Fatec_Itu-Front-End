@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import { Inter } from "next/font/google";
+import Sidebar from "@/components/Sidebar";
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pt-br">
       <body className={inter.className}>
         <Header />
+        <Sidebar />
         {children}
       </body>
     </html>

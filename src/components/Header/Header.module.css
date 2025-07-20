@@ -12,3 +12,22 @@
     background-color: var(--background);
     transition: color .4s ease-in-out, background .4s ease-in-out;
 }
+
+@media (max-width: 480px) {
+    .header {
+        position: relative;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .header img {
+        margin: 0 auto;
+    }
+
+    .header > :last-child {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}

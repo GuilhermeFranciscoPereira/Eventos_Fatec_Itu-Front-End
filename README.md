@@ -26,13 +26,16 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `public/assets:` Diretório dentro de public para organizar recursos estáticos adicionais.
+### `./package.json`: Adicionado à biblioteca do react-icons:
+> https://github.com/react-icons/react-icons
 
-### `public/assets/images:` Subpasta de assets que armazena todas as imagens do projeto (PNG, JPG, SVG), como logos, backgrounds e ícones personalizados.
+### `./src/components/Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
 
-### `public/assets/images/Logo_FatecItu_WithoutBackground.png:` Adicionado a logo da faculdade Fatec Itu para ficar no componente Header
+### `./src/hooks/components/Sidebar/useSideBar:` Lida com a possibilidade de fechar ou abrir o menu sidebar ao clicar no 'X'
 
-### `src/components/Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site 
+### `./src/components/Header/Header.module.css:` Editado a estilização do Header para que quando o width for menor que 480px ele coloque a logo da Fatec no meio e o menu do sidebar no canto superior esquerdo'
+
+### `.src/app/layout.tsx:` Adicionado o componente Sidebar como fixo em todas as páginas
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -76,12 +79,15 @@
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
     - `Buttons:`
         - `ButtonDarkMode`: Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
-    - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site 
+    - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
+    - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
 
 - `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.
     - `components:`
         - `Buttons`: Partes lógicas dos nossos componentes de botões
             - `useButtonDarkMode:` Responsável por lidar com o dark mode, mudando o tema com base no click do usuário!
+        - `Sidebar:`
+            - `useSideBar:` Lida com a possibilidade de fechar ou abrir o menu sidebar ao clicar no 'X'
     
 ## ❔ Como rodar o projeto na minha máquina?
 

@@ -26,13 +26,16 @@
 
 ## 🛎️ Updates to this commit
 
-### `public/assets:` Directory within public to organize additional static resources.
+### `./package.json`: Added to the react-icons library:
+> https://github.com/react-icons/react-icons
 
-### `public/assets/images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
+### `./src/components/Sidebar:` Sidebar menu for the user to switch routes more easily without taking up too much screen space.
 
-### `public/assets/images/Logo_FatecItu_WithoutBackground.png:` Added the Fatec Itu logo to the Header component.
+### `./src/hooks/components/Sidebar/useSideBar:` Handles the possibility of closing or opening the sidebar menu when clicking the 'X'.
 
-### `src/components/Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
+### `./src/components/Header/Header.module.css:` Edited the Header styling so that when the width is less than 480px, it places the Fatec logo in the middle and the sidebar menu in the upper left corner.
+
+### `.src/app/layout.tsx:` Added the Sidebar component as fixed on all pages
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -82,6 +85,8 @@
     - `components:`
         - `Buttons`: Logical parts of our button components
             - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click!
+        - `Sidebar:`
+            - `useSideBar:` Handles the possibility of closing or opening the sidebar menu when clicking the 'X'
 
 ## ❔ How to run the project on my machine?
 
