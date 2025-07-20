@@ -26,16 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./package.json`: Added to the react-icons library:
-> https://github.com/react-icons/react-icons
+### `./public/assets/images/readme`: Folder that will store our photos to use in the documentation ( README )
 
-### `./src/components/Sidebar:` Sidebar menu for the user to switch routes more easily without taking up too much screen space.
-
-### `./src/hooks/components/Sidebar/useSideBar:` Handles the possibility of closing or opening the sidebar menu when clicking the 'X'.
-
-### `./src/components/Header/Header.module.css:` Edited the Header styling so that when the width is less than 480px, it places the Fatec logo in the middle and the sidebar menu in the upper left corner.
-
-### `.src/app/layout.tsx:` Added the Sidebar component as fixed on all pages
+### `README.md // README.en.md:` Added tutorial on how to navigate through commits and view the entire creation process
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -65,6 +58,7 @@
     - `favicon.ico:` Site icon displayed in browser tabs, bookmarks, and on mobile devices.
     - `assets:` Directory within public to organize additional static resources.
         - `images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
+            - `readme:` Folder that will store our photos to use in the documentation ( README )
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
     - `layout.tsx:` Imports global styles and fonts, sets metadata (such as title and description), and encapsulates the application.
@@ -91,49 +85,82 @@
 ## ❔ How to run the project on my machine?
 
 - First of all, you need to have Git installed on your computer. Git is a tool that allows you to clone and manage code repositories.
-- Windows: Download Git <a href="https://git-scm.com/download/win" target="_blank">here</a> and follow the installation instructions.
-- macOS: You can install Git <a href="https://git-scm.com/download/mac" target="_blank">here</a> or using Homebrew with the brew install git command:
-```bash
-brew install git
-```
+    - Windows: Download Git <a href="https://git-scm.com/download/win" target="_blank">here</a> and follow the installation instructions.
+    - macOS: You can install Git <a href="https://git-scm.com/download/mac" target="_blank">here</a> or using Homebrew with the brew install git command:
+    ```bash
+    brew install git
+    ```
 
-- Linux: Use your distribution's package manager, for example, for Debian/Ubuntu:
-```bash
-sudo apt install git
-```
+    - Linux: Use your distribution's package manager, for example, for Debian/Ubuntu:
+    ```bash
+    sudo apt install git
+    ```
 
 - Open a terminal (on Windows, you can use Git Bash, which is installed along with Git).
 
-- Navigate to the directory where you want to store the project.
+    - Navigate to the directory where you want to store the project.
 
-- Run the command to clone the repository:
+    - Run the command to clone the repository:
 
-```bash
-git clone https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-FrontEnd.git
-```
+    ```bash
+    git clone https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-FrontEnd.git
+    ```
 
 - After cloning the repository, navigate to the project folder.
-```bash
-cd Eventos_Fatec_Itu-FrontEnd
-```
+    ```bash
+    cd Eventos_Fatec_Itu-FrontEnd
+    ```
 
 - Now you can open the project files with your preferred text editor or IDE. Example:
-```bash
-code .
-```
+    ```bash
+    code .
+    ```
 
 - 🚨 Don't forget that to avoid errors in the code when cloning it, you must run the command below: 🚨
-```bash
-npm i
-```
+    ```bash
+    npm i
+    ```
 
 - Once you have the project on your machine, open the website. To do this, follow the steps below:
-- Open the terminal and write the code below to start the site:
-```bash
-npm run dev
-```
+    - Open the terminal and write the code below to start the site:
+        ```bash
+        npm run dev
+        ```
 
-- ⚠️ Remember to create the .env file based on everything contained in the file: `.env.example`
+    - ⚠️ Remember to create the .env file based on everything contained in the file: `.env.example`
+
+##
+
+## ⚠️ Important information about the project ⚠️
+
+### 📝 All project commits have a detailed readme detailing what was done in that commit, as shown in the example image below. So if you want to see the code creation process, scroll through the commits and see the information!
+
+##
+![Example of the project creation process in the readme](./public/assets/images/readme/example_howToReadTheCommits.png)
+##
+
+### ❔ How to do this?
+
+### 👇🏻 To see the creation process and what was done in each commit, follow these steps:
+
+##
+
+### 1 - In this same tab you're in, scroll up until you find the circled spot in the photo below under the green button and then click on it.
+![Step 1 - How to see the project creation process](./public/assets/images/readme/firstStep_howToReadTheCommits.png)
+
+##
+
+### 2 - On the right side of the commits, you'll find a <> symbol, as circled in the photo below. Click on this symbol and you'll find the code at that time and the detailed readme for that moment! ![Step 2 - How to view the project creation process](./public/assets/images/readme/secondStep_howToReadTheCommits.png)
+
+##
+
+### 3 - After finding everything you need, if you want to return to the current commit, click where the image below circles:
+![Step 3 - How to view the project creation process](./public/assets/images/readme/thirdStep_howToReadTheCommits.png)
+
+##
+
+### 4 - Then click on main (where it is circled in the image below) and you will return to the last commit made!
+![Step 4 - How to view the project creation process](./public/assets/images/readme/fourthStep_howToReadTheCommits.png)
 
 ##
 

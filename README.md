@@ -26,16 +26,10 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./package.json`: Adicionado à biblioteca do react-icons:
-> https://github.com/react-icons/react-icons
+### `./public/assets/images/readme`: Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
 
-### `./src/components/Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
+### `README.md // README.en.md:` Adicionado o tutorial de como navegar pelos commits e visualizar todo o processo e criação
 
-### `./src/hooks/components/Sidebar/useSideBar:` Lida com a possibilidade de fechar ou abrir o menu sidebar ao clicar no 'X'
-
-### `./src/components/Header/Header.module.css:` Editado a estilização do Header para que quando o width for menor que 480px ele coloque a logo da Fatec no meio e o menu do sidebar no canto superior esquerdo'
-
-### `.src/app/layout.tsx:` Adicionado o componente Sidebar como fixo em todas as páginas
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -65,6 +59,7 @@
     - `favicon.ico:` ícone do site exibido na aba do navegador, nos favoritos e em dispositivos móveis.
     - `assets:` diretório dentro de public para organizar recursos estáticos adicionais.
         - `images:` subpasta de assets que armazena todas as imagens do projeto (PNG, JPG, SVG), como logos, backgrounds e ícones personalizados.
+            - `readme:` Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
 
 - `./src/app:` Este é um projeto Next, caso não possua conhecimento em Next procure sobre "App Router Next" para entender mais sobre o projeto e sua estrutura de pastas e rotas! Dentro do app temos: 
   - `layout.tsx:` Importa estilos globais e fontes, configura metadados (como título e descrição), e encapsula a aplicação.
@@ -139,6 +134,40 @@
 
 ##
 
+## ⚠️ Informações importantes sobre o projeto ⚠️
+
+### 📝 Todos os commits do projeto possuem um readme detalhado do que foi feito naquele commit como mostrado de exemplo na imagem abaixo, então caso deseje ver o processo de criação do código viaje pelos commits e veja as informações!
+
+## 
+![Exemplo de como é o processo da criação do projeto no readme](./public/assets/images/readme/example_howToReadTheCommits.png)
+##
+
+### ❔ Como fazer isso? 
+
+### 👇🏻 Para você ver o processo de criação e o que foi feito em cada commit siga o passo-a-passo:
+
+##
+
+### 1 - Nesta mesma guia em que você está, suba a tela até encontrar embaixo do botão verde o local em que está circulado da foto abaixo e então clique nele
+![1 passo - Como ver o processo da criação do projeto](./public/assets/images/readme/firstStep_howToReadTheCommits.png)
+
+##
+
+### 2 - No lado direito dos commits você encontra um simbolo de <> como está circulado na foto abaixo e então você clica neste simbolo e irá encontrar como o código estava naquele momento e o readme detalhado daquele momento!
+![2 passo - Como ver o processo da criação do projeto](./public/assets/images/readme/secondStep_howToReadTheCommits.png)
+
+##
+
+### 3 - Depois de encontrar tudo que deseja, caso queira voltar o commit atual, você irá clicar no local em que a imagem a baixo circula:
+![3 passo - Como ver o processo da criação do projeto](./public/assets/images/readme/thirdStep_howToReadTheCommits.png)
+
+##
+
+### 4 - E então clique em main ( onde está circulado na foto abaixo ) e voltará para o último commit realizado!
+![4 passo - Como ver o processo da criação do projeto](./public/assets/images/readme/fourthStep_howToReadTheCommits.png)
+
+##
+
 ## 🎉 É isso! Esse é o sistema da Fatec Itu para eventos, caso tenha ficado com alguma dúvida ou deseje complementar algo diretamente comigo você pode estar entrando em contato através do meu LinkedIn:
 > Link do meu LinkedIn: <a href="https://www.linkedin.com/in/guilherme-francisco-pereira-4a3867283" target="_blank">https://www.linkedin.com/in/guilherme-francisco-pereira-4a3867283</a>
 
@@ -148,7 +177,7 @@
 
 ### ❤️ Créditos:
 
-#### Créditos primários à Faculdade de Tecnlogia de Itu por ceder seu nome, e utilizar o sistema em seu ambiente!
+#### Créditos primários à Faculdade de Tecnologia de Itu por ceder seu nome, e utilizar o sistema em seu ambiente!
 > <a href="https://fatecitu.cps.sp.gov.br" target="_blank">https://fatecitu.cps.sp.gov.br</a>
 
 #### Créditos dos emojis: 
