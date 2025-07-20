@@ -26,9 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Buttons/ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
-
-### `./src/components/Sidebar:` Adicionado ao sidebar o botão ButtonRay, para ser utilizado de link para a página de Login
+### `./src/components/Inputs/InputDefault:` Criado o componente de Input reutilizável alterando os dados com base nas props recebidas
 
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
@@ -76,6 +74,8 @@
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
         - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
+    - `Inputs:`
+        - `InputDefault:` Input reutilizável alterando os dados com base nas props recebidas
     - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
 
 - `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.

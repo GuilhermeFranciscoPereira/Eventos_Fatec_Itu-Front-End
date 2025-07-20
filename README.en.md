@@ -26,9 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Buttons/ButtonRay:` Button that is reused in several parts of the code, changing the text, etc., based on props
-
-### `./src/components/Sidebar:` Added the ButtonRay button to the sidebar, to be used as a link to the Login page
+### `./src/components/Inputs/InputDefault:` Created the reusable Input component by changing the data based on the received props
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -75,6 +73,9 @@
         - `ButtonDarkMode:` The button responsible for managing the site's dark mode (light/dark mode).
         - `ButtonRay:` Button that is reused in several parts of the code, changing the text, etc., based on props
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site
+    - `Inputs:`
+        - `InputDefault:` Reusable input that changes data based on received props
+    - `Sidebar:` Sidebar menu so the user can switch routes more easily without taking up too much screen space
 
 - `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separated our hooks by types such as pages, components, and API.
     - `components:`
