@@ -1,3 +1,19 @@
+:root {
+  /* Colors -> ( LightTheme ): */
+  --background: #ffffff;
+  --background-reverse: #000000;
+  --text-color: #000000;
+  --text-color-reverse: #ffffff;
+  --red-primary: #b20000;
+}
+
+.DarkTheme {
+  --background: #000000;
+  --background-reverse: #ffffff;
+  --text-color: #ffffff;
+  --text-color-reverse: #000000;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,4 +24,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
+  color: var(--text-color);
+  background-color: var(--background);
+  transition: color .4s ease-in-out, background .4s ease-in-out;
 }

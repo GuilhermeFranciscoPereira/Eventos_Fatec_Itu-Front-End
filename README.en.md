@@ -22,6 +22,28 @@
 
 ##
 
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=header"/>
+
+## 🛎️ Updates to this commit
+
+### `src/components:` Created to store the components that will be reused in various parts of the code.
+
+### `src/components/Buttons:` Stores all reusable buttons.
+
+### `src/components/Buttons/ButtonDarkMode:` Button responsible for managing the site's dark mode (light/dark mode).
+
+### `src/hooks:` We will store our custom hooks here with the logical parts of the application.
+
+### `src/hooks/components:` We separate our hooks by types such as pages, components, and api. And since we're going to use a component hook, we created this file:
+
+### `src/hooks/components/Buttons:` Logical parts of our button components
+
+### `src/hooks/components/Buttons/useButtonDarkMode/index.ts:` Responsible for handling dark mode, changing the theme based on user clicks!
+
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
+
+## 
+
 ## 🖥 Technologies Used
 <div align='center'>
 
@@ -35,6 +57,31 @@
 - Next: 15.4.2 
 - React: 19.1.0 
 - Typescript: 5
+
+## 🙋🏻‍♂ How do I find my way around the project?
+
+### All project source code files are in: `./src`
+
+## 🛈 How the project is structured
+
+- `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
+    - `layout.tsx:` Imports global styles and fonts, sets metadata (such as title and description), and encapsulates the application.
+    - `global.css:` Global styling, imported into our layout.tsx to pass throughout the application
+    - `(pages):` Contains all of our application routes, but remember, whenever they're inside parent folders, that folder won't be recognized as a route! Our pages:
+        - `(public)`:
+        - Everything inside this folder is our public route pages, which users can access even without being logged in. Here we have:
+            - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
+        - `(private)`
+        - These are our private route pages, where only logged-in users can access!
+
+- `./src/components`: This is where the components that will be reused in various parts of the code are located. In this project, we have the following components:
+    - `Buttons:`
+    ButtonDarkMode: The button responsible for managing the site's dark mode (light/dark mode).
+
+- `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separated our hooks by types such as pages, components, and API.
+    - `components:`
+        - `Buttons`: Logical parts of our button components
+            - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click!
 
 ## ❔ How to run the project on my machine?
 

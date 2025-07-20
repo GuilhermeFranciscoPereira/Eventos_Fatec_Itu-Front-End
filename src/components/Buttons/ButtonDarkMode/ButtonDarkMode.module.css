@@ -1,0 +1,292 @@
+.buttonWrapper {
+    border: none;
+    background-color: transparent;
+}
+
+.buttonWrapper > .hideCheckbox {
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.buttonWrapper > .toggle {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    background: #211042;
+    border-radius: 15px;
+    transition: 500ms;
+    overflow: hidden;
+}
+
+.buttonWrapper > .toggle > .toggleButton {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #FAEAF1;
+    overflow: hidden;
+    box-shadow: 0 0 10px 1px rgba(255, 255, 255);
+    transition: all 500ms ease-out;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater {
+    position: absolute;
+    background: #FAEAF1;
+    border-radius: 50%;
+    transition: 500ms;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater1 {
+    background: #FFFFF9;
+    width: 26px;
+    height: 26px;
+    left: 3px;
+    bottom: 3px;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater2 {
+    width: 6px;
+    height: 6px;
+    top: -2px;
+    left: 13px;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater3 {
+    width: 5px;
+    height: 5px;
+    top: 6px;
+    right: -1px;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater4 {
+    width: 3px;
+    height: 3px;
+    top: 7px;
+    left: 9px;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater5 {
+    width: 5px;
+    height: 5px;
+    top: 12px;
+    left: 14px;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater6 {
+    width: 3px;
+    height: 3px;
+    top: 14px;
+    left: 6px;
+}
+
+.buttonWrapper > .toggle > .toggleButton > .crater7 {
+    width: 4px;
+    height: 4px;
+    bottom: 2px;
+    left: 11px;
+}
+
+.buttonWrapper > .toggle > .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #FFF;
+    box-shadow: 1px 0 2px 2px rgba(255, 255, 255);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.buttonWrapper > .toggle > .star1 {
+    width: 2px;
+    height: 2px;
+    right: 27px;
+    bottom: 12px;
+}
+
+.buttonWrapper > .toggle > .star2 {
+    width: 2px;
+    height: 2px;
+    right: 21px;
+    top: 3px;
+}
+
+.buttonWrapper > .toggle > .star3 {
+    width: 2px;
+    height: 2px;
+    right: 18px;
+    bottom: 5px;
+}
+
+.buttonWrapper > .toggle > .star4 {
+    width: 1px;
+    height: 1px;
+    right: 12px;
+    bottom: 15px;
+}
+
+.buttonWrapper > .toggle > .star5 {
+    width: 1px;
+    height: 1px;
+    right: 3px;
+    bottom: 11px;
+}
+
+.buttonWrapper > .toggle > .star6,
+.buttonWrapper > .toggle > .star7,
+.buttonWrapper > .toggle > .star8 {
+    width: 3px;
+    height: 1px;
+    border-radius: 1px;
+    transform: rotate(-45deg);
+    box-shadow: 2px 0 1px 1px #FFF;
+    animation-name: travel;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
+}
+
+.buttonWrapper > .toggle > .star6 {
+    right: 9px;
+    bottom: 9px;
+    animation-delay: -2s;
+}
+
+.buttonWrapper > .toggle > .star7 {
+    right: 15px;
+    bottom: 18px;
+}
+
+.buttonWrapper > .toggle > .star8 {
+    right: 27px;
+    top: 3px;
+    animation-delay: -4s;
+}
+
+@keyframes travel {
+    0% {
+        transform: rotate(-45deg) translateX(21px);
+    }
+
+    50% {
+        transform: rotate(-45deg) translateX(-6px);
+        box-shadow: 2px 0 2px 1px #FFF;
+    }
+
+    100% {
+        transform: rotate(-45deg) translateX(-9px);
+        width: 2px;
+        height: 2px;
+        opacity: 0;
+        box-shadow: none;
+    }
+}
+
+@keyframes move {
+    0% {
+        transform: none;
+    }
+
+    25% {
+        transform: translateX(2px);
+    }
+
+    100% {
+        transform: translateX(-2px);
+    }
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle {
+    background: #24D7F7;
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .toggleButton {
+    background: #F7FFFF;
+    transform: translateX(31px);
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.85);
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .toggleButton > .crater {
+    transform: rotate(-45deg) translateX(21px);
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star {
+    animation: move 2s infinite;
+    transform: none;
+    box-shadow: none;
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star1 {
+    width: 12px;
+    height: 3px;
+    border-radius: 3px;
+    left: 6px;
+    top: 8px;
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star2 {
+    width: 4px;
+    height: 4px;
+    left: 8px;
+    top: 7px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star3 {
+    width: 5px;
+    height: 5px;
+    left: 11px;
+    top: 6px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star4 {
+    width: 4px;
+    height: 4px;
+    left: 14px;
+    top: 6px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star5 {
+    width: 18px;
+    height: 5px;
+    border-radius: 5px;
+    left: 9px;
+    bottom: 6px;
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star6 {
+    width: 5px;
+    height: 5px;
+    background: #FFF;
+    border-radius: 50%;
+    left: 11px;
+    bottom: 6px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star7 {
+    width: 7px;
+    height: 7px;
+    background: #FFF;
+    border-radius: 50%;
+    left: 16px;
+    bottom: 6px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.buttonWrapper > .hideCheckbox:checked+.toggle > .star8 {
+    width: 6px;
+    height: 6px;
+    background: #FFF;
+    border-radius: 50%;
+    left: 21px;
+    top: 18px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}

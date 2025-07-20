@@ -22,6 +22,28 @@
 
 ##
 
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=header"/>
+
+## 🛎️ Atualizações deste commit
+
+### `src/components:` Criado onde está os componentes que serão reutilizados em diversas partes do código.
+
+### `src/components/Buttons:` Armazena todos os botões reutilizáveis
+
+### `src/components/Buttons/ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
+
+### `src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação. 
+
+### `src/hooks/components:` Separamos os nossos hooks, por tipos como: pages, components e api. E como vamos usar um hook de componente criamos este arquivo
+
+### `src/hooks/components/Buttons:` Partes lógicas dos nossos componentes de botões
+
+### `src/hooks/components/Buttons/useButtonDarkMode/index.ts:` Responsável por lidar com o dark mode, mudando o tema com base no click do usuário!
+
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
+
+##
+
 ## 🖥 Tecnologias Utilizadas
 <div align='center'>
 
@@ -35,6 +57,31 @@
     - Next: 15.4.2
     - React: 19.1.0
     - Typescript: 5
+
+## 🙋🏻‍♂ Como me localizar no projeto?
+
+### Todos os arquivos de código fonte do projeto estão em: `./src`
+
+## 🛈 Como o projeto está estruturado
+
+- `./src/app:` Este é um projeto Next, caso não possua conhecimento em Next procure sobre "App Router Next" para entender mais sobre o projeto e sua estrutura de pastas e rotas! Dentro do app temos: 
+  - `layout.tsx:` Importa estilos globais e fontes, configura metadados (como título e descrição), e encapsula a aplicação.
+  - `global.css:` Estilizações globais, importado dentro do nosso layout.tsx para passar para toda a aplicação
+  - `(pages):` Possui todas nossas rotas da aplicação, mas lembre-se, sempre que estiver dentro de parentes não será reconhecido como rota aquela pasta! Nossa páginas:
+    - `(public)`:
+        - Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
+        - `page.tsx`: Nossa primeira página, também conhecido como o nosso "home", é a tela em que o usuário visualiza assim que acessa o site.
+    - `(private)`
+        - Aqui são nossas páginas de rotas privada, onde somente usuários logados podem acessar!
+
+- `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
+    - `Buttons:`
+        ButtonDarkMode: Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
+
+- `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.
+    - `components:`
+        - `Buttons`: Partes lógicas dos nossos componentes de botões
+            - `useButtonDarkMode:` Responsável por lidar com o dark mode, mudando o tema com base no click do usuário!
     
 ## ❔ Como rodar o projeto na minha máquina?
 
