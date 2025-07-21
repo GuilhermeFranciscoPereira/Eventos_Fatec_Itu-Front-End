@@ -26,7 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Inputs/InputDefault:` Criado o componente de Input reutilizável alterando os dados com base nas props recebidas
+### `./src/components/Loader:` Componente que mostra ao usuário uma "ampulheta" para que ele perceba que algo está carregando
+
+### `./src/app/loading.tsx:` Este é um componente especial do Next.js para exibir algo em carregamento durante o fetch de dados ou mudança de rota, para mostrar isso ao usuário inserimos o nosso componente Loader.
 
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
@@ -60,8 +62,9 @@
             - `readme:` Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
 
 - `./src/app:` Este é um projeto Next, caso não possua conhecimento em Next procure sobre "App Router Next" para entender mais sobre o projeto e sua estrutura de pastas e rotas! Dentro do app temos: 
-  - `layout.tsx:` Importa estilos globais e fontes, configura metadados (como título e descrição), e encapsula a aplicação.
   - `global.css:` Estilizações globais, importado dentro do nosso layout.tsx para passar para toda a aplicação
+  - `layout.tsx:` Importa estilos globais e fontes, configura metadados (como título e descrição), e encapsula a aplicação.
+    - `loading.tsx:` Este é um componente especial do Next.js para exibir algo em carregamento durante o fetch de dados ou mudança de rota, para mostrar isso ao usuário inserimos o nosso componente Loader.
   - `(pages):` Possui todas nossas rotas da aplicação, mas lembre-se, sempre que estiver dentro de parentes não será reconhecido como rota aquela pasta! Nossa páginas:
     - `(public)`:
         - Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
@@ -76,6 +79,7 @@
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
     - `Inputs:`
         - `InputDefault:` Input reutilizável alterando os dados com base nas props recebidas
+    - `Loader:` Componente que mostra ao usuário que algo está carregando
     - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
 
 - `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.
@@ -107,12 +111,12 @@
 - Execute o comando para clonar o repositório:
 
     ```bash
-    git clone https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-FrontEnd.git
+    git clone https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-Front-End.git
     ```
 
 - Após clonar o repositório, navegue até a pasta do projeto
     ```bash
-    cd Eventos_Fatec_Itu-FrontEnd
+    cd Eventos_Fatec_Itu-Front-End
     ```
 
 - Agora você pode abrir os arquivos do projeto com seu editor de texto ou IDE preferido. Exemplo do vsCode: 

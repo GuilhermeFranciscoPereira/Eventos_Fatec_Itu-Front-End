@@ -26,7 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Inputs/InputDefault:` Created the reusable Input component by changing the data based on the received props
+### `./src/components/Loader:` Component that shows the user an "hourglass" so they know something is loading
+
+### `./src/app/loading.tsx:` This is a special Next.js component to display something loading during data fetch or route change. To show this to the user, we insert our Loader component.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -59,8 +61,9 @@
             - `readme:` Folder that will store our photos to use in the documentation ( README )
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
-    - `layout.tsx:` Imports global styles and fonts, sets metadata (such as title and description), and encapsulates the application.
     - `global.css:` Global styling, imported into our layout.tsx to pass throughout the application
+    - `layout.tsx:` Imports global styles and fonts, sets metadata (such as title and description), and encapsulates the application.
+    - `loading.tsx:` This is a special Next.js component to display something loading during data fetch or route change, to show this to the user we insert our Loader component.
     - `(pages):` Contains all of our application routes, but remember, whenever they're inside parent folders, that folder won't be recognized as a route! Our pages:
         - `(public)`:
         - Everything inside this folder is our public route pages, which users can access even without being logged in. Here we have:
@@ -75,6 +78,7 @@
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site
     - `Inputs:`
         - `InputDefault:` Reusable input that changes data based on received props
+    - `Loader:` Component that shows the user that something is loading
     - `Sidebar:` Sidebar menu so the user can switch routes more easily without taking up too much screen space
 
 - `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separated our hooks by types such as pages, components, and API.
@@ -105,12 +109,12 @@
     - Run the command to clone the repository:
 
     ```bash
-    git clone https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-FrontEnd.git
+    git clone https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-Front-End.git
     ```
 
 - After cloning the repository, navigate to the project folder.
     ```bash
-    cd Eventos_Fatec_Itu-FrontEnd
+    cd Eventos_Fatec_Itu-Front-End
     ```
 
 - Now you can open the project files with your preferred text editor or IDE. Example:
