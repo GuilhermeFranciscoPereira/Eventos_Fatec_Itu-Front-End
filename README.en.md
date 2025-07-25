@@ -26,51 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./public/assets/images/login:` Folder that will store our photos for use on the login screens (recover password and two-factor authentication)
-
-### `./src/@Types:` Stores the types that are reused in the code
-
-### `./src/@Types/UserRoleProps.ts:` User types and their roles
-
-### `./src/app/(public)/Login:` Login screen, when accessing: /Login. Requests email and password for the user to access the platform. If the email and password are correct, the user goes to the 'confirm' stage where they enter the 6 digits sent to the email to access (2FA)
-
-### `./src/app/(public)/Login/ResetPassword:` Screen for the user to change their password, when accessing: /Login/ResetPassword. First, ask for your email address. If available, go to the screen to enter your new password, confirm it, and enter the 6-digit code sent to your email address.
-
-### `./src/components/CodeInputValidation:` Reusable component with 6 boxes for 2FA, both for confirming login and resetting passwords.
-
-### `./src/hooks/api:` Here, HTTP methods make requests to the backend.
-
-### `./src/hooks/api/auth:` All requests to the backend on /auth/ routes.
-
-### `./src/hooks/api/auth/Get:` GET requests on /auth/ routes.
-
-### `./src/hooks/api/auth/Get/getMe:` Used to retrieve user data from the backend, such as name, email, role, etc.
-
-### `./src/hooks/api/auth/Post:` POST requests on /auth/ routes
-
-### `./src/hooks/api/auth/Post/useLogin:` Requests to the backend to make the login request (generate 2FA code) and confirm 2FA code to access the account
-
-### `./src/hooks/api/auth/Post/useLogout:` Hits the logout route to allow the user to log out
-
-### `./src/hooks/api/auth/Post/useResetPassword:` Requests to the backend to make the password change request (generate 2FA code) and confirm 2FA code to change the password
-
-### `./src/hooks/components/CodeInputValidation:` Handles the input logic of two-factor authentication Factors
-
-### `./src/hooks/pages:` Page logic, page.tsx files located within the app
-
-### `./src/hooks/pages/(private):` Page logic, page.tsx files located within the app -> (pages/private)
-
-### `./src/hooks/pages/(public):` Page logic, page.tsx files located within the app -> (pages/public)
-
-### `./src/hooks/pages/(public)/Login:` Logical parts of the /Login route
-
-### `./src/hooks/pages/(public)/Login/useYeti:` Controls Yeti to handle the animation of "interacting" with inputs
-
-### `./src/stores:` Stores for the Zustand library
-
-### `./src/stores/User:` To set the user in the application
-
-### `./src/stores/HydratorZustand.ts:` The Zustand "Hydrator" for direct use in the layout.tsx
+### `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -102,6 +58,8 @@
     - `images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
         - `login:` Folder that will store our photos for use on the login screens (Recover password and two-factor authentication)
         - `readme:` Folder that will store our photos for use in the documentation (README)
+
+- `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
 
 - `./src/@Types:` Stores the typings that are reused in the code.
     - `UserRoleProps.ts:` User typings and their roles.

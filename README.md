@@ -26,51 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./public/assets/images/login:` Pasta que irá armazenar nossas fotos para utilizar nas telas de Login ( Recuperar senha e autenticação em dois fatores )
-
-### `./src/@Types:` Armazena as tipagens que são reutilizadas no código
-
-### `./src/@Types/UserRoleProps.ts:` Tipagem de usuário e suas roles
-
-### `./src/app/(public)/Login:` Tela de login, ao acessar: /Login. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
-
-### `./src/app/(public)/Login/ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail, se existir troca para a tela para informar a nova senha, confirmar, e inserir o código de 6 dígitos enviado ao e-mail.
-
-### `./src/components/CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
-
-### `./src/hooks/api:` Aqui ocorrem os métodos HTTP fazendo requisições para o back-end
-
-### `./src/hooks/api/auth:` Todas as requisições para o back-end nas rotas de /auth/
-
-### `./src/hooks/api/auth/Get:` Requisições GET nas rotas de /auth/
-
-### `./src/hooks/api/auth/Get/getMe:` Utilizado para pegar com o back-end os dados do usuário, como nome, e-mail, role e etc.
-
-### `./src/hooks/api/auth/Post:` Requisições POST nas rotas de /auth/
-
-### `./src/hooks/api/auth/Post/useLogin:` Requisições para o back-end para fazer a solicitação de login (gerar código 2fa) e confirmar código 2fa para entrar na conta
-
-### `./src/hooks/api/auth/Post/useLogout:` Bate na rota de logout para permitir o usuário a se deslogar 
-
-### `./src/hooks/api/auth/Post/useResetPassword:` Requisições para o back-end para fazer a solicitação de troca de senha (gerar código 2fa) e confirmar código 2fa para trocar a senha
-
-### `./src/hooks/components/CodeInputValidation:` Lida com a parte lógica dos inputs da autenticação em dois fatores
-
-### `./src/hooks/pages:` Lógicas das páginas, arquivos page.tsx que fica dentro de app
-
-### `./src/hooks/pages/(private):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/private)
-
-### `./src/hooks/pages/(public):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/public)
-
-### `./src/hooks/pages/(public)/Login:` Partes lógicas da rota /Login
-
-### `./src/hooks/pages/(public)/Login/useYeti:` Controla o yeti para lidar com a animação de "interagir" com os inputs
-
-### `./src/stores:` Stores para a biblioteca Zustand
-
-### `./src/stores/User:` Para setar o usuário na aplicação
-
-### `./src/stores/HydratorZustand.ts:` O "Hidrator" do Zustand para usar no layout.tsx de forma direta
+### `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -102,6 +58,8 @@
         - `images:` subpasta de assets que armazena todas as imagens do projeto (PNG, JPG, SVG), como logos, backgrounds e ícones personalizados.
             - `login:` Pasta que irá armazenar nossas fotos para utilizar nas telas de Login ( Recuperar senha e autenticação em dois fatores )
             - `readme:` Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
+
+- `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
     - `UserRoleProps.ts:` Tipagem de usuário e suas roles.
