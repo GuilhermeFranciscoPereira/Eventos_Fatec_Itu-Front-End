@@ -26,9 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.
+### `./src/components/Toast:` Exibe notificações breves. Pode ser reutilizado em diferentes cenários mudando apenas as props de mensagem e tipo (Success, Alert, Error).
 
-### `./src/stores/Modal/modalStore.ts:` Controlar a exibição e limpa os dados do modal da aplicação.
+### `./src/stores/Toast/toastStore.ts:` Responsável por orquestrar a exibição, animação de progresso e fechamento automático dos toasts em toda a aplicação.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -90,6 +90,7 @@
     - `Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.
     - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
     - `Table:` Tabela reutilizável, apenas precisa passar as colunas, os dados, e as colunas ocultas no mobile. 
+    - `Toast:` Exibe notificações breves. Pode ser reutilizado em diferentes cenários mudando apenas as props de mensagem e tipo (Success, Alert, Error).
 
 - `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.
     - `api`:` Aqui ocorrem os métodos HTTP fazendo requisições para o back-end
@@ -116,6 +117,8 @@
 - `./src/stores:` Stores para a biblioteca Zustand
     - `Modal:`
         - `modalStore.ts:` Controlar a exibição e limpa os dados do modal da aplicação.
+    - `Toast:`
+        - `toastStore.ts:` Responsável por orquestrar a exibição, animação de progresso e fechamento automático dos toasts em toda a aplicação.
     - `User:`
         - `userStore.ts:` Para setar o usuário na aplicação
     - `HydratorZustand.ts:` O "Hidrator" do Zustand para usar no layout.tsx de forma direta

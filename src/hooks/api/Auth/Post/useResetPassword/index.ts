@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/stores/Toast/toastStore';
 
 type usePasswordResetRequestProps = {
     emailRef: React.RefObject<HTMLInputElement | null>;
@@ -62,6 +63,7 @@ export function usePasswordResetRequest(): usePasswordResetRequestProps {
 
 export function usePasswordResetConfirm(): usePasswordResetConfirmProps {
     const router = useRouter();
+    const showToast = useToastStore((s) => s.showToast);
     const [loading, setLoading] = useState<boolean>(false);
     const newPasswordRef: React.RefObject<HTMLInputElement | null> = useRef(null);
     const confirmPasswordRef: React.RefObject<HTMLInputElement | null> = useRef(null);
@@ -91,6 +93,7 @@ export function usePasswordResetConfirm(): usePasswordResetConfirmProps {
                 throw new Error(data.message || 'Código inválido');
             }
             router.push('/Login');
+            showToast({ message: 'Senha trocada com sucesso, faça o login!', type: 'Success' });
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             console.log('Error in: usePasswordResetConfirm() <---> Erro:', msg);

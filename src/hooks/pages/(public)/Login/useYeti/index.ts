@@ -747,7 +747,6 @@ export default function useYeti({ emailRef, passwordRef }: UseYetiProps) {
             }
             stopBlinking();
         };
-        // eslint-disable-next-line
     }, [emailRef, passwordRef]);
 
     return { showPasswordRef, svgContainerRef, showPassword }

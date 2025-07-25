@@ -26,9 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
+### `./src/components/Toast:` Displays brief notifications. Can be reused in different scenarios by changing only the message and type props (Success, Alert, Error).
 
-### `./src/stores/Modal/modalStore.ts:` Controls the display and clears the application's modal data.
+### `./src/stores/Toast/toastStore.ts:` Responsible for orchestrating the display, progress animation, and automatic closing of toasts throughout the application.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -89,6 +89,7 @@
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
     - `Sidebar:` Sidebar menu so the user can switch routes in a more accessible way without taking up too much screen space.
     - `Table:` Reusable table, you just need to pass the columns, the data, and the hidden columns on mobile.
+    - `Toast:` Displays brief notifications. Can be reused in different scenarios by changing only the message and type props (Success, Alert, Error).
 
 - `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separate our hooks by types such as pages, components, and api. 
     - `api:` Here, HTTP methods make requests to the backend.
@@ -114,6 +115,8 @@
 - `./src/stores:` Stores for the Zustand library
     - `Modal:`
         - `modalStore.ts:` Controls the display and clears the application's modal data.
+    - `Toast:`
+        - `toastStore.ts:` Responsible for orchestrating the display, progress animation, and automatic closing of toasts throughout the application.
     - `User:`
         - `userStore.ts:` To set the user in the application
     - `HydratorZustand.ts:` The Zustand "Hydrator" for direct use in layout.tsx

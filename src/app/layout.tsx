@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
 import HydratorZustand from "@/stores/HydratorZustand";
+import Toast from "@/components/Toast";
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -22,6 +23,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <Header />
         <Sidebar />
         <Modal />
+        <Toast />
         {children}
       </body>
     </html >

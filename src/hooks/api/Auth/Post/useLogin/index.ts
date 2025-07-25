@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { getMe } from '@/hooks/api/Auth/Get/getMe';
 import { UserRoleProps } from '@/@Types/UserRoleProps';
 import { useUserStore } from '@/stores/User/userStore';
+import { useToastStore } from '@/stores/Toast/toastStore';
 
 type useLoginProps = {
   emailRef: React.RefObject<HTMLInputElement | null>;
@@ -82,6 +83,7 @@ export function useLogin(): useLoginProps {
 
 export function useTwoFactor(): useTwoFactorProps {
   const router = useRouter();
+  const showToast = useToastStore((s) => s.showToast);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -104,6 +106,7 @@ export function useTwoFactor(): useTwoFactorProps {
 
       const user: UserRoleProps | null = await getMe();
       if (user) { useUserStore.getState().setUser(user) };
+      showToast({ message: 'Login realizado com sucesso, seja bem-vindo!', type: 'Success' });
       router.push('/');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);

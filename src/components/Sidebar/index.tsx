@@ -21,8 +21,8 @@ const navItems: readonly { Icon: IconType; label: string, href: string, role: Us
 ] as const;
 
 export default function Sidebar(): React.ReactElement {
-    const user = useUserStore((state) => state.user);
     const { isClosed, reset, toggle } = useSidebar();
+    const user = useUserStore((state) => state.user);
     const handleLogout = useLogout();
 
     return (
