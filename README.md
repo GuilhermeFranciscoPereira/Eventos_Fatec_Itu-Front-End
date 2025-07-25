@@ -26,7 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Table:` Tabela reutilizável, apenas precisa passar as colunas, os dados, e as colunas ocultas no mobile. 
+### `./src/components/Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.
+
+### `./src/stores/Modal/modalStore.ts:` Controlar a exibição e limpa os dados do modal da aplicação.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -85,6 +87,7 @@
     - `Inputs:`
         - `InputDefault:` Input reutilizável alterando os dados com base nas props recebidas
     - `Loader:` Componente que mostra ao usuário que algo está carregando
+    - `Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.
     - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
     - `Table:` Tabela reutilizável, apenas precisa passar as colunas, os dados, e as colunas ocultas no mobile. 
 
@@ -111,6 +114,8 @@
                 - `(public)/Login/useYeti:` Controla o yeti para lidar com a animação de "interagir" com os inputs
 
 - `./src/stores:` Stores para a biblioteca Zustand
+    - `Modal:`
+        - `modalStore.ts:` Controlar a exibição e limpa os dados do modal da aplicação.
     - `User:`
         - `userStore.ts:` Para setar o usuário na aplicação
     - `HydratorZustand.ts:` O "Hidrator" do Zustand para usar no layout.tsx de forma direta

@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Modal from "@/components/Modal";
 import Header from "@/components/Header";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
@@ -20,6 +21,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <HydratorZustand />
         <Header />
         <Sidebar />
+        <Modal />
         {children}
       </body>
     </html >

@@ -21,9 +21,9 @@ const navItems: readonly { Icon: IconType; label: string, href: string, role: Us
 ] as const;
 
 export default function Sidebar(): React.ReactElement {
-    const { isClosed, reset, toggle } = useSidebar();
     const user = useUserStore((state) => state.user);
-    const logout = useLogout();
+    const { isClosed, reset, toggle } = useSidebar();
+    const handleLogout = useLogout();
 
     return (
         <aside className={`${styles.sidebar} ${isClosed ? styles.closed : ''}`} onMouseLeave={reset}>
@@ -69,7 +69,7 @@ export default function Sidebar(): React.ReactElement {
                         <p>{user.name}</p>
                         <small>{user.email}</small>
                     </div>
-                    <div className={styles.logout} onClick={logout}>
+                    <div className={styles.logout} onClick={handleLogout}>
                         <SlLogout />
                     </div>
                 </div>

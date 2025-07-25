@@ -26,7 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Table:` Reusable table, you just need to pass the columns, the data, and the hidden columns on mobile.
+### `./src/components/Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
+
+### `./src/stores/Modal/modalStore.ts:` Controls the display and clears the application's modal data.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -84,6 +86,7 @@
     - `Inputs:`
         - `InputDefault:` Reusable input that changes data based on received props.
     - `Loader:` Component that shows the user that something is loading.
+    - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
     - `Sidebar:` Sidebar menu so the user can switch routes in a more accessible way without taking up too much screen space.
     - `Table:` Reusable table, you just need to pass the columns, the data, and the hidden columns on mobile.
 
@@ -109,6 +112,8 @@
                 - `(public)/Login/useYeti:` Controls the Yeti to handle the animation of "interacting" with inputs
 
 - `./src/stores:` Stores for the Zustand library
+    - `Modal:`
+        - `modalStore.ts:` Controls the display and clears the application's modal data.
     - `User:`
         - `userStore.ts:` To set the user in the application
     - `HydratorZustand.ts:` The Zustand "Hydrator" for direct use in layout.tsx

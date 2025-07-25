@@ -1,11 +1,15 @@
+'use client';
 import { useCallback } from 'react';
 import { useUserStore } from '@/stores/User/userStore';
+import { useModalStore } from '@/stores/Modal/modalStore';
 
-export function useLogout(): () => Promise<void> {
-    const logout = useCallback(async () => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then((r) => r.json());
+export function useLogout(): () => void {
+    const setUser = useUserStore((s) => s.setUser);
+    const openModal = useModalStore((s) => s.openModal);
 
+    const logoutFlow = useCallback(async () => {
         try {
+            const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then((r) => r.json());
             const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/auth/logout`, {
                 method: 'POST',
                 credentials: 'include',
@@ -20,7 +24,16 @@ export function useLogout(): () => Promise<void> {
             const msg = err instanceof Error ? err.message : String(err);
             console.log('Error in: useLogout() <---> Erro:', msg);
         }
-    }, []);
+    }, [setUser]);
 
-    return logout;
+    const handleLogout = useCallback(() => {
+        openModal({
+            title: 'Confirmação de Logout',
+            message: <p>Tem certeza que deseja sair?</p>,
+            confirmLabel: 'Sim, eu quero sair',
+            onConfirm: logoutFlow,
+        });
+    }, [openModal, logoutFlow]);
+
+    return handleLogout;
 }
