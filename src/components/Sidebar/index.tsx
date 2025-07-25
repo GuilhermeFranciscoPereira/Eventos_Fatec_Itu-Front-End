@@ -1,22 +1,29 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
+import { SlLogout } from 'react-icons/sl';
 import type { IconType } from 'react-icons';
-import ButtonRay from '@/components/Buttons/ButtonRay/index';
+import ButtonRay from '../Buttons/ButtonRay';
+import { UserRoleTypes } from '@/@Types/UserRoleProps';
+import { useUserStore } from '@/stores/User/userStore';
+import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Sidebar/Sidebar.module.css';
 import { GiKnightBanner, GiPartyPopper } from 'react-icons/gi';
 import { FaHome, FaUserEdit, FaLayerGroup } from 'react-icons/fa';
 import { useSidebar } from '@/hooks/components/Sidebar/useSidebar';
 
-const navItems: readonly { Icon: IconType; label: string, href: string }[] = [
-    { Icon: FaHome, label: 'Tela inicial', href: '/' },
-    { Icon: GiKnightBanner, label: 'Gerenciar Banners', href: '/teste1' },
-    { Icon: FaLayerGroup, label: 'Gerenciar Categorias', href: '/teste2' },
-    { Icon: GiPartyPopper, label: 'Gerenciar Eventos', href: '/teste3' },
-    { Icon: FaUserEdit, label: 'Gerenciar Usuários', href: '/teste4' },
+const navItems: readonly { Icon: IconType; label: string, href: string, role: UserRoleTypes[] | 'all' }[] = [
+    { Icon: FaHome, label: 'Tela inicial', href: '/', role: 'all' },
+    { Icon: GiKnightBanner, label: 'Gerenciar Banners', href: '/Login', role: ['ADMIN', 'COORDENADOR'] },
+    { Icon: FaLayerGroup, label: 'Gerenciar Categorias', href: '/teste', role: ['ADMIN', 'COORDENADOR'] },
+    { Icon: GiPartyPopper, label: 'Gerenciar Eventos', href: '/', role: ['ADMIN', 'COORDENADOR', 'AUXILIAR'] },
+    { Icon: FaUserEdit, label: 'Gerenciar Usuários', href: '/', role: ['ADMIN'] },
 ] as const;
 
 export default function Sidebar(): React.ReactElement {
     const { isClosed, reset, toggle } = useSidebar();
+    const user = useUserStore((state) => state.user);
+    const logout = useLogout();
 
     return (
         <aside className={`${styles.sidebar} ${isClosed ? styles.closed : ''}`} onMouseLeave={reset}>
@@ -34,6 +41,10 @@ export default function Sidebar(): React.ReactElement {
             <nav>
                 <ul>
                     {navItems
+                        .filter(item =>
+                            item.role === 'all' ||
+                            (Array.isArray(item.role) && user && item.role.includes(user.role))
+                        )
                         .map(({ Icon, label, href }) => (
                             <li key={label}>
                                 <Link href={href} className={styles.navLink} onClick={toggle}>
@@ -45,9 +56,30 @@ export default function Sidebar(): React.ReactElement {
                 </ul>
             </nav>
 
-            <Link href={'/Login'}>
-                <ButtonRay text='Login' type='button' />
-            </Link>
+            {user ?
+                <div className={styles.profile}>
+                    <Image
+                        src='/'
+                        alt="Foto de perfil do usuário"
+                        width={35}
+                        height={35}
+                        loading="lazy"
+                    />
+                    <div className={styles.info}>
+                        <p>{user.name}</p>
+                        <small>{user.email}</small>
+                    </div>
+                    <div className={styles.logout} onClick={logout}>
+                        <SlLogout />
+                    </div>
+                </div>
+                :
+                <Link href={'/Login'}>
+                    <div className={styles.profile}>
+                        <ButtonRay text='Login' type='button' />
+                    </div>
+                </Link>
+            }
         </aside>
     )
 };

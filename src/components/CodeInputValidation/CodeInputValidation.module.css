@@ -1,0 +1,112 @@
+.container > .form {
+    display: flex;
+    max-width: 420px;
+    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background);
+    border-radius: 8px;
+    position: relative;
+}
+
+.container > .form > .info {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.container > .form > .info > .title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text-color);
+}
+
+.container > .form > .info > .description {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.container > .form > .inputFields {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.container > .form > .inputFields > input {
+    height: 2.5em;
+    width: 2.5em;
+    outline: none;
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    background-color: var(--background);
+    border-radius: 5px;
+    border: 2.5px solid var(--text-color);
+    transition: .3s;
+}
+
+.container > .form > .inputFields > input:focus {
+    box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+}
+
+.container > .form > .actionBtns {
+    display: flex;
+    margin-top: 20px;
+    gap: 0.5rem;
+}
+
+.container > .form > .actionBtns > .verify {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+    background: var(--red-primary);
+    border: 1px solid var(--text-color);
+    transition: .3s ease-in-out;
+}
+
+.container > .form > .actionBtns > .verify:hover,
+.container > .form > .actionBtns > .verify:focus {
+    opacity: 0.9;
+    transform: scale(1.03);
+}
+
+.container > .form > .actionBtns > .verify:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.container > .form > .actionBtns > .clear {
+    padding: 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    background: transparent;
+    border: 1px solid var(--text-color);
+    transition: .3s ease-in-out;
+}
+
+.container > .form > .actionBtns > .clear:hover,
+.container > .form > .actionBtns > .clear:focus {
+    color: var(--red-primary);
+    background-color: var(--background);
+    border: 1px solid var(--red-primary);
+    transform: scale(1.03);
+}
+
+.container > .form > .errorMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    text-align: center;
+    gap: 5px;
+    margin: 10px 0px 0px 0px;
+}

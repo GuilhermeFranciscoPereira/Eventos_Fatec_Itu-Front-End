@@ -1,0 +1,123 @@
+.mainLogin {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+    overflow-x: hidden;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.mainLogin > .form {
+    width: 350px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.mainLogin > .form > .inputGroup {
+    margin: 0 0 2em;
+    padding: 0;
+    position: relative;
+}
+
+.mainLogin > .form > .inputGroup > label {
+    font-size: 1.25em;
+    color: var(--red-primary);
+}
+
+.mainLogin > .form > .inputGroup > .showPasswordToggle {
+    position: absolute;
+    right: 20px;
+    top: 16px;
+}
+.mainLogin > .form > .inputGroup > .showPasswordToggle > .showPasswordCheck {
+    position: absolute;
+    opacity: 0;
+}
+
+.mainLogin > .form > .forgotPassword {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-decoration: none;
+    margin-top: 15px;
+}
+
+.mainLogin > .form > .forgotPassword > button {
+    background-color: transparent;
+    border: 2px solid transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.mainLogin > .form > .forgotPassword > button:hover {
+    border-bottom: 2px solid var(--red-primary);
+    transform: scale(1.05);
+}
+
+.mainLogin > .svgContainer {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1em;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.mainLogin > .svgContainer > .svgContainerWrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    padding-bottom: 100%;
+}
+
+.mainLogin > .svgContainer > .svgContainerWrapper > .svgContainerWrapperMySVG {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.mainLogin > .svgContainer:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: inherit;
+    height: inherit;
+    box-sizing: border-box;
+    border: solid 2.5px var(--red-primary);
+    border-radius: 50%;
+}
+
+.twoFactorSection, .resetPasswordRequest, .resetPasswordConfirm {
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.twoFactorSection > .imgIllustration, .resetPasswordRequest > .imgIllustration, .resetPasswordConfirm > .imgIllustration {
+    margin-top: 20px;
+}
+
+.errorMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    gap: 5px;
+    margin: 10px 0px 30px 0px;
+}
+
+@media (max-width: 480px) {
+    .mainLogin > .form {
+        max-width: 95vw;
+    }
+}

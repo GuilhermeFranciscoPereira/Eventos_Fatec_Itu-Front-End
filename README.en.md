@@ -14,7 +14,7 @@
 
 ### This system was developed so that events at Fatec Itu - Dom Amaury Castanho could have a more practical registration method, making it easier for students, outsiders, and event organizers. Clearly, this system is also used by event organizers to manage and control events, users, banners, categories, etc.
 
-### 👥 This system is being created by: Guilherme Francisco Pereira and José Lucas Martins Gomes as a final project development / Real system
+### 👥 This system is being created by: Guilherme Francisco Pereira as a final project development / Real system
 
 ### ✨ Interesting fact!! This is the only system developed solely by students that is implemented and used by the college, including students, professors, coordinators, and more!
 
@@ -26,9 +26,51 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Loader:` Component that shows the user an "hourglass" so they know something is loading
+### `./public/assets/images/login:` Folder that will store our photos for use on the login screens (recover password and two-factor authentication)
 
-### `./src/app/loading.tsx:` This is a special Next.js component to display something loading during data fetch or route change. To show this to the user, we insert our Loader component.
+### `./src/@Types:` Stores the types that are reused in the code
+
+### `./src/@Types/UserRoleProps.ts:` User types and their roles
+
+### `./src/app/(public)/Login:` Login screen, when accessing: /Login. Requests email and password for the user to access the platform. If the email and password are correct, the user goes to the 'confirm' stage where they enter the 6 digits sent to the email to access (2FA)
+
+### `./src/app/(public)/Login/ResetPassword:` Screen for the user to change their password, when accessing: /Login/ResetPassword. First, ask for your email address. If available, go to the screen to enter your new password, confirm it, and enter the 6-digit code sent to your email address.
+
+### `./src/components/CodeInputValidation:` Reusable component with 6 boxes for 2FA, both for confirming login and resetting passwords.
+
+### `./src/hooks/api:` Here, HTTP methods make requests to the backend.
+
+### `./src/hooks/api/auth:` All requests to the backend on /auth/ routes.
+
+### `./src/hooks/api/auth/Get:` GET requests on /auth/ routes.
+
+### `./src/hooks/api/auth/Get/getMe:` Used to retrieve user data from the backend, such as name, email, role, etc.
+
+### `./src/hooks/api/auth/Post:` POST requests on /auth/ routes
+
+### `./src/hooks/api/auth/Post/useLogin:` Requests to the backend to make the login request (generate 2FA code) and confirm 2FA code to access the account
+
+### `./src/hooks/api/auth/Post/useLogout:` Hits the logout route to allow the user to log out
+
+### `./src/hooks/api/auth/Post/useResetPassword:` Requests to the backend to make the password change request (generate 2FA code) and confirm 2FA code to change the password
+
+### `./src/hooks/components/CodeInputValidation:` Handles the input logic of two-factor authentication Factors
+
+### `./src/hooks/pages:` Page logic, page.tsx files located within the app
+
+### `./src/hooks/pages/(private):` Page logic, page.tsx files located within the app -> (pages/private)
+
+### `./src/hooks/pages/(public):` Page logic, page.tsx files located within the app -> (pages/public)
+
+### `./src/hooks/pages/(public)/Login:` Logical parts of the /Login route
+
+### `./src/hooks/pages/(public)/Login/useYeti:` Controls Yeti to handle the animation of "interacting" with inputs
+
+### `./src/stores:` Stores for the Zustand library
+
+### `./src/stores/User:` To set the user in the application
+
+### `./src/stores/HydratorZustand.ts:` The Zustand "Hydrator" for direct use in the layout.tsx
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -55,38 +97,62 @@
 ## 🛈 How the project is structured
 
 - `./public:` Folder containing the static files that Next.js serves directly from the site root, bypassing the build pipeline.
-    - `favicon.ico:` Site icon displayed in browser tabs, bookmarks, and on mobile devices.
+    - `favicon.ico:` Site icon displayed in the browser tab, bookmarks, and on mobile devices.
     - `assets:` Directory within public to organize additional static resources.
-        - `images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
-            - `readme:` Folder that will store our photos to use in the documentation ( README )
+    - `images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
+        - `login:` Folder that will store our photos for use on the login screens (Recover password and two-factor authentication)
+        - `readme:` Folder that will store our photos for use in the documentation (README)
+
+- `./src/@Types:` Stores the typings that are reused in the code.
+    - `UserRoleProps.ts:` User typings and their roles.
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
-    - `global.css:` Global styling, imported into our layout.tsx to pass throughout the application
+    - `global.css:` Global styles, imported within our layout.tsx to be passed throughout the application.
     - `layout.tsx:` Imports global styles and fonts, sets metadata (such as title and description), and encapsulates the application.
-    - `loading.tsx:` This is a special Next.js component to display something loading during data fetch or route change, to show this to the user we insert our Loader component.
-    - `(pages):` Contains all of our application routes, but remember, whenever they're inside parent folders, that folder won't be recognized as a route! Our pages:
-        - `(public)`:
-        - Everything inside this folder is our public route pages, which users can access even without being logged in. Here we have:
-            - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
-        - `(private)`
-        - These are our private route pages, where only logged-in users can access!
+    - `loading.tsx:` This is a special Next.js component to display something loading during data fetch or route changes. To display this to the user, we insert our Loader component.
+- `(pages):` Contains all of our application routes, but remember, whenever they are within parent folders, that folder will not be recognized as a route! Our pages:
+    - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
+    - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
+        - `Login:` Login screen, when accessing: /Login. Requests email and password for the user to access the platform. If the email and password are correct, the user moves to the 'confirm' stage where they enter the 6-digit code sent to their email to access (2FA).
+            - `ResetPassword:` Screen for the user to change their password, when accessing: /Login/ResetPassword. First, it requests email. If available, it moves to the screen to enter the new password, confirm, and enter the 6-digit code sent to the email.
 
-- `./src/components`: This is where the components that will be reused in various parts of the code are located. In this project, we have the following components:
+    - `(private):` These are our private route pages, where only logged-in users can access!
+
+- `./src/components:` Where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
-        - `ButtonDarkMode:` The button responsible for managing the site's dark mode (light/dark mode).
-        - `ButtonRay:` Button that is reused in several parts of the code, changing the text, etc., based on props
-    - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site
+        - `ButtonDarkMode:` Button responsible for managing the website's dark mode (light/dark mode). - `ButtonRay:` Button that is reused in various parts of the code, changing the text, etc., based on props.
+    - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
+    - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
     - `Inputs:`
-        - `InputDefault:` Reusable input that changes data based on received props
-    - `Loader:` Component that shows the user that something is loading
-    - `Sidebar:` Sidebar menu so the user can switch routes more easily without taking up too much screen space
+        - `InputDefault:` Reusable input that changes data based on received props.
+    - `Loader:` Component that shows the user that something is loading.
+    - `Sidebar:` Sidebar menu so the user can switch routes in a more accessible way without taking up too much screen space.
 
-- `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separated our hooks by types such as pages, components, and API.
+- `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separate our hooks by types such as pages, components, and api. 
+    - `api:` Here, HTTP methods make requests to the backend.
+        - `Auth:` All requests to the backend on /auth/ routes.
+            - `Get:` GET requests on /auth/ routes.
+                - `getMe:` Used to retrieve user data from the backend, such as name, email, role, etc. 
+            - `Post:` POST requests in the /auth/ routes
+                - `useLogin:` Requests to the backend to make the login request (generate 2FA code) and confirm the 2FA code to access the account
+                - `useLogout:` Calls the logout route to allow the user to log out
+                - `useResetPassword:` Requests to the backend to make the password change request (generate 2FA code) and confirm the 2FA code to change the password
     - `components:`
         - `Buttons`: Logical parts of our button components
-            - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click!
-        - `Sidebar:`
-            - `useSideBar:` Handles the possibility of closing or opening the sidebar menu when clicking the 'X'
+            - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click! - `Sidebar:`
+        - `useSideBar:` Handles the ability to close or open the sidebar menu when clicking the 'X'
+        - `CodeInputValidation:`
+            - `useCodeInputValidation:` Handles the logical part of two-factor authentication inputs
+    - `pages` Page logic, page.tsx files located within the app
+        - `(private):` Page logic, page.tsx files located within the app -> (pages/private)
+        - `(public):` Page logic, page.tsx files located within the app -> (pages/public)
+            - `(public)/Login:` Logical parts of the /Login route
+                - `(public)/Login/useYeti:` Controls the Yeti to handle the animation of "interacting" with inputs
+
+- `./src/stores:` Stores for the Zustand library
+    - `User:`
+        - `userStore.ts:` To set the user in the application
+    - `HydratorZustand.ts:` The Zustand "Hydrator" for direct use in layout.tsx
 
 ## ❔ How to run the project on my machine?
 
