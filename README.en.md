@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.
+### `./src/components/Table:` Reusable table, you just need to pass the columns, the data, and the hidden columns on mobile.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -85,6 +85,7 @@
         - `InputDefault:` Reusable input that changes data based on received props.
     - `Loader:` Component that shows the user that something is loading.
     - `Sidebar:` Sidebar menu so the user can switch routes in a more accessible way without taking up too much screen space.
+    - `Table:` Reusable table, you just need to pass the columns, the data, and the hidden columns on mobile.
 
 - `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separate our hooks by types such as pages, components, and api. 
     - `api:` Here, HTTP methods make requests to the backend.

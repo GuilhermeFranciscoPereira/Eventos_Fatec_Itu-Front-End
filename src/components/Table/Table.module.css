@@ -1,0 +1,70 @@
+.container {
+    color: var(--text-color);
+    max-width: 95vw;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+    overflow-x: hidden;
+}
+
+.container > .wrapper {
+    overflow-x: auto;
+}
+
+.container > .wrapper > .table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.container > .wrapper > .table > thead > .headerRow {
+    background: var(--red-primary);
+}
+
+.container > .wrapper > .table > thead > .headerRow > th {
+    padding: 10px 0px 10px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-color-reverse);
+    border-bottom: 2px solid var(--red-primary);
+}
+
+.container > .wrapper > .table > tbody > tr > .cell {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #aaa;
+}
+
+.container > .wrapper > .table > tbody > tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.container > .wrapper > .table > tbody > tr:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 480px) and (orientation: portrait) {
+    .container > .wrapper > .table > thead > .headerRow > th.hideMobile,
+    .container > .wrapper > .table > tbody > tr > .cell.hideMobile {
+        display: none;
+    }
+}
+
+.container > .mobileNotice {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .container > .mobileNotice {
+        display: block;
+        text-align: center;
+        padding: 20px 5px;
+    }
+
+    .container > .mobileNotice > p {
+        padding-top: 20px;
+    }
+
+    .container > .wrapper {
+        display: block;
+    }
+}
