@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getMe } from '@/hooks/api/Auth/Get/getMe';
 import { UserRoleProps } from '@/@Types/UserRoleProps';
 
 type UserStore = {
@@ -6,7 +7,16 @@ type UserStore = {
     setUser: (user: UserRoleProps | null) => void;
 };
 
-export const useUserStore = create<UserStore>((set) => ({
-    user: null,
-    setUser: (user) => set({ user }),
-}));
+export const useUserStore = create<UserStore>((set) => {
+    if (typeof window !== 'undefined') {
+        void (async () => {
+            const user = await getMe();
+            set({ user });
+        })();
+    }
+
+    return {
+        user: null,
+        setUser: (user) => set({ user }),
+    }
+});

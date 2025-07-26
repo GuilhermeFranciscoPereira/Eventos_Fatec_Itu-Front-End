@@ -26,9 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Toast:` Displays brief notifications. Can be reused in different scenarios by changing only the message and type props (Success, Alert, Error).
-
-### `./src/stores/Toast/toastStore.ts:` Responsible for orchestrating the display, progress animation, and automatic closing of toasts throughout the application.
+### `./src/stores/ZustandWrapper:` Brings together all Zustand components to share in a single form for the layout.tsx
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -113,13 +111,13 @@
                 - `(public)/Login/useYeti:` Controls the Yeti to handle the animation of "interacting" with inputs
 
 - `./src/stores:` Stores for the Zustand library
+    - `ZustandWrapper:` Brings together all Zustand components to share in a single form for the layout.tsx
     - `Modal:`
         - `modalStore.ts:` Controls the display and clears the application's modal data.
     - `Toast:`
         - `toastStore.ts:` Responsible for orchestrating the display, progress animation, and automatic closing of toasts throughout the application.
     - `User:`
         - `userStore.ts:` To set the user in the application
-    - `HydratorZustand.ts:` The Zustand "Hydrator" for direct use in layout.tsx
 
 ## ❔ How to run the project on my machine?
 

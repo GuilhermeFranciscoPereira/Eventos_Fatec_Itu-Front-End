@@ -1,11 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import Modal from "@/components/Modal";
 import Header from "@/components/Header";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
-import HydratorZustand from "@/stores/HydratorZustand";
-import Toast from "@/components/Toast";
+import ZustandWrapper from "@/stores/ZustandWrapper";
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -15,15 +13,13 @@ export const metadata: Metadata = {
   creator: "Guilherme Francisco Pereira -> https://github.com/GuilhermeFranciscoPereira",
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactElement }>) {
+export default function RootLayout({ children }: { children: React.ReactElement }) {
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        <HydratorZustand />
+        <ZustandWrapper />
         <Header />
         <Sidebar />
-        <Modal />
-        <Toast />
         {children}
       </body>
     </html >
