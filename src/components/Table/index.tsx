@@ -9,14 +9,14 @@ type ColumnSchema<T> = {
     cellRenderer?: (item: T) => React.ReactNode;
 }
 
-type GenericTableProps<T> = {
+type TableProps<T> = {
     records: T[];
     hiddenOnMobile?: string[];
     schema: ColumnSchema<T>[];
     getIdentifier?: (item: T, index: number) => string | number;
 }
 
-export const GenericTable = memo(function GenericTable<T>({ schema, records, hiddenOnMobile, getIdentifier = (_item: T, idx: number): string | number => idx }: GenericTableProps<T>): React.ReactElement {
+export const Table = memo(function Table<T>({ schema, records, hiddenOnMobile, getIdentifier = (_item: T, idx: number): string | number => idx }: TableProps<T>): React.ReactElement {
     const headerRow = useMemo(() => (
         <tr className={styles.headerRow}>
             {schema.map((col) => (
@@ -50,10 +50,10 @@ export const GenericTable = memo(function GenericTable<T>({ schema, records, hid
                 )}
             </div>
             <div className={styles.mobileNotice}>
-                <MdScreenRotation size={45}/>
+                <MdScreenRotation size={45} />
                 <p>Vire o dispositivo para ver todos os dados</p>
             </div>
         </div>
     )
 
-}) as <T>(props: GenericTableProps<T>) => React.ReactElement;
+}) as <T>(props: TableProps<T>) => React.ReactElement;

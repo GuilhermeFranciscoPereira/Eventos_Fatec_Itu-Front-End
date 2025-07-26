@@ -1,0 +1,72 @@
+.UsersPage {
+  background: var(--background);
+  color: var(--text-color);
+  padding: 10px 20px;
+  min-height: 90vh;
+}
+
+.UsersPage>.UsersPageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.UsersPage>.UsersPageHeader>.createNewUsers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: var(--red-primary);
+  padding: 0px 5px;
+  border: 2px solid transparent;
+}
+
+.UsersPage>.UsersPageHeader>.createNewUsers:hover {
+  transition: .3s ease-in-out;
+  transform: scale(1.05);
+  border-bottom: 2px solid var(--red-primary);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions>.icon {
+  cursor: pointer;
+}
+
+.actions>.icon:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.actions>.icon:nth-child(1):hover {
+  color: green;
+}
+
+.actions>.icon:nth-child(2):hover {
+  color: var(--red-primary);
+}
+
+.editForm>.selectWrapper>.select {
+  padding: 5px;
+  margin: 20px 0px 20px 40px;
+  border: none;
+  border-radius: 7px;
+  box-shadow: var(--box-shadow);
+}
+
+@media (max-width: 480px) {
+  .UsersPage>.UsersPageHeader {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .UsersPage>.UsersPageHeader>.createNewUsers {
+    font-size: 20px;
+    margin: 20px 0px;
+  }
+
+}

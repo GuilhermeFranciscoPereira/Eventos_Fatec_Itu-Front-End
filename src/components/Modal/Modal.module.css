@@ -43,3 +43,14 @@
     margin: 20px 0px;
     text-align: center;
 }
+
+.modalSection > .modalDiv > .modalTitle, .modalSection > .modalDiv > .modalError > .errorMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: red;
+    gap: 5px;
+    padding: 10px 0px;
+}

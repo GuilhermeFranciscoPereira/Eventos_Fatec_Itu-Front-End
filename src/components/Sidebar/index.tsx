@@ -17,7 +17,7 @@ const navItems: readonly { Icon: IconType; label: string, href: string, role: Us
     { Icon: GiKnightBanner, label: 'Gerenciar Banners', href: '/Login', role: ['ADMIN', 'COORDENADOR'] },
     { Icon: FaLayerGroup, label: 'Gerenciar Categorias', href: '/teste', role: ['ADMIN', 'COORDENADOR'] },
     { Icon: GiPartyPopper, label: 'Gerenciar Eventos', href: '/', role: ['ADMIN', 'COORDENADOR', 'AUXILIAR'] },
-    { Icon: FaUserEdit, label: 'Gerenciar Usuários', href: '/', role: ['ADMIN'] },
+    { Icon: FaUserEdit, label: 'Gerenciar Usuários', href: '/Users', role: ['ADMIN'] },
 ] as const;
 
 export default function Sidebar(): React.ReactElement {

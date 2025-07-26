@@ -3,8 +3,10 @@ import { useCallback } from 'react';
 import { useUserStore } from '@/stores/User/userStore';
 import { useModalStore } from '@/stores/Modal/modalStore';
 import { useToastStore } from '@/stores/Toast/toastStore';
+import { useRouter } from 'next/navigation';
 
 export function useLogout(): () => void {
+    const router = useRouter();
     const openModal = useModalStore((s) => s.openModal);
     const showToast = useToastStore((s) => s.showToast);
 
@@ -20,6 +22,7 @@ export function useLogout(): () => void {
                 showToast({ message: 'Falha no logout, tente novamente!', type: 'Error' });
                 return;
             }
+            router.push('/');
             showToast({ message: 'Logout realizado com sucesso!', type: 'Success' });
             useUserStore.getState().setUser(null);
         } catch (err: unknown) {
@@ -27,7 +30,7 @@ export function useLogout(): () => void {
             const msg = err instanceof Error ? err.message : String(err);
             console.log('Error in: useLogout() <---> Erro:', msg);
         }
-    }, [showToast]);
+    }, [showToast, router]);
 
     const handleLogout = useCallback(() => {
         openModal({
