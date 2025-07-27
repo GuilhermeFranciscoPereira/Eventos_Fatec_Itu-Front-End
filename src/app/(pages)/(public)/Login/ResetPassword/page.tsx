@@ -13,7 +13,7 @@ export default function ResetPassword(): React.ReactElement {
 
     return stage === 'request' ? (
         <main className={styles.resetPasswordRequest}>
-            <Image className={styles.imgIllustration} src="/assets/images/login/reset-password-illustration.png" alt="Ilustração para redefinição de senha" height={200} width={200} quality={100} />
+            <Image className={styles.imgIllustration} height={200} width={200} quality={100} src="/assets/images/login/reset-password-illustration.png" alt="Ilustração para redefinição de senha" />
             <form onSubmit={handleRequest}>
                 <h1 style={{ textAlign: 'center', marginTop: 20 }}>Esqueci minha senha</h1>
                 <InputDefault
@@ -28,7 +28,7 @@ export default function ResetPassword(): React.ReactElement {
         </main>
     ) : (
         <section className={styles.resetPasswordConfirm}>
-            <Image className={styles.imgIllustration} src="/assets/images/login/reset-password-illustration.png" alt="Ilustração para redefinição de senha" height={200} width={200} quality={100} />
+            <Image className={styles.imgIllustration} height={200} width={200} quality={100} src="/assets/images/login/reset-password-illustration.png" alt="Ilustração para redefinição de senha" />
 
             <CodeInputValidation
                 infoTitle="Redefinir senha"

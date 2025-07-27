@@ -4,17 +4,17 @@ import { useToastStore } from '@/stores/Toast/toastStore';
 
 type usePasswordResetRequestProps = {
     emailRef: React.RefObject<HTMLInputElement | null>;
-    handleRequest: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
     loading: boolean;
     error: string | null;
     stage: "request" | "confirm";
+    handleRequest: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 type usePasswordResetConfirmProps = {
     newPasswordRef: React.RefObject<HTMLInputElement | null>;
     confirmPasswordRef: React.RefObject<HTMLInputElement | null>;
-    handleConfirm: (code: string) => Promise<void>;
     loading: boolean;
+    handleConfirm: (code: string) => Promise<void>;
 }
 
 export function usePasswordResetRequest(): usePasswordResetRequestProps {
@@ -58,7 +58,7 @@ export function usePasswordResetRequest(): usePasswordResetRequestProps {
         }
     };
 
-    return { emailRef, handleRequest, loading, error, stage };
+    return { emailRef, loading, error, stage, handleRequest };
 }
 
 export function usePasswordResetConfirm(): usePasswordResetConfirmProps {
@@ -103,5 +103,5 @@ export function usePasswordResetConfirm(): usePasswordResetConfirmProps {
         }
     };
 
-    return { newPasswordRef, confirmPasswordRef, handleConfirm, loading };
+    return { newPasswordRef, confirmPasswordRef, loading, handleConfirm };
 }

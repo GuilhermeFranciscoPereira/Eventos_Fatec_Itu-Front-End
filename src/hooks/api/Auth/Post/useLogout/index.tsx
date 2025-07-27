@@ -1,18 +1,21 @@
-'use client';
 import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/stores/User/userStore';
 import { useModalStore } from '@/stores/Modal/modalStore';
 import { useToastStore } from '@/stores/Toast/toastStore';
-import { useRouter } from 'next/navigation';
 
-export function useLogout(): () => void {
+type useLogout = {
+    (): void;
+}
+
+export function useLogout(): useLogout {
     const router = useRouter();
     const openModal = useModalStore((s) => s.openModal);
     const showToast = useToastStore((s) => s.showToast);
 
     const executeLogout = useCallback(async () => {
         try {
-            const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then((r) => r.json());
+            const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
             const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/auth/logout`, {
                 method: 'POST',
                 credentials: 'include',
@@ -26,7 +29,6 @@ export function useLogout(): () => void {
             showToast({ message: 'Logout realizado com sucesso!', type: 'Success' });
             useUserStore.getState().setUser(null);
         } catch (err: unknown) {
-            showToast({ message: 'Falha no componente useLogout, entre em contato com o desenvolvedor.', type: 'Error' });
             const msg = err instanceof Error ? err.message : String(err);
             console.log('Error in: useLogout() <---> Erro:', msg);
         }

@@ -29,9 +29,9 @@
 }
 
 .container > .wrapper > .table > tbody > tr > .cell {
-    padding: 10px 20px;
+    padding: 15px 20px;
     font-size: 0.875rem;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid grey;
 }
 
 .container > .wrapper > .table > tbody > tr:nth-child(even) {
@@ -43,6 +43,7 @@
 }
 
 @media (max-width: 480px) and (orientation: portrait) {
+
     .container > .wrapper > .table > thead > .headerRow > th.hideMobile,
     .container > .wrapper > .table > tbody > tr > .cell.hideMobile {
         display: none;
@@ -57,7 +58,7 @@
     .container > .mobileNotice {
         display: block;
         text-align: center;
-        padding: 20px 5px;
+        padding: 50px 5px 20px;
     }
 
     .container > .mobileNotice > p {

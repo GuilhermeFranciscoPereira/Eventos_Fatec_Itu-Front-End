@@ -26,25 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/app/(pages)/(private)/Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit, or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
-
-### `./src/hooks/api/Categories:`
-
-### `./src/hooks/api/Categories/Delete:` DELETE requests on /categories/ routes
-
-### `./src/hooks/api/Categories/useDeleteCategory.ts:` Hook that encapsulates the HTTP request logic to delete a specific category, sending a CSRF-protected DELETE statement and ensuring error handling to report deletion failures.
-
-### `./src/hooks/api/Categories/Get:` GET requests on /categories/ routes
-
-### `./src/hooks/api/Categories/useGetAllCategories.ts:` Hook that retrieves the entire list of categories via GET request, managing loading and error states, and allowing refetch after CRUD operations.
-
-### `./src/hooks/api/Categories/Patch:` PATCH requests on /categories/patch/:id routes
-
-### `./src/hooks/api/Categories/useEditCategory.ts:` Hook responsible for sending partial data updates for an existing category via a PATCH request with CSRF, allowing modification of only the category name.
-
-### `./src/hooks/api/Categories/Post:` POST requests on /categories/ routes
-
-### `./src/hooks/api/Categories/useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
+### `Refactor:` Refactored the code to reduce unnecessary uses of 'use client' and refactored the code for better reading and understanding of the code, creation of @types for shared typings.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -80,7 +62,9 @@
 - `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
 
 - `./src/@Types:` Stores the typings that are reused in the code.
-    - `UserRoleProps.ts:` User typings and their roles.
+    - `CategoriesTypes`: Shared typing from the Categories screen
+    - `UsersTypes`: Shared typing from the Users screen
+    - `UserJwtProps.ts:` User typings and their roles.
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
     - `global.css:` Global styles, imported within our layout.tsx to be passed throughout the application.

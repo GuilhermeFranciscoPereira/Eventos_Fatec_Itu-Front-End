@@ -1,6 +1,5 @@
-'use client'
-import { FaRegEye } from 'react-icons/fa';
 import { LuEyeOff } from 'react-icons/lu';
+import { FaRegEye } from 'react-icons/fa';
 import { useState, useId, forwardRef } from 'react';
 import styles from '@/components/Inputs/InputDefault/InputDefault.module.css';
 
@@ -12,9 +11,9 @@ type InputDefaultProps = {
 
 export default forwardRef<HTMLInputElement, InputDefaultProps>(
     function InputDefault({ type = 'text', label, id, ...inputProps }, ref): React.ReactElement {
-        const generatedId = useId();
-        const inputId = id ?? `input-${generatedId}`;
-        const [showPassword, setShowPassword] = useState(false);
+        const generatedId: string = useId();
+        const inputId: string = id ?? `input-${generatedId}`;
+        const [showPassword, setShowPassword] = useState<boolean>(false);
 
         return (
             <div className={styles.wrapper}>

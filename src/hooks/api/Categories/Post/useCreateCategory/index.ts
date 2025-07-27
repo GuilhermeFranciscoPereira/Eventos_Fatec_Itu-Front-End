@@ -1,12 +1,18 @@
-'use client';
 import { useCallback } from 'react';
+import { useToastStore } from '@/stores/Toast/toastStore';
 
 export type CreateCategoryDto = { name: string };
 
-export function useCreateCategory() {
+type useCreateCategoryProps = {
+    (dto: CreateCategoryDto): Promise<void>;
+}
+
+export function useCreateCategory(): useCreateCategoryProps {
+    const showToast = useToastStore((s) => s.showToast);
+
     return useCallback(async (dto: CreateCategoryDto) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(r => r.json());
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/categories`, {
+        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
+        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/categories/create`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
@@ -16,6 +22,7 @@ export function useCreateCategory() {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao criar nova categoria, erro em: useCreateCategory');
         }
+        showToast({ message: 'Categoria salva com sucesso!', type: 'Success' });
         return response.json();
-    }, []);
+    }, [showToast]);
 }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { SlLogout } from 'react-icons/sl';
 import type { IconType } from 'react-icons';
 import ButtonRay from '../Buttons/ButtonRay';
-import { UserRoleTypes } from '@/@Types/UserRoleProps';
+import { UserRoleTypes } from '@/@Types/UserJwtProps';
 import { useUserStore } from '@/stores/User/userStore';
 import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Sidebar/Sidebar.module.css';
@@ -21,9 +21,9 @@ const navItems: readonly { Icon: IconType; label: string, href: string, role: Us
 ] as const;
 
 export default function Sidebar(): React.ReactElement {
-    const { isClosed, reset, toggle } = useSidebar();
-    const user = useUserStore((state) => state.user);
     const handleLogout = useLogout();
+    const user = useUserStore((state) => state.user);
+    const { isClosed, reset, toggle } = useSidebar();
 
     return (
         <aside className={`${styles.sidebar} ${isClosed ? styles.closed : ''}`} onMouseLeave={reset}>

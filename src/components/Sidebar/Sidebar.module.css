@@ -121,7 +121,8 @@
     visibility: visible;
 }
 
-.sidebar > .profile, .sidebar > a {
+.sidebar > .profile,
+.sidebar > a {
     display: flex;
     align-items: center;
     margin-top: auto;
@@ -130,7 +131,7 @@
     gap: 10px;
 }
 
-/* Tag <Link /> */
+/* Tag <Link / >  */
 .sidebar > a > div {
     width: 100%;
 }
@@ -238,7 +239,8 @@
         display: block;
     }
 
-    .sidebar:not(.closed):hover > .profile, .sidebar:not(.closed):hover > a {
+    .sidebar:not(.closed):hover > .profile,
+    .sidebar:not(.closed):hover > a {
         display: inline;
         display: flex;
         margin-bottom: 70px;

@@ -1,22 +1,20 @@
-'use client';
 import { useRouter } from 'next/navigation';
+import { CategoryProps } from '@/@Types/CategoriesTypes';
 import { useState, useEffect, useCallback } from 'react';
 
-export type CategoryProps = {
-    id: number;
-    name: string;
-    createdAt: string;
-    updatedAt: string;
-};
+type useGetAllCategoriesProps = {
+    categories: CategoryProps[];
+    loading: boolean;
+    refetch: () => Promise<void>;
+}
 
-export function useGetAllCategories() {
+export function useGetAllCategories(): useGetAllCategoriesProps {
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
     const [categories, setCategories] = useState<CategoryProps[]>([]);
 
     const fetchCategories = useCallback(async () => {
-        setLoading(true); setError(null);
+        setLoading(true);
         try {
             const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/categories`, {
                 credentials: 'include',
@@ -26,7 +24,7 @@ export function useGetAllCategories() {
             setCategories(await response.json());
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
-            setError(msg);
+            console.log(msg);
         } finally {
             setLoading(false);
         }
@@ -34,5 +32,5 @@ export function useGetAllCategories() {
 
     useEffect(() => { fetchCategories(); }, [fetchCategories]);
 
-    return { categories, loading, error, refetch: fetchCategories };
+    return { categories, loading, refetch: fetchCategories };
 }

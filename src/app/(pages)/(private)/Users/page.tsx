@@ -6,41 +6,62 @@ import { IoMdPersonAdd } from 'react-icons/io';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { useModalStore } from '@/stores/Modal/modalStore';
 import InputDefault from '@/components/Inputs/InputDefault';
+import { UserProps, CreateUserDto } from '@/@Types/UsersTypes';
 import { useEditUser } from '@/hooks/api/Users/Patch/useEditUser';
 import styles from '@/app/(pages)/(private)/Users/Users.module.css';
+import { useCreateUser } from '@/hooks/api/Users/Post/useCreateUser';
+import { useGetAllUsers } from '@/hooks/api/Users/Get/useGetAllUsers';
 import { useDeleteUser } from '@/hooks/api/Users/Delete/useDeleteUser';
-import { useGetAllUsers, UserProps } from '@/hooks/api/Users/Get/useGetAllUsers';
-import { useCreateUser, CreateUserDto } from '@/hooks/api/Users/Post/useCreateUser';
 
 export default function Users(): React.ReactElement {
     const editUser = useEditUser();
-    const deleteUser = useDeleteUser();
     const createUser = useCreateUser();
+    const deleteUser = useDeleteUser();
     const openModal = useModalStore((s) => s.openModal);
-    const { users, loading, error, refetch } = useGetAllUsers();
+    const { users, loading, refetch } = useGetAllUsers();
 
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const roleRef = useRef<HTMLSelectElement>(null);
     const newNameRef = useRef<HTMLInputElement>(null);
     const newEmailRef = useRef<HTMLInputElement>(null);
-    const newPasswordRef = useRef<HTMLInputElement>(null);
     const newRoleRef = useRef<HTMLSelectElement>(null);
+    const newPasswordRef = useRef<HTMLInputElement>(null);
 
-    const handleDelete = (user: UserProps) => {
+    function handleCreate(): void {
         openModal({
-            icon: <MdDelete size={32} />,
-            title: 'Confirmar exclusão',
-            message: <p>Tem certeza que deseja excluir <strong>{user.name}</strong>?</p>,
-            confirmLabel: 'Sim, excluir',
+            icon: <IoMdPersonAdd size={32} />,
+            title: 'Criar novo usuário',
+            message: (
+                <form className={styles.editForm}>
+                    <InputDefault ref={newNameRef} label="Nome" />
+                    <InputDefault ref={newEmailRef} label="E-mail" type="email" />
+                    <InputDefault ref={newPasswordRef} label="Senha" type="password" />
+                    <div className={styles.selectWrapper}>
+                        <label htmlFor="role-create" className={styles.selectLabel}>Nível de usuário</label>
+                        <select id="role-create" ref={newRoleRef} defaultValue="AUXILIAR" className={styles.select}>
+                            <option value="ADMIN">Administrador</option>
+                            <option value="COORDENADOR">Coordenador</option>
+                            <option value="AUXILIAR">Auxiliar Docente</option>
+                        </select>
+                    </div>
+                </form>
+            ),
+            confirmLabel: 'Criar',
             onConfirm: async () => {
-                await deleteUser(user.id);
+                const dto: CreateUserDto = {
+                    name: newNameRef.current?.value ?? '',
+                    email: newEmailRef.current?.value ?? '',
+                    password: newPasswordRef.current?.value ?? '',
+                    role: newRoleRef.current?.value ?? null,
+                };
+                await createUser(dto);
                 refetch();
             },
         });
     };
 
-    const handleEdit = (user: UserProps) => {
+    function handleEdit(user: UserProps): void {
         openModal({
             icon: <MdEdit size={32} />,
             title: 'Editar usuário',
@@ -70,40 +91,20 @@ export default function Users(): React.ReactElement {
         });
     };
 
-    const handleCreate = () => {
+    function handleDelete(user: UserProps): void {
         openModal({
-            icon: <IoMdPersonAdd size={32} />,
-            title: 'Criar novo usuário',
-            message: (
-                <form className={styles.editForm}>
-                    <InputDefault ref={newNameRef} label="Nome" />
-                    <InputDefault ref={newEmailRef} label="E-mail" type="email" />
-                    <InputDefault ref={newPasswordRef} label="Senha" type="password" />
-                    <div className={styles.selectWrapper}>
-                        <label htmlFor="role-create" className={styles.selectLabel}>Nível de usuário</label>
-                        <select id="role-create" ref={newRoleRef} defaultValue="AUXILIAR" className={styles.select}>
-                            <option value="ADMIN">Administrador</option>
-                            <option value="COORDENADOR">Coordenador</option>
-                            <option value="AUXILIAR">Auxiliar Docente</option>
-                        </select>
-                    </div>
-                </form>
-            ),
-            confirmLabel: 'Criar',
+            icon: <MdDelete size={32} color='red' />,
+            title: 'Confirmar exclusão',
+            message: <p>Tem certeza que deseja excluir <strong>{user.name}</strong>?</p>,
+            confirmLabel: 'Sim, excluir',
             onConfirm: async () => {
-                const dto: CreateUserDto = {
-                    name: newNameRef.current?.value ?? '',
-                    email: newEmailRef.current?.value ?? '',
-                    password: newPasswordRef.current?.value ?? '',
-                    role: newRoleRef.current?.value ?? '',
-                };
-                await createUser(dto);
+                await deleteUser(user.id);
                 refetch();
             },
         });
     };
 
-    const schema = [
+    const schemaTable = [
         { id: 'name', header: 'Nome', accessor: (u: UserProps) => u.name },
         { id: 'email', header: 'Email', accessor: (u: UserProps) => u.email },
         { id: 'role', header: 'Nível de usuário', accessor: (u: UserProps) => u.role },
@@ -127,13 +128,12 @@ export default function Users(): React.ReactElement {
             </header>
 
             {loading && <Loader />}
-            {error && <p className={styles.error}>Erro: {error}</p>}
 
             <Table<UserProps>
                 records={users}
-                schema={schema}
+                schema={schemaTable}
                 getIdentifier={(u) => u.id}
-                hiddenOnMobile={['name', 'actions']}
+                hiddenOnMobile={['name', 'role']}
             />
         </main>
     );

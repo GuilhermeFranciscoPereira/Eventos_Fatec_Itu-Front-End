@@ -50,7 +50,7 @@ export const Table = memo(function Table<T>({ schema, records, hiddenOnMobile, g
                 )}
             </div>
             <div className={styles.mobileNotice}>
-                <MdScreenRotation size={45} />
+                <MdScreenRotation size={40} />
                 <p>Vire o dispositivo para ver todos os dados</p>
             </div>
         </div>

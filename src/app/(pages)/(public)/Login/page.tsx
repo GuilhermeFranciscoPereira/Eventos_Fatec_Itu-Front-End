@@ -10,8 +10,8 @@ import { useLogin } from '@/hooks/api/Auth/Post/useLogin';
 import useYeti from '@/hooks/pages/(public)/Login/useYeti';
 import InputDefault from '@/components/Inputs/InputDefault';
 import { useTwoFactor } from "@/hooks/api/Auth/Post/useLogin";
-import styles from '@/app/(pages)/(public)/Login/Login.module.css';
 import CodeInputValidation from "@/components/CodeInputValidation";
+import styles from '@/app/(pages)/(public)/Login/Login.module.css';
 
 export default function Login(): React.ReactElement {
     const { submitCode, loading: loadingTwoFactor, error } = useTwoFactor();
@@ -20,7 +20,7 @@ export default function Login(): React.ReactElement {
 
     return stage === 'confirm' ? (
         <main className={styles.twoFactorSection}>
-            <Image className={styles.imgIllustration} src="/assets/images/login/two-factor-illustration.png" alt="Ilustração para a página de autenticação em dois fatores" height={200} width={200} quality={100} />
+            <Image className={styles.imgIllustration} height={200} width={200} quality={100} src="/assets/images/login/two-factor-illustration.png" alt="Ilustração para a página de autenticação em dois fatores" />
             <CodeInputValidation
                 infoTitle="Código de autenticação em 2 fatores!"
                 validateFn={async (code: string) => { await submitCode(code) }}
@@ -30,7 +30,7 @@ export default function Login(): React.ReactElement {
             </CodeInputValidation>
         </main>
     ) : (
-        <main className={styles.mainLogin}>
+        <main className={styles.loginPage}>
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.inputGroup}>
                     <InputDefault ref={emailRef} id="loginEmail" label="email" type="text" title="E-mail" />

@@ -1,8 +1,7 @@
-'use client';
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getMe } from '@/hooks/api/Auth/Get/getMe';
-import { UserRoleProps } from '@/@Types/UserRoleProps';
+import { UserJwtProps } from '@/@Types/UserJwtProps';
 import { useUserStore } from '@/stores/User/userStore';
 import { useToastStore } from '@/stores/Toast/toastStore';
 
@@ -16,9 +15,9 @@ type useLoginProps = {
 }
 
 type useTwoFactorProps = {
-  submitCode: (code: string) => Promise<void>;
   loading: boolean;
   error: string | null
+  submitCode: (code: string) => Promise<void>;
 }
 
 export function useLogin(): useLoginProps {
@@ -33,7 +32,7 @@ export function useLogin(): useLoginProps {
     setLoading(true);
     setErrors({});
 
-    const raw = {
+    const raw: { email: string; password: string } = {
       email: emailRef.current?.value.trim() ?? '',
       password: passwordRef.current?.value ?? '',
     };
@@ -59,11 +58,10 @@ export function useLogin(): useLoginProps {
         credentials: 'include',
         body: JSON.stringify(raw),
       });
+
       const payload = await response.json();
 
-      if (!response.ok && !payload.requires2FA) {
-        throw new Error(payload.message || 'Erro ao efetuar login');
-      }
+      if (!response.ok && !payload.requires2FA) throw new Error(payload.message || 'Erro ao efetuar login');
 
       if (payload.requires2FA || payload.message?.toLowerCase().includes('2fa')) {
         setStage('confirm');
@@ -92,7 +90,7 @@ export function useTwoFactor(): useTwoFactorProps {
     setError(null);
 
     try {
-      const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then((r) => r.json());
+      const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
 
       const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/auth/login`, {
         method: 'POST',
@@ -100,11 +98,12 @@ export function useTwoFactor(): useTwoFactorProps {
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
         body: JSON.stringify({ code }),
       });
+
       const data = await response.json();
 
       if (!response.ok) { throw new Error(data.message || 'Falha na validação do código 2FA') };
 
-      const user: UserRoleProps | null = await getMe();
+      const user: UserJwtProps | null = await getMe();
       if (user) { useUserStore.getState().setUser(user) };
       showToast({ message: 'Login realizado com sucesso, seja bem-vindo!', type: 'Success' });
       router.push('/');
@@ -117,5 +116,5 @@ export function useTwoFactor(): useTwoFactorProps {
     }
   }
 
-  return { submitCode, loading, error };
+  return { loading, error, submitCode };
 }

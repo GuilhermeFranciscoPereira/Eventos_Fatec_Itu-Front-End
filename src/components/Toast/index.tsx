@@ -1,7 +1,6 @@
-'use client';
 import { createPortal } from 'react-dom';
-import { useToastStore } from '@/stores/Toast/toastStore';
 import styles from '@/components/Toast/Toast.module.css';
+import { useToastStore } from '@/stores/Toast/toastStore';
 
 export default function Toast(): React.ReactElement | null {
     const toast = useToastStore((s) => s.toast);

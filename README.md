@@ -26,25 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/app/(pages)/(private)/Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: ./src/hooks/api/Categories/
-
-### `./src/hooks/api/Categories:`
-
-### `./src/hooks/api/Categories/Delete:` Requisições DELETE nas rotas de /categories/
-
-### `./src/hooks/api/Categories/useDeleteCategory.ts:` Hook que encapsula a lógica de requisição HTTP para excluir uma categoria específica, enviando um DELETE protegido por CSRF e garantindo o tratamento de erros para informar falhas de exclusão.
-
-### `./src/hooks/api/Categories/Get:` Requisições GET nas rotas de /categories/
-
-### `./src/hooks/api/Categories/useGetAllCategories.ts:` Hook que realiza a recuperação de toda a lista de categorias via requisição GET, gerenciando estados de carregamento, erro e permitindo refetch após operações de CRUD.
-
-### `./src/hooks/api/Categories/Patch:` Requisições PATCH nas rotas de /categories/patch/:id
-
-### `./src/hooks/api/Categories/useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma categoria existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da categoria.
-
-### `./src/hooks/api/Categories/Post:` Requisições POST nas rotas de /categories/
-
-### `./src/hooks/api/Categories/useCreateCategory.ts:` Hook para criar uma nova categoria no sistema via requisição POST, construindo o payload tipado com o nome da categoria e incluindo proteção CSRF para garantir a segurança da operação.
+### `Refactor:` Refatorado o código para diminuir usos desnecessários do 'use client' e refatoração do código para melhor leitura e entendimento sobre o código, criação de @types para tipagens compartilhadas. 
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -80,7 +62,9 @@
 - `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
-    - `UserRoleProps.ts:` Tipagem de usuário e suas roles.
+    - `CategoriesTypes`: Tipagens compartilhadas da tela de Categories
+    - `UsersTypes`: Tipagens compartilhadas da tela de Users
+    - `UserJwtProps.ts:` Tipagem de usuário e suas roles.
 
 - `./src/app:` Este é um projeto Next, caso não possua conhecimento em Next procure sobre "App Router Next" para entender mais sobre o projeto e sua estrutura de pastas e rotas! Dentro do app temos: 
   - `global.css:` Estilizações globais, importado dentro do nosso layout.tsx para passar para toda a aplicação

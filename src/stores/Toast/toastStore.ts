@@ -1,4 +1,3 @@
-'use client';
 import { create } from 'zustand';
 
 type ToastType = 'Success' | 'Alert' | 'Error';
@@ -24,14 +23,12 @@ export const useToastStore = create<ToastStore>((set) => ({
         const duration = 5000;
         set({ toast, isVisible: true, progress: 0 });
 
-        // animação de progresso
         const interval = setInterval(() => {
             set((state) => ({
                 progress: Math.min(state.progress + 100 / (duration / 100), 100),
             }));
         }, 100);
 
-        // fechar após duração
         setTimeout(() => {
             clearInterval(interval);
             set({ isVisible: false, toast: null, progress: 0 });

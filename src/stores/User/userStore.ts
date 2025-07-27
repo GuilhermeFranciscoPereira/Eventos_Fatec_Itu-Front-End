@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { getMe } from '@/hooks/api/Auth/Get/getMe';
-import { UserRoleProps } from '@/@Types/UserRoleProps';
+import { UserJwtProps } from '@/@Types/UserJwtProps';
 
 type UserStore = {
-    user: UserRoleProps | null;
-    setUser: (user: UserRoleProps | null) => void;
+    user: UserJwtProps | null;
+    setUser: (user: UserJwtProps | null) => void;
 };
 
 export const useUserStore = create<UserStore>((set) => {

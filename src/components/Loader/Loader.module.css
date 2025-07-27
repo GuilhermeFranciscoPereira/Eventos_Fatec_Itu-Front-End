@@ -14,7 +14,7 @@
     transition: background 0.3s;
 }
 
-.divLoaderContainer>.hourglassBackground {
+.divLoaderContainer > .hourglassBackground {
     position: relative;
     background-color: rgb(71, 60, 60);
     height: 130px;
@@ -23,7 +23,7 @@
     margin: 30px auto;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer {
     position: absolute;
     top: 30px;
     left: 40px;
@@ -34,9 +34,9 @@
     perspective: 1000px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer div,
-.divLoaderContainer>.hourglassBackground>.hourglassContainer div:before,
-.divLoaderContainer>.hourglassBackground>.hourglassContainer div:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer div,
+.divLoaderContainer > .hourglassBackground > .hourglassContainer div:before,
+.divLoaderContainer > .hourglassBackground > .hourglassContainer div:after {
     transform-style: preserve-3d;
 }
 
@@ -54,41 +54,41 @@
     }
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCapTop {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCapTop {
     position: absolute;
     top: 0px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCapTop:before {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCapTop:before {
     content: '';
     position: absolute;
     top: -25px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCapTop:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCapTop:after {
     content: '';
     position: absolute;
     top: -20px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCapBottom {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCapBottom {
     position: absolute;
     bottom: 0;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCapBottom:before {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCapBottom:before {
     content: '';
     position: absolute;
     bottom: -25px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCapBottom:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCapBottom:after {
     content: '';
     position: absolute;
     bottom: -20px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassGlassTop {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassGlassTop {
     transform: rotateX(90deg);
     position: absolute;
     top: -16px;
@@ -99,7 +99,7 @@
     background-color: #999999;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassGlass {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassGlass {
     perspective: 100px;
     position: absolute;
     top: 32px;
@@ -110,8 +110,8 @@
     opacity: 0.5;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassGlass:before,
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassGlass:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassGlass:before,
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassGlass:after {
     content: '';
     display: block;
     position: absolute;
@@ -121,18 +121,18 @@
     height: 28px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassGlass:before {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassGlass:before {
     top: -27px;
     border-radius: 0 0 25px 25px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassGlass:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassGlass:after {
     bottom: -27px;
     border-radius: 25px 25px 0 0;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCurves:before,
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCurves:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCurves:before,
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCurves:after {
     content: '';
     display: block;
     position: absolute;
@@ -144,11 +144,11 @@
     animation: hideCurves 2s ease-in 0s infinite;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCurves:before {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCurves:before {
     left: 15px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassCurves:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassCurves:after {
     left: 29px;
 }
 
@@ -174,7 +174,7 @@
     }
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassSandStream:before {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassSandStream:before {
     content: '';
     display: block;
     position: absolute;
@@ -184,7 +184,7 @@
     animation: sandStream1 2s ease-in 0s infinite;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassSandStream:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassSandStream:after {
     content: '';
     display: block;
     position: absolute;
@@ -249,8 +249,8 @@
     }
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassSand:before,
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassSand:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassSand:before,
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassSand:after {
     content: '';
     display: block;
     position: absolute;
@@ -259,14 +259,14 @@
     perspective: 500px;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassSand:before {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassSand:before {
     top: 8px;
     width: 39px;
     border-radius: 3px 3px 30px 30px;
     animation: sandFillup 2s ease-in 0s infinite;
 }
 
-.divLoaderContainer>.hourglassBackground>.hourglassContainer>.hourglassSand:after {
+.divLoaderContainer > .hourglassBackground > .hourglassContainer > .hourglassSand:after {
     border-radius: 30px 30px 3px 3px;
     animation: sandDeplete 2s ease-in 0s infinite;
 }

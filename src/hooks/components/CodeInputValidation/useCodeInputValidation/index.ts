@@ -2,38 +2,38 @@ import { useState } from 'react';
 import { createRef, FormEvent, useMemo } from 'react';
 
 export default function useCodeInputValidation(validateFn: (code: string) => Promise<void>) {
-    const length = 6;
-    const [code, setCode] = useState('');
-    const [loading, setLoading] = useState(false);
+    const length: number = 6;
+    const [code, setCode] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const inputRefs = useMemo(() => Array.from({ length }, () => createRef<HTMLInputElement>()), []);
+    const inputRefs: React.RefObject<HTMLInputElement | null>[] = useMemo(() => Array.from({ length }, () => createRef<HTMLInputElement>()), []);
 
-    function shift(idx: number, dir: 1 | -1) {
+    function shift(idx: number, dir: 1 | -1): void {
         const next = idx + dir;
         inputRefs[next]?.current?.focus();
     }
 
-    function recalc() {
+    function recalc(): void {
         setCode(inputRefs.map(r => r.current?.value ?? '').join(''));
     }
 
-    function handleInput(idx: number, v: string) {
+    function handleInput(idx: number, v: string): void {
         if (v) shift(idx, 1);
         recalc();
     }
 
-    function handleKey(idx: number, key: string, val: string) {
+    function handleKey(idx: number, key: string, val: string): void {
         if (key === 'Backspace' && !val) shift(idx, -1);
     }
 
-    function clearAll() {
+    function clearAll(): void {
         inputRefs.forEach(r => { if (r.current) r.current.value = ''; });
         inputRefs[0]?.current?.focus();
         setCode('');
         setError(null);
     }
 
-    async function handleSubmit(e: FormEvent) {
+    async function handleSubmit(e: FormEvent): Promise<void> {
         e.preventDefault();
         if (code.length !== length) return;
         setLoading(true);

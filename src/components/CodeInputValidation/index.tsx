@@ -4,11 +4,11 @@ import useCodeInputValidation from '@/hooks/components/CodeInputValidation/useCo
 
 type CodeInputValidationProps = {
     infoTitle: string;
-    validateFn: (code: string) => Promise<void>;
     children?: React.ReactNode;
+    validateFn: (code: string) => Promise<void>;
 };
 
-export default function CodeInputValidation({ infoTitle, validateFn, children }: CodeInputValidationProps): React.ReactElement {
+export default function CodeInputValidation({ infoTitle, children, validateFn }: CodeInputValidationProps): React.ReactElement {
     const { inputRefs, handleInput, handleKey, clearAll, handleSubmit, loading, error, isComplete } = useCodeInputValidation(validateFn);
 
     return (

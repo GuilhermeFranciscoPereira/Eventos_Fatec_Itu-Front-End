@@ -1,8 +1,7 @@
-'use client';
 import { createPortal } from 'react-dom';
 import ButtonRay from '../Buttons/ButtonRay';
-import { useCallback, useState } from 'react';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
+import { useCallback, useEffect, useState } from 'react';
 import styles from '@/components/Modal/Modal.module.css';
 import { useModalStore } from '@/stores/Modal/modalStore';
 
@@ -25,13 +24,20 @@ export default function Modal(): React.ReactElement | null {
         }
     }, [opts, close]);
 
+    useEffect(() => { if (!isOpen) setErrorMessage(null) }, [isOpen]);
+
+    const handleClose = useCallback(() => {
+        setErrorMessage(null);
+        close();
+    }, [close]);
+
     if (!isOpen || !opts) return null;
 
     return createPortal(
         <div className={styles.modalContainer}>
             <section className={styles.modalSection}>
-                <div className={styles.modalDiv}>
-                    <button className={styles.modalClose} aria-label="Fechar modal" onClick={close}>❌</button>
+                <div className={styles.modalDiv} onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter') { e.preventDefault(); handleConfirm() } }}>
+                    <button className={styles.modalClose} aria-label="Fechar modal" onClick={handleClose}>❌</button>
                     {opts.icon && (
                         <div className={styles.modalIcon}>
                             {opts.icon}

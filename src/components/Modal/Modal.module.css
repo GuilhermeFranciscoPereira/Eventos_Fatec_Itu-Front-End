@@ -39,12 +39,14 @@
     margin: 10px 0px;
 }
 
-.modalSection > .modalDiv > .modalTitle, .modalSection > .modalDiv > .modalMessage {
+.modalSection > .modalDiv > .modalTitle,
+.modalSection > .modalDiv > .modalMessage {
     margin: 20px 0px;
     text-align: center;
 }
 
-.modalSection > .modalDiv > .modalTitle, .modalSection > .modalDiv > .modalError > .errorMessage {
+.modalSection > .modalDiv > .modalTitle,
+.modalSection > .modalDiv > .modalError > .errorMessage {
     display: flex;
     align-items: center;
     justify-content: center;
