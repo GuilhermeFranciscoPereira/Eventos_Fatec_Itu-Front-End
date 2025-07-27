@@ -15,7 +15,7 @@ import { useSidebar } from '@/hooks/components/Sidebar/useSidebar';
 const navItems: readonly { Icon: IconType; label: string, href: string, role: UserRoleTypes[] | 'all' }[] = [
     { Icon: FaHome, label: 'Tela inicial', href: '/', role: 'all' },
     { Icon: GiKnightBanner, label: 'Gerenciar Banners', href: '/Login', role: ['ADMIN', 'COORDENADOR'] },
-    { Icon: FaLayerGroup, label: 'Gerenciar Categorias', href: '/teste', role: ['ADMIN', 'COORDENADOR'] },
+    { Icon: FaLayerGroup, label: 'Gerenciar Categorias', href: '/Categories', role: ['ADMIN', 'COORDENADOR'] },
     { Icon: GiPartyPopper, label: 'Gerenciar Eventos', href: '/', role: ['ADMIN', 'COORDENADOR', 'AUXILIAR'] },
     { Icon: FaUserEdit, label: 'Gerenciar Usuários', href: '/Users', role: ['ADMIN'] },
 ] as const;

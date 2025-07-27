@@ -10,12 +10,12 @@ import { useEditUser } from '@/hooks/api/Users/Patch/useEditUser';
 import styles from '@/app/(pages)/(private)/Users/Users.module.css';
 import { useDeleteUser } from '@/hooks/api/Users/Delete/useDeleteUser';
 import { useGetAllUsers, UserProps } from '@/hooks/api/Users/Get/useGetAllUsers';
-import { useRegisterUser, RegisterDto } from '@/hooks/api/Users/Post/useRegisterUser';
+import { useCreateUser, CreateUserDto } from '@/hooks/api/Users/Post/useCreateUser';
 
 export default function Users(): React.ReactElement {
     const editUser = useEditUser();
     const deleteUser = useDeleteUser();
-    const registerUser = useRegisterUser();
+    const createUser = useCreateUser();
     const openModal = useModalStore((s) => s.openModal);
     const { users, loading, error, refetch } = useGetAllUsers();
 
@@ -91,13 +91,13 @@ export default function Users(): React.ReactElement {
             ),
             confirmLabel: 'Criar',
             onConfirm: async () => {
-                const dto: RegisterDto = {
+                const dto: CreateUserDto = {
                     name: newNameRef.current?.value ?? '',
                     email: newEmailRef.current?.value ?? '',
                     password: newPasswordRef.current?.value ?? '',
                     role: newRoleRef.current?.value ?? '',
                 };
-                await registerUser(dto);
+                await createUser(dto);
                 refetch();
             },
         });
@@ -118,14 +118,13 @@ export default function Users(): React.ReactElement {
     ];
 
     return (
-        <main className={styles.UsersPage}>
-            <div className={styles.UsersPageHeader}>
+        <main className={styles.usersPage}>
+            <header className={styles.usersPageHeader}>
                 <h1>Gerenciamento de usuários</h1>
-                <div className={styles.createNewUsers} onClick={handleCreate}>
-                    <IoMdPersonAdd />
-                    <p>Criar novo usuário</p>
-                </div>
-            </div>
+                <button className={styles.createBtn} onClick={handleCreate}>
+                    <IoMdPersonAdd /> Criar novo usuário
+                </button>
+            </header>
 
             {loading && <Loader />}
             {error && <p className={styles.error}>Erro: {error}</p>}

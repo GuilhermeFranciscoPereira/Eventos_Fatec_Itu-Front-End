@@ -26,15 +26,25 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/app/(pages)/(private)/Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit or delete each user, integrating with the API hooks in: ./src/hooks/api/Users/
+### `./src/app/(pages)/(private)/Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit, or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
 
-### `./src/hooks/api/Users/Delete/useDeleteUser.ts`: Hook that encapsulates the HTTP request logic to delete a specific user, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
+### `./src/hooks/api/Categories:`
 
-### `./src/hooks/api/Users/Get/useGetAllUsers.ts`: Hook that retrieves the entire user list via GET request, managing loading and error states, and automatically updating the route if the user is not authorized.
+### `./src/hooks/api/Categories/Delete:` DELETE requests on /categories/ routes
 
-### `./src/hooks/api/Users/Patch/useEditUser.ts`: Hook responsible for sending partial updates to an existing user's data via a PATCH request with CSRF, allowing you to modify their name, email, password, or access level.
+### `./src/hooks/api/Categories/useDeleteCategory.ts:` Hook that encapsulates the HTTP request logic to delete a specific category, sending a CSRF-protected DELETE statement and ensuring error handling to report deletion failures.
 
-### `./src/hooks/api/Users/Post/useRegisterUser.ts`: Hook to create a new user in the system via POST request, building the payload typed with name, email, password and position, and including CSRF protection to ensure the security of the operation.
+### `./src/hooks/api/Categories/Get:` GET requests on /categories/ routes
+
+### `./src/hooks/api/Categories/useGetAllCategories.ts:` Hook that retrieves the entire list of categories via GET request, managing loading and error states, and allowing refetch after CRUD operations.
+
+### `./src/hooks/api/Categories/Patch:` PATCH requests on /categories/patch/:id routes
+
+### `./src/hooks/api/Categories/useEditCategory.ts:` Hook responsible for sending partial data updates for an existing category via a PATCH request with CSRF, allowing modification of only the category name.
+
+### `./src/hooks/api/Categories/Post:` POST requests on /categories/ routes
+
+### `./src/hooks/api/Categories/useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -78,6 +88,7 @@
     - `loading.tsx:` This is a special Next.js component to display something loading during data fetch or route changes. To display this to the user, we insert our Loader component.
 - `(pages):` Contains all of our application routes, but remember, whenever they are within parent folders, that folder will not be recognized as a route! Our pages:
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
+        - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
         - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
@@ -108,6 +119,15 @@
                 - `useLogin:` Requests to the backend to make the login request (generate 2FA code) and confirm the 2FA code to access the account
                 - `useLogout:` Calls the logout route to allow the user to log out
                 - `useResetPassword:` Requests to the backend to make the password change request (generate 2FA code) and confirm the 2FA code to change the password
+        - `Categories:`
+            - `Delete:` DELETE requests on /categories/ routes
+                - `useDeleteCategory.ts:` Hook that encapsulates the HTTP request logic to delete a specific category, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
+            - `Get:` GET requests on /categories/ routes
+                - `useGetAllCategories.ts:` Hook that retrieves the entire list of categories via GET request, managing loading and error states, and allowing refetch after CRUD operations.
+            - `Patch:` PATCH requests on /categories/patch/:id routes
+                - `useEditCategory.ts:` Hook responsible for sending partial data updates for an existing category via a PATCH request with CSRF, allowing modification of only the category name. 
+            - `Post:` POST requests on /categories/ routes
+                - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
         - `Users`
             - `Delete:` DELETE requests on /users/ routes
                 - `useDeleteUser.ts:` Hook that encapsulates the HTTP request logic to delete a specific user, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
@@ -116,7 +136,7 @@
             - `Patch:` PATCH requests on /users/ routes
                 - `useEditUser.ts:` Hook responsible for sending partial updates to an existing user's data via a PATCH request with CSRF, allowing modification of name, email, password, or access level.
             - `Post:` POST requests on /users/ routes
-                - `useRegisterUser.ts:` Hook to create a new user in the system via POST request, building the payload typed with name, email, password, and position, and including CSRF protection to ensure the security of the operation.
+                - `useCreateUser.ts:` Hook to create a new user in the system via POST request, building the payload typed with name, email, password, and position, and including CSRF protection to ensure the security of the operation.
     - `components:`
         - `Buttons`: Logical parts of our button components
             - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click! - `Sidebar:`
