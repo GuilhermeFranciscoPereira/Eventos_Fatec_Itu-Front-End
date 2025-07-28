@@ -4,17 +4,17 @@ import Image from 'next/image';
 import { SlLogout } from 'react-icons/sl';
 import type { IconType } from 'react-icons';
 import ButtonRay from '../Buttons/ButtonRay';
+import { useUserStore } from '@/stores/useUserStore';
 import { UserRoleTypes } from '@/@Types/UserJwtProps';
-import { useUserStore } from '@/stores/User/userStore';
 import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Sidebar/Sidebar.module.css';
 import { GiKnightBanner, GiPartyPopper } from 'react-icons/gi';
+import useSidebar from '@/hooks/components/Sidebar/useSidebar';
 import { FaHome, FaUserEdit, FaLayerGroup } from 'react-icons/fa';
-import { useSidebar } from '@/hooks/components/Sidebar/useSidebar';
 
 const navItems: readonly { Icon: IconType; label: string, href: string, role: UserRoleTypes[] | 'all' }[] = [
     { Icon: FaHome, label: 'Tela inicial', href: '/', role: 'all' },
-    { Icon: GiKnightBanner, label: 'Gerenciar Banners', href: '/Login', role: ['ADMIN', 'COORDENADOR'] },
+    { Icon: GiKnightBanner, label: 'Gerenciar Carrossel', href: '/Carousel', role: ['ADMIN', 'COORDENADOR'] },
     { Icon: FaLayerGroup, label: 'Gerenciar Categorias', href: '/Categories', role: ['ADMIN', 'COORDENADOR'] },
     { Icon: GiPartyPopper, label: 'Gerenciar Eventos', href: '/', role: ['ADMIN', 'COORDENADOR', 'AUXILIAR'] },
     { Icon: FaUserEdit, label: 'Gerenciar Usuários', href: '/Users', role: ['ADMIN'] },

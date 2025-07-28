@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/stores/User/userStore';
-import { useModalStore } from '@/stores/Modal/modalStore';
-import { useToastStore } from '@/stores/Toast/toastStore';
+import { useUserStore } from '@/stores/useUserStore';
+import { useModalStore } from '@/stores/useModalStore';
+import { useToastStore } from '@/stores/useToastStore';
 
 type useLogout = {
     (): void;

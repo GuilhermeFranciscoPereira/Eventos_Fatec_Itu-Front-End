@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import styles from './Categories.module.css';
-import { useModalStore } from '@/stores/Modal/modalStore';
+import { useModalStore } from '@/stores/useModalStore';
 import InputDefault from '@/components/Inputs/InputDefault';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import { useEditCategory } from '@/hooks/api/Categories/Patch/useEditCategory';
@@ -18,9 +18,48 @@ export default function Categories(): React.ReactElement {
     const deleteCategory = useDeleteCategory();
     const openModal = useModalStore(s => s.openModal);
     const { categories, loading, refetch } = useGetAllCategories();
-
     const nameRef = useRef<HTMLInputElement>(null);
     const newNameRef = useRef<HTMLInputElement>(null);
+
+    const schemaTable = [
+        { id: 'name', header: 'Nome', accessor: (c: CategoryProps) => c.name },
+        {
+            id: 'createdAt', header: 'Criado em',
+            accessor: (c: CategoryProps) => new Date(c.createdAt).toLocaleString('pt-BR').replace(',', ' -')
+        },
+        {
+            id: 'updatedAt', header: 'Editado última vez em',
+            accessor: (c: CategoryProps) => new Date(c.updatedAt).toLocaleString('pt-BR').replace(',', ' -')
+        },
+        {
+            id: 'actions', header: 'Ações', accessor: () => null, cellRenderer: (c: CategoryProps) => (
+                <div className={styles.actions}>
+                    <MdEdit className={styles.icon} size={20} onClick={() => handleEdit(c)} />
+                    <MdDelete className={styles.icon} size={20} onClick={() => handleDelete(c)} />
+                </div>
+            ),
+        },
+    ];
+
+    return (
+        <main className={styles.categoriesPage}>
+            <header className={styles.categoriesPageHeader}>
+                <h1>Gerenciamento de categorias</h1>
+                <button className={styles.createBtn} onClick={handleCreate}>
+                    <MdAssignmentAdd /> Criar nova categoria
+                </button>
+            </header>
+
+            {loading && <Loader />}
+
+            <Table<CategoryProps>
+                records={categories}
+                schema={schemaTable}
+                getIdentifier={c => c.id}
+                hiddenOnMobile={['createdAt', 'updatedAt']}
+            />
+        </main>
+    );
 
     function handleCreate(): void {
         openModal({
@@ -70,46 +109,4 @@ export default function Categories(): React.ReactElement {
             },
         });
     };
-
-    const schemaTable = [
-        {
-            id: 'name', header: 'Nome', accessor: (c: CategoryProps) => c.name
-        },
-        {
-            id: 'createdAt', header: 'Criado em',
-            accessor: (c: CategoryProps) => new Date(c.createdAt).toLocaleString('pt-BR').replace(',', ' -')
-        },
-        {
-            id: 'updatedAt', header: 'Editado última vez em',
-            accessor: (c: CategoryProps) => new Date(c.updatedAt).toLocaleString('pt-BR').replace(',', ' -')
-        },
-        {
-            id: 'actions', header: 'Ações', accessor: () => null, cellRenderer: (c: CategoryProps) => (
-                <div className={styles.actions}>
-                    <MdEdit className={styles.icon} size={20} onClick={() => handleEdit(c)} />
-                    <MdDelete className={styles.icon} size={20} onClick={() => handleDelete(c)} />
-                </div>
-            ),
-        },
-    ];
-
-    return (
-        <main className={styles.categoriesPage}>
-            <header className={styles.categoriesPageHeader}>
-                <h1>Gerenciamento de categorias</h1>
-                <button className={styles.createBtn} onClick={handleCreate}>
-                    <MdAssignmentAdd /> Criar nova categoria
-                </button>
-            </header>
-
-            {loading && <Loader />}
-
-            <Table<CategoryProps>
-                records={categories}
-                schema={schemaTable}
-                getIdentifier={c => c.id}
-                hiddenOnMobile={['createdAt', 'updatedAt']}
-            />
-        </main>
-    );
 }

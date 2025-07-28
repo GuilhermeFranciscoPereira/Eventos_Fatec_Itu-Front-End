@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { UpdateUserDto } from '@/@Types/UsersTypes';
-import { useToastStore } from '@/stores/Toast/toastStore';
+import { useToastStore } from '@/stores/useToastStore';
 
 type useEditUserProps = {
     (id: number, dto: UpdateUserDto): Promise<void>;

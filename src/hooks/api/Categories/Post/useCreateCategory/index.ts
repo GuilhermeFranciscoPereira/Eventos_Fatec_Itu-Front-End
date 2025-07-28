@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useToastStore } from '@/stores/Toast/toastStore';
+import { useToastStore } from '@/stores/useToastStore';
 
 export type CreateCategoryDto = { name: string };
 

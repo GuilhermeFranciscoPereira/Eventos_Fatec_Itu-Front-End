@@ -6,7 +6,7 @@ type useSidebarProps = {
     reset: () => void;
 }
 
-export function useSidebar(): useSidebarProps {
+export default function useSidebar(): useSidebarProps {
     const [isClosed, setIsClosed] = useState<boolean>(false);
 
     const toggle = useCallback((): void => {

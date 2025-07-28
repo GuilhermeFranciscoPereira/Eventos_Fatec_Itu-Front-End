@@ -1,0 +1,131 @@
+.carouselPage {
+    background: var(--background);
+    color: var(--text-color);
+    padding: 10px 20px;
+    max-width: 100vw;
+    transition: color .4s ease-in-out, background .4s ease-in-out;
+}
+
+.carouselPage > .carouselPageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.carouselPage > .carouselPageHeader > .createBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--red-primary);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    box-shadow: var(--box-shadow);
+}
+
+.carouselPage > .carouselPageHeader > .createBtn:hover {
+    transition: .3s ease-in-out;
+    transform: scale(1.1);
+}
+
+.form > .formGroup > .previewWrapper > img {
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.form > .formGroup > .previewWrapperEdit > img {
+    width: 320px;
+    height: 150px;
+    margin: 30px 0px;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+.form > .formGroup > .checkboxLabelToggleActiveCarousel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--text-color);
+}
+
+.form > .formGroup > .checkboxLabelToggleActiveCarousel > .checkboxToggleActiveCarousel {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid var(--text-color);
+    border-radius: 0.25rem;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out,
+        border-color 0.2s ease-in-out;
+}
+
+.form > .formGroup > .checkboxLabelToggleActiveCarousel > .checkboxToggleActiveCarousel:checked {
+    background: var(--red-primary);
+    border-color: var(--red-primary);
+}
+
+.form > .formGroup > .checkboxLabelToggleActiveCarousel > .checkboxToggleActiveCarousel:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.form > .formGroup > .fileInput {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--text-color);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    background: var(--background);
+    color: var(--text-color);
+    transition: border-color 0.2s ease-in-out,
+        background 0.2s ease-in-out;
+}
+
+.form > .formGroup > .fileInput:hover {
+    border-color: var(--red-primary);
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions > .icon:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.actions > .icon:nth-child(2):hover {
+    color: green;
+}
+
+.actions > .icon:nth-child(3):hover {
+    color: var(--red-primary);
+}
+
+@media (max-width: 480px) {
+    .carouselPage > .carouselPageHeader {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .carouselPage > .carouselPageHeader > .Categories {
+        font-size: 20px;
+        margin: 20px 0px;
+    }
+}

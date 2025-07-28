@@ -1,9 +1,9 @@
 import { createPortal } from 'react-dom';
 import ButtonRay from '../Buttons/ButtonRay';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
+import { useModalStore } from '@/stores/useModalStore';
 import { useCallback, useEffect, useState } from 'react';
 import styles from '@/components/Modal/Modal.module.css';
-import { useModalStore } from '@/stores/Modal/modalStore';
 
 export default function Modal(): React.ReactElement | null {
     const isOpen = useModalStore((s) => s.isOpen);

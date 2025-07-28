@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useToastStore } from '@/stores/Toast/toastStore';
+import { useToastStore } from '@/stores/useToastStore';
 
 type usePasswordResetRequestProps = {
     emailRef: React.RefObject<HTMLInputElement | null>;

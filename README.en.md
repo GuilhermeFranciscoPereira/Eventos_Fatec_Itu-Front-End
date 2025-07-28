@@ -12,11 +12,11 @@
 
 ## 📌 About the project
 
-### This system was developed so that events at Fatec Itu - Dom Amaury Castanho could have a more practical registration method, making it easier for students, outsiders, and event organizers. Clearly, this system is also used by event organizers to manage and control events, users, banners, categories, etc.
+### This system was developed so that events at Fatec Itu - Dom Amaury Castanho could have a more practical registration method, making it easier for students, outsiders, and event organizers. Clearly, this system is also used by event organizers to manage and control events, users, carousel, categories, etc.
 
 ### 👥 This system is being created by: Guilherme Francisco Pereira as a final project development / Real system
 
-### ✨ Interesting fact!! This is the only system developed solely by students that is implemented and used by the college, including students, professors, coordinators, and more!
+### ✨ Interesting fact!! This is the only system developed solely by student that is implemented and used by the college, including students, professors, coordinators, and more!
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=40E0D0&height=120&section=footer"/>
 
@@ -26,7 +26,34 @@
 
 ## 🛎️ Updates to this commit
 
-### `Refactor:` Refactored the code to reduce unnecessary uses of 'use client' and refactored the code for better reading and understanding of the code, creation of @types for shared typings.
+### `./package.json:` Added to use Cloudinary:
+```bash
+npm install @cloudinary/react @cloudinary/url-gen
+```
+
+### `./src/@types/CarouselTypes`: Shared Carousel screen typings
+
+### `./src/app/(pages)/(private)/Carousel`: Carousel management screen, controls the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all integrating with the API hooks in: ./src/hooks/api/Carousel
+
+### `./src/hooks/Carousel:` All requests to the backend on the /carousel/ routes
+
+### `./src/hooks/Carousel/Delete:` DELETE requests on /carousel/delete/:id routes
+
+### `./src/hooks/Carousel/useDeleteCarousel.ts:` Hook that encapsulates the logic for removing a slide, sending DELETE requests with CSRF protection and handling failures to display error messages.
+
+### `./src/hooks/Carousel/Get:` GET requests on /carousel routes
+
+### `./src/hooks/Carousel/useGetAllCarousels.ts:` Hook responsible for loading all slides, managing "loading" and "error" states, and exposing a refetch() function to reload data after mutation operations.
+
+### `./src/hooks/Carousel/Post:` POST requests on /carousel/create routes
+
+### `./src/hooks/Carousel/useCreateCarousel.ts:` Hook that builds a FormData with title, order, status, and image, makes the POST call with CSRF, and triggers success or failure toasts.
+
+### `./src/hooks/Carousel/Patch:` PATCH requests on /carousel/patch/:id routes
+
+### `./src/hooks/Carousel/useEditCarousel.ts:` Hook for fully updating a slide (name, order, asset, image), switching between multipart/form-data and JSON depending on the presence of a file, and including CSRF and exception handling.
+
+### `./src/hooks/Carousel/useToggleActiveCarousel.ts:` Here it hits the /carousel/patch/toggle/ route, it is a hook dedicated to inverting only the isActive field via JSON PATCH with CSRF, displaying a toast indicating “enabled” or “disabled”.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -62,6 +89,7 @@
 - `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
 
 - `./src/@Types:` Stores the typings that are reused in the code.
+    - `CarouselTypes`: Shared typings from the Carousel screen
     - `CategoriesTypes`: Shared typing from the Categories screen
     - `UsersTypes`: Shared typing from the Users screen
     - `UserJwtProps.ts:` User typings and their roles.
@@ -72,6 +100,7 @@
     - `loading.tsx:` This is a special Next.js component to display something loading during data fetch or route changes. To display this to the user, we insert our Loader component.
 - `(pages):` Contains all of our application routes, but remember, whenever they are within parent folders, that folder will not be recognized as a route! Our pages:
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
+        - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
         - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
@@ -103,6 +132,17 @@
                 - `useLogin:` Requests to the backend to make the login request (generate 2FA code) and confirm the 2FA code to access the account
                 - `useLogout:` Calls the logout route to allow the user to log out
                 - `useResetPassword:` Requests to the backend to make the password change request (generate 2FA code) and confirm the 2FA code to change the password
+
+        - `Carousel:` All requests to the backend on the /carousel/ routes
+            - `Delete:` DELETE requests on the /carousel/delete/:id routes
+            - `useDeleteCarousel.ts:` Hook that encapsulates the logic for removing a slide, sending DELETE requests with CSRF protection and handling failures to display error messages.
+            - `Get:` GET requests on the /carousel routes
+            - `useGetAllCarousels.ts:` Hook responsible for loading all slides, managing "loading" and "error" states, and exposing a refetch() function to reload data after mutation operations.
+            - `Post:` POST requests on the /carousel/create routes
+            - `useCreateCarousel.ts:` Hook that builds a FormData with title, order, status, and image, makes the POST call with CSRF protection, and triggers success or failure toasts. - `Patch:` PATCH requests on /carousel/patch/:id routes
+            - `useEditCarousel.ts:` Hook for fully updating a slide (name, order, active, image), switching between multipart/form-data and JSON depending on the presence of a file and including CSRF and exception handling.
+            - `useToggleActiveCarousel.ts:` Here, the /carousel/patch/toggle/ route is a hook dedicated to inverting only the isActive field via JSON PATCH with CSRF, displaying a toast indicating "enabled" or "disabled."
+
         - `Categories:`
             - `Delete:` DELETE requests on /categories/ routes
                 - `useDeleteCategory.ts:` Hook that encapsulates the HTTP request logic to delete a specific category, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
@@ -135,12 +175,12 @@
 
 - `./src/stores:` Stores for the Zustand library
     - `ZustandWrapper:` Brings together all Zustand components to share in a single form for the layout.tsx
-    - `Modal:`
-        - `modalStore.ts:` Controls the display and clears the application's modal data.
-    - `Toast:`
-        - `toastStore.ts:` Responsible for orchestrating the display, progress animation, and automatic closing of toasts throughout the application.
-    - `User:`
-        - `userStore.ts:` To set the user in the application
+    - `useModalStore:`
+        - `index.ts:` Controls the display and clears the application's modal data.
+    - `useToastStore:`
+        - `index.ts:` Responsible for orchestrating the display, progress animation, and automatic closing of toasts throughout the application.
+    - `useUserStore:`
+        - `index.ts:` To set the user in the application
 
 ## ❔ How to run the project on my machine?
 

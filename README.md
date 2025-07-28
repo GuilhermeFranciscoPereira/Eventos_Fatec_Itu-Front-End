@@ -12,11 +12,11 @@
 
 ## 📌 Sobre o projeto
 
-### Este sistema foi desenvolvido para que os eventos da Faculdade Fatec Itu - Dom Amaury Castanho pudessem ter um método de inscrição mais práticos, gerando facilidade tanto para os alunos, pessoas de fora e para os responsáveis pelos eventos. Claramente este sistema também é utilizado pelos responsáveis dos eventos, para gerenciamento e controle de eventos, usuários, banners, categorias e etc. 
+### Este sistema foi desenvolvido para que os eventos da Faculdade Fatec Itu - Dom Amaury Castanho pudessem ter um método de inscrição mais práticos, gerando facilidade tanto para os alunos, pessoas de fora e para os responsáveis pelos eventos. Claramente este sistema também é utilizado pelos responsáveis dos eventos, para gerenciamento e controle de eventos, usuários, carrossel, categorias e etc. 
 
 ### 👥 Este sistema está sendo criado por: Guilherme Francisco Pereira como desenvolvimento de TCC / Sistema real
 
-### ✨ Fato interessante!! Este é o único sistema desenvolvido somente por alunos que está implementado e em uso pela faculdade, tanto por alunos, professores, coordenadores, e etc!
+### ✨ Fato interessante!! Este é o único sistema desenvolvido somente por aluno que está implementado e em uso pela faculdade, tanto por alunos, professores, coordenadores, e etc!
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=40E0D0&height=120&section=footer"/>
 
@@ -26,7 +26,34 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Refactor:` Refatorado o código para diminuir usos desnecessários do 'use client' e refatoração do código para melhor leitura e entendimento sobre o código, criação de @types para tipagens compartilhadas. 
+### `./package.json:` Adicionado para utilizar a Clodinary:
+```bash
+npm install @cloudinary/react @cloudinary/url-gen
+```
+
+### `./src/@types/CarouselTypes`: Tipagens compartilhadas da tela de Carousel
+
+### `./src/app/(pages)/(private)/Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: ./src/hooks/api/Carousel
+
+### `./src/hooks/Carousel:` Todas as requisições para o back-end nas rotas de /carousel/
+
+### `./src/hooks/Carousel/Delete:` Requisições DELETE nas rotas de /carousel/delete/:id
+
+### `./src/hooks/Carousel/useDeleteCarousel.ts:` Hook que encapsula a lógica de remover um slide, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
+
+### `./src/hooks/Carousel/Get:` Requisições GET nas rotas de /carousel
+
+### `./src/hooks/Carousel/useGetAllCarousels.ts:` Hook responsável por carregar todos os slides, gerenciar estados de “loading” e “error” e expor uma função refetch() para recarregar os dados após operações de mutação.
+
+### `./src/hooks/Carousel/Post:` Requisições POST nas rotas de /carousel/create
+
+### `./src/hooks/Carousel/useCreateCarousel.ts:` Hook que constrói um FormData com título, ordem, status e imagem, faz a chamada POST com CSRF e dispara toasts de sucesso ou falha.
+
+### `./src/hooks/Carousel/Patch:` Requisições PATCH nas rotas de /carousel/patch/:id
+
+### `./src/hooks/Carousel/useEditCarousel.ts:` Hook para atualização completa de um slide (nome, ordem, ativo, imagem), alternando entre multipart/form-data e JSON conforme a presença de arquivo e incluindo CSRF e tratamento de exceções.
+
+### `./src/hooks/Carousel/useToggleActiveCarousel.ts:` Aqui bate na rota /carousel/patch/toggle/ é um hook dedicado a inverter apenas o campo isActive via PATCH JSON com CSRF, exibindo toast indicando “ativado” ou “desativado”.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -62,6 +89,7 @@
 - `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
+    - `CarouselTypes`: Tipagens compartilhadas da tela de Carousel
     - `CategoriesTypes`: Tipagens compartilhadas da tela de Categories
     - `UsersTypes`: Tipagens compartilhadas da tela de Users
     - `UserJwtProps.ts:` Tipagem de usuário e suas roles.
@@ -72,6 +100,7 @@
     - `loading.tsx:` Este é um componente especial do Next.js para exibir algo em carregamento durante o fetch de dados ou mudança de rota, para mostrar isso ao usuário inserimos o nosso componente Loader.
   - `(pages):` Possui todas nossas rotas da aplicação, mas lembre-se, sempre que estiver dentro de parentes não será reconhecido como rota aquela pasta! Nossa páginas:
     - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado à estar logado para poder acessar. Nela temos:
+        - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: ./src/hooks/api/Carousel
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: ./src/hooks/api/Categories/
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: ./src/hooks/api/Users/
     - `(public):` Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
@@ -104,23 +133,35 @@
                 - `useLogin:` Requisições para o back-end para fazer a solicitação de login (gerar código 2fa) e confirmar código 2fa para entrar na conta
                 - `useLogout:` Bate na rota de logout para permitir o usuário a se deslogar 
                 - `useResetPassword:` Requisições para o back-end para fazer a solicitação de troca de senha (gerar código 2fa) e confirmar código 2fa para trocar a senha
+
+        - `Carousel:` Todas as requisições para o back-end nas rotas de /carousel/
+            - `Delete:` Requisições DELETE nas rotas de /carousel/delete/:id
+                - `useDeleteCarousel.ts:` Hook que encapsula a lógica de remover um slide, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
+            - `Get:` Requisições GET nas rotas de /carousel
+                - `useGetAllCarousels.ts:` Hook responsável por carregar todos os slides, gerenciar estados de “loading” e “error” e expor uma função refetch() para recarregar os dados após operações de mutação.
+            - `Post:` Requisições POST nas rotas de /carousel/create
+                - `useCreateCarousel.ts:` Hook que constrói um FormData com título, ordem, status e imagem, faz a chamada POST com CSRF e dispara toasts de sucesso ou falha.
+            - `Patch:` Requisições PATCH nas rotas de /carousel/patch/:id
+                - `useEditCarousel.ts:` Hook para atualização completa de um slide (nome, ordem, ativo, imagem), alternando entre multipart/form-data e JSON conforme a presença de arquivo e incluindo CSRF e tratamento de exceções.
+                - `useToggleActiveCarousel.ts:` Aqui bate na rota /carousel/patch/toggle/ é um hook dedicado a inverter apenas o campo isActive via PATCH JSON com CSRF, exibindo toast indicando “ativado” ou “desativado”.
+
         - `Categories:`
-            - `Delete:` Requisições DELETE nas rotas de /categories/
+            - `Delete:` Requisições DELETE nas rotas de /categories/delete/
                 - `useDeleteCategory.ts:` Hook que encapsula a lógica de requisição HTTP para excluir uma categoria específica, enviando um DELETE protegido por CSRF e garantindo o tratamento de erros para informar falhas de exclusão.
             - `Get:` Requisições GET nas rotas de /categories/
                 - `useGetAllCategories.ts:` Hook que realiza a recuperação de toda a lista de categorias via requisição GET, gerenciando estados de carregamento, erro e permitindo refetch após operações de CRUD.
             - `Patch:` Requisições PATCH nas rotas de /categories/patch/:id
                 - `useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma categoria existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da categoria.
-            - `Post:` Requisições POST nas rotas de /categories/
+            - `Post:` Requisições POST nas rotas de /categories/post/
                 - `useCreateCategory.ts:` Hook para criar uma nova categoria no sistema via requisição POST, construindo o payload tipado com o nome da categoria e incluindo proteção CSRF para garantir a segurança da operação.
         - `Users`
-            - `Delete:` Requisições DELETE nas rotas de /users/
+            - `Delete:` Requisições DELETE nas rotas de /users/delete/
                 - `useDeleteUser.ts:` Hook que encapsula a lógica de requisição HTTP para excluir um usuário específico, enviando um DELETE protegido por CSRF e garantindo o manuseio de erros para informar falhas de exclusão.
             - `Get:` Requisições GET nas rotas de /users/
                 - `useGetAllUsers.ts:` Hook que realiza a recuperação de toda a lista de usuários via requisição GET, gerenciando estados de carregamento, erro e atualizando automaticamente a rota caso o usuário não esteja autorizado.
-            - `Patch:` Requisições PATCH nas rotas de /users/
+            - `Patch:` Requisições PATCH nas rotas de /users/patch/
                 - `useEditUser.ts:` Hook responsável por enviar atualizações parciais de dados de um usuário existente através de uma requisição PATCH com CSRF, permitindo modificar nome, e-mail, senha ou nível de acesso.
-            - `Post:` Requisições POST nas rotas de /users/
+            - `Post:` Requisições POST nas rotas de /users/post/
                 - `useCreateUser.ts:` Hook para criar um novo usuário no sistema via requisição POST, construindo o payload tipado com nome, e-mail, senha e cargo, e incluindo proteção CSRF para garantir a segurança da operação.
 
     - `components:`
@@ -133,17 +174,17 @@
     - `pages` Lógicas das páginas, arquivos page.tsx que fica dentro de app
         - `(private):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/private)
         - `(public):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/public)
-            - `(public)/Login:` Partes lógicas da rota /Login
-                - `(public)/Login/useYeti:` Controla o yeti para lidar com a animação de "interagir" com os inputs
+            - `/Login:` Partes lógicas da rota /Login
+                - `/useYeti:` Controla o yeti para lidar com a animação de "interagir" com os inputs
 
 - `./src/stores:` Stores para a biblioteca Zustand
     - `ZustandWrapper:` Junta todos os components do Zustand para compartilharmos de uma única forma para o layout.tsx
-    - `Modal:`
-        - `modalStore.ts:` Controlar a exibição e limpa os dados do modal da aplicação.
-    - `Toast:`
-        - `toastStore.ts:` Responsável por orquestrar a exibição, animação de progresso e fechamento automático dos toasts em toda a aplicação.
-    - `User:`
-        - `userStore.ts:` Para setar o usuário na aplicação
+    - `useModalStore:`
+        - `index.ts:` Controlar a exibição e limpa os dados do modal da aplicação.
+    - `useToastStore:`
+        - `index.ts:` Responsável por orquestrar a exibição, animação de progresso e fechamento automático dos toasts em toda a aplicação.
+    - `useUserStore:`
+        - `index.ts:` Para setar o usuário na aplicação
 
 ## ❔ Como rodar o projeto na minha máquina?
 

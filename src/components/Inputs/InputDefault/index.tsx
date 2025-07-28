@@ -4,7 +4,7 @@ import { useState, useId, forwardRef } from 'react';
 import styles from '@/components/Inputs/InputDefault/InputDefault.module.css';
 
 type InputDefaultProps = {
-    type?: 'text' | 'email' | 'password'
+    type?: 'text' | 'email' | 'password' | 'number'
     label: string
     id?: string
 } & React.InputHTMLAttributes<HTMLInputElement>

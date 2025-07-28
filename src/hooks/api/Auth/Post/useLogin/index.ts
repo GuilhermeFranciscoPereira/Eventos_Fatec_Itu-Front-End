@@ -2,8 +2,8 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getMe } from '@/hooks/api/Auth/Get/getMe';
 import { UserJwtProps } from '@/@Types/UserJwtProps';
-import { useUserStore } from '@/stores/User/userStore';
-import { useToastStore } from '@/stores/Toast/toastStore';
+import { useUserStore } from '@/stores/useUserStore';
+import { useToastStore } from '@/stores/useToastStore';
 
 type useLoginProps = {
   emailRef: React.RefObject<HTMLInputElement | null>;

@@ -4,7 +4,7 @@ import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { MdEdit, MdDelete } from 'react-icons/md';
-import { useModalStore } from '@/stores/Modal/modalStore';
+import { useModalStore } from '@/stores/useModalStore';
 import InputDefault from '@/components/Inputs/InputDefault';
 import { UserProps, CreateUserDto } from '@/@Types/UsersTypes';
 import { useEditUser } from '@/hooks/api/Users/Patch/useEditUser';
@@ -27,6 +27,40 @@ export default function Users(): React.ReactElement {
     const newEmailRef = useRef<HTMLInputElement>(null);
     const newRoleRef = useRef<HTMLSelectElement>(null);
     const newPasswordRef = useRef<HTMLInputElement>(null);
+
+    const schemaTable = [
+        { id: 'name', header: 'Nome', accessor: (u: UserProps) => u.name },
+        { id: 'email', header: 'Email', accessor: (u: UserProps) => u.email },
+        { id: 'role', header: 'Nível de usuário', accessor: (u: UserProps) => u.role },
+        {
+            id: 'actions', header: 'Ações', accessor: () => null, cellRenderer: (u: UserProps) => (
+                <div className={styles.actions}>
+                    <MdEdit className={styles.icon} size={20} onClick={() => handleEdit(u)} />
+                    <MdDelete className={styles.icon} size={20} onClick={() => handleDelete(u)} />
+                </div>
+            )
+        },
+    ];
+
+    return (
+        <main className={styles.usersPage}>
+            <header className={styles.usersPageHeader}>
+                <h1>Gerenciamento de usuários</h1>
+                <button className={styles.createBtn} onClick={handleCreate}>
+                    <IoMdPersonAdd /> Criar novo usuário
+                </button>
+            </header>
+
+            {loading && <Loader />}
+
+            <Table<UserProps>
+                records={users}
+                schema={schemaTable}
+                getIdentifier={(u) => u.id}
+                hiddenOnMobile={['name', 'role']}
+            />
+        </main>
+    );
 
     function handleCreate(): void {
         openModal({
@@ -103,38 +137,4 @@ export default function Users(): React.ReactElement {
             },
         });
     };
-
-    const schemaTable = [
-        { id: 'name', header: 'Nome', accessor: (u: UserProps) => u.name },
-        { id: 'email', header: 'Email', accessor: (u: UserProps) => u.email },
-        { id: 'role', header: 'Nível de usuário', accessor: (u: UserProps) => u.role },
-        {
-            id: 'actions', header: 'Ações', accessor: () => null, cellRenderer: (u: UserProps) => (
-                <div className={styles.actions}>
-                    <MdEdit className={styles.icon} size={20} onClick={() => handleEdit(u)} />
-                    <MdDelete className={styles.icon} size={20} onClick={() => handleDelete(u)} />
-                </div>
-            )
-        },
-    ];
-
-    return (
-        <main className={styles.usersPage}>
-            <header className={styles.usersPageHeader}>
-                <h1>Gerenciamento de usuários</h1>
-                <button className={styles.createBtn} onClick={handleCreate}>
-                    <IoMdPersonAdd /> Criar novo usuário
-                </button>
-            </header>
-
-            {loading && <Loader />}
-
-            <Table<UserProps>
-                records={users}
-                schema={schemaTable}
-                getIdentifier={(u) => u.id}
-                hiddenOnMobile={['name', 'role']}
-            />
-        </main>
-    );
 }

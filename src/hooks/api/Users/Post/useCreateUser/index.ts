@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { CreateUserDto } from '@/@Types/UsersTypes';
-import { useToastStore } from '@/stores/Toast/toastStore';
+import { useToastStore } from '@/stores/useToastStore';
 
 type useCreateUserProps = {
   (dto: CreateUserDto): Promise<void>;
