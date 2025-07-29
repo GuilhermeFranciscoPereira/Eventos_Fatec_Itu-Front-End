@@ -1,3 +1,4 @@
+import Loader from '../Loader';
 import { createPortal } from 'react-dom';
 import ButtonRay from '../Buttons/ButtonRay';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
@@ -10,9 +11,11 @@ export default function Modal(): React.ReactElement | null {
     const opts = useModalStore((s) => s.options);
     const close = useModalStore((s) => s.closeModal);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleConfirm = useCallback(async () => {
         setErrorMessage(null);
+        setLoading(true);
         try {
             if (opts?.onConfirm) {
                 await opts.onConfirm();
@@ -21,6 +24,8 @@ export default function Modal(): React.ReactElement | null {
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             setErrorMessage(msg);
+        } finally {
+            setLoading(false);
         }
     }, [opts, close]);
 
@@ -35,6 +40,7 @@ export default function Modal(): React.ReactElement | null {
 
     return createPortal(
         <div className={styles.modalContainer}>
+            {loading && <Loader />}
             <section className={styles.modalSection}>
                 <div className={styles.modalDiv} onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter') { e.preventDefault(); handleConfirm() } }}>
                     <button className={styles.modalClose} aria-label="Fechar modal" onClick={handleClose}>❌</button>

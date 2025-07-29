@@ -21,3 +21,10 @@ export type UpdateCarouselDto = {
     order?: number;
     image?: File;
 }
+
+export type CarouselPublicResponse = {
+    name: string;
+    imageUrl: string;
+    isActive: boolean;
+    order: number;
+}

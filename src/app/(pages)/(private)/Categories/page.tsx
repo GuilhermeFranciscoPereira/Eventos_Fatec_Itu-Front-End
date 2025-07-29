@@ -44,7 +44,7 @@ export default function Categories(): React.ReactElement {
     return (
         <main className={styles.categoriesPage}>
             <header className={styles.categoriesPageHeader}>
-                <h1>Gerenciamento de categorias</h1>
+                <h1>Gerenciamento de Categorias</h1>
                 <button className={styles.createBtn} onClick={handleCreate}>
                     <MdAssignmentAdd /> Criar nova categoria
                 </button>

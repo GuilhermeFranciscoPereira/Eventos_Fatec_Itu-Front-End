@@ -26,34 +26,11 @@
 
 ## 🛎️ Updates to this commit
 
-### `./package.json:` Added to use Cloudinary:
-```bash
-npm install @cloudinary/react @cloudinary/url-gen
-```
+### `./src/@types/CarouselTypes`: Added the CarouselPublicResponse type for public responses (images that will be used in the carousel).
 
-### `./src/@types/CarouselTypes`: Shared Carousel screen typings
+### `./src/components/CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
 
-### `./src/app/(pages)/(private)/Carousel`: Carousel management screen, controls the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all integrating with the API hooks in: ./src/hooks/api/Carousel
-
-### `./src/hooks/Carousel:` All requests to the backend on the /carousel/ routes
-
-### `./src/hooks/Carousel/Delete:` DELETE requests on /carousel/delete/:id routes
-
-### `./src/hooks/Carousel/useDeleteCarousel.ts:` Hook that encapsulates the logic for removing a slide, sending DELETE requests with CSRF protection and handling failures to display error messages.
-
-### `./src/hooks/Carousel/Get:` GET requests on /carousel routes
-
-### `./src/hooks/Carousel/useGetAllCarousels.ts:` Hook responsible for loading all slides, managing "loading" and "error" states, and exposing a refetch() function to reload data after mutation operations.
-
-### `./src/hooks/Carousel/Post:` POST requests on /carousel/create routes
-
-### `./src/hooks/Carousel/useCreateCarousel.ts:` Hook that builds a FormData with title, order, status, and image, makes the POST call with CSRF, and triggers success or failure toasts.
-
-### `./src/hooks/Carousel/Patch:` PATCH requests on /carousel/patch/:id routes
-
-### `./src/hooks/Carousel/useEditCarousel.ts:` Hook for fully updating a slide (name, order, asset, image), switching between multipart/form-data and JSON depending on the presence of a file, and including CSRF and exception handling.
-
-### `./src/hooks/Carousel/useToggleActiveCarousel.ts:` Here it hits the /carousel/patch/toggle/ route, it is a hook dedicated to inverting only the isActive field via JSON PATCH with CSRF, displaying a toast indicating “enabled” or “disabled”.
+### `/src/hooks/components/CarouselComponent/useCarouselComponent:` Logical part of the carousel, handles automatic or manual image scrolling, clicking on the dots centered at the bottom, etc.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -113,6 +90,7 @@ npm install @cloudinary/react @cloudinary/url-gen
 - `./src/components:` Where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
         - `ButtonDarkMode:` Button responsible for managing the website's dark mode (light/dark mode). - `ButtonRay:` Button that is reused in various parts of the code, changing the text, etc., based on props.
+    - `CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
     - `Inputs:`
@@ -163,10 +141,13 @@ npm install @cloudinary/react @cloudinary/url-gen
                 - `useCreateUser.ts:` Hook to create a new user in the system via POST request, building the payload typed with name, email, password, and position, and including CSRF protection to ensure the security of the operation.
     - `components:`
         - `Buttons`: Logical parts of our button components
-            - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click! - `Sidebar:`
-        - `useSideBar:` Handles the ability to close or open the sidebar menu when clicking the 'X'
+            - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click! 
+        - `CarouselComponent:`
+            - `useCarouselComponent:` Logical part of the carousel, handles automatic or manual image scrolling, clicking on the balls centered at the bottom, etc.
         - `CodeInputValidation:`
             - `useCodeInputValidation:` Handles the logical part of two-factor authentication inputs
+        - `Sidebar:`
+            - `useSideBar:` Handles the ability to close or open the sidebar menu when clicking the 'X'
     - `pages` Page logic, page.tsx files located within the app
         - `(private):` Page logic, page.tsx files located within the app -> (pages/private)
         - `(public):` Page logic, page.tsx files located within the app -> (pages/public)

@@ -45,7 +45,7 @@ export default function Users(): React.ReactElement {
     return (
         <main className={styles.usersPage}>
             <header className={styles.usersPageHeader}>
-                <h1>Gerenciamento de usuários</h1>
+                <h1>Gerenciamento de Usuários</h1>
                 <button className={styles.createBtn} onClick={handleCreate}>
                     <IoMdPersonAdd /> Criar novo usuário
                 </button>

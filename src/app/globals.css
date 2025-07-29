@@ -5,7 +5,7 @@
   --text-color: #000000;
   --text-color-reverse: #ffffff;
   --red-primary: #b20000;
-  --box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.7);
+  --box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .DarkTheme {
@@ -13,7 +13,7 @@
   --background-reverse: #ffffff;
   --text-color: #ffffff;
   --text-color-reverse: #000000;
-  --box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.3);
+  --box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.25);
 }
 
 * {

@@ -26,34 +26,11 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./package.json:` Adicionado para utilizar a Clodinary:
-```bash
-npm install @cloudinary/react @cloudinary/url-gen
-```
+### `./src/@types/CarouselTypes`: Adicionado o type CarouselPublicResponse para as respostas publicas ( imagens que serão utilizadas no carrossel )
 
-### `./src/@types/CarouselTypes`: Tipagens compartilhadas da tela de Carousel
+### `./src/components/CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
 
-### `./src/app/(pages)/(private)/Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: ./src/hooks/api/Carousel
-
-### `./src/hooks/Carousel:` Todas as requisições para o back-end nas rotas de /carousel/
-
-### `./src/hooks/Carousel/Delete:` Requisições DELETE nas rotas de /carousel/delete/:id
-
-### `./src/hooks/Carousel/useDeleteCarousel.ts:` Hook que encapsula a lógica de remover um slide, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
-
-### `./src/hooks/Carousel/Get:` Requisições GET nas rotas de /carousel
-
-### `./src/hooks/Carousel/useGetAllCarousels.ts:` Hook responsável por carregar todos os slides, gerenciar estados de “loading” e “error” e expor uma função refetch() para recarregar os dados após operações de mutação.
-
-### `./src/hooks/Carousel/Post:` Requisições POST nas rotas de /carousel/create
-
-### `./src/hooks/Carousel/useCreateCarousel.ts:` Hook que constrói um FormData com título, ordem, status e imagem, faz a chamada POST com CSRF e dispara toasts de sucesso ou falha.
-
-### `./src/hooks/Carousel/Patch:` Requisições PATCH nas rotas de /carousel/patch/:id
-
-### `./src/hooks/Carousel/useEditCarousel.ts:` Hook para atualização completa de um slide (nome, ordem, ativo, imagem), alternando entre multipart/form-data e JSON conforme a presença de arquivo e incluindo CSRF e tratamento de exceções.
-
-### `./src/hooks/Carousel/useToggleActiveCarousel.ts:` Aqui bate na rota /carousel/patch/toggle/ é um hook dedicado a inverter apenas o campo isActive via PATCH JSON com CSRF, exibindo toast indicando “ativado” ou “desativado”.
+### `/src/hooks/components/CarouselComponent/useCarouselComponent:` Parte lógica do carrossel, lida com o passar de imagens automatico ou manual, clique nas bolinhas que estão centralizadas na parte inferior e etc.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -114,6 +91,7 @@ npm install @cloudinary/react @cloudinary/url-gen
     - `Buttons:`
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
         - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
+    - `CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
     - `Inputs:`
@@ -167,10 +145,12 @@ npm install @cloudinary/react @cloudinary/url-gen
     - `components:`
         - `Buttons`: Partes lógicas dos nossos componentes de botões
             - `useButtonDarkMode:` Responsável por lidar com o dark mode, mudando o tema com base no click do usuário!
-        - `Sidebar:`
-            - `useSideBar:` Lida com a possibilidade de fechar ou abrir o menu sidebar ao clicar no 'X'
+        - `CarouselComponent:`
+            - `useCarouselComponent:` Parte lógica do carrossel, lida com o passar de imagens automático ou manual, clique nas bolinhas que estão centralizadas na parte inferior e etc.
         - `CodeInputValidation:` 
             - `useCodeInputValidation:` Lida com a parte lógica dos inputs da autenticação em dois fatores
+        - `Sidebar:`
+            - `useSideBar:` Lida com a possibilidade de fechar ou abrir o menu sidebar ao clicar no 'X'
     - `pages` Lógicas das páginas, arquivos page.tsx que fica dentro de app
         - `(private):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/private)
         - `(public):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/public)

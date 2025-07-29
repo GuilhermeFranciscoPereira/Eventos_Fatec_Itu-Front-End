@@ -31,8 +31,8 @@
     transform: scale(1.1);
 }
 
-.form > .formGroup > .previewWrapper > img {
-    border-radius: 20px;
+.previewWrapper > img {
+    border-radius: 10px;
     box-shadow: var(--box-shadow);
 }
 
@@ -45,63 +45,9 @@
     position: relative;
 }
 
-.form > .formGroup > .checkboxLabelToggleActiveCarousel {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: var(--text-color);
-}
-
-.form > .formGroup > .checkboxLabelToggleActiveCarousel > .checkboxToggleActiveCarousel {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border: 1px solid var(--text-color);
-    border-radius: 0.25rem;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.2s ease-in-out,
-        border-color 0.2s ease-in-out;
-}
-
-.form > .formGroup > .checkboxLabelToggleActiveCarousel > .checkboxToggleActiveCarousel:checked {
-    background: var(--red-primary);
-    border-color: var(--red-primary);
-}
-
-.form > .formGroup > .checkboxLabelToggleActiveCarousel > .checkboxToggleActiveCarousel:checked::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 4px;
-    width: 4px;
-    height: 8px;
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.form > .formGroup > .fileInput {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--text-color);
-    border-radius: 0.375rem;
-    cursor: pointer;
-    background: var(--background);
-    color: var(--text-color);
-    transition: border-color 0.2s ease-in-out,
-        background 0.2s ease-in-out;
-}
-
-.form > .formGroup > .fileInput:hover {
-    border-color: var(--red-primary);
-}
-
 .actions {
     display: flex;
-    gap: 10px;
+    gap: 20px;
 }
 
 .actions > .icon:hover {
@@ -115,6 +61,95 @@
 
 .actions > .icon:nth-child(3):hover {
     color: var(--red-primary);
+}
+
+.container {
+    position: relative;
+    cursor: pointer;
+}
+
+.containerInputWithText {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 0px;
+}
+
+.container > .checkboxInput {
+    position: absolute;
+    opacity: 0;
+}
+
+.container > .checkmark {
+    width: 25px;
+    height: 25px;
+    position: relative;
+    border: 2px solid #323232;
+    border-radius: 5px;
+    box-shadow: 4px 4px #323232;
+    background-color: #ccc;
+    transition: all 0.3s;
+}
+
+.container > .checkboxInput:checked~.checkmark {
+    background-color: var(--red-primary);
+}
+
+.container > .checkmark::after {
+    content: "";
+    width: 7px;
+    height: 15px;
+    position: absolute;
+    top: 0px;
+    left: 6px;
+    display: none;
+    border: solid #fff;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.container > .checkboxInput:checked~.checkmark::after {
+    display: block;
+}
+
+.formGroup > .fileInput {
+    width: 100%;
+    padding: 10px 10px;
+    border: 2px dashed var(--red-primary);
+    border-radius: 8px;
+    background-color: rgba(255, 0, 0, 0.1);
+    color: var(--red-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .3s, border-color .3s, color .3s;
+}
+
+.formGroup > .fileInput:hover {
+    background-color: rgba(255, 0, 0, 0.15);
+    border-color: var(--red-primary);
+    color: var(--red-primary);
+}
+
+.formGroup > .fileInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.formGroup > .fileInput::before {
+    content: "📁";
+    display: inline-block;
+    background-color: var(--red-primary);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    margin-right: -125px;
+    border-radius: 4px;
+    transition: background-color .3s;
+}
+
+.formGroup > .fileInput:hover::before {
+    background-color: var(--red-primary);
 }
 
 @media (max-width: 480px) {

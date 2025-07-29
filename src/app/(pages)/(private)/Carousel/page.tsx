@@ -1,11 +1,12 @@
 'use client';
+import { useRef } from 'react';
 import Loader from '@/components/Loader';
-import { useRef, useState } from 'react';
 import { Table } from '@/components/Table';
 import { RiImageAddLine } from 'react-icons/ri';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedImage } from '@cloudinary/react';
 import { MdEdit, MdDelete } from 'react-icons/md';
+import { useToastStore } from '@/stores/useToastStore';
 import { useModalStore } from '@/stores/useModalStore';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import InputDefault from '@/components/Inputs/InputDefault';
@@ -22,7 +23,7 @@ export default function Carousel(): React.ReactElement {
     const deleteCarousel = useDeleteCarousel();
     const toggleActive = useToggleActiveCarousel();
     const openModal = useModalStore(s => s.openModal);
-    const [isCreating, setIsCreating] = useState<boolean>(false);
+    const showToast = useToastStore((s) => s.showToast);
     const { records: carousels, loading, refetch } = useGetAllCarousels();
 
     const nameRef = useRef<HTMLInputElement>(null);
@@ -47,9 +48,12 @@ export default function Carousel(): React.ReactElement {
             accessor: () => null,
             cellRenderer: (c: CarouselProps) => (
                 <div className={styles.actions}>
-                    <input type="checkbox" checked={c.isActive} onChange={() => handleToggle(c.id, !c.isActive)} className={styles.checkboxAction} />
-                    <MdEdit size={20} className={styles.icon} onClick={() => handleEdit(c)} />
-                    <MdDelete size={20} className={styles.icon} onClick={() => handleDelete(c)} />
+                    <label className={styles.container}>
+                        <input type="checkbox" checked={c.isActive} onChange={() => handleToggle(c.id, !c.isActive)} className={styles.checkboxInput} />
+                        <div className={styles.checkmark} />
+                    </label>
+                    <MdEdit size={25} className={styles.icon} onClick={() => handleEdit(c)} />
+                    <MdDelete size={25} className={styles.icon} onClick={() => handleDelete(c)} />
                 </div>
             )
         }
@@ -65,7 +69,6 @@ export default function Carousel(): React.ReactElement {
             </header>
 
             {loading && <Loader />}
-            {isCreating && <Loader />}
 
             <Table<CarouselProps>
                 records={carousels}
@@ -91,9 +94,10 @@ export default function Carousel(): React.ReactElement {
                     <InputDefault ref={nameRef} label="Título da imagem" />
                     <InputDefault ref={orderRef} label="Ordem no carrossel" type="number" min={1} />
                     <div className={styles.formGroup}>
-                        <label className={styles.checkboxLabelToggleActiveCarousel}>
-                            <input ref={activeRef} type="checkbox" className={styles.checkboxToggleActiveCarousel} defaultChecked />
-                            Ativo
+                        <label className={`${styles.container} ${styles.containerInputWithText}`}>
+                            <input ref={activeRef} type="checkbox" className={styles.checkboxInput} defaultChecked />
+                            <div className={styles.checkmark} />
+                            <p>Imagem deve aparecer no carrossel?</p>
                         </label>
                     </div>
                     <div className={styles.formGroup}>
@@ -103,15 +107,19 @@ export default function Carousel(): React.ReactElement {
             ),
             confirmLabel: 'Salvar',
             onConfirm: async () => {
-                setIsCreating(true);
+                const fileList = fileRef.current!.files;
+                const file = fileList?.[0];
+                if (!file) {
+                    showToast({ message: 'Você deve adicionar uma imagem!', type: 'Alert' })
+                    throw new Error();
+                }
                 const dto: CreateCarouselDto = {
-                    name: nameRef.current?.value ?? '',
-                    order: Number(orderRef.current?.value ?? 0),
-                    isActive: activeRef.current?.checked ?? false,
-                    image: fileRef.current?.files?.[0]!
+                    name: nameRef.current!.value,
+                    order: Number(orderRef.current!.value),
+                    isActive: activeRef.current!.checked,
+                    image: file
                 };
                 await createCarousel(dto);
-                setIsCreating(false);
                 refetch();
             }
         });
@@ -126,9 +134,10 @@ export default function Carousel(): React.ReactElement {
                     <InputDefault ref={nameRef} label="Título da imagem" defaultValue={item.name} />
                     <InputDefault ref={orderRef} label="Ordem" type="number" min={1} defaultValue={String(item.order)} />
                     <div className={styles.formGroup}>
-                        <label className={styles.checkboxLabelToggleActiveCarousel}>
-                            <input ref={activeRef} type="checkbox" className={styles.checkboxToggleActiveCarousel} defaultChecked={item.isActive} />
-                            Ativo
+                        <label className={`${styles.container} ${styles.containerInputWithText}`}>
+                            <input ref={activeRef} type="checkbox" className={styles.checkboxInput} defaultChecked={item.isActive} />
+                            <div className={styles.checkmark} />
+                            <p>Imagem deve aparecer no carrossel?</p>
                         </label>
                     </div>
                     <div className={styles.formGroup}>
@@ -141,11 +150,13 @@ export default function Carousel(): React.ReactElement {
             ),
             confirmLabel: 'Salvar',
             onConfirm: async () => {
+                const fileList = fileRef.current!.files;
+                const file = fileList?.[0];
                 const dto: UpdateCarouselDto = {
-                    name: nameRef.current?.value,
-                    order: Number(orderRef.current?.value),
-                    isActive: activeRef.current?.checked,
-                    image: fileRef.current?.files?.[0]!
+                    name: nameRef.current!.value,
+                    order: Number(orderRef.current!.value),
+                    isActive: activeRef.current!.checked,
+                    image: file
                 };
                 await editCarousel(item.id, dto);
                 refetch();
