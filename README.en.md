@@ -26,11 +26,35 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/@types/CarouselTypes`: Added the CarouselPublicResponse type for public responses (images that will be used in the carousel).
+### `./src/@types/EventTypes`: Added the EventTypes type for event-related typing.
 
-### `./src/components/CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
+### `./src/app/(pages)/(private)/Events:` Screen for managing Fatec ITU events.
 
-### `/src/hooks/components/CarouselComponent/useCarouselComponent:` Logical part of the carousel, handles automatic or manual image scrolling, clicking on the dots centered at the bottom, etc.
+### `./src/app/(pages)/(private)/Events/[id]:` Screen responsible for creating and editing events, depending only on the parameter received via the URL. If it is /new, it creates a new event. If you pass the ID, it will edit that event.
+
+### `./src/hooks/api/Events/:` All requests to the backend on /events/ routes
+
+### `./src/hooks/api/Events/Delete:` DELETE requests on /event/delete/:id routes
+
+### `./src/hooks/api/Events/useDeleteEvent.ts:` Hook that encapsulates the logic of deleting an event, sending DELETE requests with CSRF protection and handling failures to display error messages.
+
+### `./src/hooks/api/Events/Get:` GET requests on /event routes
+
+### `./src/hooks/api/Events/useGetAllevents.ts:` Responsible for loading all events.
+
+### `./src/hooks/api/Events/useGetAvailabilityDates.ts:` Responsible for retrieving from the database all days that have at least one available time slot at the chosen event location, avoiding having two events at the same location.
+
+### `./src/hooks/api/Events/useGetAvailabilityTimes.ts:` Responsible for retrieving from the database all available times slot to prevent one event from overlapping another on the same day, time, and location.
+
+### `./src/hooks/api/Events/Patch:` PATCH requests on /event/patch/:id routes
+
+### `./src/hooks/api/Events/useEditEvent.ts:` Hook for editing an event completely, allowing for overriding values.
+
+### `./src/hooks/api/Events/Post:` POST requests on /event/create routes
+
+### `./src/hooks/api/Events/useCreateEvent.ts:` Responsible for creating a new event, making the request to the backend and passing the correct values
+
+### `./src/hooks/pages/(private)/Events/useEventForm:` All the logical parts of the event creation or editing screen
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -66,9 +90,10 @@
 - `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
 
 - `./src/@Types:` Stores the typings that are reused in the code.
-    - `CarouselTypes`: Shared typings from the Carousel screen
-    - `CategoriesTypes`: Shared typing from the Categories screen
-    - `UsersTypes`: Shared typing from the Users screen
+    - `CarouselTypes`: Shared typings from the Carousel screen.
+    - `CategoriesTypes`: Shared typings from the Categories screen.
+    - `EventTypes`: Shared typings from the Events screen.
+    - `UsersTypes`: Shared typings from the Users screen.
     - `UserJwtProps.ts:` User typings and their roles.
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
@@ -79,6 +104,7 @@
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
         - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
         - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
+        - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit or delete each event, integrating with the API hooks at: ./src/hooks/api/Events/
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
         - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
@@ -130,6 +156,18 @@
                 - `useEditCategory.ts:` Hook responsible for sending partial data updates for an existing category via a PATCH request with CSRF, allowing modification of only the category name. 
             - `Post:` POST requests on /categories/ routes
                 - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
+        
+        - `Events/:` All requests to the backend on /events/ routes
+            - `Delete:` DELETE requests on /event/delete/:id routes
+            - `useDeleteEvent.ts:` Hook that encapsulates the logic for deleting an event, sending DELETE requests with CSRF protection and handling failures to display error messages.
+            - `Get:` GET requests on /event routes
+            - `useGetAllevents.ts:` Responsible for loading all events.
+            - `useGetAvailabilityDates.ts:` Responsible for retrieving from the database all days that have at least one available time slot at the location chosen for the event, avoiding having two events at the same location. - `useGetAvailabilityTimes.ts:` Responsible for retrieving all available times from the database to prevent one event from overlapping another on the same day, time, and location.
+            - `Patch:` PATCH requests on the /event/patch/:id routes
+            - `useEditEvent.ts:` Hook for editing an entire event, allowing for overriding values.
+            - `Post:` POST requests on the /event/create routes
+            - `useCreateEvent.ts:` Responsible for creating a new event, making the request to the backend and passing the correct values
+
         - `Users`
             - `Delete:` DELETE requests on /users/ routes
                 - `useDeleteUser.ts:` Hook that encapsulates the HTTP request logic to delete a specific user, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
@@ -150,6 +188,8 @@
             - `useSideBar:` Handles the ability to close or open the sidebar menu when clicking the 'X'
     - `pages` Page logic, page.tsx files located within the app
         - `(private):` Page logic, page.tsx files located within the app -> (pages/private)
+            - `/Events:` Logical parts of the /Events route
+                - `/useEventForm:` All logical parts of the event creation or editing screen
         - `(public):` Page logic, page.tsx files located within the app -> (pages/public)
             - `(public)/Login:` Logical parts of the /Login route
                 - `(public)/Login/useYeti:` Controls the Yeti to handle the animation of "interacting" with inputs

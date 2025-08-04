@@ -1,0 +1,178 @@
+.formPage {
+    max-width: 900px;
+    margin: 2rem auto;
+    color: var(--text-color);
+    background-color: var(--background);
+    transition: color .4s ease-in-out, background .4s ease-in-out;
+}
+
+.formPage > .formHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.formPage > .formHeader > .backIcon {
+    cursor: pointer;
+}
+
+.formPage > .formHeader > h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.formPage > .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formPage > .form > .upload {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 400px;
+    border: 2px dashed var(--text-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    font-size: 3rem;
+}
+
+.formPage > .form > .upload > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.formPage > .form > .upload > .uploadPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.formPage > .form > .upload > .uploadPlaceholder > .uploadIcons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.formPage > .form > .upload > .uploadPlaceholder > .uploadIcons > span {
+    font-size: 32px;
+}
+
+.formPage > .form > .upload > .uploadPlaceholder > p {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.formPage > .form > .upload > .fileInput {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.formPage > .form > .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.formPage > .form > .row > .input,
+.formPage > .form > .row > .customWrapper > .input {
+    font-size: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    outline: none;
+    margin-top: 40px;
+    background-color: var(--background);
+    color: var(--text-color);
+    border: 2px solid var(--red-primary);
+}
+
+.formPage > .form > .row > .input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.formPage > .form > .row > .customWrapper {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.formPage > .form > .row > .customWrapper > .checkboxWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+}
+
+.formPage > .form > .row > .customWrapper > .checkboxWrapper > .checkboxInput {
+    width: 1rem;
+    height: 1rem;
+}
+
+.formPage > .form > .textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    border: 2px solid var(--red-primary);
+    outline: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--background);
+    color: var(--text-color);
+    resize: vertical;
+}
+
+.formPage > .form > .buttonSubmit {
+    width: 20%;
+    margin-bottom: 20px;
+    margin-left: auto;
+}
+
+.formPage > .form > .errorMessage {
+    color: var(--red-primary);
+    font-size: 1.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+@media (max-width: 480px) {
+    .formPage {
+        width: 90%;
+        margin: 50px auto;
+    }
+
+    .formPage > .form > .row {
+        grid-template-columns: 1fr;
+    }
+
+    .formPage > .form > .upload {
+        padding: 2rem;
+    }
+
+    .formPage > .form > .buttonSubmit {
+        width: 50%;
+    }
+
+    .formPage > .form > .errorMessage {
+        gap: 10px;
+        text-align: center;
+    }
+}

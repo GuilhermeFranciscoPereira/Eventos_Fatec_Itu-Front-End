@@ -26,11 +26,35 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/@types/CarouselTypes`: Adicionado o type CarouselPublicResponse para as respostas publicas ( imagens que serão utilizadas no carrossel )
+### `./src/@types/EventTypes`: Adicionado o type EventTypes para as tipagens relacionas aos eventos
 
-### `./src/components/CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
+### `./src/app/(pages)/(private)/Events:` Tela para gerenciamento dos eventos da Fatec itu.
 
-### `/src/hooks/components/CarouselComponent/useCarouselComponent:` Parte lógica do carrossel, lida com o passar de imagens automatico ou manual, clique nas bolinhas que estão centralizadas na parte inferior e etc.
+### `./src/app/(pages)/(private)/Events/[id]:` Tela responsável para criação e edição dos eventos, dependendo apenas do parametro que chega pela url, se for /new cria um novo evento, se passar o Id vai editar aquele evento.
+
+### `./src/hooks/api/Events/:` Todas as requisições para o back-end nas rotas de /events/
+
+### `./src/hooks/api/Events/Delete:` Requisições DELETE nas rotas de /event/delete/:id
+
+### `./src/hooks/api/Events/useDeleteEvent.ts:` Hook que encapsula a lógica de remover um evento, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
+
+### `./src/hooks/api/Events/Get:` Requisições GET nas rotas de /event
+
+### `./src/hooks/api/Events/useGetAllevents.ts:` Responsável por carregar todos os eventos.
+
+### `./src/hooks/api/Events/useGetAvailabilityDates.ts:` Responsável por pegar do banco de dados todas os dias que possuem pelo menos 1 horário disponivel no local escolhido para o evento, evitando de ter dois eventos no mesmo local.
+
+### `./src/hooks/api/Events/useGetAvailabilityTimes.ts:` Responsável por pegar do banco de dados todas os horários disponiveis para não ocorrer que um evento sobreponha outro no mesmo dia, horario e local..
+
+### `./src/hooks/api/Events/Patch:` Requisições PATCH nas rotas de /event/patch/:id
+
+### `./src/hooks/api/Events/useEditEvent.ts:` Hook para editar um evento por completo, podendo substituir os valores.
+
+### `./src/hooks/api/Events/Post:` Requisições POST nas rotas de /event/create
+
+### `./src/hooks/api/Events/useCreateEvent.ts:` Responsável por criar um novo evento, fazendo a requisição para o back-end passando os valores corretos
+
+### `./src/hooks/pages/(private)/Events/useEventForm:` Todas as partes lógicas da tela de criação ou edição de eventos
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -68,6 +92,7 @@
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
     - `CarouselTypes`: Tipagens compartilhadas da tela de Carousel
     - `CategoriesTypes`: Tipagens compartilhadas da tela de Categories
+    - `EventTypes`:  Tipagens compartilhadas da tela de Eventos
     - `UsersTypes`: Tipagens compartilhadas da tela de Users
     - `UserJwtProps.ts:` Tipagem de usuário e suas roles.
 
@@ -79,6 +104,7 @@
     - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado à estar logado para poder acessar. Nela temos:
         - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: ./src/hooks/api/Carousel
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: ./src/hooks/api/Categories/
+        - `Events:` Tela de gerenciamento dos eventos, responsável por exibir a lista dos eventos cadastrados e oferecer as ações de criar, editar ou excluir cada evento, integrando-se aos hooks de API em: ./src/hooks/api/Events/
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: ./src/hooks/api/Users/
     - `(public):` Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
         - `page.tsx`: Nossa primeira página, também conhecido como o nosso "home", é a tela em que o usuário visualiza assim que acessa o site.
@@ -132,6 +158,19 @@
                 - `useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma categoria existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da categoria.
             - `Post:` Requisições POST nas rotas de /categories/post/
                 - `useCreateCategory.ts:` Hook para criar uma nova categoria no sistema via requisição POST, construindo o payload tipado com o nome da categoria e incluindo proteção CSRF para garantir a segurança da operação.
+
+            - `Events/:` Todas as requisições para o back-end nas rotas de /events/
+                - `Delete:` Requisições DELETE nas rotas de /event/delete/:id
+                    - `useDeleteEvent.ts:` Hook que encapsula a lógica de remover um evento, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
+                - `Get:` Requisições GET nas rotas de /event
+                    - `useGetAllevents.ts:` Responsável por carregar todos os eventos.
+                    - `useGetAvailabilityDates.ts:` Responsável por pegar do banco de dados todas os dias que possuem pelo menos 1 horário disponivel no local escolhido para o evento, evitando de ter dois eventos no mesmo local.
+                    - `useGetAvailabilityTimes.ts:` Responsável por pegar do banco de dados todas os horários disponiveis para não ocorrer que um evento sobreponha outro no mesmo dia, horario e local..
+                - `Patch:` Requisições PATCH nas rotas de /event/patch/:id
+                    - `useEditEvent.ts:` Hook para editar um evento por completo, podendo substituir os valores.
+                - `Post:` Requisições POST nas rotas de /event/create
+                    - `useCreateEvent.ts:` Responsável por criar um novo evento, fazendo a requisição para o back-end passando os valores corretos
+        
         - `Users`
             - `Delete:` Requisições DELETE nas rotas de /users/delete/
                 - `useDeleteUser.ts:` Hook que encapsula a lógica de requisição HTTP para excluir um usuário específico, enviando um DELETE protegido por CSRF e garantindo o manuseio de erros para informar falhas de exclusão.
@@ -153,6 +192,8 @@
             - `useSideBar:` Lida com a possibilidade de fechar ou abrir o menu sidebar ao clicar no 'X'
     - `pages` Lógicas das páginas, arquivos page.tsx que fica dentro de app
         - `(private):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/private)
+            - `/Events:` Partes lógicas da rota /Events
+                - `/useEventForm:` Todas as partes lógicas da tela de criação ou edição de eventos
         - `(public):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/public)
             - `/Login:` Partes lógicas da rota /Login
                 - `/useYeti:` Controla o yeti para lidar com a animação de "interagir" com os inputs

@@ -10,6 +10,7 @@
     padding: 10px 20px;
     border-bottom: 1px solid var(--red-primary);
     background-color: var(--background);
+    z-index: 900;
     transition: color .4s ease-in-out, background .4s ease-in-out;
 }
 

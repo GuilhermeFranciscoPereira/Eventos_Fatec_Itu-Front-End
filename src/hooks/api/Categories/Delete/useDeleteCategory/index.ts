@@ -19,6 +19,6 @@ export function useDeleteCategory(): useDeleteCategoryProps {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao deletar categoria, erro em: useDeleteCategory()');
         }
-        showToast({ message: 'Categoria editada com sucesso!', type: 'Success' });
+        showToast({ message: 'Categoria excluída com sucesso!', type: 'Success' });
     }, [showToast]);
 }

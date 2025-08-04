@@ -16,7 +16,7 @@ const navItems: readonly { Icon: IconType; label: string, href: string, role: Us
     { Icon: FaHome, label: 'Tela inicial', href: '/', role: 'all' },
     { Icon: GiKnightBanner, label: 'Gerenciar Carrossel', href: '/Carousel', role: ['ADMIN', 'COORDENADOR'] },
     { Icon: FaLayerGroup, label: 'Gerenciar Categorias', href: '/Categories', role: ['ADMIN', 'COORDENADOR'] },
-    { Icon: GiPartyPopper, label: 'Gerenciar Eventos', href: '/', role: ['ADMIN', 'COORDENADOR', 'AUXILIAR'] },
+    { Icon: GiPartyPopper, label: 'Gerenciar Eventos', href: '/Events', role: ['ADMIN', 'COORDENADOR', 'AUXILIAR'] },
     { Icon: FaUserEdit, label: 'Gerenciar Usuários', href: '/Users', role: ['ADMIN'] },
 ] as const;
 

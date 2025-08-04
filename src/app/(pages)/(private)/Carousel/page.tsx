@@ -15,7 +15,7 @@ import { useCreateCarousel } from '@/hooks/api/Carousel/Post/useCreateCarousel';
 import { useGetAllCarousels } from '@/hooks/api/Carousel/Get/useGetAllCarousels';
 import { useDeleteCarousel } from '@/hooks/api/Carousel/Delete/useDeleteCarousel';
 import { CarouselProps, CreateCarouselDto, UpdateCarouselDto } from '@/@Types/CarouselTypes';
-import { useEditCarousel, useToggleActiveCarousel } from '@/hooks/api/Carousel/Patch/usePatchCarousel';
+import { useEditCarousel, useToggleActiveCarousel } from '@/hooks/api/Carousel/Patch/useEditCarousel';
 
 export default function Carousel(): React.ReactElement {
     const editCarousel = useEditCarousel();
