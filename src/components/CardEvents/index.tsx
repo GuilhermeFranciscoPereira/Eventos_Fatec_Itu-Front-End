@@ -36,7 +36,7 @@ export default function CardEvents(): React.ReactElement {
                                 }</p>
                                 <p>Local: {event.customLocation ?? event.location}</p>
                                 <p>Palestrante: {event.speakerName}</p>
-                                <Link href={`/EventsDetail/${event.id}`}>
+                                <Link href={`/EventDetail/${event.id}`}>
                                     <ButtonRay text="Ver mais sobre" type="button" />
                                 </Link>
                             </div>

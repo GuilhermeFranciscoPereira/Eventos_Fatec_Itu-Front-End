@@ -26,6 +26,7 @@ const publicRoutes: Array<publicRoutesProps> = [
     { path: '/Login', whenAuthenticated: 'redirect' },
     { path: '/Login/TwoFactor', whenAuthenticated: 'redirect' },
     { path: '/Login/ResetPassword', whenAuthenticated: 'redirect' },
+    { path: '/EventDetail/', whenAuthenticated: 'next' },
 ] as const;
 
 function isJwtExpired(token: string): 'Expired' | 'Not expired' {

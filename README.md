@@ -26,9 +26,15 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.
+### `./src/@types/ParticipantsTypes:` Criado as tipagens compartilhadas da tela de Participantes
 
-### `./src/hooks/api/Events/Get/useGetAllEvents:` Criado a função `useGetAllEventsPublic` para utilizar no componente CardEvents
+### `./src/app/(pages)/(public)/EventDetail/[id]:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento
+
+### `./src/hooks/api/Participants/:` Todas as requisições para o back-end nas rotas de /participants/
+
+### `./src/hooks/api/Participants/Post:` Requisições POST nas rotas de /participants/create
+
+### `./src/hooks/api/Participants/Post/useCreateParticipant:` Responsável por adicionar uma nova pessoa à um evento especifico, fazendo a requisição para o back-end
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -64,10 +70,11 @@
 - `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
-    - `CarouselTypes`: Tipagens compartilhadas da tela de Carousel
-    - `CategoriesTypes`: Tipagens compartilhadas da tela de Categories
-    - `EventTypes`:  Tipagens compartilhadas da tela de Eventos
-    - `UsersTypes`: Tipagens compartilhadas da tela de Users
+    - `CarouselTypes:` Tipagens compartilhadas da tela de Carousel
+    - `CategoriesTypes:` Tipagens compartilhadas da tela de Categories
+    - `EventTypes:`  Tipagens compartilhadas da tela de Eventos
+    - `ParticipantsTypes:` Tipagens compartilhadas da tela de Participantes
+    - `UsersTypes:` Tipagens compartilhadas da tela de Users
     - `UserJwtProps.ts:` Tipagem de usuário e suas roles.
 
 - `./src/app:` Este é um projeto Next, caso não possua conhecimento em Next procure sobre "App Router Next" para entender mais sobre o projeto e sua estrutura de pastas e rotas! Dentro do app temos: 
@@ -82,6 +89,7 @@
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: ./src/hooks/api/Users/
     - `(public):` Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
         - `page.tsx`: Nossa primeira página, também conhecido como o nosso "home", é a tela em que o usuário visualiza assim que acessa o site.
+        - `EventDetail:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento
         - `Login:` Tela de login, ao acessar: /Login. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
             - `ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail, se existir troca para a tela para informar a nova senha, confirmar, e inserir o código de 6 dígitos enviado ao e-mail.
 
@@ -124,7 +132,7 @@
                 - `useEditCarousel.ts:` Hook para atualização completa de um slide (nome, ordem, ativo, imagem), alternando entre multipart/form-data e JSON conforme a presença de arquivo e incluindo CSRF e tratamento de exceções.
                 - `useToggleActiveCarousel.ts:` Aqui bate na rota /carousel/patch/toggle/ é um hook dedicado a inverter apenas o campo isActive via PATCH JSON com CSRF, exibindo toast indicando “ativado” ou “desativado”.
 
-        - `Categories:`
+        - `Categories:` Todas as requisições para o back-end nas rotas de /categories/
             - `Delete:` Requisições DELETE nas rotas de /categories/delete/
                 - `useDeleteCategory.ts:` Hook que encapsula a lógica de requisição HTTP para excluir uma categoria específica, enviando um DELETE protegido por CSRF e garantindo o tratamento de erros para informar falhas de exclusão.
             - `Get:` Requisições GET nas rotas de /categories/
@@ -134,19 +142,23 @@
             - `Post:` Requisições POST nas rotas de /categories/post/
                 - `useCreateCategory.ts:` Hook para criar uma nova categoria no sistema via requisição POST, construindo o payload tipado com o nome da categoria e incluindo proteção CSRF para garantir a segurança da operação.
 
-            - `Events/:` Todas as requisições para o back-end nas rotas de /events/
-                - `Delete:` Requisições DELETE nas rotas de /event/delete/:id
-                    - `useDeleteEvent.ts:` Hook que encapsula a lógica de remover um evento, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
-                - `Get:` Requisições GET nas rotas de /event
-                    - `useGetAllevents.ts:` Responsável por carregar todos os eventos.
-                    - `useGetAvailabilityDates.ts:` Responsável por pegar do banco de dados todas os dias que possuem pelo menos 1 horário disponivel no local escolhido para o evento, evitando de ter dois eventos no mesmo local.
-                    - `useGetAvailabilityTimes.ts:` Responsável por pegar do banco de dados todas os horários disponiveis para não ocorrer que um evento sobreponha outro no mesmo dia, horario e local..
-                - `Patch:` Requisições PATCH nas rotas de /event/patch/:id
-                    - `useEditEvent.ts:` Hook para editar um evento por completo, podendo substituir os valores.
-                - `Post:` Requisições POST nas rotas de /event/create
-                    - `useCreateEvent.ts:` Responsável por criar um novo evento, fazendo a requisição para o back-end passando os valores corretos
+        - `Events:` Todas as requisições para o back-end nas rotas de /events/
+            - `Delete:` Requisições DELETE nas rotas de /event/delete/:id
+                - `useDeleteEvent.ts:` Hook que encapsula a lógica de remover um evento, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
+            - `Get:` Requisições GET nas rotas de /event
+                - `useGetAllevents.ts:` Responsável por carregar todos os eventos.
+                - `useGetAvailabilityDates.ts:` Responsável por pegar do banco de dados todas os dias que possuem pelo menos 1 horário disponivel no local escolhido para o evento, evitando de ter dois eventos no mesmo local.
+                - `useGetAvailabilityTimes.ts:` Responsável por pegar do banco de dados todas os horários disponiveis para não ocorrer que um evento sobreponha outro no mesmo dia, horario e local..
+            - `Patch:` Requisições PATCH nas rotas de /event/patch/:id
+                - `useEditEvent.ts:` Hook para editar um evento por completo, podendo substituir os valores.
+            - `Post:` Requisições POST nas rotas de /event/create
+                - `useCreateEvent.ts:` Responsável por criar um novo evento, fazendo a requisição para o back-end passando os valores corretos
         
-        - `Users`
+        - `Participants:` Todas as requisições para o back-end nas rotas de /participants/
+            - `Post:` Requisições POST nas rotas de /participants/create
+                - `useCreateParticipant:` Responsável por adicionar uma nova pessoa à um evento especifico, fazendo a requisição para o back-end
+        
+        - `Users:` Todas as requisições para o back-end nas rotas de /users/
             - `Delete:` Requisições DELETE nas rotas de /users/delete/
                 - `useDeleteUser.ts:` Hook que encapsula a lógica de requisição HTTP para excluir um usuário específico, enviando um DELETE protegido por CSRF e garantindo o manuseio de erros para informar falhas de exclusão.
             - `Get:` Requisições GET nas rotas de /users/

@@ -25,11 +25,7 @@ export default function EventForm(): React.ReactElement {
 
   return (
     <main className={styles.formPage}>
-      {loading && (
-        <div className={styles.loaderOverlay}>
-          <Loader />
-        </div>
-      )}
+      {loading && <Loader />}
       <header className={styles.formHeader}>
         <MdArrowBack size={24} className={styles.backIcon} onClick={goBack} />
         <h1>{isNew ? 'Criar Evento' : 'Editar Evento'}</h1>

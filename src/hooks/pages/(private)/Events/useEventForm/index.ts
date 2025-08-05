@@ -97,7 +97,7 @@ export function useEventForm() {
         setLoading(true);
         (async () => {
             try {
-                const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/${id}`, { credentials: 'include' });
+                const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/${id}`);
                 if (!response.ok) throw new Error(`Status ${response.status}`);
                 const e = await response.json();
                 setInitialUrl(e.imageUrl);

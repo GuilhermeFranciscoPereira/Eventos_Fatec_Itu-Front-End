@@ -26,9 +26,15 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/CardEvents:` Cards that display events to unauthenticated users. They only display events that haven't occurred yet. They contain brief information such as the photo, title, date and time, and speaker.
+### `./src/@types/ParticipantsTypes:` Created shared typing for the Participants screen
 
-### `./src/hooks/api/Events/Get/useGetAllEvents:` Created the `useGetAllEventsPublic` function for use in the CardEvents component.
+### `./src/app/(pages)/(public)/EventDetail/[id]:` Screen to show the event in more detail to unauthenticated users, also allowing them to register for the event.
+
+### `./src/hooks/api/Participants/:` All requests to the backend on the /participants/ routes
+
+### `./src/hooks/api/Participants/Post:` POST requests on the /participants/create routes
+
+### `./src/hooks/api/Participants/Post/useCreateParticipant:` Responsible for adding a new person to a specific event, making the request to the backend.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -64,10 +70,11 @@
 - `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
 
 - `./src/@Types:` Stores the typings that are reused in the code.
-    - `CarouselTypes`: Shared typings from the Carousel screen.
-    - `CategoriesTypes`: Shared typings from the Categories screen.
-    - `EventTypes`: Shared typings from the Events screen.
-    - `UsersTypes`: Shared typings from the Users screen.
+    - `CarouselTypes:` Shared typings from the Carousel screen.
+    - `CategoriesTypes:` Shared typings from the Categories screen.
+    - `EventTypes:` Shared typings from the Events screen.
+    - `ParticipantsTypes:` Shared typings from the Participants screen.
+    - `UsersTypes:` Shared typings from the Users screen.
     - `UserJwtProps.ts:` User typings and their roles.
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
@@ -82,6 +89,7 @@
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
         - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
+        - `EventDetail:` Screen to show the event in more detail to unauthenticated users, also allowing them to register for the event
         - `Login:` Login screen, when accessing: /Login. Requests email and password for the user to access the platform. If the email and password are correct, the user moves to the 'confirm' stage where they enter the 6-digit code sent to their email to access (2FA).
             - `ResetPassword:` Screen for the user to change their password, when accessing: /Login/ResetPassword. First, it requests email. If available, it moves to the screen to enter the new password, confirm, and enter the 6-digit code sent to the email.
 
@@ -122,7 +130,7 @@
             - `useEditCarousel.ts:` Hook for fully updating a slide (name, order, active, image), switching between multipart/form-data and JSON depending on the presence of a file and including CSRF and exception handling.
             - `useToggleActiveCarousel.ts:` Here, the /carousel/patch/toggle/ route is a hook dedicated to inverting only the isActive field via JSON PATCH with CSRF, displaying a toast indicating "enabled" or "disabled."
 
-        - `Categories:`
+        - `Categories:` All requests to the backend on the /categories/ routes
             - `Delete:` DELETE requests on /categories/ routes
                 - `useDeleteCategory.ts:` Hook that encapsulates the HTTP request logic to delete a specific category, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
             - `Get:` GET requests on /categories/ routes
@@ -132,7 +140,7 @@
             - `Post:` POST requests on /categories/ routes
                 - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
 
-        - `Events/:` All requests to the backend on /events/ routes
+        - `Events:` All requests to the backend on /events/ routes
             - `Delete:` DELETE requests on /event/delete/:id routes
             - `useDeleteEvent.ts:` Hook that encapsulates the logic for deleting an event, sending DELETE requests with CSRF protection and handling failures to display error messages.
             - `Get:` GET requests on /event routes
@@ -143,7 +151,11 @@
             - `Post:` POST requests on the /event/create routes
             - `useCreateEvent.ts:` Responsible for creating a new event, making the request to the backend and passing the correct values
 
-        - `Users`
+        - `Participants:` All requests to the backend on the /participants/ routes
+            - `Post:` POST requests on the /participants/create routes
+            - `useCreateParticipant:` Responsible for adding a new person to a specific event, making the request to the backend
+
+        - `Users` All requests to the backend on the /users/ routes
             - `Delete:` DELETE requests on /users/ routes
                 - `useDeleteUser.ts:` Hook that encapsulates the HTTP request logic to delete a specific user, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
             - `Get:` GET requests on /users/ routes
@@ -152,6 +164,7 @@
                 - `useEditUser.ts:` Hook responsible for sending partial updates to an existing user's data via a PATCH request with CSRF, allowing modification of name, email, password, or access level.
             - `Post:` POST requests on /users/ routes
                 - `useCreateUser.ts:` Hook to create a new user in the system via POST request, building the payload typed with name, email, password, and position, and including CSRF protection to ensure the security of the operation.
+    
     - `components:`
         - `Buttons`: Logical parts of our button components
             - `useButtonDarkMode:` Responsible for handling dark mode, changing the theme based on the user's click! 

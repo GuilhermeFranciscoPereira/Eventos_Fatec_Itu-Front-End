@@ -59,6 +59,7 @@
 .editForm > .selectWrapper > .select {
   padding: 5px;
   border: none;
+  outline: none;
   border-radius: 7px;
   box-shadow: var(--box-shadow);
 }
