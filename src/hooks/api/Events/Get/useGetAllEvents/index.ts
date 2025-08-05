@@ -1,12 +1,17 @@
 import { useRouter } from 'next/navigation';
-import { EventProps } from '@/@Types/EventTypes';
 import { useState, useEffect, useCallback } from 'react';
+import { EventProps, EventPublicResponse } from '@/@Types/EventTypes';
 
 type useGetAllEventsProps = {
     events: EventProps[];
     loading: boolean;
     refetch: () => Promise<void>;
 };
+
+type useGetAllEventsPublicProps = {
+    datas: EventPublicResponse[];
+    refetch: () => Promise<void>;
+}
 
 export function useGetAllEvents(): useGetAllEventsProps {
     const router = useRouter();
@@ -36,4 +41,22 @@ export function useGetAllEvents(): useGetAllEventsProps {
     }, [fetchEvents]);
 
     return { events, loading, refetch: fetchEvents };
+}
+
+export function useGetAllEventsPublic(): useGetAllEventsPublicProps {
+    const [datas, setDatas] = useState<EventPublicResponse[]>([]);
+
+    const fetchAll = useCallback(async () => {
+        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/publicAllEvents`);
+        if (!response.ok) {
+            console.log('Erro ao carregar eventos públicos:', response.status);
+            return;
+        }
+        const data = (await response.json()) as EventPublicResponse[];
+        setDatas(data);
+    }, []);
+
+    useEffect(() => { fetchAll() }, [fetchAll]);
+
+    return { datas, refetch: fetchAll };
 }

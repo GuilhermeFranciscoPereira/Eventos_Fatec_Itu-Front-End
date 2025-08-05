@@ -1,18 +1,18 @@
-.form>.formGroup {
+.form > .formGroup {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
     text-align: start;
 }
 
-.form>.formGroup>.label {
+.form > .formGroup > .label {
     margin-bottom: 0.5rem;
     font-weight: 500;
 }
 
-.form>.formGroup>input,
-.form>.formGroup>textarea,
-.form>.formGroup>select {
+.form > .formGroup > input,
+.form > .formGroup > textarea,
+.form > .formGroup > select {
     font-size: 20px;
     padding: 10px;
     border-radius: 10px;
@@ -24,7 +24,7 @@
     border: 2px solid var(--red-primary);
 }
 
-.form>.formGroup>.textarea {
+.form > .formGroup > .textarea {
     resize: vertical;
     min-height: 80px;
 }
@@ -51,18 +51,18 @@
     transition: color .4s ease-in-out, background .4s ease-in-out;
 }
 
-.eventsPage>.eventsPageHeader {
+.eventsPage > .eventsPageHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
 }
 
-.eventsPage>.eventsPageHeader>a {
+.eventsPage > .eventsPageHeader > a {
     text-decoration: none;
 }
 
-.eventsPage>.eventsPageHeader>a>.createBtn {
+.eventsPage > .eventsPageHeader > a > .createBtn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -75,17 +75,17 @@
     box-shadow: var(--box-shadow);
 }
 
-.eventsPage>.eventsPageHeader>a>.createBtn:hover {
+.eventsPage > .eventsPageHeader > a > .createBtn:hover {
     transition: .3s ease-in-out;
     transform: scale(1.1);
 }
 
-.previewWrapper>img {
+.previewWrapper > img {
     border-radius: 10px;
     box-shadow: var(--box-shadow);
 }
 
-.form>.formGroup>.previewWrapperEdit>img {
+.form > .formGroup > .previewWrapperEdit > img {
     width: 320px;
     height: 150px;
     margin: 30px 0px;
@@ -101,21 +101,21 @@
     gap: 0.5rem;
 }
 
-.actions>a {
+.actions > a {
     color: black;
 }
 
-.actions>.icon:hover,
-.actions>a>.icon:hover {
+.actions > .icon:hover,
+.actions > a > .icon:hover {
     cursor: pointer;
     transform: scale(1.2);
 }
 
-.actions>a>:hover {
+.actions > a > :hover {
     color: green;
 }
 
-.actions>.icon:nth-child(2):hover {
+.actions > .icon:nth-child(2):hover {
     color: var(--red-primary);
 }
 
@@ -133,12 +133,12 @@
     padding: 20px 0px;
 }
 
-.container>.checkboxInput {
+.container > .checkboxInput {
     position: absolute;
     opacity: 0;
 }
 
-.container>.checkmark {
+.container > .checkmark {
     width: 25px;
     height: 25px;
     position: relative;
@@ -149,11 +149,11 @@
     transition: all 0.3s;
 }
 
-.container>.checkboxInput:checked~.checkmark {
+.container > .checkboxInput:checked~.checkmark {
     background-color: var(--red-primary);
 }
 
-.container>.checkmark::after {
+.container > .checkmark::after {
     content: "";
     width: 7px;
     height: 15px;
@@ -166,11 +166,11 @@
     transform: rotate(45deg);
 }
 
-.container>.checkboxInput:checked~.checkmark::after {
+.container > .checkboxInput:checked~.checkmark::after {
     display: block;
 }
 
-.formGroup>.fileInput {
+.formGroup > .fileInput {
     width: 100%;
     padding: 10px 10px;
     border: 2px dashed var(--red-primary);
@@ -183,17 +183,17 @@
     transition: background-color .3s, border-color .3s, color .3s;
 }
 
-.formGroup>.fileInput:hover {
+.formGroup > .fileInput:hover {
     background-color: rgba(255, 0, 0, 0.15);
     border-color: var(--red-primary);
     color: var(--red-primary);
 }
 
-.formGroup>.fileInput::-webkit-file-upload-button {
+.formGroup > .fileInput::-webkit-file-upload-button {
     visibility: hidden;
 }
 
-.formGroup>.fileInput::before {
+.formGroup > .fileInput::before {
     content: "📁";
     display: inline-block;
     background-color: var(--red-primary);
@@ -204,18 +204,18 @@
     transition: background-color .3s;
 }
 
-.formGroup>.fileInput:hover::before {
+.formGroup > .fileInput:hover::before {
     background-color: var(--red-primary);
 }
 
 @media (max-width: 480px) {
-    .eventsPage>.eventsPageHeader {
+    .eventsPage > .eventsPageHeader {
         flex-direction: column;
         text-align: center;
         gap: 30px;
     }
 
-    .eventsPage>.eventsPageHeader>.Categories {
+    .eventsPage > .eventsPageHeader > .Categories {
         font-size: 20px;
         margin: 20px 0px;
     }

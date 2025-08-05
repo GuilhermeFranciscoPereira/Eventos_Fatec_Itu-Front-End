@@ -26,35 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/@types/EventTypes`: Adicionado o type EventTypes para as tipagens relacionas aos eventos
+### `./src/components/CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.
 
-### `./src/app/(pages)/(private)/Events:` Tela para gerenciamento dos eventos da Fatec itu.
-
-### `./src/app/(pages)/(private)/Events/[id]:` Tela responsável para criação e edição dos eventos, dependendo apenas do parametro que chega pela url, se for /new cria um novo evento, se passar o Id vai editar aquele evento.
-
-### `./src/hooks/api/Events/:` Todas as requisições para o back-end nas rotas de /events/
-
-### `./src/hooks/api/Events/Delete:` Requisições DELETE nas rotas de /event/delete/:id
-
-### `./src/hooks/api/Events/useDeleteEvent.ts:` Hook que encapsula a lógica de remover um evento, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
-
-### `./src/hooks/api/Events/Get:` Requisições GET nas rotas de /event
-
-### `./src/hooks/api/Events/useGetAllevents.ts:` Responsável por carregar todos os eventos.
-
-### `./src/hooks/api/Events/useGetAvailabilityDates.ts:` Responsável por pegar do banco de dados todas os dias que possuem pelo menos 1 horário disponivel no local escolhido para o evento, evitando de ter dois eventos no mesmo local.
-
-### `./src/hooks/api/Events/useGetAvailabilityTimes.ts:` Responsável por pegar do banco de dados todas os horários disponiveis para não ocorrer que um evento sobreponha outro no mesmo dia, horario e local..
-
-### `./src/hooks/api/Events/Patch:` Requisições PATCH nas rotas de /event/patch/:id
-
-### `./src/hooks/api/Events/useEditEvent.ts:` Hook para editar um evento por completo, podendo substituir os valores.
-
-### `./src/hooks/api/Events/Post:` Requisições POST nas rotas de /event/create
-
-### `./src/hooks/api/Events/useCreateEvent.ts:` Responsável por criar um novo evento, fazendo a requisição para o back-end passando os valores corretos
-
-### `./src/hooks/pages/(private)/Events/useEventForm:` Todas as partes lógicas da tela de criação ou edição de eventos
+### `./src/hooks/api/Events/Get/useGetAllEvents:` Criado a função `useGetAllEventsPublic` para utilizar no componente CardEvents
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -117,6 +91,7 @@
     - `Buttons:`
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
         - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
+    - `CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.
     - `CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site

@@ -5,6 +5,7 @@
     top: 10px;
     height: 50vh;
     overflow: hidden;
+    margin-bottom: 30px;
     cursor: grab;
     border-radius: 10px;
     box-shadow: var(--box-shadow);
@@ -67,6 +68,6 @@
 @media (max-width: 480px) {
     .carousel {
         width: calc(95%);
-        height: 17vh;
+        height: 20vh;
     }
 }

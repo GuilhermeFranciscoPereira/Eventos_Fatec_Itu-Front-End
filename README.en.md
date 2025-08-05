@@ -26,35 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/@types/EventTypes`: Added the EventTypes type for event-related typing.
+### `./src/components/CardEvents:` Cards that display events to unauthenticated users. They only display events that haven't occurred yet. They contain brief information such as the photo, title, date and time, and speaker.
 
-### `./src/app/(pages)/(private)/Events:` Screen for managing Fatec ITU events.
-
-### `./src/app/(pages)/(private)/Events/[id]:` Screen responsible for creating and editing events, depending only on the parameter received via the URL. If it is /new, it creates a new event. If you pass the ID, it will edit that event.
-
-### `./src/hooks/api/Events/:` All requests to the backend on /events/ routes
-
-### `./src/hooks/api/Events/Delete:` DELETE requests on /event/delete/:id routes
-
-### `./src/hooks/api/Events/useDeleteEvent.ts:` Hook that encapsulates the logic of deleting an event, sending DELETE requests with CSRF protection and handling failures to display error messages.
-
-### `./src/hooks/api/Events/Get:` GET requests on /event routes
-
-### `./src/hooks/api/Events/useGetAllevents.ts:` Responsible for loading all events.
-
-### `./src/hooks/api/Events/useGetAvailabilityDates.ts:` Responsible for retrieving from the database all days that have at least one available time slot at the chosen event location, avoiding having two events at the same location.
-
-### `./src/hooks/api/Events/useGetAvailabilityTimes.ts:` Responsible for retrieving from the database all available times slot to prevent one event from overlapping another on the same day, time, and location.
-
-### `./src/hooks/api/Events/Patch:` PATCH requests on /event/patch/:id routes
-
-### `./src/hooks/api/Events/useEditEvent.ts:` Hook for editing an event completely, allowing for overriding values.
-
-### `./src/hooks/api/Events/Post:` POST requests on /event/create routes
-
-### `./src/hooks/api/Events/useCreateEvent.ts:` Responsible for creating a new event, making the request to the backend and passing the correct values
-
-### `./src/hooks/pages/(private)/Events/useEventForm:` All the logical parts of the event creation or editing screen
+### `./src/hooks/api/Events/Get/useGetAllEvents:` Created the `useGetAllEventsPublic` function for use in the CardEvents component.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -116,6 +90,7 @@
 - `./src/components:` Where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
         - `ButtonDarkMode:` Button responsible for managing the website's dark mode (light/dark mode). - `ButtonRay:` Button that is reused in various parts of the code, changing the text, etc., based on props.
+    - `CardEvents:` Cards that show events to unauthenticated users, they only show events that have not yet occurred, they contain brief information such as the photo, title, day and time and speaker.
     - `CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
@@ -156,7 +131,7 @@
                 - `useEditCategory.ts:` Hook responsible for sending partial data updates for an existing category via a PATCH request with CSRF, allowing modification of only the category name. 
             - `Post:` POST requests on /categories/ routes
                 - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
-        
+
         - `Events/:` All requests to the backend on /events/ routes
             - `Delete:` DELETE requests on /event/delete/:id routes
             - `useDeleteEvent.ts:` Hook that encapsulates the logic for deleting an event, sending DELETE requests with CSRF protection and handling failures to display error messages.
