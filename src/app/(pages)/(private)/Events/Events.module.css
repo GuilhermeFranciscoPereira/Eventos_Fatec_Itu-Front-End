@@ -111,11 +111,15 @@
     transform: scale(1.2);
 }
 
-.actions > a > :hover {
+.actions > a:nth-child(1):hover {
+    color: blue;
+}
+
+.actions > a:nth-child(2):hover {
     color: green;
 }
 
-.actions > .icon:nth-child(2):hover {
+.actions > .icon:nth-child(3):hover {
     color: var(--red-primary);
 }
 

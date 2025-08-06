@@ -1,0 +1,75 @@
+'use client';
+import Loader from '@/components/Loader';
+import { Table } from '@/components/Table';
+import { useParams } from 'next/navigation';
+import { TbFileTypePdf } from 'react-icons/tb';
+import { MdCheck, MdClose } from 'react-icons/md';
+import { ParticipantProps } from '@/@Types/ParticipantsTypes';
+import { useEditParticipant } from '@/hooks/api/Participants/Patch/useEditParticipant';
+import { useGetAllParticipants } from '@/hooks/api/Participants/Get/useGetAllParticipants';
+import styles from '@/app/(pages)/(private)/Events/Participants/[id]/Participants.module.css';
+
+export default function Participants(): React.ReactElement {
+    const { id } = useParams();
+    const updateParticipant = useEditParticipant();
+    const { participants, loading, refetch } = useGetAllParticipants(Number(id));
+
+    const schema = [
+        { id: 'name', header: 'Nome', accessor: (p: ParticipantProps) => p.name },
+        { id: 'email', header: 'Email', accessor: (p: ParticipantProps) => p.email },
+        {
+            id: 'student',
+            header: 'Estudante',
+            accessor: (p: ParticipantProps) =>
+                p.ra ? <MdCheck size={20} color='green' /> : <MdClose size={20} color='red' />,
+        },
+        {
+            id: 'createdAt',
+            header: 'Inscrito em',
+            accessor: (p: ParticipantProps) =>
+                new Date(p.createdAt).toLocaleString('pt-BR').replace(',', ' - '),
+        },
+        {
+            id: 'updatedAt',
+            header: 'Última atualização',
+            accessor: (p: ParticipantProps) =>
+                new Date(p.updatedAt).toLocaleString('pt-BR').replace(',', ' - '),
+        },
+        {
+            id: 'isPresent',
+            header: 'Presença',
+            accessor: () => null,
+            cellRenderer: (p: ParticipantProps) => (
+                <input
+                    type="checkbox"
+                    checked={p.isPresent}
+                    onChange={async () => {
+                        await updateParticipant(p.id, !p.isPresent);
+                        refetch();
+                    }}
+                />
+            ),
+        },
+    ];
+
+    return (
+        <main className={styles.participantsPage}>
+            <header className={styles.participantsPageHeader}>
+                <h1>Gerenciamento de Participantes</h1>
+                <div className={styles.buttonsParticipantsPage}>
+                    <button><TbFileTypePdf />Exportar por PDF</button>
+                    <button><TbFileTypePdf />Imprimir</button>
+                </div>
+            </header>
+            {loading && <Loader />}
+            <div className={styles.participantsTableWrapper}>
+                <Table<ParticipantProps>
+                    records={participants}
+                    schema={schema}
+                    getIdentifier={(p) => p.id}
+                    hiddenOnMobile={['email', 'createdAt', 'updatedAt']}
+                />
+            </div>
+        </main>
+    );
+}

@@ -26,7 +26,17 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Filters:` add combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in: `CardEvents`
+### `./src/@Types/ParticipantsTypes:` Added entry for participant properties
+
+### `./src/app/(pages)/(private)/Events/Participants/[id]:` Created a page that displays the participants of the desired event, including their name, email address, student status (RA), registration date, last edit date, and the option to mark attendance.
+
+### `./src/hooks/api/Participants/Get:` Folder responsible for handling GET requests on the /participants/ routes
+
+### `./src/hooks/api/Participants/Get/useGetAllParticipants:` Returns all participants of a given event based on the event ID, which comes through props.
+
+### `./src/hooks/api/Participants/Patch:` Folder responsible for handling PATCH requests on the /participants/patch/:id routes.
+
+### `./src/hooks/api/Participants/Patch/useEditParticipants:` Updates the isPresent ( boolean ) field of the Participant table based on the event ID and, within this event, the participant ID, thus updating as the user updates the checkbox on the frontend.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -78,6 +88,7 @@
         - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
         - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
         - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit or delete each event, integrating with the API hooks at: ./src/hooks/api/Events/
+            - `Participants:` Page that shows who are the participants of the desired event, showing the name, email, whether they are a student or not based on whether they have RA or not, registration date, date of last edition, and option to mark attendance.
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
         - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
@@ -145,8 +156,12 @@
             - `useCreateEvent.ts:` Responsible for creating a new event, making the request to the backend and passing the correct values
 
         - `Participants:` All requests to the backend on the /participants/ routes
+            - `Get:` GET requests on the /participants/ routes
+                - `useGetAllParticipants:` Returns all participants of a given event based on the event ID provided via props
+            - `Patch:` PATCH requests on the /participants/patch/:id routes
+                - `useEditParticipants:` Updates the isPresent (boolean) field of the Participant table based on the event ID and, within that event, the participant ID, updating as the user updates the checkbox on the front end.
             - `Post:` POST requests on the /participants/create routes
-            - `useCreateParticipant:` Responsible for adding a new person to a specific event, making the request to the backend
+                - `useCreateParticipant:` Responsible for adding a new person to a specific event, making the request to the backend.
 
         - `Users` All requests to the backend on the /users/ routes
             - `Delete:` DELETE requests on /users/ routes

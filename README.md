@@ -26,7 +26,17 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Filters:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em: `CardEvents`  
+### `./src/@Types/ParticipantsTypes:` Adicionado a tipagem das propriedades dos participantes
+
+### `./src/app/(pages)/(private)/Events/Participants/[id]:` Criado a página que mostra quais são os participantes do evento desejado, trazendo o nome, email, se é aluno ou não com base se possui ra ou não, data de inscrição, data de última edição, e opção para marcar a presença.
+
+### `./src/hooks/api/Participants/Get:` Pasta responsável por lidar com as requisições GET nas rotas de /participants/
+
+### `./src/hooks/api/Participants/Get/useGetAllParticipants:` Retorna todos os participantes de um determinado evento com base no id do evento que vem através da props
+
+### `./src/hooks/api/Participants/Patch:` Pasta responsável por lidar com as requisições PATCH nas rotas de /participants/patch/:id
+
+### `./src/hooks/api/Participants/Patch/useEditParticipants:` Atualiza o campo isPresent ( boolean ) da tabela Participant com base no ID do evento e dentro deste evento o ID do participante, assim atualizando conforme o usuário atualiza o checkbox no front
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -78,6 +88,7 @@
         - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: ./src/hooks/api/Carousel
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: ./src/hooks/api/Categories/
         - `Events:` Tela de gerenciamento dos eventos, responsável por exibir a lista dos eventos cadastrados e oferecer as ações de criar, editar ou excluir cada evento, integrando-se aos hooks de API em: ./src/hooks/api/Events/
+            - `Participants:` Página que mostra quais são os participantes do evento desejado, trazendo o nome, email, se é aluno ou não com base se possui ra ou não, data de inscrição, data de última edição, e opção para marcar a presença.
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: ./src/hooks/api/Users/
     - `(public):` Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
         - `page.tsx`: Nossa primeira página, também conhecido como o nosso "home", é a tela em que o usuário visualiza assim que acessa o site.
@@ -148,6 +159,10 @@
                 - `useCreateEvent.ts:` Responsável por criar um novo evento, fazendo a requisição para o back-end passando os valores corretos
         
         - `Participants:` Todas as requisições para o back-end nas rotas de /participants/
+            - `Get:` Requisições GET nas rotas de /participants/
+                - `useGetAllParticipants:` Retorna todos os participantes de um determinado evento com base no id do evento que vem através da props
+            - `Patch:` Requisições PATCH nas rotas de /participants/patch/:id
+                - `useEditParticipants:` Atualiza o campo isPresent ( boolean ) da tabela Participant com base no ID do evento e dentro deste evento o ID do participante, assim atualizando conforme o usuário atualiza o checkbox no front
             - `Post:` Requisições POST nas rotas de /participants/create
                 - `useCreateParticipant:` Responsável por adicionar uma nova pessoa à um evento especifico, fazendo a requisição para o back-end
         

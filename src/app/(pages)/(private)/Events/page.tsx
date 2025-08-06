@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Loader from '@/components/Loader';
+import { TiGroup } from 'react-icons/ti';
 import { Table } from '@/components/Table';
 import { EventProps } from '@/@Types/EventTypes';
 import { Cloudinary } from '@cloudinary/url-gen';
@@ -47,6 +48,12 @@ export default function Events(): React.ReactElement {
             accessor: () => null,
             cellRenderer: (e: EventProps) => (
                 <div className={styles.actions}>
+                    <Link href={`/Events/Participants/${e.id}`}>
+                        <TiGroup
+                            size={20}
+                            className={styles.icon}
+                        />
+                    </Link>
                     <Link href={`/Events/${e.id}`}>
                         <MdEdit
                             size={20}
