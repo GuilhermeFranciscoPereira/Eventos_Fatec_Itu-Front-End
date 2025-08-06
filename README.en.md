@@ -26,17 +26,23 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/@Types/ParticipantsTypes:` Added entry for participant properties
+### `./package.json:` Added two libraries to enable PDF downloads: `jspdf` `html2canvas` libraries that will be used in the file: `./src/utils/downloadSectionAsPdf`
 
-### `./src/app/(pages)/(private)/Events/Participants/[id]:` Created a page that displays the participants of the desired event, including their name, email address, student status (RA), registration date, last edit date, and the option to mark attendance.
+> Commands used:
 
-### `./src/hooks/api/Participants/Get:` Folder responsible for handling GET requests on the /participants/ routes
+```bash
+npm i jspdf
+```
 
-### `./src/hooks/api/Participants/Get/useGetAllParticipants:` Returns all participants of a given event based on the event ID, which comes through props.
+```bash
+npm i html2canvas
+```
 
-### `./src/hooks/api/Participants/Patch:` Folder responsible for handling PATCH requests on the /participants/patch/:id routes.
+### `./src/utils:` Created a folder that groups generic utility functions, without dependencies on specific components, used throughout the application for common DOM and export operations.
 
-### `./src/hooks/api/Participants/Patch/useEditParticipants:` Updates the isPresent ( boolean ) field of the Participant table based on the event ID and, within this event, the participant ID, thus updating as the user updates the checkbox on the frontend.
+### `./src/utils/downloadSectionAsPdf:` Function that captures a section of the page (identified by ID) and generates a PDF file with its full extension, including A4 page breaks. It allows the user to download any part of the interface as a portable document, already used in the page: `Events/Participants`.
+
+### `./src/utils/printSection:` Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, maintaining the exact colors of the table header. Used to trigger the browser's print dialog and print only the desired content, already used on the page: `Events/Participants`.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -88,7 +94,7 @@
         - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
         - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
         - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit or delete each event, integrating with the API hooks at: ./src/hooks/api/Events/
-            - `Participants:` Page that shows who are the participants of the desired event, showing the name, email, whether they are a student or not based on whether they have RA or not, registration date, date of last edition, and option to mark attendance.
+            - `Participants:` Page that shows who are the participants of the desired event, showing the name, email, RA, registration date and option to mark attendance.
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
         - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
@@ -198,6 +204,10 @@
         - `index.ts:` Responsible for orchestrating the display, progress animation, and automatic closing of toasts throughout the application.
     - `useUserStore:`
         - `index.ts:` To set the user in the application
+
+- `./src/utils:` Folder that groups generic utility functions, without dependence on specific components, used throughout the application for common DOM and export operations.
+    - `downloadSectionAsPdf.ts:` Function that captures a section of the page (identified by ID) and generates a PDF file with its full extension, including A4 page breaks. This allows the user to download any part of the interface as a portable document.
+    - `printSection.ts:` Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, while maintaining the exact colors of the table header. This function triggers the browser's print dialog and prints only the desired content.
 
 ## ❔ How to run the project on my machine?
 
