@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useToastStore } from '@/stores/useToastStore';
-import type { Course, EventPublicResponse, Semester } from '@/@Types/EventTypes';
+import type { EventPublicResponse } from '@/@Types/EventTypes';
 
-type useEventDetailProps = {
+type useGetEventByIdProps = {
     event: EventPublicResponse | null;
     loading: boolean;
 }
 
-export function useEventDetail(id: number): useEventDetailProps {
+export function useGetEventById(id: number): useGetEventByIdProps {
     const [event, setEvent] = useState<EventPublicResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const showToast = useToastStore(s => s.showToast);
@@ -15,7 +15,7 @@ export function useEventDetail(id: number): useEventDetailProps {
     useEffect(() => {
         async function fetchEvent() {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/${id}`);
+                const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/${id}`);
                 if (!response.ok) throw new Error(`Status: ${response.status}`);
                 const data = (await response.json()) as EventPublicResponse;
                 setEvent(data);
@@ -28,7 +28,6 @@ export function useEventDetail(id: number): useEventDetailProps {
         }
         fetchEvent();
     }, [id, showToast]);
-
 
     return { event, loading };
 }

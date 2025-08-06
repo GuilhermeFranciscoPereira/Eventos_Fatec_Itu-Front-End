@@ -26,15 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/@types/ParticipantsTypes:` Criado as tipagens compartilhadas da tela de Participantes
-
-### `./src/app/(pages)/(public)/EventDetail/[id]:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento
-
-### `./src/hooks/api/Participants/:` Todas as requisições para o back-end nas rotas de /participants/
-
-### `./src/hooks/api/Participants/Post:` Requisições POST nas rotas de /participants/create
-
-### `./src/hooks/api/Participants/Post/useCreateParticipant:` Responsável por adicionar uma nova pessoa à um evento especifico, fazendo a requisição para o back-end
+### `./src/components/Filters:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em: `CardEvents`  
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -102,6 +94,7 @@
     - `CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.
     - `CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
+    - `Filters:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em CardEvents
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
     - `Inputs:`
         - `InputDefault:` Input reutilizável alterando os dados com base nas props recebidas

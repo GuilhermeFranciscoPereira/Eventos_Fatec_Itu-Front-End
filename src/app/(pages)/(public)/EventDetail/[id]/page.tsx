@@ -11,7 +11,7 @@ import { useModalStore } from '@/stores/useModalStore';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import InputDefault from '@/components/Inputs/InputDefault';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
-import { useEventDetail } from '@/hooks/pages/(public)/EventDetail/useEventDetail';
+import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
 import { useCreateParticipant } from '@/hooks/api/Participants/Post/useCreateParticipant';
 import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription } from 'react-icons/md';
@@ -34,7 +34,7 @@ export default function EventDetail(): React.ReactElement {
     const eventId = Number(id);
     const createParticipant = useCreateParticipant();
     const openModal = useModalStore(s => s.openModal);
-    const { event, loading } = useEventDetail(eventId);
+    const { event, loading } = useGetEventById(eventId);
 
     const raRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);

@@ -26,15 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/@types/ParticipantsTypes:` Created shared typing for the Participants screen
-
-### `./src/app/(pages)/(public)/EventDetail/[id]:` Screen to show the event in more detail to unauthenticated users, also allowing them to register for the event.
-
-### `./src/hooks/api/Participants/:` All requests to the backend on the /participants/ routes
-
-### `./src/hooks/api/Participants/Post:` POST requests on the /participants/create routes
-
-### `./src/hooks/api/Participants/Post/useCreateParticipant:` Responsible for adding a new person to a specific event, making the request to the backend.
+### `./src/components/Filters:` add combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in: `CardEvents`
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -101,6 +93,7 @@
     - `CardEvents:` Cards that show events to unauthenticated users, they only show events that have not yet occurred, they contain brief information such as the photo, title, day and time and speaker.
     - `CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
+    - `Filters:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
     - `Inputs:`
         - `InputDefault:` Reusable input that changes data based on received props.
