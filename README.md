@@ -26,23 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./package.json:` Adicionado duas bibliotecas para permitir o download em PDF: `jspdf` `html2canvas` bibliotecas que serão utilizadas no arquivo: `./src/utils/downloadSectionAsPdf`
-
-> Comandos utilizados:
-
-```bash
-npm i jspdf
-```
-
-```bash
-npm i html2canvas
-```
-
-### `./src/utils:` Criado a pasta que agrupa funções utilitárias genéricas, sem dependência de componentes específicos, usadas em toda a aplicação para operações comuns de DOM e exportação.
-
-### `./src/utils/downloadSectionAsPdf:` Função que captura uma seção da página (identificada por ID) e gera um arquivo PDF com toda a sua extensão, incluindo quebras de página em A4. Serve para permitir ao usuário baixar qualquer parte da interface como documento portátil, já utilizado na página: `Events/Participants`.
-
-### `./src/utils/printSection:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado, já utilizado na página: `Events/Participants`.
+### `./src/components/Inputs/InputCheckbox:` Criado o input de checkbox que é reutilizável no código para campos booleanos e adicionado para os inputs checkbox antigos do código
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -114,6 +98,7 @@ npm i html2canvas
     - `Filters:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em CardEvents
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
     - `Inputs:`
+        - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
         - `InputDefault:` Input reutilizável alterando os dados com base nas props recebidas
     - `Loader:` Componente que mostra ao usuário que algo está carregando
     - `Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.

@@ -10,6 +10,7 @@ import ButtonRay from '@/components/Buttons/ButtonRay';
 import { useModalStore } from '@/stores/useModalStore';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import InputDefault from '@/components/Inputs/InputDefault';
+import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
@@ -137,9 +138,11 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
         <form ref={ref} className={styles.form}>
             <div className={styles.checkboxGroup}>
                 {!onlyStudents &&
-                    <label>
-                        <input type="checkbox" checked={isStudent} onChange={() => setIsStudent(!isStudent)} /> Sou aluno
-                    </label>
+                    <InputCheckbox
+                        checked={isStudent}
+                        label="Sou aluno"
+                        onChange={() => setIsStudent(!isStudent)}
+                    />
                 }
             </div>
             <InputDefault ref={nameRef} label="Nome completo" required />

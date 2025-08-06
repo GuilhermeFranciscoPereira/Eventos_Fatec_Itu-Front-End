@@ -10,6 +10,7 @@ import { useToastStore } from '@/stores/useToastStore';
 import { useModalStore } from '@/stores/useModalStore';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import InputDefault from '@/components/Inputs/InputDefault';
+import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import styles from '@/app/(pages)/(private)/Carousel/Carousel.module.css';
 import { useCreateCarousel } from '@/hooks/api/Carousel/Post/useCreateCarousel';
 import { useGetAllCarousels } from '@/hooks/api/Carousel/Get/useGetAllCarousels';
@@ -48,10 +49,11 @@ export default function Carousel(): React.ReactElement {
             accessor: () => null,
             cellRenderer: (c: CarouselProps) => (
                 <div className={styles.actions}>
-                    <label className={styles.container}>
-                        <input type="checkbox" checked={c.isActive} onChange={() => handleToggle(c.id, !c.isActive)} className={styles.checkboxInput} />
-                        <div className={styles.checkmark} />
-                    </label>
+                    <InputCheckbox
+                        checked={c.isActive}
+                        label="Imagem deve aparecer no carrossel?"
+                        onChange={() => handleToggle(c.id, !c.isActive)}
+                    />
                     <MdEdit size={25} className={styles.icon} onClick={() => handleEdit(c)} />
                     <MdDelete size={25} className={styles.icon} onClick={() => handleDelete(c)} />
                 </div>
@@ -93,13 +95,11 @@ export default function Carousel(): React.ReactElement {
                 <form className={styles.form}>
                     <InputDefault ref={nameRef} label="Título da imagem" />
                     <InputDefault ref={orderRef} label="Ordem no carrossel" type="number" min={1} />
-                    <div className={styles.formGroup}>
-                        <label className={`${styles.container} ${styles.containerInputWithText}`}>
-                            <input ref={activeRef} type="checkbox" className={styles.checkboxInput} defaultChecked />
-                            <div className={styles.checkmark} />
-                            <p>Imagem deve aparecer no carrossel?</p>
-                        </label>
-                    </div>
+                    <InputCheckbox
+                        ref={activeRef}
+                        defaultChecked
+                        label="Imagem deve aparecer no carrossel?"
+                    />
                     <div className={styles.formGroup}>
                         <input ref={fileRef} type="file" accept="image/*" className={styles.fileInput} />
                     </div>
@@ -133,13 +133,11 @@ export default function Carousel(): React.ReactElement {
                 <form className={styles.form}>
                     <InputDefault ref={nameRef} label="Título da imagem" defaultValue={item.name} />
                     <InputDefault ref={orderRef} label="Ordem" type="number" min={1} defaultValue={String(item.order)} />
-                    <div className={styles.formGroup}>
-                        <label className={`${styles.container} ${styles.containerInputWithText}`}>
-                            <input ref={activeRef} type="checkbox" className={styles.checkboxInput} defaultChecked={item.isActive} />
-                            <div className={styles.checkmark} />
-                            <p>Imagem deve aparecer no carrossel?</p>
-                        </label>
-                    </div>
+                    <InputCheckbox
+                        ref={activeRef}
+                        label="Imagem deve aparecer no carrossel?"
+                        defaultChecked={item.isActive}
+                    />
                     <div className={styles.formGroup}>
                         <div className={styles.previewWrapperEdit}>
                             <Preview src={item.imageUrl} alt={item.name} height={1000} width={1000} />

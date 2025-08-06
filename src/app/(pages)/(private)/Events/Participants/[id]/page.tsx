@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { TbFileTypePdf } from 'react-icons/tb';
 import { printSection } from '@/utils/printSection';
 import { ParticipantProps } from '@/@Types/ParticipantsTypes';
+import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { downloadSectionAsPdf } from '@/utils/downloadSectionAsPdf';
 import { useEditParticipant } from '@/hooks/api/Participants/Patch/useEditParticipant';
 import { useGetAllParticipants } from '@/hooks/api/Participants/Get/useGetAllParticipants';
@@ -34,8 +35,7 @@ export default function Participants(): React.ReactElement {
             header: 'Presença',
             accessor: () => null,
             cellRenderer: (p: ParticipantProps) => (
-                <input
-                    type="checkbox"
+                <InputCheckbox
                     checked={p.isPresent}
                     onChange={async () => {
                         await updateParticipant(p.id, !p.isPresent);

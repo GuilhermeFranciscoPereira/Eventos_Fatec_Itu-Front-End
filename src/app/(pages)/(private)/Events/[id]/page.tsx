@@ -9,6 +9,7 @@ import { AdvancedImage } from '@cloudinary/react';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import InputDefault from '@/components/Inputs/InputDefault';
+import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
@@ -148,10 +149,10 @@ export default function EventForm(): React.ReactElement {
           </select>
         </div>
         <div className={styles.row}>
-          <label className={styles.checkboxWrapper}>
-            <input ref={restrictedRef} type="checkbox" className={styles.checkboxInput} />
-            Evento Restrito?
-          </label>
+          <InputCheckbox
+            ref={restrictedRef}
+            label="Evento Restrito?"
+          />
         </div>
         <textarea
           ref={descRef}

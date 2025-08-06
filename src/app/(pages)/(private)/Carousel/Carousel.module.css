@@ -63,57 +63,6 @@
     color: var(--red-primary);
 }
 
-.container {
-    position: relative;
-    cursor: pointer;
-}
-
-.containerInputWithText {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px 0px;
-}
-
-.container > .checkboxInput {
-    position: absolute;
-    opacity: 0;
-}
-
-.container > .checkmark {
-    width: 25px;
-    height: 25px;
-    position: relative;
-    border: 2px solid #323232;
-    border-radius: 5px;
-    box-shadow: 4px 4px #323232;
-    background-color: #ccc;
-    transition: all 0.3s;
-}
-
-.container > .checkboxInput:checked~.checkmark {
-    background-color: var(--red-primary);
-}
-
-.container > .checkmark::after {
-    content: "";
-    width: 7px;
-    height: 15px;
-    position: absolute;
-    top: 0px;
-    left: 6px;
-    display: none;
-    border: solid #fff;
-    border-width: 0 2.5px 2.5px 0;
-    transform: rotate(45deg);
-}
-
-.container > .checkboxInput:checked~.checkmark::after {
-    display: block;
-}
-
 .formGroup > .fileInput {
     width: 100%;
     padding: 10px 10px;

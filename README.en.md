@@ -26,23 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./package.json:` Added two libraries to enable PDF downloads: `jspdf` `html2canvas` libraries that will be used in the file: `./src/utils/downloadSectionAsPdf`
-
-> Commands used:
-
-```bash
-npm i jspdf
-```
-
-```bash
-npm i html2canvas
-```
-
-### `./src/utils:` Created a folder that groups generic utility functions, without dependencies on specific components, used throughout the application for common DOM and export operations.
-
-### `./src/utils/downloadSectionAsPdf:` Function that captures a section of the page (identified by ID) and generates a PDF file with its full extension, including A4 page breaks. It allows the user to download any part of the interface as a portable document, already used in the page: `Events/Participants`.
-
-### `./src/utils/printSection:` Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, maintaining the exact colors of the table header. Used to trigger the browser's print dialog and print only the desired content, already used on the page: `Events/Participants`.
+### `./src/components/Inputs/InputCheckbox:` Created the checkbox input that is reusable in the code for boolean fields and added it to the old checkbox inputs in the code
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -113,6 +97,7 @@ npm i html2canvas
     - `Filters:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
     - `Inputs:`
+        - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
         - `InputDefault:` Reusable input that changes data based on received props.
     - `Loader:` Component that shows the user that something is loading.
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
