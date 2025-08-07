@@ -26,7 +26,11 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Inputs/InputCheckbox:` Criado o input de checkbox que é reutilizável no código para campos booleanos e adicionado para os inputs checkbox antigos do código
+### `./src/components/Sidebar:` Adicionado um novo <li> para abrir um modal e liberar as opções para editar o próprio perfil, permitindo editar: nome e foto de perfil.
+
+### `./src/hooks/api/Users/Patch/useEditPersonalProfile:` Criado o hook para fazer a requisição para o back-end do método PATCH que possibilita trocar o nome e a foto de perfil do próprio usuário.
+
+### `./src/stores/useUserStore:` Adicionado a possibilidade de fazer um reload para atualizar os dados após o usuário trocar seus dados, fazendo assim atualizar instantaneamente.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -163,6 +167,7 @@
             - `Get:` Requisições GET nas rotas de /users/
                 - `useGetAllUsers.ts:` Hook que realiza a recuperação de toda a lista de usuários via requisição GET, gerenciando estados de carregamento, erro e atualizando automaticamente a rota caso o usuário não esteja autorizado.
             - `Patch:` Requisições PATCH nas rotas de /users/patch/
+                - `useEditPersonalProfile:` Hook que possibilita trocar o nome e a foto do próprio perfil.
                 - `useEditUser.ts:` Hook responsável por enviar atualizações parciais de dados de um usuário existente através de uma requisição PATCH com CSRF, permitindo modificar nome, e-mail, senha ou nível de acesso.
             - `Post:` Requisições POST nas rotas de /users/post/
                 - `useCreateUser.ts:` Hook para criar um novo usuário no sistema via requisição POST, construindo o payload tipado com nome, e-mail, senha e cargo, e incluindo proteção CSRF para garantir a segurança da operação.

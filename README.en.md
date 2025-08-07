@@ -26,7 +26,13 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Inputs/InputCheckbox:` Created the checkbox input that is reusable in the code for boolean fields and added it to the old checkbox inputs in the code
+### `./src/components/Sidebar:` Added a new <li> to open a modal and provide options for editing the user's profile, allowing them to edit their name and profile picture.
+
+### `./src/hooks/api/Users/Patch/useEditPersonalProfile:` Created a hook to request the PATCH method backend, which allows users to change their name and profile picture.
+
+### `./src/stores/useUserStore:` Added the ability to reload data after the user changes their information, allowing it to update instantly.
+
+git commit -m "feat(components/Sidebar): added a new <li> to open a modal and provide options for editing the user's profile, allowing them to edit their name and profile picture"
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -160,6 +166,7 @@
             - `Get:` GET requests on /users/ routes
                 - `useGetAllUsers.ts:` Hook that retrieves the entire user list via GET request, managing loading and error states, and automatically updating the route if the user is not authorized.
             - `Patch:` PATCH requests on /users/ routes
+                - `useEditPersonalProfile:` Hook that allows you to change your profile name and photo.
                 - `useEditUser.ts:` Hook responsible for sending partial updates to an existing user's data via a PATCH request with CSRF, allowing modification of name, email, password, or access level.
             - `Post:` POST requests on /users/ routes
                 - `useCreateUser.ts:` Hook to create a new user in the system via POST request, building the payload typed with name, email, password, and position, and including CSRF protection to ensure the security of the operation.

@@ -94,35 +94,43 @@
     padding: 20px 0;
 }
 
-.sidebar > nav > ul > li > a {
+.sidebar > nav > ul > li > button {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+}
+
+.sidebar > nav > ul > li > a, .sidebar > nav > ul > li > button {
     display: flex;
     align-items: center;
     gap: 15px;
     padding: 15px 20px;
+    font-size: inherit;
     color: var(--text-color);
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
 }
 
-.sidebar > nav > ul > li > a:not(.closed):hover {
+.sidebar > nav > ul > li > a:not(.closed):hover, .sidebar > nav > ul > li > button:not(.closed):hover {
     background: var(--background-reverse);
     color: var(--text-color-reverse);
 }
 
-.sidebar > nav > ul > li > a > span {
+.sidebar > nav > ul > li > a > span, .sidebar > nav > ul > li > button > span {
     opacity: 0;
     visibility: hidden;
     white-space: nowrap;
     transition: opacity 0.3s ease 0.3s;
 }
 
-.sidebar:not(.closed):hover > nav > ul > li > a > span {
+.sidebar:not(.closed):hover > nav > ul > li > a > span, .sidebar:not(.closed):hover > nav > ul > li > button > span {
     opacity: 1;
     visibility: visible;
 }
 
 .sidebar > .profile,
-.sidebar > a {
+.sidebar > a,
+.sidebar > button {
     display: flex;
     align-items: center;
     margin-top: auto;
@@ -131,12 +139,11 @@
     gap: 10px;
 }
 
-/* Tag <Link / >  */
 .sidebar > a > div {
     width: 100%;
 }
 
-.sidebar > .profile > img {
+.sidebar > .profile > img, .sidebar > .profile > svg {
     width: 45px;
     height: 45px;
     border-radius: 100%;
@@ -183,6 +190,55 @@
 .sidebar > .profile > .info > p,
 .sidebar > .profile > .info > small {
     margin: 0;
+}
+
+.profileForm > .formGroup {
+    text-align: start;
+    margin-top: 30px;
+}
+
+.profileForm > .formGroup > label {
+    font-size: 18px;
+    color: var(--red-primary);
+    margin: 30px 0px 0px 10px;
+}
+
+.profileForm > .formGroup > .fileInput {
+    width: 100%;
+    padding: 10px 10px;
+    border: 2px dashed var(--red-primary);
+    border-radius: 8px;
+    background-color: rgba(255, 0, 0, 0.1);
+    color: var(--red-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .3s, border-color .3s, color .3s;
+}
+
+.profileForm > .formGroup > .fileInput:hover {
+    background-color: rgba(255, 0, 0, 0.15);
+    border-color: var(--red-primary);
+    color: var(--red-primary);
+}
+
+.profileForm > .formGroup > .fileInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.profileForm > .formGroup > .fileInput::before {
+    content: "📁";
+    display: inline-block;
+    background-color: var(--red-primary);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    margin-right: -125px;
+    border-radius: 4px;
+    transition: background-color .3s;
+}
+
+.profileForm > .formGroup > .fileInput:hover::before {
+    background-color: var(--red-primary);
 }
 
 @media (max-width: 480px) {

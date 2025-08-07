@@ -12,6 +12,6 @@ export async function getMe(): Promise<UserJwtProps | null> {
     } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);
         console.log('Error in: useCodeInputValidation() <---> Erro:', msg);
-        return null;
+        return null;    
     }
 }

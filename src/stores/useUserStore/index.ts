@@ -5,6 +5,7 @@ import { UserJwtProps } from '@/@Types/UserJwtProps';
 type UserStore = {
     user: UserJwtProps | null;
     setUser: (user: UserJwtProps | null) => void;
+    reload: () => Promise<void>;
 };
 
 export const useUserStore = create<UserStore>((set) => {
@@ -18,5 +19,9 @@ export const useUserStore = create<UserStore>((set) => {
     return {
         user: null,
         setUser: (user) => set({ user }),
+        reload: async () => {
+            const user = await getMe();
+            set({ user });
+        },
     }
 });
