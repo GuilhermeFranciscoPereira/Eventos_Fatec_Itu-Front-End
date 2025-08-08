@@ -26,13 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Sidebar:` Added a new <li> to open a modal and provide options for editing the user's profile, allowing them to edit their name and profile picture.
-
-### `./src/hooks/api/Users/Patch/useEditPersonalProfile:` Created a hook to request the PATCH method backend, which allows users to change their name and profile picture.
-
-### `./src/stores/useUserStore:` Added the ability to reload data after the user changes their information, allowing it to update instantly.
-
-git commit -m "feat(components/Sidebar): added a new <li> to open a modal and provide options for editing the user's profile, allowing them to edit their name and profile picture"
+### `./src/components/Sidebar:` Fixed the fact that when clicking on the Login button it closes the sidebar, which did not happen previously
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

@@ -95,7 +95,7 @@ export default function Sidebar(): React.ReactElement {
                     </div>
                 </div>
                 :
-                <Link href={'/Login'}>
+                <Link href={'/Login'} onClick={toggle}>
                     <div className={styles.profile}>
                         <ButtonRay text='Login' type='button' />
                     </div>
