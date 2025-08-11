@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Sidebar:` Fixed the fact that when clicking on the Login button it closes the sidebar, which did not happen previously
+### `./src/middleware.ts:` Fixed the fact that it was not possible to access the dynamic routes of: EventDetail/[id] But now it is possible because the type was added to the object which can be: exact (exact route) or dynamic (dynamic route) and thus performing validation and allowing non-authenticated users to access this route
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

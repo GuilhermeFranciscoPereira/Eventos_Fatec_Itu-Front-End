@@ -17,16 +17,17 @@ type jwtPayloadProps = {
 
 type publicRoutesProps = {
     path: string;
+    type: 'exact' | 'dynamic';
     whenAuthenticated: 'redirect' | 'next';
 };
 
 // Here it´s only to the routes publics, if a route it´s not here it´s not public
 const publicRoutes: Array<publicRoutesProps> = [
-    { path: '/', whenAuthenticated: 'next' },
-    { path: '/Login', whenAuthenticated: 'redirect' },
-    { path: '/Login/TwoFactor', whenAuthenticated: 'redirect' },
-    { path: '/Login/ResetPassword', whenAuthenticated: 'redirect' },
-    { path: '/EventDetail/', whenAuthenticated: 'next' },
+    { path: '/', type: 'exact', whenAuthenticated: 'next' },
+    { path: '/Login', type: 'exact', whenAuthenticated: 'redirect' },
+    { path: '/Login/TwoFactor', type: 'exact', whenAuthenticated: 'redirect' },
+    { path: '/Login/ResetPassword', type: 'exact', whenAuthenticated: 'redirect' },
+    { path: '/EventDetail', type: 'dynamic', whenAuthenticated: 'next' },
 ] as const;
 
 function isJwtExpired(token: string): 'Expired' | 'Not expired' {
@@ -41,7 +42,7 @@ function isJwtExpired(token: string): 'Expired' | 'Not expired' {
 }
 
 export function middleware(request: NextRequest) {
-    const publicRoute: publicRoutesProps | undefined = publicRoutes.find(route => route.path === request.nextUrl.pathname);
+    const publicRoute: publicRoutesProps | undefined = publicRoutes.find(route => route.type === 'exact' ? request.nextUrl.pathname === route.path : request.nextUrl.pathname.startsWith(`${route.path}/`));
     const authToken: string | undefined = request.cookies.get(cookieName)?.value;
 
     // User not authenticated ( without token JWT )

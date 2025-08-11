@@ -26,7 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Sidebar:` Corrigido o fato de quando clica no botão de Login ele fecha o sidebar, o que não ocorria anteriormente
+### `./src/middleware.ts:` Arrumado o fato de que não era possivel acessar as rotas dinamicas de: EventDetail/[id] Mas agora foi possivel pois adicionado o type ao objeto que pode ser: exact ( rota exata ) ou dynamic ( rota dinamica ) e assim fazendo a validação e liberando os usuários não autenticados para acessarem esta rota
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
