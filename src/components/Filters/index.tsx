@@ -67,6 +67,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                     <input
                         id="filter-start"
                         type="date"
+                        min={new Date().toISOString().split('T')[0]}
                         value={startDate}
                         onChange={(e) => {
                             setStartDate(e.target.value);

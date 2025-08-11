@@ -30,7 +30,7 @@
 
 .container > .wrapper > .table > tbody > tr > .cell {
     padding: 15px 20px;
-    font-size: 0.875rem;
+    font-size: 1rem;
     border-bottom: 1px solid grey;
 }
 

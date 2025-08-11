@@ -16,7 +16,6 @@
 
 @media (max-width: 480px) {
     .header {
-        position: relative;
         justify-content: center;
         padding: 10px;
     }

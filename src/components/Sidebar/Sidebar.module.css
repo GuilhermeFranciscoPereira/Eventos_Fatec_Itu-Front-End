@@ -243,15 +243,16 @@
 
 @media (max-width: 480px) {
     .sidebar {
-        position: absolute;
+        position: fixed;
         top: 0px;
         left: 0px;
         border: none;
-        width: 60px;
+        width: 65px;
         height: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
+        border-bottom: 1px solid var(--red-primary);
     }
 
     .sidebar > .logo > span,

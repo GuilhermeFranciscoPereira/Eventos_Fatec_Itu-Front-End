@@ -26,9 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Header:` O layout apresentava um problema onde o header não permanecia fixo no topo de forma consistente, causando sobreposição com o conteúdo e a sidebar quando o usuário rolava a página. Isso acontecia porque o header estava com position: sticky e height: fit-content, o que variava conforme o conteúdo interno, e a sidebar estava posicionada com base em um cálculo fixo, resultando em desalinhamento e comportamento visual indesejado. Foi alterado o header de position: sticky para position: fixed para garantir que ele permaneça sempre fixo no topo, independentemente do scroll, definido uma altura fixa de 70px para o header.
-
-### `./src/app/globals.css:` Adicionado um paddind-top de 70px para lidar com o header e não ficar "abaixo" dele
+### `styles:` Alterações de estilizações, como: remoção de padding, alinhamento de texto, mudança de font-size e ajustes de height.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

@@ -24,6 +24,7 @@ export default forwardRef<HTMLInputElement, InputDefaultProps>(
                         id={inputId}
                         className={styles.inputField}
                         type={type === 'password' && showPassword ? 'text' : type}
+                        autoComplete='off'
                         required
                     />
                     <label htmlFor={inputId} className={styles.label}>

@@ -51,9 +51,8 @@ export default function Carousel(): React.ReactElement {
                 <div className={styles.actions}>
                     <InputCheckbox
                         checked={c.isActive}
-                        label="Imagem deve aparecer no carrossel?"
                         onChange={() => handleToggle(c.id, !c.isActive)}
-                    />
+                    />  
                     <MdEdit size={25} className={styles.icon} onClick={() => handleEdit(c)} />
                     <MdDelete size={25} className={styles.icon} onClick={() => handleDelete(c)} />
                 </div>

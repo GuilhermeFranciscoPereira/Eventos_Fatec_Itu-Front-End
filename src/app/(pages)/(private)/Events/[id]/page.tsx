@@ -149,10 +149,12 @@ export default function EventForm(): React.ReactElement {
           </select>
         </div>
         <div className={styles.row}>
-          <InputCheckbox
-            ref={restrictedRef}
-            label="Evento Restrito?"
-          />
+          <div className={styles.checkboxInput}>
+            <InputCheckbox
+              ref={restrictedRef}
+              label="Evento Restrito?"
+            />
+          </div>
         </div>
         <textarea
           ref={descRef}

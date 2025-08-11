@@ -26,9 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Header:` The layout had an issue where the header wouldn't consistently stay fixed at the top, causing it to overlap with the content and sidebar when the user scrolled. This happened because the header had position: sticky and height: fit-content, which varied depending on the content inside, and the sidebar was positioned based on a fixed calculation, resulting in misalignment and unwanted visual behavior. The header was changed from position: sticky to position: fixed to ensure it always remained fixed at the top, regardless of scrolling, and a fixed height of 70px was set for the header.
-
-### `./src/app/globals.css:` Added a 70px padding-top to handle the header and avoid being "below" it.
+### `styles:` Styling changes, such as: removing padding, text alignment, changing font-size and height adjustments.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

@@ -88,6 +88,11 @@
     gap: 1rem;
 }
 
+.formPage > .form > .row > .checkboxInput {
+    justify-self: start;
+    padding-left: 5px;
+}
+
 .formPage > .form > .row > .input,
 .formPage > .form > .row > .customWrapper > .input {
     font-size: 20px;
