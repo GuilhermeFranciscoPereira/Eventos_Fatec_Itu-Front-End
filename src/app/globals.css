@@ -29,4 +29,6 @@ body {
   color: var(--text-color);
   background-color: var(--background);
   transition: color .4s ease-in-out, background .4s ease-in-out;
+  /* ´CAUSE THE HEADER COMPONENTE */
+  padding-top: 70px;
 }

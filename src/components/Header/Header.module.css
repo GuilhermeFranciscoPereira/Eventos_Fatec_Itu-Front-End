@@ -1,12 +1,12 @@
 .header {
-    position: sticky;
+    position: fixed;
     top: 0px;
     left: 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100vw;
-    height: fit-content;
+    height: 70px;
     padding: 10px 20px;
     border-bottom: 1px solid var(--red-primary);
     background-color: var(--background);
@@ -25,7 +25,7 @@
         margin: 0 auto;
     }
 
-    .header > :last-child {
+    .header> :last-child {
         position: absolute;
         right: 20px;
         top: 50%;
