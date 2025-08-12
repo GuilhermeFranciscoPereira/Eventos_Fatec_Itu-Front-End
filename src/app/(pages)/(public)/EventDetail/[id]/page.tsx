@@ -1,5 +1,6 @@
 'use client';
 import Loader from '@/components/Loader';
+import Footer from '@/components/Footer';
 import { useParams } from 'next/navigation';
 import CardEvents from '@/components/CardEvents';
 import { Cloudinary } from '@cloudinary/url-gen';
@@ -56,46 +57,49 @@ export default function EventDetail(): React.ReactElement {
     }
 
     return (
-        <main className={styles.eventDetailPage}>
-            <div className={styles.detailPageInfo}>
-                <div className={styles.detailPageHeader}>
-                    <Preview src={event.imageUrl} alt={event.name} />
+        <>
+            <main className={styles.eventDetailPage}>
+                <div className={styles.detailPageInfo}>
+                    <div className={styles.detailPageHeader}>
+                        <Preview src={event.imageUrl} alt={event.name} />
+                    </div>
+                    <h1 className={styles.title}>{event.name}</h1>
+                    <div className={styles.infoItem}>
+                        <MdPerson size={20} className={styles.icon} />
+                        <strong className={styles.label}>Palestrante:</strong>
+                        <p className={styles.infoText}>{event.speakerName}</p>
+                    </div>
+                    <div className={styles.infoItem}>
+                        <MdEvent size={20} className={styles.icon} />
+                        <strong className={styles.label}>Data:</strong>
+                        <p className={styles.infoText}>
+                            {new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} – {' '}
+                            {[event.startTime, event.endTime].map(t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' - ')}
+                        </p>
+                    </div>
+                    <div className={styles.infoItem}>
+                        <MdLocationOn size={20} className={styles.icon} />
+                        <strong className={styles.label}>Local:</strong>
+                        <p className={styles.infoText}>
+                            {event.location === 'OUTROS' ? event.customLocation : event.location.replace(/_/g, ' ')}
+                        </p>
+                    </div>
+                    <div className={styles.infoItem}>
+                        <MdDescription size={20} className={styles.icon} />
+                        <strong className={styles.label}>Descrição:</strong>
+                        <p className={styles.infoText}>{event.description}</p>
+                    </div>
+                    <div className={styles.subscribe}>
+                        <ButtonRay text="Se inscrever" onClick={handleSubscribe} type='button' />
+                    </div>
                 </div>
-                <h1 className={styles.title}>{event.name}</h1>
-                <div className={styles.infoItem}>
-                    <MdPerson size={20} className={styles.icon} />
-                    <strong className={styles.label}>Palestrante:</strong>
-                    <p className={styles.infoText}>{event.speakerName}</p>
+                <h2 className={styles.otherEventsH2}>Outros eventos que podem te interessar:</h2>
+                <div className={styles.cardContainer}>
+                    <CardEvents />
                 </div>
-                <div className={styles.infoItem}>
-                    <MdEvent size={20} className={styles.icon} />
-                    <strong className={styles.label}>Data:</strong>
-                    <p className={styles.infoText}>
-                        {new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} – {' '}
-                        {[event.startTime, event.endTime].map(t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' - ')}
-                    </p>
-                </div>
-                <div className={styles.infoItem}>
-                    <MdLocationOn size={20} className={styles.icon} />
-                    <strong className={styles.label}>Local:</strong>
-                    <p className={styles.infoText}>
-                        {event.location === 'OUTROS' ? event.customLocation : event.location.replace(/_/g, ' ')}
-                    </p>
-                </div>
-                <div className={styles.infoItem}>
-                    <MdDescription size={20} className={styles.icon} />
-                    <strong className={styles.label}>Descrição:</strong>
-                    <p className={styles.infoText}>{event.description}</p>
-                </div>
-                <div className={styles.subscribe}>
-                    <ButtonRay text="Se inscrever" onClick={handleSubscribe} type='button' />
-                </div>
-            </div>
-            <h2 className={styles.otherEventsH2}>Outros eventos que podem te interessar:</h2>
-            <div className={styles.cardContainer}>
-                <CardEvents />
-            </div>
-        </main>
+            </main>
+            <Footer />
+        </>
     );
 
     function handleSubscribe(): void {

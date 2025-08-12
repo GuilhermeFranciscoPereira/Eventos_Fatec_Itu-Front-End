@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `styles:` Styling changes, such as: removing padding, text alignment, changing font-size and height adjustments.
+### `./src/components/Footer:` Created the Footer, a component that is a footer that contains information such as: Address, telephone number, links to student areas.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -56,6 +56,7 @@
     - `favicon.ico:` Site icon displayed in the browser tab, bookmarks, and on mobile devices.
     - `assets:` Directory within public to organize additional static resources.
     - `images:` Assets subfolder that stores all project images (PNG, JPG, SVG), such as logos, backgrounds, and custom icons.
+        - `footer:` Folder that will store our photos to use in the Footer component
         - `login:` Folder that will store our photos for use on the login screens (Recover password and two-factor authentication)
         - `readme:` Folder that will store our photos for use in the documentation (README)
 
@@ -95,6 +96,7 @@
     - `CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
     - `Filters:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
+    - `Footer:` Footer that contains information such as: Address, telephone number, links to student areas
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
     - `Inputs:`
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields

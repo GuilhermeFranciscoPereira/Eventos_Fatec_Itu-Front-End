@@ -26,7 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `styles:` Alterações de estilizações, como: remoção de padding, alinhamento de texto, mudança de font-size e ajustes de height.
+### `./src/components/Footer:` Criado o Footer, componente que é um rodapé que contem as informações como: Endereço, número de telefone, links das áres dos alunos.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -56,6 +56,7 @@
     - `favicon.ico:` ícone do site exibido na aba do navegador, nos favoritos e em dispositivos móveis.
     - `assets:` diretório dentro de public para organizar recursos estáticos adicionais.
         - `images:` subpasta de assets que armazena todas as imagens do projeto (PNG, JPG, SVG), como logos, backgrounds e ícones personalizados.
+            - `footer:` Pasta que irá armazenar nossas fotos para utilizar no componente Footer
             - `login:` Pasta que irá armazenar nossas fotos para utilizar nas telas de Login ( Recuperar senha e autenticação em dois fatores )
             - `readme:` Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
 
@@ -96,6 +97,7 @@
     - `CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
     - `Filters:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em CardEvents
+    - `Footer:` Rodapé que contem as informações como: Endereço, número de telefone, links das áres dos alunos.
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
     - `Inputs:`
         - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
