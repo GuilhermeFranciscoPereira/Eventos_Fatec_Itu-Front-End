@@ -26,9 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/ImageCloudinary:` Criado o componente responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizavel em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
+### `./src/components/Inputs/InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado
 
-### `ImageCloudinary:` Alterado todos os locais que faziam a solicitação direta para a Cloudinary e mostrava a imagem de forma direta para utilizar o componente ImageCloudinary
+### `InputImage:` Adicionado o componente de InputImage onde tinha os inputs de file, fazendo utilizar o componente para adicionar e trocar imagens
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -105,6 +105,7 @@
     - `Inputs:`
         - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
         - `InputDefault:` Input reutilizável alterando os dados com base nas props recebidas
+        - `InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado
     - `Loader:` Componente que mostra ao usuário que algo está carregando
     - `Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.
     - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela

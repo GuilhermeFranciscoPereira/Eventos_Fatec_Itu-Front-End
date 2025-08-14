@@ -26,9 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/ImageCloudinary:` Created the component responsible for rendering images hosted on Cloudinary in an optimized way with the next Image tag, making it a reusable component anywhere, ensuring the image is 100% correctly within the parent element.
+### `./src/components/Inputs/InputImage:` Allows you to select images by clicking, dragging and dropping, or pasting. Displays a local preview or an existing URL, visually indicates when a file has been dragged, and provides a button to remove the image, enabled only when a file is selected.
 
-### `ImageCloudinary:` Changed all locations that made direct requests to Cloudinary and displayed the image directly to use the ImageCloudinary component.
+### `InputImage:` Added the InputImage component to the file inputs, allowing you to use the component to add and replace images.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -104,6 +104,7 @@
     - `Inputs:`
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
         - `InputDefault:` Reusable input that changes data based on received props.
+        - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected.
     - `Loader:` Component that shows the user that something is loading.
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
     - `Sidebar:` Sidebar menu so the user can switch routes in a more accessible way without taking up too much screen space.

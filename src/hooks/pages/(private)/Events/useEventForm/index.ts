@@ -65,7 +65,7 @@ export function useEventForm() {
 
     const maxRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
-    const fileRef = useRef<HTMLInputElement>(null);
+    const selectedFileRef = useRef<File | null>(null);
     const courseRef = useRef<HTMLSelectElement>(null);
     const descRef = useRef<HTMLTextAreaElement>(null);
     const speakerRef = useRef<HTMLInputElement>(null);
@@ -87,7 +87,6 @@ export function useEventForm() {
     const [startOptions, setStartOptions] = useState<string[]>([]);
     const [initialUrl, setInitialUrl] = useState<string | null>(null);
     const [availableDates, setAvailableDates] = useState<string[]>([]);
-    const [previewLocal, setPreviewLocal] = useState<string | null>(null);
     const [availableTimes, setAvailableTimes] = useState<AvailabilityTime[]>([]);
 
     const goBack = () => router.back();
@@ -146,8 +145,8 @@ export function useEventForm() {
         })()
     }, [id, isNew, categories, getTimes, showToast]);
 
-    function handleFileChange(): void {
-        if (fileRef.current?.files?.[0]) setPreviewLocal(URL.createObjectURL(fileRef.current?.files?.[0]));
+    function setSelectedFile(file: File | null): void {
+        selectedFileRef.current = file;
     }
 
     async function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
@@ -218,7 +217,7 @@ export function useEventForm() {
 
     async function handleSubmit(e: React.FormEvent): Promise<void> {
         e.preventDefault();
-        if (isNew && !fileRef.current?.files?.[0]) return showToast({ message: 'Você deve inserir uma imagem', type: 'Alert' });
+        if (isNew && !selectedFileRef.current) return showToast({ message: 'Você deve inserir uma imagem', type: 'Alert' });
         setLoading(true);
         const day: string = startDateRef.current!.value || loadedDate;
         const base = {
@@ -239,13 +238,13 @@ export function useEventForm() {
         } as const;
         try {
             if (isNew)
-                await createEvent({ ...base, image: fileRef.current!.files![0] } as CreateEventDto);
+                await createEvent({ ...base, image: selectedFileRef.current! } as CreateEventDto);
             else
                 await editEvent(
                     Number(id),
-                    fileRef.current?.files?.[0] ? ({
-                        ...base, image: fileRef.current!.files![0]
-                    } as UpdateEventDto) : (base as UpdateEventDto)
+                    selectedFileRef.current
+                        ? ({ ...base, image: selectedFileRef.current } as UpdateEventDto)
+                        : (base as UpdateEventDto)
                 );
             router.push('/Events');
         } catch (err: unknown) {
@@ -256,5 +255,5 @@ export function useEventForm() {
         }
     }
 
-    return { fileRef, previewLocal, initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, handleFileChange, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, goBack, setStartTime, setEndTime };
+    return { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, goBack, setStartTime, setEndTime };
 }

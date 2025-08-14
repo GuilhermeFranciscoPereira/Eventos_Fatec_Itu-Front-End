@@ -1,0 +1,142 @@
+.container {
+    height: 300px;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    background-color: var(--background);
+    color: var(--text-color);
+}
+
+.containerDragOver {
+    outline: 2px dashed var(--red-primary);
+    outline-offset: 4px;
+}
+
+.container > .header {
+    flex: 1;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.container > .header > .headerIcon {
+    font-size: 3rem;
+    color: var(--text-color);
+}
+
+.container > .header > p {
+    text-align: center;
+    color: var(--text-color);
+}
+
+.container > .header > .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.container > .header > .imageWrapper > .image {
+    user-select: none;
+    pointer-events: none;
+}
+
+.container > .header > .uploadPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 0 12px;
+    text-align: center;
+}
+
+.container > .header > .uploadPlaceholder > .uploadIcons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-color);
+}
+
+.container > .header > .uploadPlaceholder > .uploadIcons > .headerIcon {
+    width: 28px;
+    height: 28px;
+}
+
+.container > .header > .uploadPlaceholder > .uploadIcons > span {
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.container > .header > .uploadPlaceholder > p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.container > .footer {
+    background-color: rgba(178, 0, 0, 0.08);
+    width: 100%;
+    height: 48px;
+    padding: 8px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color);
+    border: none;
+    gap: 10px;
+}
+
+.container > .footer > .footerIconLeft {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    color: var(--red-primary);
+    padding: 6px;
+}
+
+.container > .footer > .footerIconRightButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity .2s ease, transform .2s ease, color .2s ease;
+}
+
+.container > .footer > .footerIconRightButton > svg {
+    font-size: 1.8rem;
+}
+
+.container > .footer > .footerIconRightButtonDisabled {
+    color: gray;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.container > .footer > .footerIconRightButtonActive {
+    color: var(--red-primary);
+}
+
+.container > .footer > .footerIconRightButtonActive:hover {
+    transform: scale(1.05);
+}
+
+.container > .fileInput {
+    display: none;
+}

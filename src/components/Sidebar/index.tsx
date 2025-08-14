@@ -9,6 +9,7 @@ import InputDefault from '../Inputs/InputDefault';
 import { useUserStore } from '@/stores/useUserStore';
 import { UserRoleTypes } from '@/@Types/UserJwtProps';
 import { useModalStore } from '@/stores/useModalStore';
+import InputImage from '@/components/Inputs/InputImage';
 import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Sidebar/Sidebar.module.css';
 import { GiKnightBanner, GiPartyPopper } from 'react-icons/gi';
@@ -26,9 +27,9 @@ const navItems: readonly { Icon: IconType; label: string, href: string, role: Us
 
 export default function Sidebar(): React.ReactElement {
     const handleLogout = useLogout();
+    const photoRef = useRef<File | null>(null);
     const editProfile = useEditPersonalProfile();
     const nameRef = useRef<HTMLInputElement>(null);
-    const fileRef = useRef<HTMLInputElement>(null);
     const user = useUserStore((state) => state.user);
     const { isClosed, reset, toggle } = useSidebar();
     const openModal = useModalStore(s => s.openModal);
@@ -119,12 +120,9 @@ export default function Sidebar(): React.ReactElement {
                         defaultValue={user?.name}
                     />
                     <div className={styles.formGroup}>
-                        <label>Foto de perfil</label>
-                        <input
-                            ref={fileRef}
-                            className={styles.fileInput}
-                            type="file"
-                            accept="image/*"
+                        <InputImage
+                            initialUrl={user?.imageUrl ?? null}
+                            onChange={(file) => { photoRef.current = file; }}
                         />
                     </div>
                 </form>
@@ -133,7 +131,7 @@ export default function Sidebar(): React.ReactElement {
             onConfirm: async () => {
                 const dto = {
                     name: nameRef.current!.value,
-                    photo: fileRef.current?.files?.[0] ?? undefined
+                    photo: photoRef.current ?? undefined
                 };
                 await editProfile(dto);
             }

@@ -6,6 +6,7 @@ import { RiImageAddLine } from 'react-icons/ri';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { useToastStore } from '@/stores/useToastStore';
 import { useModalStore } from '@/stores/useModalStore';
+import InputImage from '@/components/Inputs/InputImage';
 import ImageCloudinary from '@/components/ImageCloudinary';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
@@ -28,7 +29,7 @@ export default function Carousel(): React.ReactElement {
     const nameRef = useRef<HTMLInputElement>(null);
     const orderRef = useRef<HTMLInputElement>(null);
     const activeRef = useRef<HTMLInputElement>(null);
-    const fileRef = useRef<HTMLInputElement>(null);
+    const selectedFileRef = useRef<File | null>(null);
 
     const schemaTable = [
         {
@@ -95,14 +96,16 @@ export default function Carousel(): React.ReactElement {
                         label="Imagem deve aparecer no carrossel?"
                     />
                     <div className={styles.formGroup}>
-                        <input ref={fileRef} type="file" accept="image/*" className={styles.fileInput} />
+                        <InputImage
+                            id="carousel-create-image"
+                            onChange={(file) => { selectedFileRef.current = file; }}
+                        />
                     </div>
                 </form>
             ),
             confirmLabel: 'Salvar',
             onConfirm: async () => {
-                const fileList = fileRef.current!.files;
-                const file = fileList?.[0];
+                const file = selectedFileRef.current;
                 if (!file) {
                     showToast({ message: 'Você deve adicionar uma imagem!', type: 'Alert' })
                     throw new Error();
@@ -114,6 +117,7 @@ export default function Carousel(): React.ReactElement {
                     image: file
                 };
                 await createCarousel(dto);
+                selectedFileRef.current = null;
                 refetch();
             }
         });
@@ -134,28 +138,26 @@ export default function Carousel(): React.ReactElement {
                     />
                     <div className={styles.formGroup}>
                         <div className={styles.previewWrapperEdit}>
-                            <ImageCloudinary
-                                src={item.imageUrl}
-                                alt={item.name}
-                                sizes="320px"
-                                priority
+                            <InputImage
+                                id="carousel-edit-image"
+                                initialUrl={item.imageUrl}
+                                onChange={(file) => { selectedFileRef.current = file; }}
                             />
                         </div>
-                        <input ref={fileRef} type="file" accept="image/*" className={styles.fileInput} />
                     </div>
                 </form>
             ),
             confirmLabel: 'Salvar',
             onConfirm: async () => {
-                const fileList = fileRef.current!.files;
-                const file = fileList?.[0];
+                const file = selectedFileRef.current;
                 const dto: UpdateCarouselDto = {
                     name: nameRef.current!.value,
                     order: Number(orderRef.current!.value),
                     isActive: activeRef.current!.checked,
-                    image: file
+                    image: file ?? undefined
                 };
                 await editCarousel(item.id, dto);
+                selectedFileRef.current = null;
                 refetch();
             }
         });

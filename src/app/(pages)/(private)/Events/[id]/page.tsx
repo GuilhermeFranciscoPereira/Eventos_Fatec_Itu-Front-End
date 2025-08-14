@@ -1,18 +1,15 @@
 'use client';
-import Image from 'next/image';
 import Loader from '@/components/Loader';
-import { FiCamera } from 'react-icons/fi';
-import { IoMdImages } from 'react-icons/io';
 import { MdArrowBack } from 'react-icons/md';
 import ButtonRay from '@/components/Buttons/ButtonRay';
-import ImageCloudinary from '@/components/ImageCloudinary';
+import InputImage from '@/components/Inputs/InputImage';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
 export default function EventForm(): React.ReactElement {
-  const { fileRef, previewLocal, initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, handleFileChange, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, goBack } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, goBack } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -22,38 +19,12 @@ export default function EventForm(): React.ReactElement {
         <h1>{isNew ? 'Criar Evento' : 'Editar Evento'}</h1>
       </header>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.upload} onClick={() => fileRef.current?.click()}>
-          {
-            previewLocal
-              ? (<Image src={previewLocal} alt="Preview local" width={1000} height={1000} className={styles.previewImage} quality={100} />)
-              : initialUrl
-                ? (
-                  <div className={styles.uploadImage}>
-                    <ImageCloudinary
-                      src={initialUrl}
-                      alt="Preview existente"
-                      sizes="(max-width: 768px) 100vw, 900px"
-                      priority
-                    />
-                  </div>
-                )
-                : (
-                  <div className={styles.uploadPlaceholder}>
-                    <div className={styles.uploadIcons}>
-                      <FiCamera size={32} />
-                      <span>|</span>
-                      <IoMdImages size={32} />
-                    </div>
-                    <p>Clique para selecionar uma imagem, cole ou arraste e solte aqui</p>
-                  </div>
-                )}
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            className={styles.fileInput}
-            onChange={handleFileChange}
-            hidden
+        <div className={styles.upload}>
+          <InputImage
+            id="event-image"
+            initialUrl={initialUrl ?? undefined}
+            onChange={(file) => setSelectedFile(file)}
+            className={styles.previewImage}
           />
         </div>
         <div className={styles.row}>
