@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { getMe } from '@/hooks/api/Auth/Get/getMe';
 import { CategoryProps } from '@/@Types/CategoriesTypes';
 import { useState, useEffect, useCallback } from 'react';
 
@@ -16,10 +17,19 @@ export function useGetAllCategories(): useGetAllCategoriesProps {
     const fetchCategories = useCallback(async () => {
         setLoading(true);
         try {
-            const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/categories`, {
+            let response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/categories`, {
                 credentials: 'include',
             });
-            if (response.status === 403) return router.push('/');
+            if (response.status === 401) {
+                try {
+                    await getMe();
+                    response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/categories`, { credentials: 'include' });
+                }
+                catch (err: unknown) {
+                    console.log('Error in: useCodeInputValidation() <---> Erro:', err instanceof Error ? err.message : String(err));
+                    return router.push('/');
+                }
+            }
             if (!response.ok) throw new Error('Falha para carregar as categorias');
             setCategories(await response.json());
         } catch (err: unknown) {

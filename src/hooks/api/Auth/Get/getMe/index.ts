@@ -10,8 +10,7 @@ export async function getMe(): Promise<UserJwtProps | null> {
         const user = (await response.json()) as UserJwtProps;
         return user;
     } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : String(err);
-        console.log('Error in: useCodeInputValidation() <---> Erro:', msg);
-        return null;    
+        console.log('Error in: useCodeInputValidation() <---> Erro:', err instanceof Error ? err.message : String(err));
+        return null;
     }
 }

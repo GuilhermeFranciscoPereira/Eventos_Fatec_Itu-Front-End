@@ -26,7 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Footer:` Created the Footer, a component that is a footer that contains information such as: Address, telephone number, links to student areas.
+### `./src/middleware:` Corrigido o middleware que antes fazia validação e excuia o token, o que não é necessário, já que o back-end já faz isso, isso estava fazendo que quando o tempo do token de acesso acabasse não realizava o refresh do token de forma automática
+
+### `./src/hooks/api/GET:` Todas as rotas GET antes faziam validação errada, agora trocado todas para validar se deu não autenticado com a rota 401.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
