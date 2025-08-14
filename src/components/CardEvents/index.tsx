@@ -2,21 +2,11 @@
 import Link from 'next/link';
 import Filters from '@/components/Filters';
 import { useCallback, useState } from 'react';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react';
 import ButtonRay from '@/components/Buttons/ButtonRay';
-import { fill } from '@cloudinary/url-gen/actions/resize';
 import { EventPublicResponse } from '@/@Types/EventTypes';
+import ImageCloudinary from '@/components/ImageCloudinary';
 import styles from '@/components/CardEvents/CardEvents.module.css';
 import { useGetAllEventsPublic } from '@/hooks/api/Events/Get/useGetAllEvents';
-
-const cld = new Cloudinary({ cloud: { cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_NAME! } });
-
-function Preview({ src, alt, height, width }: { src: string; alt: string; height: number; width: number }): React.ReactElement {
-    const publicId: string = src.split('/').slice(-2).join('/').split('.')[0];
-    const img = cld.image(publicId).resize(fill().width(width).height(height)).format('auto').quality('auto:best');
-    return <AdvancedImage cldImg={img} alt={alt} />;
-}
 
 export default function CardEvents(): React.ReactElement {
     const { datas } = useGetAllEventsPublic();
@@ -53,7 +43,11 @@ export default function CardEvents(): React.ReactElement {
                             {event.isRestricted && <span className={styles.badge}>Fatecano</span>}
 
                             <div className={styles.previewWrapper}>
-                                <Preview src={event.imageUrl} alt={event.name} width={300} height={175} />
+                                <ImageCloudinary
+                                    src={event.imageUrl}
+                                    alt={event.name}
+                                    sizes="(max-width: 769px) 50vw, 300px"
+                                />
                             </div>
 
                             <div className={styles.cardData}>

@@ -9,8 +9,8 @@
     margin-bottom: 30px;
 }
 
-.filtersContainer>.leftSideFilters,
-.filtersContainer>.centerSideFilters {
+.filtersContainer > .leftSideFilters,
+.filtersContainer > .centerSideFilters {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -19,12 +19,12 @@
 }
 
 
-.filtersContainer>.leftSideFilters>.searchBox {
+.filtersContainer > .leftSideFilters > .searchBox {
     position: relative;
     width: 100%;
 }
 
-.filtersContainer>.leftSideFilters>.searchBox>.searchIcon {
+.filtersContainer > .leftSideFilters > .searchBox > .searchIcon {
     position: absolute;
     left: 0.75rem;
     top: 50%;
@@ -34,7 +34,7 @@
     color: #888;
 }
 
-.filtersContainer>.leftSideFilters>.searchBox>.inputText {
+.filtersContainer > .leftSideFilters > .searchBox > .inputText {
     width: 100%;
     padding-left: 2.5rem;
     padding-top: 0.5rem;
@@ -49,12 +49,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.filtersContainer>.centerSideFilters>.label {
+.filtersContainer > .centerSideFilters > .label {
     font-size: 0.85rem;
     margin-bottom: 0.25rem;
 }
 
-.filtersContainer>.centerSideFilters>.selectDropdown {
+.filtersContainer > .centerSideFilters > .selectDropdown {
     width: 100%;
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
@@ -67,30 +67,30 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.filtersContainer>.centerSideFilters>.selectDropdown:focus {
+.filtersContainer > .centerSideFilters > .selectDropdown:focus {
     outline: none;
     border-color: #888;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.filtersContainer>.rightSideFilters {
+.filtersContainer > .rightSideFilters {
     display: flex;
     gap: 1.5rem;
 }
 
-.filtersContainer>.rightSideFilters>.datesFilter {
+.filtersContainer > .rightSideFilters > .datesFilter {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
 }
 
-.filtersContainer>.rightSideFilters>.datesFilter>.label {
+.filtersContainer > .rightSideFilters > .datesFilter > .label {
     font-size: 0.85rem;
     margin-bottom: 0.25rem;
 }
 
-.filtersContainer>.rightSideFilters>.datesFilter>.inputDate {
+.filtersContainer > .rightSideFilters > .datesFilter > .inputDate {
     padding: 0.5rem 0.75rem;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -103,13 +103,13 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.filtersContainer>.rightSideFilters>.datesFilter>.inputDate:focus {
+.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:focus {
     outline: none;
     border-color: #888;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-.filtersContainer>.rightSideFilters>.datesFilter>.inputDate:disabled {
+.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:disabled {
     cursor: not-allowed;
 }
 
@@ -120,18 +120,18 @@
         width: 95%;
     }
 
-    .filtersContainer>.leftSideFilters,
-    .filtersContainer>.centerSideFilters,
-    .filtersContainer>.rightSideFilters {
+    .filtersContainer > .leftSideFilters,
+    .filtersContainer > .centerSideFilters,
+    .filtersContainer > .rightSideFilters {
         gap: 1px;
         width: 100%;
     }
 
-    .filtersContainer>.rightSideFilters>.datesFilter {
+    .filtersContainer > .rightSideFilters > .datesFilter {
         width: 50%;
     }
 
-    .filtersContainer>.rightSideFilters>.datesFilter>.inputDate {
+    .filtersContainer > .rightSideFilters > .datesFilter > .inputDate {
         width: 95%;
     }
 }

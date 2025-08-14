@@ -4,10 +4,8 @@ import Loader from '@/components/Loader';
 import { TiGroup } from 'react-icons/ti';
 import { Table } from '@/components/Table';
 import { EventProps } from '@/@Types/EventTypes';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react';
 import { useModalStore } from '@/stores/useModalStore';
-import { fill } from '@cloudinary/url-gen/actions/resize';
+import ImageCloudinary from '@/components/ImageCloudinary';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import styles from '@/app/(pages)/(private)/Events/Events.module.css';
 import { useGetAllEvents } from '@/hooks/api/Events/Get/useGetAllEvents';
@@ -17,13 +15,12 @@ export default function Events(): React.ReactElement {
     const deleteEvent = useDeleteEvent();
     const openModal = useModalStore((s) => s.openModal);
     const { events, loading, refetch } = useGetAllEvents();
-    const cld = new Cloudinary({ cloud: { cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_NAME! } });
 
     const schema = [
         {
             id: 'preview', header: 'Preview', accessor: (c: EventProps) => (
                 <div className={styles.previewWrapper}>
-                    <Preview src={c.imageUrl} alt={c.name} height={70} width={100} />
+                    <ImageCloudinary src={c.imageUrl} alt={c.name} sizes="100px" />
                 </div>
             )
         },
@@ -91,12 +88,6 @@ export default function Events(): React.ReactElement {
             />
         </main>
     );
-
-    function Preview({ src, alt, height, width }: { src: string, alt: string, height: number, width: number }): React.ReactElement {
-        const publicId: string = src.split('/').slice(-2).join('/').split('.')[0];
-        const img = cld.image(publicId).resize(fill().width(width).height(height)).format('auto').quality('auto:best');
-        return <AdvancedImage cldImg={img} alt={alt} />;
-    }
 
     function handleDelete(e: EventProps): void {
         openModal({

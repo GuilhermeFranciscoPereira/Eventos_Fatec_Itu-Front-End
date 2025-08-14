@@ -3,12 +3,10 @@ import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { RiImageAddLine } from 'react-icons/ri';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { useToastStore } from '@/stores/useToastStore';
 import { useModalStore } from '@/stores/useModalStore';
-import { fill } from '@cloudinary/url-gen/actions/resize';
+import ImageCloudinary from '@/components/ImageCloudinary';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import styles from '@/app/(pages)/(private)/Carousel/Carousel.module.css';
@@ -31,13 +29,16 @@ export default function Carousel(): React.ReactElement {
     const orderRef = useRef<HTMLInputElement>(null);
     const activeRef = useRef<HTMLInputElement>(null);
     const fileRef = useRef<HTMLInputElement>(null);
-    const cld = new Cloudinary({ cloud: { cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_NAME! } });
 
     const schemaTable = [
         {
             id: 'preview', header: 'Preview', accessor: (c: CarouselProps) => (
                 <div className={styles.previewWrapper}>
-                    <Preview src={c.imageUrl} alt={c.name} height={70} width={100} />
+                    <ImageCloudinary
+                        src={c.imageUrl}
+                        alt={c.name}
+                        sizes="100px"
+                    />
                 </div>
             )
         },
@@ -52,7 +53,7 @@ export default function Carousel(): React.ReactElement {
                     <InputCheckbox
                         checked={c.isActive}
                         onChange={() => handleToggle(c.id, !c.isActive)}
-                    />  
+                    />
                     <MdEdit size={25} className={styles.icon} onClick={() => handleEdit(c)} />
                     <MdDelete size={25} className={styles.icon} onClick={() => handleDelete(c)} />
                 </div>
@@ -79,12 +80,6 @@ export default function Carousel(): React.ReactElement {
             />
         </main>
     );
-
-    function Preview({ src, alt, height, width }: { src: string, alt: string, height: number, width: number }): React.ReactElement {
-        const publicId: string = src.split('/').slice(-2).join('/').split('.')[0];
-        const img = cld.image(publicId).resize(fill().width(width).height(height)).format('auto').quality('auto:best');
-        return <AdvancedImage cldImg={img} alt={alt} />;
-    }
 
     function handleCreate(): void {
         openModal({
@@ -139,7 +134,12 @@ export default function Carousel(): React.ReactElement {
                     />
                     <div className={styles.formGroup}>
                         <div className={styles.previewWrapperEdit}>
-                            <Preview src={item.imageUrl} alt={item.name} height={1000} width={1000} />
+                            <ImageCloudinary
+                                src={item.imageUrl}
+                                alt={item.name}
+                                sizes="320px"
+                                priority
+                            />
                         </div>
                         <input ref={fileRef} type="file" accept="image/*" className={styles.fileInput} />
                     </div>

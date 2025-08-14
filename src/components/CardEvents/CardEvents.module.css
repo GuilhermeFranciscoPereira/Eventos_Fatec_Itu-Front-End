@@ -39,14 +39,10 @@
 }
 
 .cardEventsSection > .card > .cardInt > .previewWrapper {
+    position: relative;
     width: 100%;
     height: 200px;
-}
-
-.cardEventsSection > .card > .cardInt > .previewWrapper > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    overflow: hidden;
     border-radius: 12px;
 }
 

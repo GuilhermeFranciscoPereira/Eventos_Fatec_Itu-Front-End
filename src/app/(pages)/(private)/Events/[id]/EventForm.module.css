@@ -45,10 +45,18 @@
     font-size: 3rem;
 }
 
-.formPage > .form > .upload > img {
+.formPage > .form > .upload > .previewImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 8px;
+}
+
+.formPage > .form > .upload > .uploadImage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     border-radius: 8px;
 }
 

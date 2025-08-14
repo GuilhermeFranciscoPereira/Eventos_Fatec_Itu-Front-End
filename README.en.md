@@ -26,9 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/middleware:` Corrigido o middleware que antes fazia validação e excuia o token, o que não é necessário, já que o back-end já faz isso, isso estava fazendo que quando o tempo do token de acesso acabasse não realizava o refresh do token de forma automática
+### `./src/components/ImageCloudinary:` Created the component responsible for rendering images hosted on Cloudinary in an optimized way with the next Image tag, making it a reusable component anywhere, ensuring the image is 100% correctly within the parent element.
 
-### `./src/hooks/api/GET:` Todas as rotas GET antes faziam validação errada, agora trocado todas para validar se deu não autenticado com a rota 401.
+### `ImageCloudinary:` Changed all locations that made direct requests to Cloudinary and displayed the image directly to use the ImageCloudinary component.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -100,6 +100,7 @@
     - `Filters:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
     - `Footer:` Footer that contains information such as: Address, telephone number, links to student areas
     - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
+    - `ImageCloudinary:` Responsible for rendering images hosted on Cloudinary in an optimized way with the next Image tag, making a component that can be reused anywhere, making the image stay 100% within the parent element correctly
     - `Inputs:`
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
         - `InputDefault:` Reusable input that changes data based on received props.

@@ -26,9 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/middleware:` Corrigido o middleware que antes fazia validação e excuia o token, o que não é necessário, já que o back-end já faz isso, isso estava fazendo que quando o tempo do token de acesso acabasse não realizava o refresh do token de forma automática
+### `./src/components/ImageCloudinary:` Criado o componente responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizavel em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
 
-### `./src/hooks/api/GET:` Todas as rotas GET antes faziam validação errada, agora trocado todas para validar se deu não autenticado com a rota 401.
+### `ImageCloudinary:` Alterado todos os locais que faziam a solicitação direta para a Cloudinary e mostrava a imagem de forma direta para utilizar o componente ImageCloudinary
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -101,6 +101,7 @@
     - `Filters:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em CardEvents
     - `Footer:` Rodapé que contem as informações como: Endereço, número de telefone, links das áres dos alunos.
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
+    - `ImageCloudinary:` Responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizavel em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
     - `Inputs:`
         - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
         - `InputDefault:` Input reutilizável alterando os dados com base nas props recebidas

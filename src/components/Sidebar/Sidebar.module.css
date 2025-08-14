@@ -100,7 +100,8 @@
     width: 100%;
 }
 
-.sidebar > nav > ul > li > a, .sidebar > nav > ul > li > button {
+.sidebar > nav > ul > li > a,
+.sidebar > nav > ul > li > button {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -111,19 +112,22 @@
     transition: background 0.2s ease, color 0.2s ease;
 }
 
-.sidebar > nav > ul > li > a:not(.closed):hover, .sidebar > nav > ul > li > button:not(.closed):hover {
+.sidebar > nav > ul > li > a:not(.closed):hover,
+.sidebar > nav > ul > li > button:not(.closed):hover {
     background: var(--background-reverse);
     color: var(--text-color-reverse);
 }
 
-.sidebar > nav > ul > li > a > span, .sidebar > nav > ul > li > button > span {
+.sidebar > nav > ul > li > a > span,
+.sidebar > nav > ul > li > button > span {
     opacity: 0;
     visibility: hidden;
     white-space: nowrap;
     transition: opacity 0.3s ease 0.3s;
 }
 
-.sidebar:not(.closed):hover > nav > ul > li > a > span, .sidebar:not(.closed):hover > nav > ul > li > button > span {
+.sidebar:not(.closed):hover > nav > ul > li > a > span,
+.sidebar:not(.closed):hover > nav > ul > li > button > span {
     opacity: 1;
     visibility: visible;
 }
@@ -143,7 +147,17 @@
     width: 100%;
 }
 
-.sidebar > .profile > img, .sidebar > .profile > svg {
+.sidebar > .profile > .avatarWrapper {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    overflow: hidden;
+    border: 1px solid var(--red-primary);
+    flex-shrink: 0;
+}
+
+.sidebar > .profile > .avatarFallback {
     width: 45px;
     height: 45px;
     border-radius: 100%;

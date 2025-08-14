@@ -4,25 +4,15 @@ import Loader from '@/components/Loader';
 import { FiCamera } from 'react-icons/fi';
 import { IoMdImages } from 'react-icons/io';
 import { MdArrowBack } from 'react-icons/md';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react';
 import ButtonRay from '@/components/Buttons/ButtonRay';
-import { fill } from '@cloudinary/url-gen/actions/resize';
+import ImageCloudinary from '@/components/ImageCloudinary';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
-const cld = new Cloudinary({ cloud: { cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_NAME! } });
-
 export default function EventForm(): React.ReactElement {
   const { fileRef, previewLocal, initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, handleFileChange, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, goBack } = useEventForm();
-
-  function Preview({ src, alt }: { src: string; alt: string }): React.ReactElement {
-    const publicId = src.split('/').slice(-2).join('/').split('.')[0];
-    const img = cld.image(publicId).resize(fill().width(1000).height(1000)).format('auto').quality('auto:best');
-    return <AdvancedImage cldImg={img} alt={alt} />
-  }
 
   return (
     <main className={styles.formPage}>
@@ -37,7 +27,16 @@ export default function EventForm(): React.ReactElement {
             previewLocal
               ? (<Image src={previewLocal} alt="Preview local" width={1000} height={1000} className={styles.previewImage} quality={100} />)
               : initialUrl
-                ? (<Preview src={initialUrl} alt="Preview existente" />)
+                ? (
+                  <div className={styles.uploadImage}>
+                    <ImageCloudinary
+                      src={initialUrl}
+                      alt="Preview existente"
+                      sizes="(max-width: 768px) 100vw, 900px"
+                      priority
+                    />
+                  </div>
+                )
                 : (
                   <div className={styles.uploadPlaceholder}>
                     <div className={styles.uploadIcons}>

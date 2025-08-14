@@ -1,10 +1,10 @@
 'use client';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRef } from 'react';
 import { SlLogout } from 'react-icons/sl';
 import type { IconType } from 'react-icons';
 import ButtonRay from '../Buttons/ButtonRay';
+import ImageCloudinary from '../ImageCloudinary';
 import InputDefault from '../Inputs/InputDefault';
 import { useUserStore } from '@/stores/useUserStore';
 import { UserRoleTypes } from '@/@Types/UserJwtProps';
@@ -78,14 +78,17 @@ export default function Sidebar(): React.ReactElement {
 
             {user ?
                 <div className={styles.profile}>
-                    <Image
-                        src={user.imageUrl ?? <FaUserCircle size={35} />}
-                        alt="Foto de perfil do usuário"
-                        width={35}
-                        height={35}
-                        className={styles.avatar}
-                        loading="lazy"
-                    />
+                    <div className={styles.avatarWrapper}>
+                        {user.imageUrl ? (
+                            <ImageCloudinary
+                                src={user.imageUrl}
+                                alt="Foto de perfil do usuário"
+                                sizes="45px"
+                            />
+                        ) : (
+                            <FaUserCircle className={styles.avatarFallback} />
+                        )}
+                    </div>
                     <div className={styles.info}>
                         <p>{user.name}</p>
                         <small>{user.email}</small>

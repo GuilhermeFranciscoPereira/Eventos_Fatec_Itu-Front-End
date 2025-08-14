@@ -3,13 +3,11 @@ import Loader from '@/components/Loader';
 import Footer from '@/components/Footer';
 import { useParams } from 'next/navigation';
 import CardEvents from '@/components/CardEvents';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react';
 import { useRef, forwardRef, useState } from 'react';
 import { Course, Semester } from '@/@Types/EventTypes';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import { useModalStore } from '@/stores/useModalStore';
-import { fill } from '@cloudinary/url-gen/actions/resize';
+import ImageCloudinary from '@/components/ImageCloudinary';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
@@ -17,8 +15,6 @@ import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
 import { useCreateParticipant } from '@/hooks/api/Participants/Post/useCreateParticipant';
 import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription } from 'react-icons/md';
-
-const cld = new Cloudinary({ cloud: { cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_NAME! } });
 
 type SubscriptionFormProps = {
     nameRef: React.RefObject<HTMLInputElement | null>;
@@ -50,18 +46,17 @@ export default function EventDetail(): React.ReactElement {
     if (loading) return <Loader />;
     if (!event) return <h1>Evento não encontrado!</h1>;
 
-    function Preview({ src, alt }: { src: string; alt: string }): React.ReactElement {
-        const publicId = src.split('/').slice(-2).join('/').split('.')[0];
-        const img = cld.image(publicId).resize(fill().width(1000).height(400)).format('auto').quality('auto:best');
-        return <AdvancedImage cldImg={img} alt={alt} />;
-    }
-
     return (
         <>
             <main className={styles.eventDetailPage}>
                 <div className={styles.detailPageInfo}>
                     <div className={styles.detailPageHeader}>
-                        <Preview src={event.imageUrl} alt={event.name} />
+                        <ImageCloudinary
+                            src={event.imageUrl}
+                            alt={event.name}
+                            sizes="(max-width: 1024px) 100vw, 1200px"
+                            priority
+                        />
                     </div>
                     <h1 className={styles.title}>{event.name}</h1>
                     <div className={styles.infoItem}>

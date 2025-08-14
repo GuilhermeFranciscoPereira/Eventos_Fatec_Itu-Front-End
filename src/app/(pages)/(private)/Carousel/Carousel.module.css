@@ -31,18 +31,23 @@
     transform: scale(1.1);
 }
 
-.previewWrapper > img {
+.previewWrapper {
+    position: relative;
+    width: 150px;
+    height: 70px;
+    overflow: hidden;
     border-radius: 10px;
     box-shadow: var(--box-shadow);
 }
 
-.form > .formGroup > .previewWrapperEdit > img {
-    width: 320px;
+.form > .formGroup > .previewWrapperEdit {
+    position: relative;
+    width: 360px;
     height: 150px;
     margin: 30px 0px;
+    overflow: hidden;
     border-radius: 20px;
     box-shadow: var(--box-shadow);
-    position: relative;
 }
 
 .actions {
