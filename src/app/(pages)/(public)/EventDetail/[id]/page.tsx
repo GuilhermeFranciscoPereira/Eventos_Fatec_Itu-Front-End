@@ -88,9 +88,12 @@ export default function EventDetail(): React.ReactElement {
                         <ButtonRay text="Se inscrever" onClick={handleSubscribe} type='button' />
                     </div>
                 </div>
-                <h2 className={styles.otherEventsH2}>Outros eventos que podem te interessar:</h2>
                 <div className={styles.cardContainer}>
-                    <CardEvents />
+                    <CardEvents
+                        categoryId={event.categoryId ?? null}
+                        showFilters={false}
+                        excludeId={event.id}
+                    />
                 </div>
             </main>
             <Footer />

@@ -26,7 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/hooks/api/Categories/Get/useGetAllCategories:` Criado a função: useGetAllCategoriesPublic para mostrar para os usuários não autenticados todos as categorias disponiveis para filtro.
+### `./src/components/CardEvents:` Na página de detalhes, “Outros eventos” passa a listar somente eventos da mesma categoria do evento atual, sem exibir os filtros.  evento atual é excluído da listagem para evitar duplicidade. O título “Outros eventos que podem te interessar” só aparece se houver ao menos um evento relacionado.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

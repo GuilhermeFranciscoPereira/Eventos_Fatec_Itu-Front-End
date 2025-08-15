@@ -8,6 +8,13 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
+.otherEventsH2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem;
+}
+
 .cardEventsSection > .card {
     padding: 5px;
     border: 2px solid var(--red-primary);
