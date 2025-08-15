@@ -26,9 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Inputs/InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado
-
-### `InputImage:` Adicionado o componente de InputImage onde tinha os inputs de file, fazendo utilizar o componente para adicionar e trocar imagens
+### `./src/hooks/api/Categories/Get/useGetAllCategories:` Criado a função: useGetAllCategoriesPublic para mostrar para os usuários não autenticados todos as categorias disponiveis para filtro.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

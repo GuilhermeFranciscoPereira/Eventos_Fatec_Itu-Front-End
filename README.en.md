@@ -26,9 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Inputs/InputImage:` Allows you to select images by clicking, dragging and dropping, or pasting. Displays a local preview or an existing URL, visually indicates when a file has been dragged, and provides a button to remove the image, enabled only when a file is selected.
-
-### `InputImage:` Added the InputImage component to the file inputs, allowing you to use the component to add and replace images.
+### `./src/hooks/api/Categories/Get/useGetAllCategories:` Created the function: useGetAllCategoriesPublic to show unauthenticated users all categories available for filtering.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

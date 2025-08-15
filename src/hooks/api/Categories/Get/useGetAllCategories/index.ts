@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { getMe } from '@/hooks/api/Auth/Get/getMe';
-import { CategoryProps } from '@/@Types/CategoriesTypes';
+import { CategoryProps, CategoryPublicResponse } from '@/@Types/CategoriesTypes';
 import { useState, useEffect, useCallback } from 'react';
 
 type useGetAllCategoriesProps = {
@@ -43,4 +43,22 @@ export function useGetAllCategories(): useGetAllCategoriesProps {
     useEffect(() => { fetchCategories(); }, [fetchCategories]);
 
     return { categories, loading, refetch: fetchCategories };
+}
+
+export function useGetAllCategoriesPublic() {
+    const [datas, setDatas] = useState<CategoryPublicResponse[]>([]);
+
+    const fetchAll = useCallback(async () => {
+        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/categories/publicAllCategories`);
+        if (!response.ok) {
+            console.log('Erro ao carregar categorias públicas:', response.status);
+            return;
+        }
+        const data = (await response.json()) as CategoryPublicResponse[];
+        setDatas(data);
+    }, []);
+
+    useEffect(() => { fetchAll() }, [fetchAll]);
+
+    return { datas };
 }

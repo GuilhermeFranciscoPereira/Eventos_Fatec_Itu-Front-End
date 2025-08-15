@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { HiMiniMagnifyingGlass } from 'react-icons/hi2';
-import { CategoryProps } from '@/@Types/CategoriesTypes';
 import styles from '@/components/Filters/Filters.module.css';
-import { useGetAllCategories } from '@/hooks/api/Categories/Get/useGetAllCategories';
+import { CategoryPublicResponse } from '@/@Types/CategoriesTypes';
+import { useGetAllCategoriesPublic } from '@/hooks/api/Categories/Get/useGetAllCategories';
 
 type FiltersProps = {
     onFilterChange: (filters: {
@@ -19,7 +19,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
     const [startDate, setStartDate] = useState<string>('');
     const [categoryId, setCategoryId] = useState<number | ''>('');
 
-    const { categories, loading } = useGetAllCategories();
+    const { datas } = useGetAllCategoriesPublic();
 
     useEffect(() => {
         onFilterChange({
@@ -54,10 +54,9 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value === '' ? '' : Number(e.target.value))}
                     className={styles.selectDropdown}
-                    disabled={loading}
                 >
                     <option value="">Todas</option>
-                    {categories.map((c: CategoryProps) => (<option key={c.id} value={c.id}>{c.name}</option>))}
+                    {datas.map((c: CategoryPublicResponse) => (<option key={c.id} value={c.id}>{c.name}</option>))}
                 </select>
             </div>
 

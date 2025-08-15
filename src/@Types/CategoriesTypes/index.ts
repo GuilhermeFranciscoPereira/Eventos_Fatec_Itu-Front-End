@@ -12,3 +12,8 @@ export type CreateCategoryDto = {
 export type UpdateCategoryDto = {
     name?: string;
 };
+
+export type CategoryPublicResponse = {
+    id: number;
+    name?: string;
+}
