@@ -14,7 +14,7 @@ import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
 import { useCreateParticipant } from '@/hooks/api/Participants/Post/useCreateParticipant';
-import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription } from 'react-icons/md';
+import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription, MdCancel, MdCheckCircle, MdSchool } from 'react-icons/md';
 
 type SubscriptionFormProps = {
     nameRef: React.RefObject<HTMLInputElement | null>;
@@ -64,6 +64,48 @@ export default function EventDetail(): React.ReactElement {
                         <strong className={styles.label}>Palestrante:</strong>
                         <p className={styles.infoText}>{event.speakerName}</p>
                     </div>
+
+                    <div className={styles.infoItem}>
+                        {event.isRestricted
+                            ? <MdCheckCircle size={20} color="green" className={styles.icon} />
+                            : <MdCancel size={20} color="red" className={styles.icon} />}
+                        <strong className={styles.label}>Evento restrito somente a alunos e colaboradores?</strong>
+                        <p className={styles.infoText}>{event.isRestricted ? 'Sim' : 'Não'}</p>
+                    </div>
+
+                    {event.isRestricted && (
+                        <div className={styles.infoItem}>
+                            <MdPerson size={20} className={styles.icon} />
+                            <strong className={styles.label}>Curso:</strong>
+                            <p className={styles.infoText}>
+                                {event.course === 'ALL'
+                                    ? 'Evento disponível para todos os cursos'
+                                    : `Evento disponível somente para alunos do curso de: ${{
+                                        ADS: 'Análise e Desenvolvimento de Sistemas',
+                                        GE: 'Gestão Empresarial',
+                                        GTI: 'Gestão da Tecnologia da Informação',
+                                        GEMP: 'Gestão Empresarial Mecânica de Precisão',
+                                        MEC: 'Engenharia Mecânica',
+                                    }[event.course]
+                                    }`}
+                            </p>
+                        </div>
+                    )}
+
+                    {event.isRestricted && (
+                        <div className={styles.infoItem}>
+                            <MdSchool size={20} className={styles.icon} />
+                            <strong className={styles.label}>Semestre:</strong>
+                            <p className={styles.infoText}>
+                                {!event.semester || event.semester === 'ALL'
+                                    ? 'Evento disponível para todos os semestres'
+                                    : event.semester === 'ESPECIAL'
+                                        ? 'Evento disponível somente para alunos em modelo especial'
+                                        : `Evento disponível somente para o ${event.semester.replace('SEMESTER', '')}º semestre`}
+                            </p>
+                        </div>
+                    )}
+
                     <div className={styles.infoItem}>
                         <MdEvent size={20} className={styles.icon} />
                         <strong className={styles.label}>Data:</strong>
@@ -153,16 +195,20 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
                 <>
                     <div className={styles.fieldGroup}>
                         <label htmlFor="course">Curso</label>
-                        <select id="course" ref={courseRef} className={styles.select}>
+                        <select id="course" ref={courseRef} className={styles.select} required>
                             <option value="">Selecione</option>
                             {Object.values(courseOptions).map(c => (<option key={c} value={c}>{c}</option>))}
                         </select>
                     </div>
                     <div className={styles.fieldGroup}>
                         <label htmlFor="semester">Semestre</label>
-                        <select id="semester" ref={semesterRef} className={styles.select}>
+                        <select id="semester" ref={semesterRef} className={styles.select} required>
                             <option value="">Selecione</option>
-                            {Object.values(semesterOptions).map(s => (<option key={s} value={s}>{s.replace('SEMESTER', '')}º</option>))}
+                            {Object.values(semesterOptions).map(v => (<option key={v} value={v}>
+                                {v === 'ESPECIAL'
+                                    ? 'Especial'
+                                    : `${v.replace('SEMESTER', '')}º`}
+                            </option>))}
                         </select>
                     </div>
                     <InputDefault ref={raRef} label="RA" minLength={13} maxLength={13} />

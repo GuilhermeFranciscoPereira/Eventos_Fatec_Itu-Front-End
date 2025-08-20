@@ -1,6 +1,7 @@
-export type Course = 'ADS' | 'GE' | 'GTI' | 'GEMP' | 'MEC';
+export type Course = 'ALL' | 'ADS' | 'GE' | 'GTI' | 'GEMP' | 'MEC';
 
 export type Semester =
+    | 'ALL'
     | 'SEMESTER1'
     | 'SEMESTER2'
     | 'SEMESTER3'

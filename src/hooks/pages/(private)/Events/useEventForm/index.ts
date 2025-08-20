@@ -8,8 +8,8 @@ import { useGetAvailabilityDates } from '@/hooks/api/Events/Get/useGetAvailabili
 import { useGetAvailabilityTimes } from '@/hooks/api/Events/Get/useGetAvailabilityTimes';
 import type { Location, Course, Semester, AvailabilityTime, CreateEventDto, UpdateEventDto } from '@/@Types/EventTypes';
 
-const courseOptions = ['ADS', 'GE', 'GTI', 'GEMP', 'MEC'] as const;
-const semesterOptions = ['SEMESTER1', 'SEMESTER2', 'SEMESTER3', 'SEMESTER4', 'SEMESTER5', 'SEMESTER6', 'ESPECIAL'] as const;
+const courseOptions = ['ALL', 'ADS', 'GE', 'GTI', 'GEMP', 'MEC'] as const;
+const semesterOptions = ['SEMESTER1', 'SEMESTER2', 'SEMESTER3', 'SEMESTER4', 'SEMESTER5', 'SEMESTER6', 'ALL', 'ESPECIAL'] as const;
 const locationOptions = [
     'AUDITORIO',
     'BIBLIOTECA',
@@ -85,8 +85,10 @@ export function useEventForm() {
     const [endOptions, setEndOptions] = useState<string[]>([]);
     const today: string = new Date().toISOString().split('T')[0];
     const [startOptions, setStartOptions] = useState<string[]>([]);
+    const [courseValue, setCourseValue] = useState<Course | ''>('');
     const [initialUrl, setInitialUrl] = useState<string | null>(null);
     const [availableDates, setAvailableDates] = useState<string[]>([]);
+    const [semesterValue, setSemesterValue] = useState<Semester | ''>('');
     const [availableTimes, setAvailableTimes] = useState<AvailabilityTime[]>([]);
 
     const goBack = () => router.back();
@@ -104,8 +106,8 @@ export function useEventForm() {
                 descRef.current!.value = e.description
                 speakerRef.current!.value = e.speakerName
                 maxRef.current!.value = `${e.maxParticipants}`
-                courseRef.current!.value = e.course
-                semesterRef.current!.value = e.semester || ''
+                courseRef.current!.value = e.course ?? 'ALL'
+                semesterRef.current!.value = e.semester ?? 'ALL'
                 categoryRef.current!.value = e.categoryId?.toString() || ''
                 restrictedRef.current!.checked = e.isRestricted
                 locationRef.current!.value = e.location
@@ -136,6 +138,8 @@ export function useEventForm() {
                     })
                 )
                 setEndTime(e.endTime.slice(11, 16))
+                setCourseValue(e.course ?? 'ALL');
+                setSemesterValue(e.semester ?? 'ALL');
             } catch (err: unknown) {
                 const msg = err instanceof Error ? err.message : String(err);
                 if (!msg.includes('404')) showToast({ message: 'Falha ao carregar evento.', type: 'Error' });
@@ -215,6 +219,20 @@ export function useEventForm() {
         setEndOptions([...new Set(times)]);
     }
 
+    function handleCourseChangeUI(e: React.ChangeEvent<HTMLSelectElement>): void {
+        const v = e.target.value as Course | '';
+        setCourseValue(v);
+        if (v === 'ALL' || v === '') {
+            setSemesterValue('ALL');
+            if (semesterRef.current) semesterRef.current.value = 'ALL';
+        }
+    }
+
+    function handleSemesterChangeUI(e: React.ChangeEvent<HTMLSelectElement>): void {
+        const v = e.target.value as Semester | '';
+        setSemesterValue(v);
+    }
+
     async function handleSubmit(e: React.FormEvent): Promise<void> {
         e.preventDefault();
         if (isNew && !selectedFileRef.current) return showToast({ message: 'Você deve inserir uma imagem', type: 'Alert' });
@@ -224,7 +242,7 @@ export function useEventForm() {
             name: nameRef.current!.value.trim(),
             description: descRef.current!.value.trim(),
             course: courseRef.current!.value as Course,
-            semester: (semesterRef.current!.value as Semester) || undefined,
+            semester: courseRef.current!.value as Course === 'ALL' ? 'ALL' : ((semesterRef.current!.value as Semester) || 'ALL'),
             maxParticipants: Number(maxRef.current!.value),
             isRestricted: restrictedRef.current!.checked,
             location: locationRef.current!.value as Location,
@@ -255,5 +273,5 @@ export function useEventForm() {
         }
     }
 
-    return { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, goBack, setStartTime, setEndTime };
+    return { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, goBack, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI };
 }

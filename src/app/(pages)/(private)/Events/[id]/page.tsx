@@ -9,7 +9,7 @@ import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, goBack } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, courseValue, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, goBack, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -42,19 +42,23 @@ export default function EventForm(): React.ReactElement {
           </div>
         </div>
         <div className={styles.row}>
-          <select ref={courseRef} className={styles.input} defaultValue="" required>
+          <select ref={courseRef} className={styles.input} defaultValue="" required onChange={handleCourseChangeUI}>
             <option value="">Curso</option>
             {courseOptions.map(v => (
               <option key={v} value={v}>
-                {v}
+                {v === 'ALL' ? 'Todos' : v}
               </option>
             ))}
           </select>
-          <select ref={semesterRef} className={styles.input} defaultValue="">
+          <select ref={semesterRef} className={styles.input} defaultValue="" disabled={!courseValue || courseValue === 'ALL'} onChange={handleSemesterChangeUI}>
             <option value="">Semestre (opcional)</option>
             {semesterOptions.map(v => (
               <option key={v} value={v}>
-                {v.replace('SEMESTER', '')}º
+                {v === 'ALL'
+                  ? 'Todos'
+                  : v === 'ESPECIAL'
+                    ? 'Especial'
+                    : `${v.replace('SEMESTER', '')}º`}
               </option>
             ))}
           </select>

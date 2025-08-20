@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/CardEvents:` Na página de detalhes, “Outros eventos” passa a listar somente eventos da mesma categoria do evento atual, sem exibir os filtros.  evento atual é excluído da listagem para evitar duplicidade. O título “Outros eventos que podem te interessar” só aparece se houver ao menos um evento relacionado.
+### `Events:` Added the option to select "All" for both semester and course, and displayed on the event details screen the fields that inform whether the event is restricted to students and collaborators or not and if so, whether it is for a specific course or all.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
