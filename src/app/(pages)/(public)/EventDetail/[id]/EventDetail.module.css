@@ -68,3 +68,13 @@
     border-radius: 7px;
     box-shadow: var(--box-shadow);
 }
+
+@media (max-width: 480px) {
+    .eventDetailPage > .detailPageInfo > .detailPageHeader {
+        height: 230px;
+    }
+
+    .eventDetailPage > .detailPageInfo > .infoItem > .label {
+        display: inline;
+    }
+}

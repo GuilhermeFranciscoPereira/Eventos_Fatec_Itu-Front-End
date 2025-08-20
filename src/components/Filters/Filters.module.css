@@ -132,6 +132,11 @@
     }
 
     .filtersContainer > .rightSideFilters > .datesFilter > .inputDate {
-        width: 95%;
+        width: 98%;
+    }
+
+    .filtersContainer > .rightSideFilters > .datesFilter:nth-child(2) > .label {
+        text-align: end;
+        width: 98%;
     }
 }

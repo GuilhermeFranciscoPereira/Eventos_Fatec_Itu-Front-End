@@ -58,7 +58,7 @@ export default function Footer(): React.ReactElement {
                     Centro Paula Souza - Faculdade de Tecnologia de Itu - Fatec Itu
                 </div>
                 <div className={styles.footerCredits}>
-                    Sistema desenvolvido por alunos - Repositório: <Link href='https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-Back-End'>Clique aqui</Link>
+                    Sistema desenvolvido por alunos - Repositório: <Link href='https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-Back-End' target='_blank'>Clique aqui</Link>
                 </div>
             </div>
         </footer>

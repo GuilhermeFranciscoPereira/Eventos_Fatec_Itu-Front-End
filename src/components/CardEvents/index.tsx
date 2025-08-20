@@ -79,7 +79,7 @@ export default function CardEvents({ excludeId, showFilters = true, categoryId =
                                     <p className={styles.title}>{event.name}</p>
                                     <p> Data:{' '}{new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</p>
                                     <p> Horário:{' '} {[event.startTime, event.endTime].map((t) => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' - ')}</p>
-                                    <p>Local: {event.customLocation ?? event.location.replace(/_/g, ' ')}</p>
+                                    <p>Local: {event.customLocation ?? event.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase())}</p>
                                     <p>Palestrante: {event.speakerName}</p>
                                     <Link href={`/EventDetail/${event.id}`}>
                                         <ButtonRay text="Ver mais sobre" type="button" />

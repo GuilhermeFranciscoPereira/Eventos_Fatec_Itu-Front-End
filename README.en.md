@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `Events:` Added the option to select "All" for both semester and course, and displayed on the event details screen the fields that inform whether the event is restricted to students and collaborators or not and if so, whether it is for a specific course or all.
+### `Styles/mobile:` Small changes to mobile styling
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

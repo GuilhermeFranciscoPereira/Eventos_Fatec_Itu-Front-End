@@ -66,6 +66,10 @@
     line-height: 1.3;
 }
 
+.footerContainer > .footerSectionRight > .footerCredits > a {
+    color: inherit;
+}
+
 @media (max-width: 768px) {
     .footerContainer {
         flex-direction: column;

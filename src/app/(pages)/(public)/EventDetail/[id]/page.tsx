@@ -14,7 +14,7 @@ import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
 import { useCreateParticipant } from '@/hooks/api/Participants/Post/useCreateParticipant';
-import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription, MdCancel, MdCheckCircle, MdSchool } from 'react-icons/md';
+import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription, MdSchool, MdLock, MdMenuBook } from 'react-icons/md';
 
 type SubscriptionFormProps = {
     nameRef: React.RefObject<HTMLInputElement | null>;
@@ -66,16 +66,16 @@ export default function EventDetail(): React.ReactElement {
                     </div>
 
                     <div className={styles.infoItem}>
-                        {event.isRestricted
-                            ? <MdCheckCircle size={20} color="green" className={styles.icon} />
-                            : <MdCancel size={20} color="red" className={styles.icon} />}
+                        <MdLock size={20} className={styles.icon} />
                         <strong className={styles.label}>Evento restrito somente a alunos e colaboradores?</strong>
-                        <p className={styles.infoText}>{event.isRestricted ? 'Sim' : 'Não'}</p>
+                        <p className={styles.infoText}>{event.isRestricted 
+                        ? 'Sim! O Evento é restrito somente à alunos e colaboradores da Fatec Itu!' 
+                        : 'Não! O Evento é publico para todos: Alunos, colaboradores e pessoas de fora!'}</p>
                     </div>
 
                     {event.isRestricted && (
                         <div className={styles.infoItem}>
-                            <MdPerson size={20} className={styles.icon} />
+                            <MdMenuBook size={20} className={styles.icon} />
                             <strong className={styles.label}>Curso:</strong>
                             <p className={styles.infoText}>
                                 {event.course === 'ALL'
@@ -118,7 +118,7 @@ export default function EventDetail(): React.ReactElement {
                         <MdLocationOn size={20} className={styles.icon} />
                         <strong className={styles.label}>Local:</strong>
                         <p className={styles.infoText}>
-                            {event.location === 'OUTROS' ? event.customLocation : event.location.replace(/_/g, ' ')}
+                            {event.location === 'OUTROS' ? event.customLocation : event.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase())}
                         </p>
                     </div>
                     <div className={styles.infoItem}>

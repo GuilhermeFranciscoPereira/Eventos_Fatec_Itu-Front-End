@@ -37,7 +37,7 @@ export default function Events(): React.ReactElement {
             id: 'location',
             header: 'Local',
             accessor: (e: EventProps) =>
-                e.location === 'OUTROS' ? e.customLocation : e.location.replace(/_/g, ' '),
+                e.location === 'OUTROS' ? e.customLocation : e.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()),
         },
         {
             id: 'actions',
@@ -84,7 +84,7 @@ export default function Events(): React.ReactElement {
                 records={events}
                 schema={schema}
                 getIdentifier={(e) => e.id}
-                hiddenOnMobile={['date', 'time', 'location']}
+                hiddenOnMobile={['date', 'name', 'time', 'location']}
             />
         </main>
     );

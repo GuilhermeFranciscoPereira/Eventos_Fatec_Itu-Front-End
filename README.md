@@ -26,7 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Events:` Adicionado a opção de selecionar "Todos" tanto para semestre quanto para curso, e apresentado na tela de detalhes do evento os campos que informam se o evento é restrito para alunos e colaboradores ou não e se sim, se é para um curso especifico ou todos.
+### `Styles/mobile:` Pequenas alterações nas estilizações do mobile
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

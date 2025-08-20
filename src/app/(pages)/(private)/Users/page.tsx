@@ -57,7 +57,7 @@ export default function Users(): React.ReactElement {
                 records={users}
                 schema={schemaTable}
                 getIdentifier={(u) => u.id}
-                hiddenOnMobile={['name', 'role']}
+                hiddenOnMobile={['email', 'role']}
             />
         </main>
     );
