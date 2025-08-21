@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Buttons/ButtonComebackUrl:` This button provides the user with the option to return to the previous page or to a URL chosen in the code. If the code does not pass the props to it, by default it returns to the URL previous to the one it is currently on. If you do not pass the label, it comes by default as: "Voltar"
+### `./next.config.ts:` Updated Next.js configuration replacing `images.domains` with `images.remotePatterns`, as the former is deprecated. This change ensures compatibility with newer Next.js versions and avoids build warnings.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
