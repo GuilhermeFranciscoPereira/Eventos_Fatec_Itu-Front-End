@@ -11,6 +11,7 @@ import ImageCloudinary from '@/components/ImageCloudinary';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
+import ButtonComebackUrl from '@/components/Buttons/ButtonComebackUrl';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
 import { useCreateParticipant } from '@/hooks/api/Participants/Post/useCreateParticipant';
@@ -49,6 +50,9 @@ export default function EventDetail(): React.ReactElement {
     return (
         <>
             <main className={styles.eventDetailPage}>
+                <div className={styles.buttonComeback}>
+                    <ButtonComebackUrl />
+                </div>
                 <div className={styles.detailPageInfo}>
                     <div className={styles.detailPageHeader}>
                         <ImageCloudinary
@@ -68,9 +72,9 @@ export default function EventDetail(): React.ReactElement {
                     <div className={styles.infoItem}>
                         <MdLock size={20} className={styles.icon} />
                         <strong className={styles.label}>Evento restrito somente a alunos e colaboradores?</strong>
-                        <p className={styles.infoText}>{event.isRestricted 
-                        ? 'Sim! O Evento é restrito somente à alunos e colaboradores da Fatec Itu!' 
-                        : 'Não! O Evento é publico para todos: Alunos, colaboradores e pessoas de fora!'}</p>
+                        <p className={styles.infoText}>{event.isRestricted
+                            ? 'Sim! O Evento é restrito somente à alunos e colaboradores da Fatec Itu!'
+                            : 'Não! O Evento é publico para todos: Alunos, colaboradores e pessoas de fora!'}</p>
                     </div>
 
                     {event.isRestricted && (

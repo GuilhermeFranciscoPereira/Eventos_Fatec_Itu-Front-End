@@ -1,3 +1,9 @@
+.eventDetailPage > .buttonComeback {
+    max-width: 900px;
+    width: 95%;
+    margin: 1rem auto;
+}
+
 .eventDetailPage > .detailPageInfo {
     max-width: 900px;
     width: 95%;

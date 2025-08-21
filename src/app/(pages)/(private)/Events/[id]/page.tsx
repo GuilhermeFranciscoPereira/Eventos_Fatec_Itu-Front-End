@@ -1,21 +1,21 @@
 'use client';
 import Loader from '@/components/Loader';
-import { MdArrowBack } from 'react-icons/md';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import InputImage from '@/components/Inputs/InputImage';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
+import ButtonComebackUrl from '@/components/Buttons/ButtonComebackUrl';
 import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, courseValue, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, goBack, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, courseValue, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
       {loading && <Loader />}
+      <ButtonComebackUrl />
       <header className={styles.formHeader}>
-        <MdArrowBack size={24} className={styles.backIcon} onClick={goBack} />
         <h1>{isNew ? 'Criar Evento' : 'Editar Evento'}</h1>
       </header>
       <form className={styles.form} onSubmit={handleSubmit}>

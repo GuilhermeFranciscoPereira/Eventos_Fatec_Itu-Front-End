@@ -26,7 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/app/pages/private/Events:` Adicionado a validação de se o usuário está logado como "auxiliar" se sim não mostra certas opções, como: Criar evento, editar evento ou excluir evento.
+### `./src/components/Buttons/ButtonComebackUrl:` Este botão disponibiliza a opção do usuário voltar para a página anterior ou para alguma url escolhida no código, caso no código não passe as props para ele, por padrão ele volta para a url anterior a que esta no momento, se não passar a label vem por padrão como: "Voltar"
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -91,6 +91,7 @@
 
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
     - `Buttons:`
+        - `ButtonComebackUrl:` Este botão disponibiliza a opção do usuário voltar para a página anterior ou para alguma url escolhida no código, caso no código não passe as props para ele, por padrão ele volta para a url anterior a que esta no momento, se não passar a label vem por padrão como: "Voltar"
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
         - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
     - `CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.

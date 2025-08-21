@@ -91,8 +91,6 @@ export function useEventForm() {
     const [semesterValue, setSemesterValue] = useState<Semester | ''>('');
     const [availableTimes, setAvailableTimes] = useState<AvailabilityTime[]>([]);
 
-    const goBack = () => router.back();
-
     useEffect(() => {
         if (isNew) return;
         setLoading(true);
@@ -273,5 +271,5 @@ export function useEventForm() {
         }
     }
 
-    return { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, goBack, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI };
+    return { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, locationOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI };
 }

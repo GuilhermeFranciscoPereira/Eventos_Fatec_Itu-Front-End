@@ -7,6 +7,7 @@ import { printSection } from '@/utils/printSection';
 import { ParticipantProps } from '@/@Types/ParticipantsTypes';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { downloadSectionAsPdf } from '@/utils/downloadSectionAsPdf';
+import ButtonComebackUrl from '@/components/Buttons/ButtonComebackUrl';
 import { useEditParticipant } from '@/hooks/api/Participants/Patch/useEditParticipant';
 import { useGetAllParticipants } from '@/hooks/api/Participants/Get/useGetAllParticipants';
 import styles from '@/app/(pages)/(private)/Events/Participants/[id]/Participants.module.css';
@@ -48,6 +49,7 @@ export default function Participants(): React.ReactElement {
 
     return (
         <main className={styles.participantsPage}>
+            <ButtonComebackUrl />
             <header className={styles.participantsPageHeader}>
                 <h1>Gerenciamento de Participantes</h1>
                 <div className={styles.buttonsParticipantsPage}>

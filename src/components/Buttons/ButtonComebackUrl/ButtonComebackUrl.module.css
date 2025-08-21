@@ -1,0 +1,25 @@
+.comebackWrapper {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--color);
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.comebackWrapper:hover {
+    color: #111827;
+    transition: .4s;
+    transform: scale(1.1);
+}
+
+.comebackWrapper > .backIcon {
+    flex-shrink: 0;
+}

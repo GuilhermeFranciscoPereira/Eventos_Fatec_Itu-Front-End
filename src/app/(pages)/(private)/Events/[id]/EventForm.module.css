@@ -13,10 +13,6 @@
     margin-bottom: 1.5rem;
 }
 
-.formPage > .formHeader > .backIcon {
-    cursor: pointer;
-}
-
 .formPage > .formHeader > h1 {
     margin: 0;
     font-size: 1.75rem;

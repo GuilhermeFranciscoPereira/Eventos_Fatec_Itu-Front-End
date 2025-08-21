@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/app/pages/private/Events:` Added validation of whether the user is logged in as "auxiliar" if so it does not show certain options, such as: Create event, edit event or delete event.
+### `./src/components/Buttons/ButtonComebackUrl:` This button provides the user with the option to return to the previous page or to a URL chosen in the code. If the code does not pass the props to it, by default it returns to the URL previous to the one it is currently on. If you do not pass the label, it comes by default as: "Voltar"
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -91,7 +91,9 @@
 
 - `./src/components:` Where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
+        - `ButtonComebackUrl:` This button provides the user with the option to return to the previous page or to a URL chosen in the code. If the code does not pass the props to it, by default it returns to the URL previous to the one it is currently on. If you do not pass the label, it comes by default as: "Voltar"
         - `ButtonDarkMode:` Button responsible for managing the website's dark mode (light/dark mode). - `ButtonRay:` Button that is reused in various parts of the code, changing the text, etc., based on props.
+        - `Button Ray:` Button that is used in different parts of the code, changing the text and etc based on the props
     - `CardEvents:` Cards that show events to unauthenticated users, they only show events that have not yet occurred, they contain brief information such as the photo, title, day and time and speaker.
     - `CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
