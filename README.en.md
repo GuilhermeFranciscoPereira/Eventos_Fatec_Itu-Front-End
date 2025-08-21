@@ -26,7 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `Styles/mobile:` Small changes to mobile styling
+### `./src/app/pages/private/Events:` Added validation of whether the user is logged in as "auxiliar" if so it does not show certain options, such as: Create event, edit event or delete event.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

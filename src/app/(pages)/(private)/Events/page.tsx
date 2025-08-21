@@ -4,6 +4,7 @@ import Loader from '@/components/Loader';
 import { TiGroup } from 'react-icons/ti';
 import { Table } from '@/components/Table';
 import { EventProps } from '@/@Types/EventTypes';
+import { useUserStore } from '@/stores/useUserStore';
 import { useModalStore } from '@/stores/useModalStore';
 import ImageCloudinary from '@/components/ImageCloudinary';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
@@ -13,6 +14,7 @@ import { useDeleteEvent } from '@/hooks/api/Events/Delete/useDeleteEvent';
 
 export default function Events(): React.ReactElement {
     const deleteEvent = useDeleteEvent();
+    const user = useUserStore((state) => state.user);
     const openModal = useModalStore((s) => s.openModal);
     const { events, loading, refetch } = useGetAllEvents();
 
@@ -51,17 +53,22 @@ export default function Events(): React.ReactElement {
                             className={styles.icon}
                         />
                     </Link>
-                    <Link href={`/Events/${e.id}`}>
-                        <MdEdit
-                            size={20}
-                            className={styles.icon}
-                        />
-                    </Link>
-                    <MdDelete
-                        size={20}
-                        className={styles.icon}
-                        onClick={() => handleDelete(e)}
-                    />
+                    {
+                        user?.role !== 'AUXILIAR' &&
+                        <>
+                            <Link href={`/Events/${e.id}`}>
+                                <MdEdit
+                                    size={20}
+                                    className={styles.icon}
+                                />
+                            </Link>
+                            <MdDelete
+                                size={20}
+                                className={styles.icon}
+                                onClick={() => handleDelete(e)}
+                            />
+                        </>
+                    }
                 </div>
             ),
         },
@@ -71,11 +78,14 @@ export default function Events(): React.ReactElement {
         <main className={styles.eventsPage}>
             <header className={styles.eventsPageHeader}>
                 <h1>Gerenciamento de Eventos</h1>
-                <Link href={`/Events/new`}>
-                    <button className={styles.createBtn}>
-                        <MdAssignmentAdd /> Novo Evento
-                    </button>
-                </Link>
+                {
+                    user?.role !== 'AUXILIAR' &&
+                    <Link href={`/Events/new`}>
+                        <button className={styles.createBtn}>
+                            <MdAssignmentAdd /> Novo Evento
+                        </button>
+                    </Link>
+                }
             </header>
 
             {loading && <Loader />}

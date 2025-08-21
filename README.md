@@ -26,7 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Styles/mobile:` Pequenas alterações nas estilizações do mobile
+### `./src/app/pages/private/Events:` Adicionado a validação de se o usuário está logado como "auxiliar" se sim não mostra certas opções, como: Criar evento, editar evento ou excluir evento.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
