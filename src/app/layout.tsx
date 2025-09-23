@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from 'next/font/google';
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import ZustandWrapper from "@/stores/ZustandWrapper";
@@ -11,12 +11,15 @@ export const metadata: Metadata = {
   creator: "Guilherme Francisco Pereira -> https://github.com/GuilhermeFranciscoPereira",
 };
 
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900']
+})
 
 export default function RootLayout({ children }: { children: React.ReactElement }) {
   return (
     <html lang="pt-br">
-      <body className={inter.className}>
+      <body className={poppins.className}>
         <ZustandWrapper />
         <Header />
         <Sidebar />

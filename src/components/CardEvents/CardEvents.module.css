@@ -16,8 +16,7 @@
 }
 
 .cardEventsSection > .card {
-    padding: 5px;
-    border: 2px solid var(--red-primary);
+    padding: 10px;
     border-radius: 12px;
     box-shadow: var(--box-shadow);
     transition: transform .2s ease;
@@ -68,8 +67,16 @@
     margin: 10px 0px;
 }
 
+.cardEventsSection > .card > .cardInt > .cardData > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
 .cardEventsSection > .card > .cardInt > .cardData > a > button {
-    margin: 15px 0px;
+    margin: 15px 0px 5px;
+    width: 80%;
 }
 
 @media (max-width: 769px) {

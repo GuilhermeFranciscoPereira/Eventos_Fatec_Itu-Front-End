@@ -26,7 +26,13 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./next.config.ts:` Atualizada configuração do Next.js substituindo `images.domains` por `images.remotePatterns`, já que o primeiro está depreciado. Essa mudança garante compatibilidade com as versões mais recentes do Next.js e evita warnings no build.
+### `./src/components/Sidebar:` Alterado o sidebar para outra versão de estilização, porém, mantendo os mesmos links
+
+### `./src/app/globals.css:` Alterado a cor vermelha principal quando está com o dark mode ativo
+
+### `./src/app/layout.tsx:` Alterado a fonte de todo o sistema para a fonte Poppins
+
+### `./src/components/CardEvents:` Removido a borda dos cards de eventos
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

@@ -11,7 +11,7 @@
     background: radial-gradient(65.28% 65.28% at 50% 100%,
             rgba(178, 0, 0, 0.8) 0%,
             rgba(178, 0, 0, 0) 100%),
-        linear-gradient(0deg, rgb(209, 92, 92), #b20000);
+        linear-gradient(0deg, rgb(209, 92, 92), var(--red-primary));
     border: none;
     outline: none;
     padding: 12px 18px;
