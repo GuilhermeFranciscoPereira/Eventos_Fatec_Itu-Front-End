@@ -26,13 +26,7 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Sidebar:` Changed the sidebar to a different styling, but kept the same links.
-
-### `./src/app/globals.css:` Changed the main color to red when dark mode is active.
-
-### `./src/app/layout.tsx:` Changed the system-wide font to Poppins.
-
-### `./src/components/CardEvents:` Removed the border from event cards.
+### `./src/app/(pages)/(public)/Login:` Refactored the Login and password recovery screen to a new style.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -191,8 +185,6 @@
             - `/Events:` Logical parts of the /Events route
                 - `/useEventForm:` All logical parts of the event creation or editing screen
         - `(public):` Page logic, page.tsx files located within the app -> (pages/public)
-            - `(public)/Login:` Logical parts of the /Login route
-                - `(public)/Login/useYeti:` Controls the Yeti to handle the animation of "interacting" with inputs
 
 - `./src/stores:` Stores for the Zustand library
     - `ZustandWrapper:` Brings together all Zustand components to share in a single form for the layout.tsx

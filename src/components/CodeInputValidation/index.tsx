@@ -16,7 +16,7 @@ export default function CodeInputValidation({ infoTitle, children, validateFn }:
             <form className={styles.form} onSubmit={handleSubmit} autoComplete="off">
                 <div className={styles.info}>
                     <span className={styles.title}>{infoTitle}</span>
-                    <p className={styles.description}>Digite o código enviado para o seu e-mail!</p>
+                    <p className={styles.description}>Verifique sua caixa de entrada ou spam</p>
                 </div>
 
                 {children}

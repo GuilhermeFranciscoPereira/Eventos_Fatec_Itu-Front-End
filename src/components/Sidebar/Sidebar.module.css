@@ -276,16 +276,25 @@
     border-top: 1px solid rgba(0, 0, 0, .06);
 }
 
-.sidebar > .loginWrap > .loginCompact {
-    display: grid;
+.sidebar > .loginWrap > .loginClosed {
+    display: none;
+}
+
+.sidebar.closed > .loginWrap {
+    padding: 0;
 }
 
 .sidebar.closed > .loginWrap > .loginCompact {
     width: 100%;
+    height: 70px;
 }
 
-.sidebar > .loginWrap > .loginClosed {
-    display: none;
+.sidebar.closed > .loginWrap > .loginCompact > * {
+    width: 100%;
+    height: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 .sidebar > .profileForm {

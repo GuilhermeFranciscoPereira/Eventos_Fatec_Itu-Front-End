@@ -26,13 +26,7 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Sidebar:` Alterado o sidebar para outra versão de estilização, porém, mantendo os mesmos links
-
-### `./src/app/globals.css:` Alterado a cor vermelha principal quando está com o dark mode ativo
-
-### `./src/app/layout.tsx:` Alterado a fonte de todo o sistema para a fonte Poppins
-
-### `./src/components/CardEvents:` Removido a borda dos cards de eventos
+### `./src/app/(pages)/(public)/Login:` Refatorado a tela de Login e recuperação de senha para uma nova estilização.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -193,8 +187,6 @@
             - `/Events:` Partes lógicas da rota /Events
                 - `/useEventForm:` Todas as partes lógicas da tela de criação ou edição de eventos
         - `(public):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/public)
-            - `/Login:` Partes lógicas da rota /Login
-                - `/useYeti:` Controla o yeti para lidar com a animação de "interagir" com os inputs
 
 - `./src/stores:` Stores para a biblioteca Zustand
     - `ZustandWrapper:` Junta todos os components do Zustand para compartilharmos de uma única forma para o layout.tsx
