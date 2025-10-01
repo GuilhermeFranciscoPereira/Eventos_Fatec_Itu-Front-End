@@ -48,7 +48,7 @@ export function useEditCarousel(): useEditCarouselProps {
         throw new Error(err.message || 'Falha ao atualizar carousel');
       }
 
-      showToast({ message: 'Carrossel atualizado com sucesso!', type: 'Success' });
+      showToast({ message: 'Carrossel atualizado!', type: 'success' });
     },
     [showToast]
   );
@@ -72,7 +72,7 @@ export function useToggleActiveCarousel(): useToggleActiveCarouselProps {
         throw new Error(err.message || 'Falha ao alternar ativo');
       }
 
-      showToast({ message: isActive ? 'Imagem ativada!' : 'Imagem desativada!', type: 'Success' });
+      showToast({ message: isActive ? 'Imagem ativada!' : 'Imagem desativada!', type: 'success' });
     },
     [showToast]
   );

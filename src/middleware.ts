@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { MiddlewareConfig, NextRequest } from 'next/server';
 
-const REFRESH_COOKIE = process.env.NEXT_PUBLIC_REFRESH_COOKIE || '';
+const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN || '';
 const AUTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_AUTHENTICATED_ROUTE || '';
 const UNAUNTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_NOT_AUTHENTICATED_ROUTE || '';
 
@@ -24,7 +24,7 @@ export function middleware(request: NextRequest) {
     const publicRoute: publicRoutesProps | undefined = publicRoutes.find(route => route.type === 'exact' ? request.nextUrl.pathname === route.path : request.nextUrl.pathname.startsWith(`${route.path}/`));
 
     // User not authenticated ( without token JWT ) 
-    if (!request.cookies.get(REFRESH_COOKIE)?.value) {
+    if (!request.cookies.get(ACCESS_TOKEN)?.value) {
         // User not authenticated + Public route => Allow access
         if (publicRoute) return NextResponse.next();
 

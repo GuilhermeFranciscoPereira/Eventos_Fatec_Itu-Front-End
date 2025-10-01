@@ -22,7 +22,7 @@ export function useCreateCategory(): useCreateCategoryProps {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao criar nova categoria, erro em: useCreateCategory');
         }
-        showToast({ message: 'Categoria salva com sucesso!', type: 'Success' });
+        showToast({ message: 'Categoria salva!', type: 'success' });
         return response.json();
     }, [showToast]);
 }

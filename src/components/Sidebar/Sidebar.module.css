@@ -1,45 +1,64 @@
 .sidebar {
     position: fixed;
-    inset: 0 auto 0 0;
+    inset: 70px auto 0 0;
     width: 70px;
-    height: calc(100dvh - 70px);
-    margin-top: 70px;
+    height: calc(100vh - 70px);
     display: grid;
-    grid-template-rows: 64px 1fr auto;
+    grid-template-rows: 56px 1fr auto;
     background: var(--background);
-    box-shadow: 1px 0 0 rgba(0, 0, 0, .06), 12px 0 24px -12px rgba(0, 0, 0, .18);
-    overflow: hidden;
-    z-index: 998;
-    transition: width .25s ease;
+    border-right: 1px solid rgba(0, 0, 0, .06);
+    box-shadow: 0 0 1px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .2);
+    z-index: 990;
+    overflow-x: hidden;
+    transition: width 1s ease;
 }
 
 .sidebar:not(.closed):hover {
     width: 260px;
+    grid-template-rows: 120px 1fr auto;
+    transition: width 2s ease;
 }
 
-.sidebar~*,
-.sidebar.closed~* {
-    margin-left: 60px;
+.sidebar.closed:hover {
+    width: 70px;
 }
 
-.sidebar > .logo {
+.sidebar~* {
+    margin-left: 70px;
+    transition: margin-left .2s ease;
+}
+
+.header {
     display: grid;
-    grid-template-columns: 32px 1fr;
+    grid-template-rows: auto auto;
     align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    user-select: none;
-    z-index: 998;
+    justify-items: center;
+    margin-top: 10px;
 }
 
-.sidebar > .logo > .xAnimated {
-    cursor: pointer;
+.header > .logoRow {
+    position: relative;
+    width: 85%;
+    display: grid;
+    grid-template-columns: 32px 1fr 32px;
+    align-items: center;
+    height: 32px;
+    min-width: 0;
+}
+
+.header > .logoRow > .xAnimated {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     width: 32px;
     height: 32px;
+    display: block;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
     transition: transform .6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sidebar > .logo > .xAnimated > .lineTopBottom {
+.header > .logoRow > .xAnimated > .lineTopBottom {
     stroke-dasharray: 12 63;
     stroke: var(--text-color);
     fill: none;
@@ -49,7 +68,7 @@
     transition: stroke-dasharray 1s cubic-bezier(0.4, 0, 0.2, 1), stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sidebar > .logo > .xAnimated > .line {
+.header > .logoRow > .xAnimated > .line {
     stroke: var(--text-color);
     fill: none;
     stroke-width: 3;
@@ -57,146 +76,239 @@
     stroke-linejoin: round;
 }
 
-.sidebar:not(.closed):hover > .logo > .xAnimated {
+.sidebar:not(.closed):hover > .header > .logoRow > .xAnimated,
+.mobileOpen > .header > .logoRow > .xAnimated {
+    position: static;
+    justify-self: start;
     transform: rotate(-45deg);
 }
 
-.menuOpen {
-    transform: rotate(-45deg);
-}
-
-.sidebar:not(.closed):hover > .logo > .xAnimated > .lineTopBottom {
+.sidebar:not(.closed):hover > .header > .logoRow > .xAnimated > .lineTopBottom,
+.mobileOpen > .header > .logoRow > .xAnimated > .lineTopBottom {
     stroke-dasharray: 20 300;
     stroke-dashoffset: -32.42;
 }
 
-.sidebar > .logo > span {
+.header > .logoRow > .brandTitle {
+    grid-column: 2 / 3;
+    justify-self: center;
+    margin: 0;
+    line-height: 1;
+    text-align: center;
+    font-size: 28px;
     font-weight: 800;
-    font-size: 18px;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
     transition: opacity .18s ease .18s;
 }
 
-.sidebar:not(.closed):hover > .logo > span {
+.sidebar:not(.closed):hover > .header > .logoRow > .brandTitle,
+.mobileOpen > .header > .logoRow > .brandTitle {
     opacity: 1;
     visibility: visible;
 }
 
-.sidebar > .nav {
-    margin-top: 6px;
-    padding: 0 10px;
-    overflow: hidden;
+.header > .logoRow > .brandTitle > .brandRed {
+    color: var(--red-primary);
 }
 
-.sidebar > .nav > .list {
+.header > .brandInfo {
+    display: grid;
+    width: 100%;
+    padding: 0 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .18s ease .18s;
+    justify-items: stretch;
+}
+
+.sidebar:not(.closed):hover > .header > .brandInfo,
+.mobileOpen > .header > .brandInfo {
+    opacity: 1;
+    visibility: visible;
+}
+
+.header > .brandInfo > .brandSub {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    border-top: 1px solid rgba(0, 0, 0, .15);
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
+    padding: 6px 10px;
+    letter-spacing: .2px;
+    color: var(--text-color);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.nav {
+    overflow: hidden;
+    padding: 0px;
+}
+
+.nav > .list {
     display: grid;
     gap: 8px;
+    padding: 8px 0;
     list-style: none;
-    margin: 0;
-    padding: 8px 2px 8px 0;
-    max-height: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.sidebar > .nav > .list > .item {
+.nav > .list > .item {
     border-radius: 12px;
 }
 
-.sidebar > .nav > .list > .item > .navLink {
+.nav > .list > .item > .navLink {
     position: relative;
     display: grid;
-    grid-template-columns: 24px 1fr;
-    align-items: center;
-    gap: 20px;
-    padding: 10px;
+    grid-template-columns: 24px;
+    gap: 0;
+    padding: 8px 0px;
     border-radius: 12px;
     text-decoration: none;
     color: var(--text-color);
     font-size: 14px;
     background: transparent;
-    transition: background .15s ease, color .15s ease, gap .18s ease;
+    justify-items: center;
+    transition: background .15s ease, color .15s ease, gap .18s ease, padding .18s ease, grid-template-columns .18s ease;
 }
 
-.sidebar > .nav > .list > .item > button.navLink {
+.nav > .list > .item > button.navLink {
     all: unset;
     display: grid;
-    grid-template-columns: 24px 1fr;
-    align-items: center;
-    gap: 20px;
-    padding: 10px;
+    grid-template-columns: 24px;
+    gap: 0;
+    padding: 8px 0px;
     border-radius: 12px;
     color: var(--text-color);
     font-size: 14px;
     cursor: pointer;
+    justify-items: center;
+    transition: background .15s ease, color .15s ease, gap .18s ease, padding .18s ease, grid-template-columns .18s ease;
 }
 
-.sidebar > .nav > .list > .item > button.navLink > span {
+.sidebar > .nav > .list > .item > .navLink,
+.sidebar > .nav > .list > .item > button.navLink {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.sidebar:not(.closed):hover > .nav > .list > .item > .navLink,
+.sidebar:not(.closed):hover > .nav > .list > .item > button.navLink,
+.mobileOpen > .nav > .list > .item > .navLink,
+.mobileOpen > .nav > .list > .item > button.navLink {
+    grid-template-columns: 24px 1fr;
+    justify-items: start;
+    padding: 10px;
+    width: 90%;
+    margin: 0px auto;
+}
+
+.nav > .list > .item > button.navLink > span {
     font: inherit;
 }
 
-.sidebar > .nav > .list > .item > .navLink:hover {
+.nav > .list > .item > .navLink:hover {
     background: rgba(0, 0, 0, .04);
 }
 
-.sidebar > .nav > .list > .item.active > .navLink {
-    background: transparent;
+.sidebar:not(.closed):hover > .nav > .list > .item.active > .navLink,
+.mobileOpen > .nav > .list > .item.active > .navLink {
+    background: rgba(0, 0, 0, .08);
 }
 
-.sidebar:not(.closed):hover > .nav > .list > .item.active > .navLink {
-    background: rgba(0, 0, 0, .08);
+.sidebar > .nav > .list > .item.active > .navLink {
+    position: relative;
+    isolation: isolate;
 }
 
 .sidebar > .nav > .list > .item.active > .navLink::before {
     content: "";
     position: absolute;
-    left: 5px;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
     background: rgba(0, 0, 0, .08);
-    transition: opacity .15s ease;
+    transform: translate(-50%, -50%);
+    z-index: -1;
 }
 
-.sidebar:not(.closed):hover > .nav > .list > .item.active > .navLink::before {
-    display: none;
+.sidebar:not(.closed):hover > .nav > .list > .item.active > .navLink::before,
+.mobileOpen > .nav > .list > .item.active > .navLink::before {
+    content: none;
 }
 
-.sidebar > .nav > .list > .item > .navLink > svg {
+.nav > .list > .item > .navLink > svg {
     width: 22px;
     height: 22px;
 }
 
-.sidebar > .nav > .list > .item > .navLink > span {
+.nav > .list > .item > .navLink > span {
+    display: none;
     opacity: 0;
     visibility: hidden;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: opacity .18s ease .18s;
+    transition: opacity .18s ease .18s, visibility .18s ease .18s;
 }
 
-.sidebar:not(.closed):hover > .nav > .list > .item > .navLink > span {
+.sidebar:not(.closed):hover > .nav > .list > .item > .navLink,
+.mobileOpen > .nav > .list > .item > .navLink {
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    padding: 10px;
+    justify-items: start;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.sidebar:not(.closed):hover > .nav > .list > .item > button.navLink,
+.mobileOpen > .nav > .list > .item > button.navLink {
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    padding: 10px;
+    justify-items: start;
+    width: 83%;
+    margin: 0 auto;
+}
+
+.sidebar:not(.closed):hover .nav > .list > .item > .navLink > span,
+.mobileOpen .nav > .list > .item > .navLink > span {
+    display: block;
     opacity: 1;
     visibility: visible;
 }
 
-.sidebar > .Profile {
+.footer {
     position: sticky;
     bottom: 0;
     display: grid;
-    grid-template-columns: 42px 1fr auto;
     align-items: center;
-    gap: 12px;
     padding: 12px;
     background: var(--background);
     border-top: 1px solid rgba(0, 0, 0, .06);
 }
 
-.sidebar > .Profile > .avatar {
+.footer > .userBox {
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+}
+
+.footer > .userBox > .avatar {
     position: relative;
     width: 42px;
     height: 42px;
@@ -208,13 +320,13 @@
     place-items: center;
 }
 
-.sidebar > .Profile > .avatar > .avatarFallback {
+.footer > .userBox > .avatar > .avatarFallback {
     font-size: 13px;
     font-weight: 700;
     color: var(--text-color);
 }
 
-.sidebar > .Profile > .userMeta {
+.footer > .userBox > .userMeta {
     display: grid;
     gap: 2px;
     min-width: 0;
@@ -223,12 +335,13 @@
     transition: opacity .18s ease .18s;
 }
 
-.sidebar:not(.closed):hover > .Profile > .userMeta {
+.sidebar:not(.closed):hover > .footer > .userBox > .userMeta,
+.mobileOpen > .footer > .userBox > .userMeta {
     opacity: 1;
     visibility: visible;
 }
 
-.sidebar > .Profile > .userMeta > .userName {
+.footer > .userBox > .userMeta > .userName {
     font-size: 13px;
     font-weight: 600;
     white-space: nowrap;
@@ -236,7 +349,7 @@
     text-overflow: ellipsis;
 }
 
-.sidebar > .Profile > .userMeta > .userRole {
+.footer > .userBox > .userMeta > .userRole {
     font-size: 11px;
     color: #8b8b94;
     white-space: nowrap;
@@ -244,7 +357,7 @@
     text-overflow: ellipsis;
 }
 
-.sidebar > .Profile > .logout {
+.footer > .userBox > .logout {
     display: grid;
     place-items: center;
     width: 40px;
@@ -259,58 +372,78 @@
     transition: background .15s ease, opacity .18s ease .18s;
 }
 
-.sidebar:not(.closed):hover > .Profile > .logout {
+.sidebar:not(.closed):hover > .footer > .userBox > .logout,
+.mobileOpen > .footer > .userBox > .logout {
     opacity: 1;
     visibility: visible;
 }
 
-.sidebar > .Profile > .logout:hover {
+.footer > .userBox > .logout:hover {
     background: rgba(255, 0, 0, .2);
 }
 
-.sidebar > .loginWrap {
+.sidebar > .loginArea {
+    inline-size: 90%;
+    margin: 0px auto 10px;
+}
+
+.sidebar > .loginArea > .loginWrap {
     display: grid;
-    width: 100%;
     text-decoration: none;
-    padding: 12px;
-    border-top: 1px solid rgba(0, 0, 0, .06);
 }
 
-.sidebar > .loginWrap > .loginClosed {
-    display: none;
-}
-
-.sidebar.closed > .loginWrap {
-    padding: 0;
-}
-
-.sidebar.closed > .loginWrap > .loginCompact {
-    width: 100%;
+.menuBtn {
+    position: fixed;
+    top: 0;
+    left: 0;
     height: 70px;
+    width: 56px;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    border: none;
+    background: transparent;
+    z-index: 997;
+    cursor: pointer;
 }
 
-.sidebar.closed > .loginWrap > .loginCompact > * {
-    width: 100%;
-    height: 100%;
-    display: block;
-    box-sizing: border-box;
-    margin: 0;
+.menuBtn > .xAnimated {
+    width: 50px;
+    height: 50px;
+    transition: transform .6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sidebar > .profileForm {
-    display: grid;
-    gap: 12px;
+.menuBtn > .xAnimated > .lineTopBottom {
+    stroke-dasharray: 12 63;
+    stroke: var(--text-color);
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke-dasharray 1s cubic-bezier(0.4, 0, 0.2, 1), stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sidebar > .profileForm > .formGroup {
-    display: grid;
-    gap: 8px;
+.menuBtn > .xAnimated > .line {
+    stroke: var(--text-color);
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.menuOpen > .xAnimated {
+    transform: rotate(-45deg);
+}
+
+.menuOpen > .xAnimated > .lineTopBottom {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: -32.42;
 }
 
 @keyframes sidebarItemInX {
     from {
         opacity: 0;
-        transform: translateX(-12px);
+        transform: translateX(-30px);
     }
 
     to {
@@ -319,124 +452,142 @@
     }
 }
 
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .header > .logoRow {
+    transform: translateX(-12px);
+    will-change: transform, opacity;
+    animation: sidebarItemInX .35s ease both;
+    animation-delay: .1s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item {
+    opacity: 0;
+    transform: translateX(-30px);
+    will-change: transform, opacity;
+    animation: sidebarItemInX .35s ease both;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(1) {
+    animation-delay: .2s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(2) {
+    animation-delay: .4s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(3) {
+    animation-delay: .6s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(4) {
+    animation-delay: .8s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(5) {
+    animation-delay: 1s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(6) {
+    animation-delay: 1.2s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(7) {
+    animation-delay: 1.4s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(8) {
+    animation-delay: 1.6s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(9) {
+    animation-delay: 1.8s;
+}
+
+:where(.sidebar:not(.closed):hover, .mobileOpen) > .nav > .list > .item:nth-child(10) {
+    animation-delay: 2s;
+}
+
+.profileForm {
+    display: grid;
+    gap: 12px;
+}
+
+.profileForm > .formGroup {
+    display: grid;
+    gap: 8px;
+}
+
 @media (max-width: 480px) {
+    .menuBtn {
+        display: inline-flex;
+    }
+
     .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 65px;
-        height: 70px;
-        margin-top: 0;
-        display: flex;
-        justify-content: center;
-        background: var(--background);
-        border-bottom: 1px solid var(--red-primary);
-        box-shadow: none;
-        overflow: hidden;
-        z-index: 1001;
-        transform: none;
-        transition: width .25s ease, height .25s ease, transform .25s ease;
+        inset: 0 auto 0 0;
+        width: 260px;
+        height: 100dvh;
+        transform: translateX(-100%);
+        grid-template-rows: 120px 1fr auto;
+        border-right: 1px solid rgba(0, 0, 0, .06);
+        box-shadow: 0 0 1px rgba(0, 0, 0, .08), 0 8px 24px rgba(0, 0, 0, .12);
+        transition: transform .3s ease;
     }
 
-    .sidebar > .logo {
-        width: 100%;
-        padding: 0 10px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        font-weight: bold;
-        font-size: 18px;
+    .mobileOpen {
+        transform: translateX(0);
     }
 
-    .sidebar > .logo > .xAnimated {
-        height: 50px;
-        width: 50px;
-    }
-
-    .sidebar > .logo > span,
-    .sidebar > .nav,
-    .sidebar > .Profile,
-    .sidebar > .loginWrap {
-        display: none;
-    }
-
-    .sidebar~*,
-    .sidebar.closed~* {
+    .sidebar~* {
         margin-left: 0;
     }
 
-    .sidebar:not(.closed) {
-        width: 260px;
-        height: 100dvh;
-        padding: 10px 0;
-        border-bottom: none;
-        justify-content: flex-start;
-        align-items: stretch;
-        flex-direction: column;
+    .header {
+        align-content: flex-start;
+        padding: 12px 0px;
     }
-
-    .sidebar:not(.closed) > .logo > span,
-    .sidebar:not(.closed) > .nav,
-    .sidebar:not(.closed) > .loginWrap {
-        display: block;
-    }
-
-    .sidebar:not(.closed) > .nav {
-        flex: 1 1 auto;
-        overflow-y: auto;
-    }
-
-    .sidebar:not(.closed) > .Profile {
-        display: flex;
-        margin-top: auto;
+    
+    .header > .logoRow {
         width: 100%;
-        border-top: 1px solid rgba(0, 0, 0, .06);
-        background: var(--background);
+        height: 50px;
+        align-items: flex-start;
     }
 
-    .sidebar:not(.closed) > .nav > .list {
-        display: block;
+    .header > .logoRow > .xAnimated {
+        display: none;
     }
 
-    .sidebar:not(.closed) > .nav > .list > .item > .navLink > span {
-        display: inline;
-        opacity: 1;
-        visibility: visible;
+    .header > .brandInfo > .brandSub {
+        font-size: 15px;
     }
 
-    .sidebar:not(.closed) > .nav > .list > .item,
-    .sidebar:not(.closed) > .Profile {
+    .nav {
+        padding: 0 10px;
+    }
+
+    .nav > .list > .item > .navLink > svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .nav > .list > .item > .navLink > span {
+        display: none;
         opacity: 0;
-        transform: translateX(-30px);
-        will-change: transform, opacity;
-        animation: sidebarItemInX .35s ease both;
+        visibility: hidden;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: opacity .18s ease .18s, visibility .18s ease .18s;
     }
 
-    .sidebar:not(.closed) > .nav > .list > .item:nth-child(1) {
-        animation-delay: .2s;
+    .sidebar:not(.closed):hover > .nav > .list > .item > .navLink,
+    .sidebar:not(.closed):hover > .nav > .list > .item > button.navLink,
+    .mobileOpen > .nav > .list > .item > .navLink,
+    .mobileOpen > .nav > .list > .item > button.navLink {
+        width: 100%;
+        font-size: 14px;
     }
 
-    .sidebar:not(.closed) > .nav > .list > .item:nth-child(2) {
-        animation-delay: .4s;
-    }
-
-    .sidebar:not(.closed) > .nav > .list > .item:nth-child(3) {
-        animation-delay: .6s;
-    }
-
-    .sidebar:not(.closed) > .nav > .list > .item:nth-child(4) {
-        animation-delay: .8s;
-    }
-
-    .sidebar:not(.closed) > .nav > .list > .item:nth-child(5) {
-        animation-delay: 1s;
-    }
-
-    .sidebar:not(.closed) > .nav > .list > .item:nth-child(6) {
-        animation-delay: 1.2s;
-    }
-
-    .sidebar > .Profile {
-        animation-delay: 1.4s;
+    .sidebar:not(.closed):hover > .nav > .list > .item > button.navLink,
+    .mobileOpen > .nav > .list > .item > button.navLink {
+        width: 100%;
     }
 }

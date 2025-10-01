@@ -107,7 +107,7 @@ export default function Carousel(): React.ReactElement {
             onConfirm: async () => {
                 const file = selectedFileRef.current;
                 if (!file) {
-                    showToast({ message: 'Você deve adicionar uma imagem!', type: 'Alert' })
+                    showToast({ message: 'Você deve adicionar uma imagem!', type: 'warning' })
                     throw new Error();
                 }
                 const dto: CreateCarouselDto = {

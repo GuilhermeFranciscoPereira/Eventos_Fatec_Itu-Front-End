@@ -20,6 +20,6 @@ export function useDeleteCarousel(): useDeleteCarouselProps {
             const err = await response.json();
             throw new Error(err.message);
         }
-        showToast({ message: 'Imagem excluída com sucesso!', type: 'Success' });
+        showToast({ message: 'Imagem excluída!', type: 'success' });
     }, [showToast]);
 }

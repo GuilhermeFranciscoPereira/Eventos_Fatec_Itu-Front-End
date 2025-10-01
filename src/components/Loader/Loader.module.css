@@ -2,11 +2,10 @@
     position: fixed;
     top: 0px;
     left: 0px;
-    /* I did that ´cause the sidebar! */
-    margin-left: -60px;
     width: calc(100vw + 60px);
+    margin-left: -70px;
     min-height: 100vh;
-    z-index: 9999;
+    z-index: 999;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -93,7 +93,7 @@ export function usePasswordResetConfirm(): usePasswordResetConfirmProps {
                 throw new Error(data.message || 'Código inválido');
             }
             router.push('/Login');
-            showToast({ message: 'Senha trocada com sucesso, faça o login!', type: 'Success' });
+            showToast({ message: 'Senha alterada, faça login!', type: 'success' });
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             console.log('Error in: usePasswordResetConfirm() <---> Erro:', msg);

@@ -43,12 +43,11 @@ export default function Modal(): React.ReactElement | null {
             {loading && <Loader />}
             <section className={styles.modalSection}>
                 <div className={styles.modalDiv} onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter') { e.preventDefault(); handleConfirm() } }}>
-                    <button className={styles.modalClose} aria-label="Fechar modal" onClick={handleClose}>❌</button>
-                    {opts.icon && (
-                        <div className={styles.modalIcon}>
-                            {opts.icon}
-                        </div>
-                    )}
+                    <div className={styles.modalHeader}>
+                        <div />
+                        {opts.icon && <div className={styles.modalIcon}>{opts.icon}</div>}
+                        <button className={styles.modalClose} aria-label="Fechar modal" onClick={handleClose}>❌</button>
+                    </div>
                     <h2 className={styles.modalTitle}>{opts.title}</h2>
                     <div className={styles.modalMessage}>{opts.message}</div>
                     {errorMessage && (

@@ -1,17 +1,17 @@
 import { useCallback } from 'react';
-import { UpdateUserDto } from '@/@Types/UsersTypes';
 import { useToastStore } from '@/stores/useToastStore';
+import { UpdateCourseDto } from '@/@Types/CoursesTypes';
 
-type useEditUserProps = {
-    (id: number, dto: UpdateUserDto): Promise<void>;
+type useEditCourseProps = {
+    (id: number, dto: UpdateCourseDto): Promise<void>
 }
 
-export function useEditUser(): useEditUserProps {
+export function useEditCourse(): useEditCourseProps {
     const showToast = useToastStore((s) => s.showToast);
 
-    return useCallback(async (id: number, dto: UpdateUserDto) => {
+    return useCallback(async (id: number, dto: UpdateCourseDto) => {
         const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/users/patch/${id}`, {
+        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/courses/patch/${id}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
@@ -19,9 +19,9 @@ export function useEditUser(): useEditUserProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha em useEditUser()');
+            throw new Error(err.message || 'Falha ao atualizar curso, erro em: useEditCourse()');
         }
-        showToast({ message: 'Usuário editado!', type: 'success' });
+        showToast({ message: 'Curso atualizado!', type: 'success' });
         return response.json();
     }, [showToast]);
 }

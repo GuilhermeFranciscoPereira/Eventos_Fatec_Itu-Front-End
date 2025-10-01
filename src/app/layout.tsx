@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Poppins } from 'next/font/google';
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import { Poppins } from 'next/font/google';
 import ZustandWrapper from "@/stores/ZustandWrapper";
 
 export const metadata: Metadata = {

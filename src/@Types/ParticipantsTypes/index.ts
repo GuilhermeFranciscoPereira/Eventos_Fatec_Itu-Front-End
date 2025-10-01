@@ -1,10 +1,10 @@
-import { Course, Semester } from "@/@Types/EventTypes";
+import { Semester } from "@/@Types/EventTypes";
 
 export type ParticipantProps = {
     id: number;
     name: string;
     email: string;
-    course: Course | null;
+    courseId?: number;
     semester: Semester | null;
     ra: string | null;
     isPresent: boolean;
@@ -16,7 +16,7 @@ export type ParticipantProps = {
 export type CreateParticipantDto = {
     name: string;
     email: string;
-    course: Course | null;
+    courseId?: number;
     semester: Semester | null;
     ra: string | null;
     eventId: number;

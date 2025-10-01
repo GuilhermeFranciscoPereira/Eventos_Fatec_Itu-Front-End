@@ -20,8 +20,8 @@ export function useCreateUser(): useCreateUserProps {
     if (!response.ok) {
       const err = await response.json();
       throw new Error(err.message || 'Falha ao registrar usuário');
-    }
-    showToast({ message: 'Usuário criado com sucesso!', type: 'Success' });
+    } 
+   showToast({ message: 'Usuário criado!', type: 'success' });
     return response.json();
   }, [showToast]);
 }

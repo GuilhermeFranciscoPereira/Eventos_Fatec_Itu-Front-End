@@ -3,16 +3,18 @@ import Loader from '@/components/Loader';
 import Footer from '@/components/Footer';
 import { useParams } from 'next/navigation';
 import CardEvents from '@/components/CardEvents';
+import type { Semester } from '@/@Types/EventTypes';
 import { useRef, forwardRef, useState } from 'react';
-import { Course, Semester } from '@/@Types/EventTypes';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import { useModalStore } from '@/stores/useModalStore';
 import ImageCloudinary from '@/components/ImageCloudinary';
 import InputDefault from '@/components/Inputs/InputDefault';
+import { CoursePublicResponse } from '@/@Types/CoursesTypes';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
 import ButtonComebackUrl from '@/components/Buttons/ButtonComebackUrl';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
+import { useGetAllCoursesPublic } from '@/hooks/api/Courses/Get/useGetAllCourses';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
 import { useCreateParticipant } from '@/hooks/api/Participants/Post/useCreateParticipant';
 import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription, MdSchool, MdLock, MdMenuBook } from 'react-icons/md';
@@ -22,8 +24,9 @@ type SubscriptionFormProps = {
     emailRef: React.RefObject<HTMLInputElement | null>;
     courseRef: React.RefObject<HTMLSelectElement | null>;
     semesterRef: React.RefObject<HTMLSelectElement | null>;
+    courseOptions: CoursePublicResponse[];
+    coursesLoading: boolean;
     raRef: React.RefObject<HTMLInputElement | null>;
-    courseOptions: Course[];
     semesterOptions: Semester[];
     onlyStudents: boolean;
 };
@@ -34,6 +37,7 @@ export default function EventDetail(): React.ReactElement {
     const createParticipant = useCreateParticipant();
     const openModal = useModalStore(s => s.openModal);
     const { event, loading } = useGetEventById(eventId);
+    const { datas: publicCourses, loading: coursesLoading } = useGetAllCoursesPublic();
 
     const raRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
@@ -41,12 +45,12 @@ export default function EventDetail(): React.ReactElement {
     const courseRef = useRef<HTMLSelectElement>(null);
     const semesterRef = useRef<HTMLSelectElement>(null);
 
-    const courseOptions: Course[] = ['ADS', 'GE', 'GTI', 'GEMP', 'MEC'];
     const semesterOptions: Semester[] = ['SEMESTER1', 'SEMESTER2', 'SEMESTER3', 'SEMESTER4', 'SEMESTER5', 'SEMESTER6', 'ESPECIAL'];
 
     if (loading) return <Loader />;
     if (!event) return <h1>Evento não encontrado!</h1>;
 
+    const courseName = !event.courseId ? 'Todos os cursos' : (event.courseName ?? publicCourses.find(c => c.id === event.courseId)?.name ?? 'Carregando...');
     return (
         <>
             <main className={styles.eventDetailPage}>
@@ -72,9 +76,11 @@ export default function EventDetail(): React.ReactElement {
                     <div className={styles.infoItem}>
                         <MdLock size={20} className={styles.icon} />
                         <strong className={styles.label}>Evento restrito somente a alunos e colaboradores?</strong>
-                        <p className={styles.infoText}>{event.isRestricted
-                            ? 'Sim! O Evento é restrito somente à alunos e colaboradores da Fatec Itu!'
-                            : 'Não! O Evento é publico para todos: Alunos, colaboradores e pessoas de fora!'}</p>
+                        <p className={styles.infoText}>
+                            {event.isRestricted
+                                ? 'Sim! O Evento é restrito somente à alunos e colaboradores da Fatec Itu!'
+                                : 'Não! O Evento é publico para todos: Alunos, colaboradores e pessoas de fora!'}
+                        </p>
                     </div>
 
                     {event.isRestricted && (
@@ -82,16 +88,9 @@ export default function EventDetail(): React.ReactElement {
                             <MdMenuBook size={20} className={styles.icon} />
                             <strong className={styles.label}>Curso:</strong>
                             <p className={styles.infoText}>
-                                {event.course === 'ALL'
-                                    ? 'Evento disponível para todos os cursos'
-                                    : `Evento disponível somente para alunos do curso de: ${{
-                                        ADS: 'Análise e Desenvolvimento de Sistemas',
-                                        GE: 'Gestão Empresarial',
-                                        GTI: 'Gestão da Tecnologia da Informação',
-                                        GEMP: 'Gestão Empresarial Mecânica de Precisão',
-                                        MEC: 'Engenharia Mecânica',
-                                    }[event.course]
-                                    }`}
+                                {event.courseId
+                                    ? `Evento disponível somente para alunos do curso: ${courseName}`
+                                    : 'Evento disponível para todos os cursos'}
                             </p>
                         </div>
                     )}
@@ -101,7 +100,7 @@ export default function EventDetail(): React.ReactElement {
                             <MdSchool size={20} className={styles.icon} />
                             <strong className={styles.label}>Semestre:</strong>
                             <p className={styles.infoText}>
-                                {!event.semester || event.semester === 'ALL'
+                                {event.semester === 'ALL' || !event.semester
                                     ? 'Evento disponível para todos os semestres'
                                     : event.semester === 'ESPECIAL'
                                         ? 'Evento disponível somente para alunos em modelo especial'
@@ -122,7 +121,9 @@ export default function EventDetail(): React.ReactElement {
                         <MdLocationOn size={20} className={styles.icon} />
                         <strong className={styles.label}>Local:</strong>
                         <p className={styles.infoText}>
-                            {event.location === 'OUTROS' ? event.customLocation : event.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase())}
+                            {event.location === 'OUTROS'
+                                ? event.customLocation
+                                : event.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase())}
                         </p>
                     </div>
                     <div className={styles.infoItem}>
@@ -131,7 +132,7 @@ export default function EventDetail(): React.ReactElement {
                         <p className={styles.infoText}>{event.description}</p>
                     </div>
                     <div className={styles.subscribe}>
-                        <ButtonRay text="Se inscrever" onClick={handleSubscribe} type='button' />
+                        <ButtonRay text="Se inscrever" onClick={handleSubscribe} type="button" />
                     </div>
                 </div>
                 <div className={styles.cardContainer}>
@@ -157,7 +158,8 @@ export default function EventDetail(): React.ReactElement {
                     courseRef={courseRef}
                     semesterRef={semesterRef}
                     raRef={raRef}
-                    courseOptions={courseOptions}
+                    courseOptions={publicCourses}
+                    coursesLoading={coursesLoading}
                     semesterOptions={semesterOptions}
                     ref={null}
                     onlyStudents={event?.isRestricted ? event?.isRestricted : false}
@@ -165,23 +167,25 @@ export default function EventDetail(): React.ReactElement {
             ),
             confirmLabel: 'Confirmar inscrição',
             onConfirm: async () => {
+                const courseIdStr = courseRef.current?.value || ''
+                const semesterStr = semesterRef.current?.value || ''
                 const dto: CreateParticipantDto = {
                     name: nameRef.current!.value.trim(),
                     email: emailRef.current!.value.trim(),
                     eventId,
-                    course: courseRef.current ? (courseRef.current.value as Course) : null,
-                    semester: semesterRef.current ? (semesterRef.current.value as Semester) : null,
-                    ra: raRef.current ? raRef.current.value.trim() : null,
-                };
-
-                await createParticipant(dto);
+                    courseId: courseIdStr ? Number(courseIdStr) : undefined,
+                    semester: semesterStr ? (semesterStr as Semester) : null,
+                    ra: raRef.current && raRef.current.value ? raRef.current.value.trim() : null,
+                }
+                await createParticipant(dto)
             },
         });
     }
 }
 
-const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ nameRef, emailRef, courseRef, semesterRef, raRef, courseOptions, semesterOptions, onlyStudents }, ref) => {
-    const [isStudent, setIsStudent] = useState(onlyStudents);
+const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ nameRef, emailRef, courseRef, semesterRef, raRef, courseOptions, coursesLoading, semesterOptions, onlyStudents }, ref) => {
+    const [isStudent, setIsStudent] = useState(onlyStudents)
+
     return (
         <form ref={ref} className={styles.form}>
             <div className={styles.checkboxGroup}>
@@ -194,32 +198,43 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
                 }
             </div>
             <InputDefault ref={nameRef} label="Nome completo" required />
-            <InputDefault ref={emailRef} label={isStudent ? "E-mail institucional" : "E-mail"} type="email" required />
+            <InputDefault ref={emailRef} label={isStudent ? 'E-mail institucional' : 'E-mail'} type="email" required />
             {isStudent && (
                 <>
                     <div className={styles.fieldGroup}>
                         <label htmlFor="course">Curso</label>
-                        <select id="course" ref={courseRef} className={styles.select} required>
-                            <option value="">Selecione</option>
-                            {Object.values(courseOptions).map(c => (<option key={c} value={c}>{c}</option>))}
+                        <select
+                            id="course"
+                            ref={courseRef}
+                            className={styles.select}
+                            required={courseOptions.length > 0}
+                            disabled={coursesLoading}
+                        >
+                            <option value="">
+                                {coursesLoading ? 'Carregando...' : (courseOptions.length ? 'Selecione' : 'Nenhum curso encontrado')}
+                            </option>
+                            {!coursesLoading && courseOptions.map(c => (
+                                <option key={c.id} value={c.id}>{c.name}</option>
+                            ))}
                         </select>
                     </div>
                     <div className={styles.fieldGroup}>
                         <label htmlFor="semester">Semestre</label>
                         <select id="semester" ref={semesterRef} className={styles.select} required>
                             <option value="">Selecione</option>
-                            {Object.values(semesterOptions).map(v => (<option key={v} value={v}>
-                                {v === 'ESPECIAL'
-                                    ? 'Especial'
-                                    : `${v.replace('SEMESTER', '')}º`}
-                            </option>))}
+                            {semesterOptions.map(v => (
+                                <option key={v} value={v}>
+                                    {v === 'ESPECIAL' ? 'Especial' : `${v.replace('SEMESTER', '')}º`}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <InputDefault ref={raRef} label="RA" minLength={13} maxLength={13} />
                 </>
             )}
         </form>
-    );
-});
+    )
+}
+)
 
-SubscriptionForm.displayName = 'SubscriptionForm';
+SubscriptionForm.displayName = 'SubscriptionForm'

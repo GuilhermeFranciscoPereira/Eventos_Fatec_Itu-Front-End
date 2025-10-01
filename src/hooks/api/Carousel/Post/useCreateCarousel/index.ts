@@ -25,6 +25,6 @@ export function useCreateCarousel(): useCreateCarouselProps {
             body: form
         });
         if (!response.ok) throw new Error((await response.json()).message);
-        showToast({ message: 'Imagem adicionada com sucesso!', type: 'Success' });
+        showToast({ message: 'Imagem adicionada!', type: 'success' });
     }, [showToast]);
 }

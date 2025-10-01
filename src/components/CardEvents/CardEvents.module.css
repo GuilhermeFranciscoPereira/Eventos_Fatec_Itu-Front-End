@@ -4,8 +4,8 @@
     left: 2.5%;
     top: 10px;
     display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .otherEventsH2 {
@@ -15,29 +15,29 @@
     margin: 2rem 0 1rem;
 }
 
-.cardEventsSection > .card {
-    padding: 10px;
-    border-radius: 12px;
-    box-shadow: var(--box-shadow);
+.cardEventsSection>.card {
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
     transition: transform .2s ease;
 }
 
-.cardEventsSection > .card:hover {
+.cardEventsSection>.card:hover {
     transform: translateY(-5px);
 }
 
-.cardEventsSection > .card > .cardInt {
+.cardEventsSection>.card>.cardInt {
     position: relative;
     overflow: hidden;
     border-radius: 6px;
 }
 
-.cardEventsSection > .card > .cardInt > .badge {
+.cardEventsSection>.card>.cardInt>.badge {
     position: absolute;
     top: 3px;
     right: 3px;
     z-index: 1;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 900;
     background-color: var(--red-primary);
     color: var(--text-color-reverse);
@@ -45,38 +45,39 @@
     border-radius: 10px;
 }
 
-.cardEventsSection > .card > .cardInt > .previewWrapper {
+.cardEventsSection>.card>.cardInt>.previewWrapper {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 140px;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
-.cardEventsSection > .card > .cardInt > .cardData {
-    font-size: 16px;
-}
-
-.cardEventsSection > .card > .cardInt > .cardData > .title {
+.cardEventsSection>.card>.cardInt>.cardData>.title {
     font-weight: bold;
     font-size: 18px;
-    margin: 10px 0px;
 }
 
-.cardEventsSection > .card > .cardInt > .cardData > p {
-    margin: 10px 0px;
+.cardEventsSection>.card>.cardInt>.cardData>p {
+    margin: 6px 0px;
+    font-size: 14px;
 }
 
-.cardEventsSection > .card > .cardInt > .cardData > a {
+.cardEventsSection>.card>.cardInt>.cardData>p.local>span{
+    font-weight: bold;
+}
+
+.cardEventsSection>.card>.cardInt>.cardData>a {
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
 }
 
-.cardEventsSection > .card > .cardInt > .cardData > a > button {
-    margin: 15px 0px 5px;
-    width: 80%;
+.cardEventsSection>.card>.cardInt>.cardData>a>button {
+    margin: 12px 0px 4px;
+    height: 40px;
+    width: 60%;
 }
 
 @media (max-width: 769px) {
@@ -92,7 +93,7 @@
         left: 2.5%;
     }
 
-    .cardEventsSection > .card > .cardInt > .previewWrapper {
+    .cardEventsSection>.card>.cardInt>.previewWrapper {
         height: 150px;
     }
 }

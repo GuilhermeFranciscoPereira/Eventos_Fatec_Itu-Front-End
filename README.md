@@ -26,7 +26,19 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/app/(pages)/(public)/Login:` Refatorado a tela de Login e recuperação de senha para uma nova estilização.
+### `ALTERAÇÕES DE ESTILIZAÇÃO COM BASE NAS SOLICITAÇÕES DA FACULDADE FATEC ITU - SOLICITAÇÕES FEITAS E REALIZADAS:`
+
+- Componentes muito grandes
+- Fonte do recuperar senha muito forte
+- Quadrados do código do e-mail muito grande
+- Tamanho do table - (Width)
+- Tabela, letra das coisas maior que o título
+- Background muito branco #f9f9f9
+- Gerenciar perfil - ver o seu e-mail
+- Botão com muita animação
+- Alterar componente Toast
+- Alterar sidebar - ( Styles )
+- Alterar ícones da tabela ( lápis, lixeira )
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

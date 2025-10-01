@@ -2,7 +2,6 @@
     position: relative;
     width: calc(95% - 60px);
     left: 2.5%;
-    overflow-x: hidden;
     top: 10px;
     display: flex;
     align-items: center;
@@ -81,7 +80,8 @@
     gap: 5px;
 }
 
-.filtersContainer > .rightSideFilters > .datesFilter > .inputDate {
+.filtersContainer > .rightSideFilters > .datesFilter > .inputDate,
+.filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate {
     padding: 0.5rem 0.75rem;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -94,14 +94,62 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:focus {
+.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:focus,
+.filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate:focus {
     outline: none;
     border-color: #888;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:disabled {
+.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:disabled,
+.filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate:disabled {
     cursor: not-allowed;
+}
+
+.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper {
+    position: relative;
+    display: inline-block;
+    width: auto;
+}
+
+.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .tooltipBubble {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 40%;
+    transform: translateX(-50%) translateY(6px);
+    opacity: 0;
+    pointer-events: none;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    background: white;
+    color: black;
+    box-shadow: var(--box-shadow);
+    transition: opacity .18s ease, transform .18s ease;
+    white-space: nowrap;
+    z-index: 3;
+}
+
+.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper:hover > .tooltipBubble {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .tooltipVisible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .tooltipBubble > .tooltipArrow {
+    position: absolute;
+    top: 100%;
+    left: 40%;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%) rotate(45deg);
+    background: white;
+    box-shadow: var(--box-shadow);
 }
 
 @media (max-width: 768px) {
@@ -123,11 +171,16 @@
     }
 
     .filtersContainer > .rightSideFilters > .datesFilter > .inputDate {
-        width: 98%;
+        width: 97%;
     }
 
-    .filtersContainer > .rightSideFilters > .datesFilter:nth-child(2) > .label {
-        text-align: end;
-        width: 98%;
+    .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper {
+        display: block;
+        width: 100%;
+    }
+
+    .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate {
+        width: 97%;
+        box-sizing: border-box;
     }
 }

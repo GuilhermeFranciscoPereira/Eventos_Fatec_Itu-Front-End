@@ -9,7 +9,46 @@ import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courseOptions, semesterOptions, courseValue, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const {
+    initialUrl,
+    loading,
+    isNew,
+    categories,
+    courses,
+    semesterOptions,
+    courseValue,
+    locationOptions,
+    availableDates,
+    startOptions,
+    endOptions,
+    startTime,
+    endTime,
+    isOnline,
+    today,
+    loadedDate,
+    nameRef,
+    descRef,
+    speakerRef,
+    maxRef,
+    locationRef,
+    customLocRef,
+    courseRef,
+    semesterRef,
+    categoryRef,
+    startDateRef,
+    durationRef,
+    restrictedRef,
+    setSelectedFile,
+    handleCategoryChange,
+    handleLocationChange,
+    handleDateChange,
+    handleStartTimeChange,
+    setStartTime,
+    setEndTime,
+    handleSubmit,
+    handleCourseChangeUI,
+    handleSemesterChangeUI,
+  } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -42,15 +81,21 @@ export default function EventForm(): React.ReactElement {
           </div>
         </div>
         <div className={styles.row}>
-          <select ref={courseRef} className={styles.input} defaultValue="" required onChange={handleCourseChangeUI}>
-            <option value="">Curso</option>
-            {courseOptions.map(v => (
-              <option key={v} value={v}>
-                {v === 'ALL' ? 'Todos' : v}
+          <select ref={courseRef} className={styles.input} defaultValue="" onChange={handleCourseChangeUI}>
+            <option value="">Curso (Todos)</option>
+            {courses.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
               </option>
             ))}
           </select>
-          <select ref={semesterRef} className={styles.input} defaultValue="" disabled={!courseValue || courseValue === 'ALL'} onChange={handleSemesterChangeUI}>
+          <select
+            ref={semesterRef}
+            className={styles.input}
+            defaultValue=""
+            disabled={courseValue === ''}
+            onChange={handleSemesterChangeUI}
+          >
             <option value="">Semestre (opcional)</option>
             {semesterOptions.map(v => (
               <option key={v} value={v}>
@@ -75,7 +120,7 @@ export default function EventForm(): React.ReactElement {
               ))}
             </select>
             {locationRef.current?.value === 'OUTROS' && (
-              <InputDefault label='Qual o local' ref={customLocRef} />
+              <InputDefault label="Qual o local" ref={customLocRef} />
             )}
           </div>
         </div>
@@ -93,7 +138,11 @@ export default function EventForm(): React.ReactElement {
           />
         </div>
         <div className={styles.row}>
-          <select className={styles.input} value={startTime} disabled={!startOptions.length} required
+          <select
+            className={styles.input}
+            value={startTime}
+            disabled={!startOptions.length}
+            required
             onChange={e => {
               setStartTime(e.target.value)
               handleStartTimeChange(e.target.value)
@@ -124,10 +173,7 @@ export default function EventForm(): React.ReactElement {
         </div>
         <div className={styles.row}>
           <div className={styles.checkboxInput}>
-            <InputCheckbox
-              ref={restrictedRef}
-              label="Evento Restrito?"
-            />
+            <InputCheckbox ref={restrictedRef} label="Evento Restrito?" />
           </div>
         </div>
         <textarea
@@ -137,7 +183,7 @@ export default function EventForm(): React.ReactElement {
           required
         />
         <div className={styles.buttonSubmit}>
-          <ButtonRay text={isNew ? 'Criar evento' : 'Salvar edições'} type='submit' />
+          <ButtonRay text={isNew ? 'Criar evento' : 'Salvar edições'} type="submit" />
         </div>
       </form>
     </main>

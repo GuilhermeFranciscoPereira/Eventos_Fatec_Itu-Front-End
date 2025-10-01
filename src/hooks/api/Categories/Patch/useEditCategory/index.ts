@@ -21,7 +21,7 @@ export function useEditCategory(): useEditCategoryProps {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao atualizar categoria, erro em: useEditCategory()');
         }
-        showToast({ message: 'Categoria atualizada com sucesso!', type: 'Success' });
+        showToast({ message: 'Categoria atualizada!', type: 'success' });
         return response.json();
     }, [showToast]);
 }

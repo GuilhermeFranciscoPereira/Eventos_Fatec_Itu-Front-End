@@ -19,6 +19,6 @@ export function useCreateParticipant(): UseCreateParticipant {
             const err = await response.json();
             throw new Error((Array.isArray(err.message) ? err.message[0] : String(err.message ?? 'Falha ao inscrever participante').split(',')[0]).trim());
         }
-        showToast({ message: 'Inscrição realizada com sucesso, verifique o seu e-mail!', type: 'Success' });
+        showToast({ message: 'Inscrição realizada, verifique o seu e-mail!', type: 'success' });
     }, [showToast]);
 }

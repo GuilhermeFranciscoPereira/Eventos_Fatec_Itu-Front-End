@@ -1,25 +1,46 @@
 .comebackWrapper {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    font-size: 1.7rem;
+    gap: 8px;
+    font-size: 1.65rem;
     font-weight: 600;
-    color: var(--color);
-    gap: 10px;
+    color: var(--text-color);
+    background-color: transparent;
+    border: none;
     cursor: pointer;
     text-decoration: none;
-    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 4px;
+    transition: .3s ease;
 }
 
 .comebackWrapper:hover {
-    color: #111827;
-    transition: .4s;
-    transform: scale(1.1);
+    gap: 15px;
 }
 
-.comebackWrapper > .backIcon {
-    flex-shrink: 0;
+.comebackWrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--text-color);
+    transition: width 0.3s ease;
+}
+
+.comebackWrapper:hover::after {
+    width: 100%;
+}
+
+.comebackWrapper>.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: inherit;
+}
+
+.comebackWrapper>.label {
+    white-space: nowrap;
 }

@@ -77,12 +77,11 @@ export default function CardEvents({ excludeId, showFilters = true, categoryId =
 
                                 <div className={styles.cardData}>
                                     <p className={styles.title}>{event.name}</p>
-                                    <p> Data:{' '}{new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</p>
-                                    <p> Horário:{' '} {[event.startTime, event.endTime].map((t) => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' - ')}</p>
-                                    <p>Local: {event.customLocation ?? event.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase())}</p>
+                                    <p>Data:{' '}{new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} - {[event.startTime, event.endTime].map((t) => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' às ')}</p>
+                                    <p className={styles.local}>Local: <span>{event.customLocation ?? event.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase())}</span></p>
                                     <p>Palestrante: {event.speakerName}</p>
                                     <Link href={`/EventDetail/${event.id}`}>
-                                        <ButtonRay text="Ver mais sobre" type="button" />
+                                        <ButtonRay text="Ver Mais" type="button" />
                                     </Link>
                                 </div>
                             </div>

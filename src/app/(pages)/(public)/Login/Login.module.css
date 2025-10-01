@@ -1,42 +1,39 @@
 .main {
     width: calc(100vw - 70px);
-    margin-left: 70px;
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 32px;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 40px 24px;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 30px;
 }
 
 .imageSection {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 50%;
 }
 
 .imageSection > .illustration {
     width: 100%;
     height: auto;
     max-width: 640px;
-    border-radius: 16px;
 }
 
 .formSection {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    width: 50%;
 }
 
 .formSection > .formDiv {
     width: 100%;
-    max-width: 520px;
-    background: var(--background);
+    max-width: 500px;
     color: var(--text-color);
     border-radius: 20px;
-    box-shadow: 0px 18px 38px rgba(0, 0, 0, 0.06);
-    padding: 20px 28px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4);
+    padding: 15px 28px;
     display: flex;
     flex-direction: column;
 }
@@ -154,6 +151,7 @@
 
 .formSection > .formDiv > .form > .row > .remember > input {
     cursor: pointer;
+    accent-color: var(--red-primary);
 }
 
 .formSection > .formDiv > .form > .row > .forgot {
@@ -256,7 +254,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin: 20px 0px 30px;
+    margin-top: 20px;
 }
 
 @media (max-width: 480px) {
@@ -266,9 +264,14 @@
         margin-left: 0px;
         display: flex;
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
         justify-content: flex-start;
+        padding: 0px;
         gap: 12px;
+    }
+
+    .formSection {
+        width: 95vw;
     }
 
     .formSection > .formDiv {
@@ -280,6 +283,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
     }
 
     .illustration {

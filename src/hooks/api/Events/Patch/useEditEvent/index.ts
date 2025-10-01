@@ -47,7 +47,7 @@ export function useEditEvent(): useEditEventProps {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao atualizar evento');
         }
-        showToast({ message: 'Evento atualizado com sucesso!', type: 'Success' });
+        showToast({ message: 'Evento atualizado!', type: 'success' });
     },
         [showToast],
     );

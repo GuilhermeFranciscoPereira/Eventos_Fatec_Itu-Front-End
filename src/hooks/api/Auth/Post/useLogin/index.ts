@@ -11,6 +11,7 @@ type useLoginProps = {
   loading: boolean;
   errors: { email?: string; password?: string };
   stage: 'request' | 'confirm';
+  setStage: React.Dispatch<React.SetStateAction<"request" | "confirm">>
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
@@ -76,7 +77,7 @@ export function useLogin(): useLoginProps {
     }
   }
 
-  return { emailRef, passwordRef, loading, errors, stage, handleSubmit };
+  return { emailRef, passwordRef, loading, errors, stage, setStage, handleSubmit };
 }
 
 export function useTwoFactor(): useTwoFactorProps {
@@ -105,7 +106,7 @@ export function useTwoFactor(): useTwoFactorProps {
 
       const user: UserJwtProps | null = await getMe();
       if (user) { useUserStore.getState().setUser(user) };
-      showToast({ message: 'Login realizado com sucesso, seja bem-vindo!', type: 'Success' });
+      showToast({ message: 'Bem-vindo!', type: 'success' });
       router.push('/');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);

@@ -1,5 +1,3 @@
-export type Course = 'ALL' | 'ADS' | 'GE' | 'GTI' | 'GEMP' | 'MEC';
-
 export type Semester =
     | 'ALL'
     | 'SEMESTER1'
@@ -47,7 +45,7 @@ export interface EventProps {
     name: string;
     description: string;
     imageUrl: string;
-    course: Course;
+    courseId?: number
     semester: Semester | null;
     maxParticipants: number;
     isRestricted: boolean;
@@ -66,7 +64,7 @@ export interface EventProps {
 export interface CreateEventDto {
     name: string;
     description: string;
-    course: Course;
+    courseId?: number
     semester?: Semester;
     maxParticipants: number;
     isRestricted: boolean;
@@ -84,7 +82,7 @@ export interface CreateEventDto {
 export interface UpdateEventDto {
     name?: string;
     description?: string;
-    course?: Course;
+    courseId?: number
     semester?: Semester;
     maxParticipants?: number;
     isRestricted?: boolean;
@@ -106,7 +104,8 @@ export type EventPublicResponse = {
     name: string;
     description: string;
     imageUrl: string;
-    course: Course;
+    courseId?: number;
+    courseName?: string | null;
     semester: Semester | null;
     maxParticipants: number;
     currentParticipants: number;

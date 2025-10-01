@@ -34,7 +34,7 @@ export function useEditPersonalProfile(): useEditPersonalProfile {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao atualizar perfil');
         }
-        showToast({ message: 'Perfil atualizado com sucesso!', type: 'Success' });
+        showToast({ message: 'Perfil atualizado!', type: 'success' });
         const updated = await getMe();
         useUserStore.getState().setUser(updated);
     }, [showToast]);

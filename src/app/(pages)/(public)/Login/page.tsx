@@ -11,8 +11,8 @@ import styles from '@/app/(pages)/(public)/Login/Login.module.css';
 import { MdEmail, MdKey, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
 export default function Login(): React.ReactElement {
-    const { emailRef, passwordRef, loading, errors, stage, handleSubmit } = useLogin();
     const { submitCode, loading: loadingTwoFactor, error: twoFactorError } = useTwoFactor();
+    const { emailRef, passwordRef, loading, errors, stage, setStage, handleSubmit } = useLogin();
 
     const [visible, setVisible] = useState(false);
     const [remember, setRemember] = useState(false);
@@ -122,9 +122,15 @@ export default function Login(): React.ReactElement {
                             >
                                 {twoFactorError && <p className={styles.error}>{twoFactorError}</p>}
                             </CodeInputValidation>
-                            <div className={styles.rowAlt}>
+                            
+                            <hr />
+
+                            <div className={styles.rowAlt} onClick={() => setStage('request')}>
                                 <Link href="/Login" className={styles.backLogin}>Voltar para o login</Link>
                             </div>
+
+                            <hr />
+
                         </div>
                     )}
 

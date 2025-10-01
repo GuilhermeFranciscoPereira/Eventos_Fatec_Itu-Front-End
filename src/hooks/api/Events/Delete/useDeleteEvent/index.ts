@@ -19,7 +19,7 @@ export function useDeleteEvent(): useDeleteEventProps {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao excluir evento');
         }
-        showToast({ message: 'Evento deletado com sucesso!', type: 'Success' });
+        showToast({ message: 'Evento deletado!', type: 'success' });
     },
         [showToast],
     );

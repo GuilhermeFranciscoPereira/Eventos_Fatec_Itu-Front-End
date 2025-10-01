@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { SlLogout } from 'react-icons/sl';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/stores/useUserStore';
 import { useModalStore } from '@/stores/useModalStore';
@@ -22,11 +23,11 @@ export function useLogout(): useLogout {
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
             });
             if (!response.ok) {
-                showToast({ message: 'Falha no logout, tente novamente!', type: 'Error' });
+                showToast({ message: 'Falha no logout, tente novamente!', type: 'error' });
                 return;
             }
             router.push('/');
-            showToast({ message: 'Logout realizado com sucesso!', type: 'Success' });
+            showToast({ message: 'Logout realizado, até breve!', type: 'success' });
             useUserStore.getState().setUser(null);
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
@@ -38,6 +39,7 @@ export function useLogout(): useLogout {
         openModal({
             title: 'Confirmação de Logout',
             message: <p>Tem certeza que deseja sair?</p>,
+            icon: <SlLogout size={28}/>,
             confirmLabel: 'Sim, eu quero sair',
             onConfirm: executeLogout,
         });

@@ -21,7 +21,7 @@ export function useGetEventById(id: number): useGetEventByIdProps {
                 setEvent(data);
             } catch (err: unknown) {
                 const msg = err instanceof Error ? err.message : String(err);
-                showToast({ message: `Falha ao carregar evento: ${msg}`, type: 'Error' });
+                showToast({ message: `Falha ao carregar evento: ${msg}`, type: 'error' });
             } finally {
                 setLoading(false);
             }

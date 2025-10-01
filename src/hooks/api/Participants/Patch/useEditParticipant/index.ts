@@ -18,6 +18,6 @@ export function useEditParticipant(): UseEditParticipantProps {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao atualizar participante');
         }
-        showToast({ message: 'Presença atualizada com sucesso!', type: 'Success' });
+        showToast({ message: 'Presença atualizada!', type: 'success' });
     }, [showToast]);
 }

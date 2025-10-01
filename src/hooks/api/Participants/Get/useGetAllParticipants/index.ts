@@ -35,7 +35,7 @@ export function useGetAllParticipants(eventId: number): UseGetParticipantsReturn
             setParticipants(await response.json());
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
-            showToast({ message: msg, type: 'Error' });
+            showToast({ message: msg, type: 'error' });
         } finally {
             setLoading(false);
         }

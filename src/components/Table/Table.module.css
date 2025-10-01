@@ -1,9 +1,10 @@
 .container {
     color: var(--text-color);
-    max-width: 95vw;
+    max-width: 70vw;
     border-radius: 20px;
     box-shadow: var(--box-shadow);
     overflow-x: hidden;
+    margin: 0px auto;
 }
 
 .container > .wrapper {
@@ -23,14 +24,14 @@
     padding: 10px 0px 10px 20px;
     text-align: left;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: var(--text-color-reverse);
     border-bottom: 2px solid var(--red-primary);
 }
 
 .container > .wrapper > .table > tbody > tr > .cell {
     padding: 15px 20px;
-    font-size: 1rem;
+    font-size: 0.875rem;
     border-bottom: 1px solid grey;
 }
 

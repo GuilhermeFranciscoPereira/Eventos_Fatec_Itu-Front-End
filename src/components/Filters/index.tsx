@@ -16,6 +16,7 @@ type FiltersProps = {
 export default function Filters({ onFilterChange }: FiltersProps): React.ReactElement {
     const [name, setName] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
+    const [showTooltip, setShowTooltip] = useState(false);
     const [startDate, setStartDate] = useState<string>('');
     const [categoryId, setCategoryId] = useState<number | ''>('');
 
@@ -78,15 +79,28 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
 
                 <div className={styles.datesFilter}>
                     <label htmlFor="filter-end" className={styles.label}>Data Fim</label>
-                    <input
-                        id="filter-end"
-                        type="date"
-                        value={endDate}
-                        min={startDate || undefined}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        disabled={!startDate}
-                        className={styles.inputDate}
-                    />
+                    <div
+                        className={styles.dateFieldWrapper}
+                        onMouseEnter={() => !startDate && setShowTooltip(true)}
+                        onMouseLeave={() => setShowTooltip(false)}
+                        onClick={() => !startDate && setShowTooltip((v) => !v)}
+                    >
+                        <input
+                            id="filter-end"
+                            type="date"
+                            value={endDate}
+                            min={startDate || undefined}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            disabled={!startDate}
+                            className={styles.inputDate}
+                        />
+                        {!startDate && (
+                            <div className={`${styles.tooltipBubble} ${showTooltip ? styles.tooltipVisible : ''}`} role="tooltip">
+                                Informe a data de início
+                                <span className={styles.tooltipArrow} />
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
