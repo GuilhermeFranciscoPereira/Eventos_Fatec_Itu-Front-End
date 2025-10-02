@@ -1,0 +1,59 @@
+.coursesPage {
+    background: var(--background);
+    color: var(--text-color);
+    padding: 10px 20px;
+    max-width: 70vw;
+    margin: 0px auto;
+    transition: color .4s ease-in-out, background .4s ease-in-out;
+}
+
+.coursesPage > .coursesPageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.coursesPage > .coursesPageHeader > .createBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--red-primary);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    box-shadow: var(--box-shadow);
+}
+
+.coursesPage > .coursesPageHeader > .createBtn:hover {
+    transition: .3s ease-in-out;
+    transform: scale(1.1);
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions > .icon:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.actions > .icon:nth-child(1):hover {
+    color: #20C997;
+}
+
+.actions > .icon:nth-child(2):hover {
+    color: var(--red-primary);
+}
+
+@media (max-width: 480px) {
+    .coursesPage > .coursesPageHeader {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+}

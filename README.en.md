@@ -26,7 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/app/(pages)/(public)/Login:` Refactored the Login and password recovery screen to a new style.
+### `./src/app/(pages)/(private)/Courses:` Created the screens to manage the college's courses.
+
+### `./src/hooks/api/Courses:` Hooks to send front-end data to the back-end
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -65,6 +67,7 @@
 - `./src/@Types:` Stores the typings that are reused in the code.
     - `CarouselTypes:` Shared typings from the Carousel screen.
     - `CategoriesTypes:` Shared typings from the Categories screen.
+    - `CoursesTypes:` Tipagens compartilhadas da tela de Courses
     - `EventTypes:` Shared typings from the Events screen.
     - `ParticipantsTypes:` Shared typings from the Participants screen.
     - `UsersTypes:` Shared typings from the Users screen.
@@ -78,6 +81,7 @@
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
         - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
         - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
+        - `Courses:` Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit or delete each course, integrating with the API hooks at: ./src/hooks/api/Courses/
         - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit or delete each event, integrating with the API hooks at: ./src/hooks/api/Events/
             - `Participants:` Page that shows who are the participants of the desired event, showing the name, email, RA, registration date and option to mark attendance.
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
@@ -140,6 +144,16 @@
                 - `useEditCategory.ts:` Hook responsible for sending partial data updates for an existing category via a PATCH request with CSRF, allowing modification of only the category name. 
             - `Post:` POST requests on /categories/ routes
                 - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
+
+        - `Courses:` All requests to the backend on the /courses/ routes
+            - `Delete:` DELETE requests on the /courses/delete/ routes
+                - `useDeleteCourse.ts:` Hook that encapsulates the HTTP request logic to delete a specific course, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
+            - `Get:` GET requests on the /courses/ routes
+                - `useGetAllCourses.ts:` Hook that retrieves the entire course list via GET request, managing loading and error states, and allowing refetch after CRUD operations.
+            - `Patch:` PATCH requests on the /courses/patch/:id routes
+                - `useEditCourse.ts:` Hook responsible for sending partial data updates to an existing course via a PATCH request with CSRF, allowing modification of only the course name.
+            - `Post:` POST requests on /courses/post/ routes
+                - `useCreateCourse.ts:` Hook to create a new course in the system via POST request, constructing the payload typed with the course name and including CSRF protection to ensure the security of the operation.
 
         - `Events:` All requests to the backend on /events/ routes
             - `Delete:` DELETE requests on /event/delete/:id routes

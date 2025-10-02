@@ -26,19 +26,10 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `ALTERAÇÕES DE ESTILIZAÇÃO COM BASE NAS SOLICITAÇÕES DA FACULDADE FATEC ITU - SOLICITAÇÕES FEITAS E REALIZADAS:`
+### `./src/app/(pages)/(private)/Courses:` Criado as telas para gerenciar os cursos da faculdade.
 
-- Componentes muito grandes
-- Fonte do recuperar senha muito forte
-- Quadrados do código do e-mail muito grande
-- Tamanho do table - (Width)
-- Tabela, letra das coisas maior que o título
-- Background muito branco #f9f9f9
-- Gerenciar perfil - ver o seu e-mail
-- Botão com muita animação
-- Alterar componente Toast
-- Alterar sidebar - ( Styles )
-- Alterar ícones da tabela ( lápis, lixeira )
+### `./src/hooks/api/Courses:` Hooks para fazer os dados do front-end irem para o back-end
+
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -77,6 +68,7 @@
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
     - `CarouselTypes:` Tipagens compartilhadas da tela de Carousel
     - `CategoriesTypes:` Tipagens compartilhadas da tela de Categories
+    - `CoursesTypes:` Tipagens compartilhadas da tela de Courses
     - `EventTypes:`  Tipagens compartilhadas da tela de Eventos
     - `ParticipantsTypes:` Tipagens compartilhadas da tela de Participantes
     - `UsersTypes:` Tipagens compartilhadas da tela de Users
@@ -90,6 +82,7 @@
     - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado à estar logado para poder acessar. Nela temos:
         - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: ./src/hooks/api/Carousel
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: ./src/hooks/api/Categories/
+        - `Courses:` Tela de gerenciamento de cursos, responsável por exibir a lista de cursos cadastradas e oferecer as ações de criar, editar ou excluir cada curso, integrando-se aos hooks de API em: ./src/hooks/api/Courses/
         - `Events:` Tela de gerenciamento dos eventos, responsável por exibir a lista dos eventos cadastrados e oferecer as ações de criar, editar ou excluir cada evento, integrando-se aos hooks de API em: ./src/hooks/api/Events/
             - `Participants:` Página que mostra quais são os participantes do evento desejado, trazendo o nome, email, RA, data de inscrição e opção para marcar a presença.
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: ./src/hooks/api/Users/
@@ -153,6 +146,16 @@
                 - `useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma categoria existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da categoria.
             - `Post:` Requisições POST nas rotas de /categories/post/
                 - `useCreateCategory.ts:` Hook para criar uma nova categoria no sistema via requisição POST, construindo o payload tipado com o nome da categoria e incluindo proteção CSRF para garantir a segurança da operação.
+
+        - `Courses:` Todas as requisições para o back-end nas rotas de /courses/
+            - `Delete:` Requisições DELETE nas rotas de /courses/delete/
+                - `useDeleteCourse.ts:` Hook que encapsula a lógica de requisição HTTP para excluir uma curso específica, enviando um DELETE protegido por CSRF e garantindo o tratamento de erros para informar falhas de exclusão.
+            - `Get:` Requisições GET nas rotas de /courses/
+                - `useGetAllCourses.ts:` Hook que realiza a recuperação de toda a lista de cursos via requisição GET, gerenciando estados de carregamento, erro e permitindo refetch após operações de CRUD.
+            - `Patch:` Requisições PATCH nas rotas de /courses/patch/:id
+                - `useEditCourse.ts:` Hook responsável por enviar atualizações parciais de dados de uma curso existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da curso.
+            - `Post:` Requisições POST nas rotas de /courses/post/
+                - `useCreateCourse.ts:` Hook para criar uma nova curso no sistema via requisição POST, construindo o payload tipado com o nome da curso e incluindo proteção CSRF para garantir a segurança da operação.
 
         - `Events:` Todas as requisições para o back-end nas rotas de /events/
             - `Delete:` Requisições DELETE nas rotas de /event/delete/:id
