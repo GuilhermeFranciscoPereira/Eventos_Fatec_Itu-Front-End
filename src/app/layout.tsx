@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { Poppins } from 'next/font/google';
+import WrapperVLibras from "@/utils/wrapperVLibras";
 import ZustandWrapper from "@/stores/ZustandWrapper";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactElement 
         <Header />
         <Sidebar />
         {children}
+        <WrapperVLibras />
       </body>
     </html >
   );

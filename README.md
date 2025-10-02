@@ -26,10 +26,50 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/app/(pages)/(private)/Courses:` Criado as telas para gerenciar os cursos da faculdade.
+### `./src/utils/wrapperVLibras:` Responsável por exportar o componente VLibras dentro de um wrapper. Esse wrapper é necessário porque o VLibras precisa ser utilizado em ambiente client-side (diretiva use client). Dessa forma, evitamos colocar a diretiva diretamente no layout.tsx
 
-### `./src/hooks/api/Courses:` Hooks para fazer os dados do front-end irem para o back-end
+### `./src/app/layout.tsx:` Aqui o VLibras é importado e utilizado, garantindo que ele esteja disponível em todas as páginas da aplicação.
 
+### `./package.json:` Instalado a biblioteca necessária para utilizar o vlibras: `npm i vlibras-nextjs`
+
+### "Como posso usar a API do Vlibras no código next.js?"
+
+#### 1 - Instale a biblioteca que nos possibilite utilizar a api do VLibras:
+```bash
+npm i vlibras-nextjs
+```
+
+#### 2 - Após instalar você precisa criar um wrapper, pois ele é client side e precisa da diretiva: 'use client', porém, não devemos usar esta diretiva no layout.tsx, então crie um arquivo: `./src/utils/wrapperVLibras/index.tsx` e cole este arquivo:
+```bash
+'use client';
+import VLibras from 'vlibras-nextjs';
+
+export default function WrapperVLibras(): React.ReactElement {
+    return (
+        <div>
+            {/* To use the v libras api from the gov, to understand more, read: 
+            https://www.gov.br/conecta/catalogo/apis/vlibras/vlibras-v3-1-swagger-artesanal-json/swagger_view! */}
+            {<VLibras forceOnload />}
+        </div>
+    )
+}
+```
+
+#### 3 - No arquivo ./src/app/layout.tsx, importe o wrapper e posicione-o abaixo de {children}, garantindo que o componente seja renderizado em todas as telas:
+```bash
+import WrapperVLibras from '@/utils/wrapperVLibras';
+
+export default function RootLayout({ children }: { children: React.ReactElement }) {
+  return (
+    <html lang="pt-BR">
+      <body>
+        {children}
+        <WrapperVLibras />
+      </body>
+    </html>
+  );
+}
+```
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -215,6 +255,7 @@
 - `./src/utils:` Pasta que agrupa funções utilitárias genéricas, sem dependência de componentes específicos, usadas em toda a aplicação para operações comuns de DOM e exportação.
     - `downloadSectionAsPdf.ts:` Função que captura uma seção da página (identificada por ID) e gera um arquivo PDF com toda a sua extensão, incluindo quebras de página em A4. Serve para permitir ao usuário baixar qualquer parte da interface como documento portátil.
     - `printSection.ts:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
+    - `wrapperVLibras:` Responsável por exportar o componente VLibras dentro de um wrapper. Esse wrapper é necessário porque o VLibras precisa ser utilizado em ambiente client-side (diretiva use client). Dessa forma, evitamos colocar a diretiva diretamente no layout.tsx
 
 
 ## ❔ Como rodar o projeto na minha máquina?
