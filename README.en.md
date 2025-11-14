@@ -26,50 +26,15 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/utils/wrapperVLibras:` Responsible for exporting the VLibras component within a wrapper. This wrapper is necessary because VLibras needs to be used in a client-side environment (use client directive). This way, we avoid placing the directive directly in the layout.tsx.
+### `./src/Types/CertificateTypes:` Shared types from the Valid Certificates screen
 
-### `./src/app/layout.tsx:` Here, VLibras is imported and used, ensuring that it is available on all pages of the application.
+### `./src/app/(pages)/(public)/Verification:` Public route intended to verify whether certificates are valid or not. It is accessed after someone scans a QR code, showing whether the certificate is valid or not and to whom it belongs.
 
-### `./package.json:` Installed the library required to use VLibras: `npm i vlibras-nextjs`
+### `./src/app/hooks/api/Certificate:` All requests to the back-end on the /certificates/ routes
 
-### "How can I use the VLibras API in next.js code?"
+### `./src/app/hooks/api/Certificate/Get:` GET requests on the /certificates/ routes
 
-#### 1 - Install the library that allows us to use the VLibras API:
-```bash
-npm i vlibras-nextjs
-```
-
-#### 2 - After installing, you need to create a wrapper, as it is client-side and requires the 'use client' directive. However, we shouldn't use this directive in layout.tsx, so create a file: `./src/utils/wrapperVLibras/index.tsx` and paste this file:
-```bash
-'use client';
-import VLibras from 'vlibras-nextjs';
-
-export default function WrapperVLibras(): React.ReactElement {
-    return (
-        <div>
-            {/* To use the v Libras API from the government, to understand more, read:
-            https://www.gov.br/conecta/catalogo/apis/vlibras/vlibras-v3-1-swagger-artesanal-json/swagger_view! */}
-            {<VLibras forceOnload />}
-        </div>
-    )
-}
-```
-
-#### 3 - In the ./src/app/layout.tsx file, import the wrapper and position it below {children}, ensuring that the component is rendered on all screens:
-```bash
-import WrapperVLibras from '@/utils/wrapperVLibras';
-
-export default function RootLayout({ children }: { children: React.ReactElement }) { 
-    return ( 
-    <html lang="pt-BR"> 
-        <body> 
-            {children} 
-            <WrapperVLibras /> 
-        </body> 
-    </html> 
-    );
-}
-```
+### `./src/app/hooks/api/Certificate/Get/usegetVerifyCertificate:` Validates whether the certificate being searched for is indeed valid and to whom it belongs.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -103,16 +68,17 @@ export default function RootLayout({ children }: { children: React.ReactElement 
         - `login:` Folder that will store our photos for use on the login screens (Recover password and two-factor authentication)
         - `readme:` Folder that will store our photos for use in the documentation (README)
 
-- `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
+- `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.
 
-- `./src/@Types:` Stores the typings that are reused in the code.
-    - `CarouselTypes:` Shared typings from the Carousel screen.
-    - `CategoriesTypes:` Shared typings from the Categories screen.
-    - `CoursesTypes:` Tipagens compartilhadas da tela de Courses
-    - `EventTypes:` Shared typings from the Events screen.
-    - `ParticipantsTypes:` Shared typings from the Participants screen.
-    - `UsersTypes:` Shared typings from the Users screen.
-    - `UserJwtProps.ts:` User typings and their roles.
+- `./src/@Types:` Stores the data types that are reused in the code
+    - `CarouselTypes:` Shared data types from the Carousel screen
+    - `CategoriesTypes:` Shared data types from the Categories screen
+    - `CoursesTypes:` Shared data types from the Courses screen
+    - `CertificateTypes:` Shared data types from the Valid Certificates screen
+    - `EventTypes:` Shared data types from the Events screen
+    - `ParticipantsTypes:` Shared data types from the Participants screen
+    - `UsersTypes:` Shared data types from the Users screen
+    - `UserJwtProps.ts:` User type and their roles.
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
     - `global.css:` Global styles, imported within our layout.tsx to be passed throughout the application.
@@ -122,7 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactElement 
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
         - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
         - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
-        - `Courses:` Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit or delete each course, integrating with the API hooks at: ./src/hooks/api/Courses/
+        - `Courses:` Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit, or delete each course, integrating with the API hooks at: ./src/hooks/api/Courses/
         - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit or delete each event, integrating with the API hooks at: ./src/hooks/api/Events/
             - `Participants:` Page that shows who are the participants of the desired event, showing the name, email, RA, registration date and option to mark attendance.
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
@@ -131,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactElement 
         - `EventDetail:` Screen to show the event in more detail to unauthenticated users, also allowing them to register for the event
         - `Login:` Login screen, when accessing: /Login. Requests email and password for the user to access the platform. If the email and password are correct, the user moves to the 'confirm' stage where they enter the 6-digit code sent to their email to access (2FA).
             - `ResetPassword:` Screen for the user to change their password, when accessing: /Login/ResetPassword. First, it requests email. If available, it moves to the screen to enter the new password, confirm, and enter the 6-digit code sent to the email.
+        - `Verification:` Public route intended to verify whether certificates are valid or not. It is accessed after someone scans a QR code, showing whether the certificate is valid or not and to whom it belongs.
 
     - `(private):` These are our private route pages, where only logged-in users can access!
 
@@ -186,15 +153,19 @@ export default function RootLayout({ children }: { children: React.ReactElement 
             - `Post:` POST requests on /categories/ routes
                 - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
 
-        - `Courses:` All requests to the backend on the /courses/ routes
-            - `Delete:` DELETE requests on the /courses/delete/ routes
-                - `useDeleteCourse.ts:` Hook that encapsulates the HTTP request logic to delete a specific course, sending a CSRF-protected DELETE request and ensuring error handling to report deletion failures.
+        - `Certificate`: All requests to the back-end on the /certificates/ routes
+            - `Get`: GET requests on the /certificates/ routes
+                - `usegetVerifyCertificate`: Validates if the certificate being searched for is valid and to whom it belongs
+
+        - `Courses`: All requests to the back-end on the /courses/ routes
+            - `Delete`: DELETE requests on the /courses/delete/ routes
+                - `useDeleteCategory.ts`: Hook that encapsulates the HTTP request logic to delete a specific course, sending a CSRF-protected DELETE and ensuring error handling to report deletion failures.
             - `Get:` GET requests on the /courses/ routes
-                - `useGetAllCourses.ts:` Hook that retrieves the entire course list via GET request, managing loading and error states, and allowing refetch after CRUD operations.
+                - `useGetAllCourses.ts:` Hook that retrieves the entire list of courses via GET request, managing loading and error states, and allowing refetch after CRUD operations.
             - `Patch:` PATCH requests on the /courses/patch/:id routes
-                - `useEditCourse.ts:` Hook responsible for sending partial data updates to an existing course via a PATCH request with CSRF, allowing modification of only the course name.
-            - `Post:` POST requests on /courses/post/ routes
-                - `useCreateCourse.ts:` Hook to create a new course in the system via POST request, constructing the payload typed with the course name and including CSRF protection to ensure the security of the operation.
+                - `useEditCategory.ts:` Hook responsible for sending partial data updates of an existing course through a PATCH request with CSRF, allowing modification of only the course name.
+            - `Post:` POST requests on the /courses/post/ routes
+                - `useCreateCategory.ts:` Hook to create a new course in the system via POST request, building the typed payload with the course name and including CSRF protection to ensure the security of the operation.
 
         - `Events:` All requests to the backend on /events/ routes
             - `Delete:` DELETE requests on /event/delete/:id routes
@@ -253,7 +224,6 @@ export default function RootLayout({ children }: { children: React.ReactElement 
 - `./src/utils:` Folder that groups generic utility functions, without dependence on specific components, used throughout the application for common DOM and export operations.
     - `downloadSectionAsPdf.ts:` Function that captures a section of the page (identified by ID) and generates a PDF file with its full extension, including A4 page breaks. This allows the user to download any part of the interface as a portable document.
     - `printSection.ts:` Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, while maintaining the exact colors of the table header. This function triggers the browser's print dialog and prints only the desired content.
-    - `wrapperVLibras:` Responsible for exporting the VLibras component within a wrapper. This wrapper is necessary because VLibras needs to be used in a client-side environment (use client directive). This way, we avoid placing the directive directly in the layout.tsx
 
 ## ❔ How to run the project on my machine?
 

@@ -44,7 +44,6 @@
 }
 
 @media (max-width: 480px) and (orientation: portrait) {
-
     .container > .wrapper > .table > thead > .headerRow > th.hideMobile,
     .container > .wrapper > .table > tbody > tr > .cell.hideMobile {
         display: none;
@@ -56,6 +55,10 @@
 }
 
 @media (max-width: 480px) {
+    .container {
+        max-width: 95vw;
+    }
+
     .container > .mobileNotice {
         display: block;
         text-align: center;

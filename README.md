@@ -26,50 +26,15 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/utils/wrapperVLibras:` Responsável por exportar o componente VLibras dentro de um wrapper. Esse wrapper é necessário porque o VLibras precisa ser utilizado em ambiente client-side (diretiva use client). Dessa forma, evitamos colocar a diretiva diretamente no layout.tsx
+### `./src/Types/CertificateTypes:` Tipagens compartilhadas da tela de Certificados válidos 
 
-### `./src/app/layout.tsx:` Aqui o VLibras é importado e utilizado, garantindo que ele esteja disponível em todas as páginas da aplicação.
+### `./src/app/(pages)/(public)/Verification:` Rota publica destinada a comprovar se certificados são válidos ou não, é acessada após alguém ler um qrcode, onde mostra se o certificado é valido ou não e à quem ele pertence. 
 
-### `./package.json:` Instalado a biblioteca necessária para utilizar o vlibras: `npm i vlibras-nextjs`
+### `./src/app/hooks/api/Certificate:` Todas as requisições para o back-end nas rotas de /certificates/
 
-### "Como posso usar a API do Vlibras no código next.js?"
+### `./src/app/hooks/api/Certificate/Get:` Requisições GET nas rotas de /certificates/
 
-#### 1 - Instale a biblioteca que nos possibilite utilizar a api do VLibras:
-```bash
-npm i vlibras-nextjs
-```
-
-#### 2 - Após instalar você precisa criar um wrapper, pois ele é client side e precisa da diretiva: 'use client', porém, não devemos usar esta diretiva no layout.tsx, então crie um arquivo: `./src/utils/wrapperVLibras/index.tsx` e cole este arquivo:
-```bash
-'use client';
-import VLibras from 'vlibras-nextjs';
-
-export default function WrapperVLibras(): React.ReactElement {
-    return (
-        <div>
-            {/* To use the v libras api from the gov, to understand more, read: 
-            https://www.gov.br/conecta/catalogo/apis/vlibras/vlibras-v3-1-swagger-artesanal-json/swagger_view! */}
-            {<VLibras forceOnload />}
-        </div>
-    )
-}
-```
-
-#### 3 - No arquivo ./src/app/layout.tsx, importe o wrapper e posicione-o abaixo de {children}, garantindo que o componente seja renderizado em todas as telas:
-```bash
-import WrapperVLibras from '@/utils/wrapperVLibras';
-
-export default function RootLayout({ children }: { children: React.ReactElement }) {
-  return (
-    <html lang="pt-BR">
-      <body>
-        {children}
-        <WrapperVLibras />
-      </body>
-    </html>
-  );
-}
-```
+### `./src/app/hooks/api/Certificate/Get/usegetVerifyCertificate:` Valida se o certificado que está sendo procurado é valido mesmo e à quem ele pertence
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -103,12 +68,13 @@ export default function RootLayout({ children }: { children: React.ReactElement 
             - `login:` Pasta que irá armazenar nossas fotos para utilizar nas telas de Login ( Recuperar senha e autenticação em dois fatores )
             - `readme:` Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
 
-- `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
+- `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a  expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
     - `CarouselTypes:` Tipagens compartilhadas da tela de Carousel
     - `CategoriesTypes:` Tipagens compartilhadas da tela de Categories
-    - `CoursesTypes:` Tipagens compartilhadas da tela de Courses
+    - `CoursesTypes:` Tipagens compartilhadas da tela de Cursos
+    - `CertificateTypes:` Tipagens compartilhadas da tela de Certificados válidos
     - `EventTypes:`  Tipagens compartilhadas da tela de Eventos
     - `ParticipantsTypes:` Tipagens compartilhadas da tela de Participantes
     - `UsersTypes:` Tipagens compartilhadas da tela de Users
@@ -131,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactElement 
         - `EventDetail:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento
         - `Login:` Tela de login, ao acessar: /Login. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
             - `ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail, se existir troca para a tela para informar a nova senha, confirmar, e inserir o código de 6 dígitos enviado ao e-mail.
+        - `Verification:` Rota publica destinada a comprovar se certificados são válidos ou não, é acessada após alguém ler um qrcode, onde mostra se o certificado é valido ou não e à quem ele pertence. 
 
     - `(private):` Aqui são nossas páginas de rotas privada, onde somente usuários logados podem acessar!
 
@@ -186,16 +153,20 @@ export default function RootLayout({ children }: { children: React.ReactElement 
                 - `useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma categoria existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da categoria.
             - `Post:` Requisições POST nas rotas de /categories/post/
                 - `useCreateCategory.ts:` Hook para criar uma nova categoria no sistema via requisição POST, construindo o payload tipado com o nome da categoria e incluindo proteção CSRF para garantir a segurança da operação.
+        
+        - `Certificate:` Todas as requisições para o back-end nas rotas de /certificates/
+            - `Get:` Requisições GET nas rotas de /certificates/
+                - `usegetVerifyCertificate:` Valida se o certificad que está sendo procurado é valido mesmo e à quem ele pertence
 
         - `Courses:` Todas as requisições para o back-end nas rotas de /courses/
             - `Delete:` Requisições DELETE nas rotas de /courses/delete/
-                - `useDeleteCourse.ts:` Hook que encapsula a lógica de requisição HTTP para excluir uma curso específica, enviando um DELETE protegido por CSRF e garantindo o tratamento de erros para informar falhas de exclusão.
+                - `useDeleteCategory.ts:` Hook que encapsula a lógica de requisição HTTP para excluir uma curso específica, enviando um DELETE protegido por CSRF e garantindo o tratamento de erros para informar falhas de exclusão.
             - `Get:` Requisições GET nas rotas de /courses/
                 - `useGetAllCourses.ts:` Hook que realiza a recuperação de toda a lista de cursos via requisição GET, gerenciando estados de carregamento, erro e permitindo refetch após operações de CRUD.
             - `Patch:` Requisições PATCH nas rotas de /courses/patch/:id
-                - `useEditCourse.ts:` Hook responsável por enviar atualizações parciais de dados de uma curso existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da curso.
+                - `useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma curso existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da curso.
             - `Post:` Requisições POST nas rotas de /courses/post/
-                - `useCreateCourse.ts:` Hook para criar uma nova curso no sistema via requisição POST, construindo o payload tipado com o nome da curso e incluindo proteção CSRF para garantir a segurança da operação.
+                - `useCreateCategory.ts:` Hook para criar uma nova curso no sistema via requisição POST, construindo o payload tipado com o nome da curso e incluindo proteção CSRF para garantir a segurança da operação.
 
         - `Events:` Todas as requisições para o back-end nas rotas de /events/
             - `Delete:` Requisições DELETE nas rotas de /event/delete/:id
@@ -255,7 +226,6 @@ export default function RootLayout({ children }: { children: React.ReactElement 
 - `./src/utils:` Pasta que agrupa funções utilitárias genéricas, sem dependência de componentes específicos, usadas em toda a aplicação para operações comuns de DOM e exportação.
     - `downloadSectionAsPdf.ts:` Função que captura uma seção da página (identificada por ID) e gera um arquivo PDF com toda a sua extensão, incluindo quebras de página em A4. Serve para permitir ao usuário baixar qualquer parte da interface como documento portátil.
     - `printSection.ts:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
-    - `wrapperVLibras:` Responsável por exportar o componente VLibras dentro de um wrapper. Esse wrapper é necessário porque o VLibras precisa ser utilizado em ambiente client-side (diretiva use client). Dessa forma, evitamos colocar a diretiva diretamente no layout.tsx
 
 
 ## ❔ Como rodar o projeto na minha máquina?

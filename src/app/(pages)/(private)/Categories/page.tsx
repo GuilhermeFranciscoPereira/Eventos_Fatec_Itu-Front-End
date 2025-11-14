@@ -2,10 +2,10 @@
 import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
-import styles from './Categories.module.css';
 import { useModalStore } from '@/stores/useModalStore';
 import InputDefault from '@/components/Inputs/InputDefault';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
+import styles from '@/app/(pages)/(private)/Categories/Categories.module.css';
 import { useEditCategory } from '@/hooks/api/Categories/Patch/useEditCategory';
 import { useCreateCategory } from '@/hooks/api/Categories/Post/useCreateCategory';
 import { useDeleteCategory } from '@/hooks/api/Categories/Delete/useDeleteCategory';

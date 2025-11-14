@@ -40,7 +40,7 @@
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-right: 0.75rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     border: 1px solid #ccc;
     background-color: var(--background);
     color: var(--text-color);
@@ -52,7 +52,7 @@
 .filtersContainer > .centerSideFilters > .selectDropdown {
     width: 100%;
     padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -169,18 +169,41 @@
     .filtersContainer > .rightSideFilters > .datesFilter {
         width: 50%;
     }
-
+    
     .filtersContainer > .rightSideFilters > .datesFilter > .inputDate {
-        width: 97%;
+        appearance: none;
+        width: 98%;
     }
-
+    
     .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper {
         display: block;
         width: 100%;
     }
-
+    
     .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate {
-        width: 97%;
+        width: 98%;
+        appearance: none;
         box-sizing: border-box;
+    }
+
+    .filtersContainer > .rightSideFilters > .datesFilter:nth-child(2) {
+        text-align: end;
+        align-items: flex-end;
+    }
+
+    .filtersContainer > .rightSideFilters > .datesFilter > .inputDate,
+    .filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate {
+        position: relative;
+    }
+
+    .inputDate.emptyDate::before {
+        content: attr(placeholder);
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        pointer-events: none;
+        font-size: 0.9rem;
     }
 }

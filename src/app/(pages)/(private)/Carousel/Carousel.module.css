@@ -60,6 +60,10 @@
 }
 
 @media (max-width: 480px) {
+    .carouselPage {
+        max-width: 100vw;
+    }
+    
     .carouselPage > .carouselPageHeader {
         flex-direction: column;
         text-align: center;

@@ -66,6 +66,10 @@
 }
 
 @media (max-width: 480px) {
+  .usersPage {
+    max-width: 100vw;
+  }
+
   .usersPage > .usersPageHeader {
     flex-direction: column;
     text-align: center;

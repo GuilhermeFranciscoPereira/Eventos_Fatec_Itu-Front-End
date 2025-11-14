@@ -54,6 +54,7 @@ export default function EventForm(): React.ReactElement {
     <main className={styles.formPage}>
       {loading && <Loader />}
       <ButtonComebackUrl />
+      <br />
       <header className={styles.formHeader}>
         <h1>{isNew ? 'Criar Evento' : 'Editar Evento'}</h1>
       </header>

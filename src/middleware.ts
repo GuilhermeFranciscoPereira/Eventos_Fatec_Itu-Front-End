@@ -18,6 +18,7 @@ const publicRoutes: Array<publicRoutesProps> = [
     { path: '/Login/TwoFactor', type: 'exact', whenAuthenticated: 'redirect' },
     { path: '/Login/ResetPassword', type: 'exact', whenAuthenticated: 'redirect' },
     { path: '/EventDetail', type: 'dynamic', whenAuthenticated: 'next' },
+    { path: '/Verification', type: 'dynamic', whenAuthenticated: 'next' },
 ] as const;
 
 export function middleware(request: NextRequest) {

@@ -67,13 +67,14 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                     <input
                         id="filter-start"
                         type="date"
+                        placeholder="dd/mm/aaaa"
                         min={new Date().toISOString().split('T')[0]}
                         value={startDate}
                         onChange={(e) => {
                             setStartDate(e.target.value);
                             if (endDate && e.target.value > endDate) setEndDate('')
                         }}
-                        className={styles.inputDate}
+                        className={`${styles.inputDate} ${!startDate ? styles.emptyDate : ''}`}
                     />
                 </div>
 
@@ -88,11 +89,12 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                         <input
                             id="filter-end"
                             type="date"
+                            placeholder="dd/mm/aaaa"
                             value={endDate}
                             min={startDate || undefined}
                             onChange={(e) => setEndDate(e.target.value)}
                             disabled={!startDate}
-                            className={styles.inputDate}
+                            className={`${styles.inputDate} ${!endDate ? styles.emptyDate : ''}`}
                         />
                         {!startDate && (
                             <div className={`${styles.tooltipBubble} ${showTooltip ? styles.tooltipVisible : ''}`} role="tooltip">
