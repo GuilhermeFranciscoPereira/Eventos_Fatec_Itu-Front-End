@@ -1,4 +1,3 @@
-import Loader from '@/components/Loader';
 import styles from '@/components/CodeInputValidation/CodeInputValidation.module.css';
 import useCodeInputValidation from '@/hooks/components/CodeInputValidation/useCodeInputValidation';
 
@@ -49,7 +48,7 @@ export default function CodeInputValidation({ infoTitle, children, validateFn }:
                 <div className={styles.actionBtns}>
                     <button type="button" onClick={clearAll} className={styles.clear}>Limpar</button>
                     <button type="submit" className={styles.verify} disabled={!isComplete}>
-                        {loading ? <Loader /> : 'Verificar o código'}
+                        {loading ? 'Verificar o código' : 'Verificar o código'}
                     </button>
                 </div>
             </form>

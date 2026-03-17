@@ -1,6 +1,6 @@
 .filtersContainer {
     position: relative;
-    width: calc(95% - 60px);
+    width: 95%;
     left: 2.5%;
     top: 10px;
     display: flex;

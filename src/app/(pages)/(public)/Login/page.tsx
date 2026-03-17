@@ -12,7 +12,7 @@ import { MdEmail, MdKey, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
 export default function Login(): React.ReactElement {
     const { submitCode, loading: loadingTwoFactor, error: twoFactorError } = useTwoFactor();
-    const { emailRef, passwordRef, loading, errors, stage, setStage, handleSubmit } = useLogin();
+    const { emailRef, passwordRef, errors, stage, setStage, handleSubmit } = useLogin();
 
     const [visible, setVisible] = useState(false);
     const [remember, setRemember] = useState(false);
@@ -20,7 +20,7 @@ export default function Login(): React.ReactElement {
 
     return (
         <main className={styles.main}>
-            {(loading || loadingTwoFactor) && <Loader />}
+            {(loadingTwoFactor) && <Loader />}
 
             <section className={styles.imageSection}>
                 <Image

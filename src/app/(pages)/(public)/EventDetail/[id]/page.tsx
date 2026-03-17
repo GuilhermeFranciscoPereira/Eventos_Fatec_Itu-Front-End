@@ -12,7 +12,6 @@ import InputDefault from '@/components/Inputs/InputDefault';
 import { CoursePublicResponse } from '@/@Types/CoursesTypes';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
-import ButtonComebackUrl from '@/components/Buttons/ButtonComebackUrl';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import { useGetAllCoursesPublic } from '@/hooks/api/Courses/Get/useGetAllCourses';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
@@ -54,9 +53,6 @@ export default function EventDetail(): React.ReactElement {
     return (
         <>
             <main className={styles.eventDetailPage}>
-                <div className={styles.buttonComeback}>
-                    <ButtonComebackUrl />
-                </div>
                 <div className={styles.detailPageInfo}>
                     <div className={styles.detailPageHeader}>
                         <ImageCloudinary

@@ -1,9 +1,3 @@
-.eventDetailPage > .buttonComeback {
-    max-width: 800px;
-    width: 95%;
-    margin: 1rem auto;
-}
-
 .eventDetailPage > .detailPageInfo {
     max-width: 800px;
     width: 95%;
@@ -52,7 +46,7 @@
 }
 
 .eventDetailPage > .detailPageInfo > .subscribe {
-    width: 80%;
+    width: 35%;
     margin: 20px auto 10px;
 }
 

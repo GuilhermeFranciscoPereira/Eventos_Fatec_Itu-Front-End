@@ -26,15 +26,17 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/Types/CertificateTypes:` Tipagens compartilhadas da tela de Certificados válidos 
+### `./src/components/Header:` Refatorado o Header para que em telas não mobile a navegação principal fique centralizada no topo, com animação ao passar o mouse e suporte à dropdown e subdropdown por hover.
 
-### `./src/app/(pages)/(public)/Verification:` Rota publica destinada a comprovar se certificados são válidos ou não, é acessada após alguém ler um qrcode, onde mostra se o certificado é valido ou não e à quem ele pertence. 
+### `./src/components/Sidebar:` Refatorado o Sidebar para ser utilizado apenas no mobile, mantendo a abertura lateral com o mesmo padrão visual já existente e adaptando a navegação para suportar menus e submenus.
 
-### `./src/app/hooks/api/Certificate:` Todas as requisições para o back-end nas rotas de /certificates/
+### `./src/components/NavigationData:` Criado arquivo compartilhado para centralizar a configuração da navegação da aplicação, permitindo reutilizar os mesmos itens de menu no Header desktop e no Sidebar mobile, respeitando a visibilidade com base na role do usuário.
 
-### `./src/app/hooks/api/Certificate/Get:` Requisições GET nas rotas de /certificates/
+### `./src/components/Header/Header.module.css:` Adicionado novo conjunto de estilizações para navegação desktop centralizada, dropdown, subdropdown, animações de hover e tratamento visual dos links internos e externos.
 
-### `./src/app/hooks/api/Certificate/Get/usegetVerifyCertificate:` Valida se o certificado que está sendo procurado é valido mesmo e à quem ele pertence
+### `./src/components/Sidebar/Sidebar.module.css:` Ajustado o menu mobile para preservar o mesmo tamanho visual anterior, corrigindo vazamento com o menu fechado, estilização de submenus, tratamento de ellipsis apenas ao final do texto e comportamento visual consistente com a estrutura nova de navegação.
+
+### `./src/components/NavigationData.ts:` Adicionadas duas novas seções visíveis para todos os usuários: Área aluno e Institucional, contendo links externos e submenu aninhado na seção de Horários.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -68,13 +70,11 @@
             - `login:` Pasta que irá armazenar nossas fotos para utilizar nas telas de Login ( Recuperar senha e autenticação em dois fatores )
             - `readme:` Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
 
-- `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a  expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
+- `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código`
     - `CarouselTypes:` Tipagens compartilhadas da tela de Carousel
     - `CategoriesTypes:` Tipagens compartilhadas da tela de Categories
-    - `CoursesTypes:` Tipagens compartilhadas da tela de Cursos
-    - `CertificateTypes:` Tipagens compartilhadas da tela de Certificados válidos
     - `EventTypes:`  Tipagens compartilhadas da tela de Eventos
     - `ParticipantsTypes:` Tipagens compartilhadas da tela de Participantes
     - `UsersTypes:` Tipagens compartilhadas da tela de Users
@@ -88,7 +88,6 @@
     - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado à estar logado para poder acessar. Nela temos:
         - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: ./src/hooks/api/Carousel
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: ./src/hooks/api/Categories/
-        - `Courses:` Tela de gerenciamento de cursos, responsável por exibir a lista de cursos cadastradas e oferecer as ações de criar, editar ou excluir cada curso, integrando-se aos hooks de API em: ./src/hooks/api/Courses/
         - `Events:` Tela de gerenciamento dos eventos, responsável por exibir a lista dos eventos cadastrados e oferecer as ações de criar, editar ou excluir cada evento, integrando-se aos hooks de API em: ./src/hooks/api/Events/
             - `Participants:` Página que mostra quais são os participantes do evento desejado, trazendo o nome, email, RA, data de inscrição e opção para marcar a presença.
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: ./src/hooks/api/Users/
@@ -97,13 +96,11 @@
         - `EventDetail:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento
         - `Login:` Tela de login, ao acessar: /Login. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
             - `ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail, se existir troca para a tela para informar a nova senha, confirmar, e inserir o código de 6 dígitos enviado ao e-mail.
-        - `Verification:` Rota publica destinada a comprovar se certificados são válidos ou não, é acessada após alguém ler um qrcode, onde mostra se o certificado é valido ou não e à quem ele pertence. 
 
     - `(private):` Aqui são nossas páginas de rotas privada, onde somente usuários logados podem acessar!
 
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
     - `Buttons:`
-        - `ButtonComebackUrl:` Este botão disponibiliza a opção do usuário voltar para a página anterior ou para alguma url escolhida no código, caso no código não passe as props para ele, por padrão ele volta para a url anterior a que esta no momento, se não passar a label vem por padrão como: "Voltar"
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
         - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
     - `CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.
@@ -111,7 +108,7 @@
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
     - `Filters:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em CardEvents
     - `Footer:` Rodapé que contem as informações como: Endereço, número de telefone, links das áres dos alunos.
-    - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site
+    - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site. Em telas não mobile ele também é responsável por exibir a navegação principal centralizada com suporte à dropdown e subdropdown por hover.
     - `ImageCloudinary:` Responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizavel em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
     - `Inputs:`
         - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
@@ -119,7 +116,8 @@
         - `InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado
     - `Loader:` Componente que mostra ao usuário que algo está carregando
     - `Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.
-    - `Sidebar:` Menu sidebar para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela
+    - `NavigationData:` Arquivo responsável por centralizar a configuração dos itens de navegação reutilizados no Header e no Sidebar, incluindo rotas internas, links externos, dropdown, subdropdown e controle de visibilidade com base na role do usuário.
+    - `Sidebar:` Menu lateral utilizado apenas em telas mobile para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela, incluindo suporte à submenu e subsubmenu com base na mesma configuração de navegação compartilhada utilizada no Header.
     - `Table:` Tabela reutilizável, apenas precisa passar as colunas, os dados, e as colunas ocultas no mobile. 
     - `Toast:` Exibe notificações breves. Pode ser reutilizado em diferentes cenários mudando apenas as props de mensagem e tipo (Success, Alert, Error).
 
@@ -153,20 +151,6 @@
                 - `useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma categoria existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da categoria.
             - `Post:` Requisições POST nas rotas de /categories/post/
                 - `useCreateCategory.ts:` Hook para criar uma nova categoria no sistema via requisição POST, construindo o payload tipado com o nome da categoria e incluindo proteção CSRF para garantir a segurança da operação.
-        
-        - `Certificate:` Todas as requisições para o back-end nas rotas de /certificates/
-            - `Get:` Requisições GET nas rotas de /certificates/
-                - `usegetVerifyCertificate:` Valida se o certificad que está sendo procurado é valido mesmo e à quem ele pertence
-
-        - `Courses:` Todas as requisições para o back-end nas rotas de /courses/
-            - `Delete:` Requisições DELETE nas rotas de /courses/delete/
-                - `useDeleteCategory.ts:` Hook que encapsula a lógica de requisição HTTP para excluir uma curso específica, enviando um DELETE protegido por CSRF e garantindo o tratamento de erros para informar falhas de exclusão.
-            - `Get:` Requisições GET nas rotas de /courses/
-                - `useGetAllCourses.ts:` Hook que realiza a recuperação de toda a lista de cursos via requisição GET, gerenciando estados de carregamento, erro e permitindo refetch após operações de CRUD.
-            - `Patch:` Requisições PATCH nas rotas de /courses/patch/:id
-                - `useEditCategory.ts:` Hook responsável por enviar atualizações parciais de dados de uma curso existente através de uma requisição PATCH com CSRF, permitindo modificar apenas o nome da curso.
-            - `Post:` Requisições POST nas rotas de /courses/post/
-                - `useCreateCategory.ts:` Hook para criar uma nova curso no sistema via requisição POST, construindo o payload tipado com o nome da curso e incluindo proteção CSRF para garantir a segurança da operação.
 
         - `Events:` Todas as requisições para o back-end nas rotas de /events/
             - `Delete:` Requisições DELETE nas rotas de /event/delete/:id
@@ -206,8 +190,6 @@
             - `useCarouselComponent:` Parte lógica do carrossel, lida com o passar de imagens automático ou manual, clique nas bolinhas que estão centralizadas na parte inferior e etc.
         - `CodeInputValidation:` 
             - `useCodeInputValidation:` Lida com a parte lógica dos inputs da autenticação em dois fatores
-        - `Sidebar:`
-            - `useSideBar:` Lida com a possibilidade de fechar ou abrir o menu sidebar ao clicar no 'X'
     - `pages` Lógicas das páginas, arquivos page.tsx que fica dentro de app
         - `(private):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/private)
             - `/Events:` Partes lógicas da rota /Events

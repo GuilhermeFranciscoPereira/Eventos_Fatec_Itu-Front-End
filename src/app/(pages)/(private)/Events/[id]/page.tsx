@@ -4,7 +4,6 @@ import ButtonRay from '@/components/Buttons/ButtonRay';
 import InputImage from '@/components/Inputs/InputImage';
 import InputDefault from '@/components/Inputs/InputDefault';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
-import ButtonComebackUrl from '@/components/Buttons/ButtonComebackUrl';
 import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
@@ -53,8 +52,6 @@ export default function EventForm(): React.ReactElement {
   return (
     <main className={styles.formPage}>
       {loading && <Loader />}
-      <ButtonComebackUrl />
-      <br />
       <header className={styles.formHeader}>
         <h1>{isNew ? 'Criar Evento' : 'Editar Evento'}</h1>
       </header>

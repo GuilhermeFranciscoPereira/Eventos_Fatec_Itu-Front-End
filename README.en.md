@@ -26,15 +26,15 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/Types/CertificateTypes:` Shared types from the Valid Certificates screen
+### `./src/components/Header:` Refactored the Header so that on non-mobile screens the main navigation is centered at the top, with animation on mouse hover and support for dropdown and subdropdown on hover.
 
-### `./src/app/(pages)/(public)/Verification:` Public route intended to verify whether certificates are valid or not. It is accessed after someone scans a QR code, showing whether the certificate is valid or not and to whom it belongs.
+### `./src/components/Sidebar:` Refactored the Sidebar to be used only on mobile, maintaining the existing visual pattern for side opening and adapting the navigation to support menus and submenus.
 
-### `./src/app/hooks/api/Certificate:` All requests to the back-end on the /certificates/ routes
+### `./src/components/NavigationData:` Created a shared file to centralize the application's navigation configuration, allowing the reuse of the same menu items in the desktop Header and the mobile Sidebar, respecting visibility based on the user's role.
 
-### `./src/app/hooks/api/Certificate/Get:` GET requests on the /certificates/ routes
+### `./src/components/Header/Header.module.css:` Added a new set of styles for centered desktop navigation, dropdown, subdropdown, hover animations, and visual treatment of internal and external links. ### `./src/components/Sidebar/Sidebar.module.css:` Adjusted the mobile menu to maintain the same previous visual size, correcting leakage when the menu is closed, styling submenus, handling ellipsis only at the end of the text, and ensuring visual behavior consistent with the new navigation structure.
 
-### `./src/app/hooks/api/Certificate/Get/usegetVerifyCertificate:` Validates whether the certificate being searched for is indeed valid and to whom it belongs.
+### `./src/components/NavigationData.ts:` Added two new sections visible to all users: Student Area and Institutional, containing external links and a nested submenu in the Schedules section.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -68,17 +68,15 @@
         - `login:` Folder that will store our photos for use on the login screens (Recover password and two-factor authentication)
         - `readme:` Folder that will store our photos for use in the documentation (README)
 
-- `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.
+- `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
 
-- `./src/@Types:` Stores the data types that are reused in the code
-    - `CarouselTypes:` Shared data types from the Carousel screen
-    - `CategoriesTypes:` Shared data types from the Categories screen
-    - `CoursesTypes:` Shared data types from the Courses screen
-    - `CertificateTypes:` Shared data types from the Valid Certificates screen
-    - `EventTypes:` Shared data types from the Events screen
-    - `ParticipantsTypes:` Shared data types from the Participants screen
-    - `UsersTypes:` Shared data types from the Users screen
-    - `UserJwtProps.ts:` User type and their roles.
+- `./src/@Types:` Stores the typings that are reused in the code.
+    - `CarouselTypes:` Shared typings from the Carousel screen.
+    - `CategoriesTypes:` Shared typings from the Categories screen.
+    - `EventTypes:` Shared typings from the Events screen.
+    - `ParticipantsTypes:` Shared typings from the Participants screen.
+    - `UsersTypes:` Shared typings from the Users screen.
+    - `UserJwtProps.ts:` User typings and their roles.
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
     - `global.css:` Global styles, imported within our layout.tsx to be passed throughout the application.
@@ -88,7 +86,6 @@
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
         - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
         - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
-        - `Courses:` Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit, or delete each course, integrating with the API hooks at: ./src/hooks/api/Courses/
         - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit or delete each event, integrating with the API hooks at: ./src/hooks/api/Events/
             - `Participants:` Page that shows who are the participants of the desired event, showing the name, email, RA, registration date and option to mark attendance.
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
@@ -97,13 +94,11 @@
         - `EventDetail:` Screen to show the event in more detail to unauthenticated users, also allowing them to register for the event
         - `Login:` Login screen, when accessing: /Login. Requests email and password for the user to access the platform. If the email and password are correct, the user moves to the 'confirm' stage where they enter the 6-digit code sent to their email to access (2FA).
             - `ResetPassword:` Screen for the user to change their password, when accessing: /Login/ResetPassword. First, it requests email. If available, it moves to the screen to enter the new password, confirm, and enter the 6-digit code sent to the email.
-        - `Verification:` Public route intended to verify whether certificates are valid or not. It is accessed after someone scans a QR code, showing whether the certificate is valid or not and to whom it belongs.
 
     - `(private):` These are our private route pages, where only logged-in users can access!
 
 - `./src/components:` Where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
-        - `ButtonComebackUrl:` This button provides the user with the option to return to the previous page or to a URL chosen in the code. If the code does not pass the props to it, by default it returns to the URL previous to the one it is currently on. If you do not pass the label, it comes by default as: "Voltar"
         - `ButtonDarkMode:` Button responsible for managing the website's dark mode (light/dark mode). - `ButtonRay:` Button that is reused in various parts of the code, changing the text, etc., based on props.
         - `Button Ray:` Button that is used in different parts of the code, changing the text and etc based on the props
     - `CardEvents:` Cards that show events to unauthenticated users, they only show events that have not yet occurred, they contain brief information such as the photo, title, day and time and speaker.
@@ -111,7 +106,7 @@
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
     - `Filters:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
     - `Footer:` Footer that contains information such as: Address, telephone number, links to student areas
-    - `Header:` Component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the site.
+    - `Header:` A component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the website. On non-mobile screens, it is also responsible for displaying the main navigation in a centralized area with support for dropdown and subdropdown on hover.
     - `ImageCloudinary:` Responsible for rendering images hosted on Cloudinary in an optimized way with the next Image tag, making a component that can be reused anywhere, making the image stay 100% within the parent element correctly
     - `Inputs:`
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
@@ -119,7 +114,8 @@
         - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected.
     - `Loader:` Component that shows the user that something is loading.
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
-    - `Sidebar:` Sidebar menu so the user can switch routes in a more accessible way without taking up too much screen space.
+    - `NavigationData:` File responsible for centralizing the configuration of navigation items reused in the Header and Sidebar, including internal routes, external links, dropdowns, subdropdowns, and visibility control based on the user's role.
+    - `Sidebar:` A side menu used only on mobile screens to allow users to switch routes more easily without taking up as much screen space, including support for submenus and sub-submenus based on the same shared navigation configuration used in the Header.
     - `Table:` Reusable table, you just need to pass the columns, the data, and the hidden columns on mobile.
     - `Toast:` Displays brief notifications. Can be reused in different scenarios by changing only the message and type props (Success, Alert, Error).
 
@@ -152,20 +148,6 @@
                 - `useEditCategory.ts:` Hook responsible for sending partial data updates for an existing category via a PATCH request with CSRF, allowing modification of only the category name. 
             - `Post:` POST requests on /categories/ routes
                 - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
-
-        - `Certificate`: All requests to the back-end on the /certificates/ routes
-            - `Get`: GET requests on the /certificates/ routes
-                - `usegetVerifyCertificate`: Validates if the certificate being searched for is valid and to whom it belongs
-
-        - `Courses`: All requests to the back-end on the /courses/ routes
-            - `Delete`: DELETE requests on the /courses/delete/ routes
-                - `useDeleteCategory.ts`: Hook that encapsulates the HTTP request logic to delete a specific course, sending a CSRF-protected DELETE and ensuring error handling to report deletion failures.
-            - `Get:` GET requests on the /courses/ routes
-                - `useGetAllCourses.ts:` Hook that retrieves the entire list of courses via GET request, managing loading and error states, and allowing refetch after CRUD operations.
-            - `Patch:` PATCH requests on the /courses/patch/:id routes
-                - `useEditCategory.ts:` Hook responsible for sending partial data updates of an existing course through a PATCH request with CSRF, allowing modification of only the course name.
-            - `Post:` POST requests on the /courses/post/ routes
-                - `useCreateCategory.ts:` Hook to create a new course in the system via POST request, building the typed payload with the course name and including CSRF protection to ensure the security of the operation.
 
         - `Events:` All requests to the backend on /events/ routes
             - `Delete:` DELETE requests on /event/delete/:id routes
@@ -204,8 +186,6 @@
             - `useCarouselComponent:` Logical part of the carousel, handles automatic or manual image scrolling, clicking on the balls centered at the bottom, etc.
         - `CodeInputValidation:`
             - `useCodeInputValidation:` Handles the logical part of two-factor authentication inputs
-        - `Sidebar:`
-            - `useSideBar:` Handles the ability to close or open the sidebar menu when clicking the 'X'
     - `pages` Page logic, page.tsx files located within the app
         - `(private):` Page logic, page.tsx files located within the app -> (pages/private)
             - `/Events:` Logical parts of the /Events route
