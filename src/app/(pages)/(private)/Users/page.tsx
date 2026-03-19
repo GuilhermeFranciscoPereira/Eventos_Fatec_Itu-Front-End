@@ -5,7 +5,7 @@ import { Table } from '@/components/Table';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { useModalStore } from '@/stores/useModalStore';
-import InputDefault from '@/components/Inputs/InputDefault';
+import InputField from '@/components/Inputs/InputField';
 import { UserProps, CreateUserDto } from '@/@Types/UsersTypes';
 import { useEditUser } from '@/hooks/api/Users/Patch/useEditUser';
 import styles from '@/app/(pages)/(private)/Users/Users.module.css';
@@ -68,9 +68,9 @@ export default function Users(): React.ReactElement {
             title: 'Criar novo usuário',
             message: (
                 <form className={styles.editForm}>
-                    <InputDefault ref={newNameRef} label="Nome" />
-                    <InputDefault ref={newEmailRef} label="E-mail" type="email" />
-                    <InputDefault ref={newPasswordRef} label="Senha" type="password" />
+                    <InputField ref={newNameRef} label="Nome" autoFocus />
+                    <InputField ref={newEmailRef} label="E-mail" type="email" />
+                    <InputField ref={newPasswordRef} label="Senha" type="password" />
                     <div className={styles.selectWrapper}>
                         <label htmlFor="role-create" className={styles.selectLabel}>Nível de usuário</label>
                         <select id="role-create" ref={newRoleRef} defaultValue="AUXILIAR" className={styles.select}>
@@ -101,8 +101,8 @@ export default function Users(): React.ReactElement {
             title: 'Editar usuário',
             message: (
                 <form className={styles.editForm}>
-                    <InputDefault ref={nameRef} label="Nome" defaultValue={user.name} />
-                    <InputDefault ref={emailRef} label="E-mail" type="email" defaultValue={user.email} />
+                    <InputField ref={nameRef} label="Nome" defaultValue={user.name} autoFocus />
+                    <InputField ref={emailRef} label="E-mail" type="email" defaultValue={user.email} />
                     <div className={styles.selectWrapper}>
                         <label htmlFor="role-edit" className={styles.selectLabel}>Nível de usuário</label>
                         <select id="role-edit" ref={roleRef} defaultValue={user.role} className={styles.select}>

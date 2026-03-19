@@ -1,10 +1,11 @@
 .container {
     color: var(--text-color);
-    max-width: 70vw;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
     border-radius: 20px;
     box-shadow: var(--box-shadow);
     overflow-x: hidden;
-    margin: 0px auto;
 }
 
 .container > .wrapper {
@@ -41,6 +42,13 @@
 
 .container > .wrapper > .table > tbody > tr:hover {
     background: rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .container > .wrapper > .table > thead > .headerRow > th.hideMobile,
+    .container > .wrapper > .table > tbody > tr > .cell.hideMobile {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) and (orientation: portrait) {

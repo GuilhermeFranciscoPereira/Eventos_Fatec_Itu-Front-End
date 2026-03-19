@@ -66,6 +66,7 @@ export default function Login(): React.ReactElement {
                                         ref={emailRef as React.RefObject<HTMLInputElement>}
                                         autoComplete="email"
                                         required
+                                        autoFocus
                                     />
                                 </div>
                                 {errors?.email && <p className={styles.error}>{errors.email}</p>}

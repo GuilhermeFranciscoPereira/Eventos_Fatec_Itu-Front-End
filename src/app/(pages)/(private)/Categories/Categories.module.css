@@ -50,7 +50,19 @@
     color: var(--red-primary);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1060px) {
+    .categoriesPage {
+        max-width: 80vw;
+    }
+}
+
+@media (max-width: 930px) {
+    .categoriesPage {
+        max-width: 95vw;
+    }
+}
+
+@media (max-width: 768px) {
     .categoriesPage {
         max-width: 100vw;
     }

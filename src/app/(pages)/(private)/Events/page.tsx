@@ -28,12 +28,25 @@ export default function Events(): React.ReactElement {
         },
         { id: 'name', header: 'Nome', accessor: (e: EventProps) => e.name },
         {
-            id: 'date', header: 'Data', accessor: (e: EventProps) => new Date(e.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }),
-        },
-        {
-            id: 'time',
-            header: 'Horário',
-            accessor: ({ startTime, endTime }: EventProps) => [startTime, endTime].map(t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' - '),
+            id: 'dateTime',
+            header: 'Data e horário',
+            accessor: (e: EventProps) => {
+                const date = new Date(e.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+
+                const start = new Date(e.startTime).toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZone: 'UTC'
+                });
+
+                const end = new Date(e.endTime).toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZone: 'UTC'
+                });
+
+                return `${date} às ${start} - ${end}`;
+            },
         },
         {
             id: 'location',
@@ -94,7 +107,7 @@ export default function Events(): React.ReactElement {
                 records={events}
                 schema={schema}
                 getIdentifier={(e) => e.id}
-                hiddenOnMobile={['date', 'name', 'time', 'location']}
+                hiddenOnMobile={['name', 'dateTime', 'location']}
             />
         </main>
     );

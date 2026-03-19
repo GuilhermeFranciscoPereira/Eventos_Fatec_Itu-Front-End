@@ -1,16 +1,16 @@
 import { LuEyeOff } from 'react-icons/lu';
 import { FaRegEye } from 'react-icons/fa';
 import { useState, useId, forwardRef } from 'react';
-import styles from '@/components/Inputs/InputDefault/InputDefault.module.css';
+import styles from '@/components/Inputs/InputField/InputField.module.css';
 
-type InputDefaultProps = {
+type InputFieldProps = {
     type?: 'text' | 'email' | 'password' | 'number'
     label: string
     id?: string
 } & React.InputHTMLAttributes<HTMLInputElement>
 
-export default forwardRef<HTMLInputElement, InputDefaultProps>(
-    function InputDefault({ type = 'text', label, id, ...inputProps }, ref): React.ReactElement {
+export default forwardRef<HTMLInputElement, InputFieldProps>(
+    function InputField({ type = 'text', label, id, ...inputProps }, ref): React.ReactElement {
         const generatedId: string = useId();
         const inputId: string = id ?? `input-${generatedId}`;
         const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -26,6 +26,22 @@ export default forwardRef<HTMLInputElement, InputDefaultProps>(
                         type={type === 'password' && showPassword ? 'text' : type}
                         autoComplete='off'
                         required
+                        onChange={(e) => {
+                            const value = e.target.value;
+
+                            const formatted = value
+                                .toLowerCase()
+                                .split(' ')
+                                .map((word) => {
+                                    if (word.length <= 2) return word;
+                                    return word.charAt(0).toUpperCase() + word.slice(1);
+                                })
+                                .join(' ');
+
+                            e.target.value = formatted;
+
+                            inputProps.onChange?.(e);
+                        }}
                     />
                     <label htmlFor={inputId} className={styles.label}>
                         {Array.from(label).map((char, idx) => (

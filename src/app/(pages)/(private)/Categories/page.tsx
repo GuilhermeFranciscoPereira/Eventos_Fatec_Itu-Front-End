@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { useModalStore } from '@/stores/useModalStore';
-import InputDefault from '@/components/Inputs/InputDefault';
+import InputField from '@/components/Inputs/InputField';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import styles from '@/app/(pages)/(private)/Categories/Categories.module.css';
 import { useEditCategory } from '@/hooks/api/Categories/Patch/useEditCategory';
@@ -67,7 +67,7 @@ export default function Categories(): React.ReactElement {
             title: 'Criar nova categoria',
             message: (
                 <form className={styles.form}>
-                    <InputDefault ref={newNameRef} label="Nome da categoria" />
+                    <InputField ref={newNameRef} label="Nome da categoria" autoFocus />
                 </form>
             ),
             confirmLabel: 'Criar categoria',
@@ -85,7 +85,7 @@ export default function Categories(): React.ReactElement {
             title: 'Editar categoria',
             message: (
                 <form className={styles.form}>
-                    <InputDefault ref={nameRef} label="Nome da categoria" defaultValue={cat.name} />
+                    <InputField ref={nameRef} label="Nome da categoria" defaultValue={cat.name} autoFocus />
                 </form>
             ),
             confirmLabel: 'Salvar categoria',

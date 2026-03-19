@@ -20,8 +20,8 @@
 }
 
 .container > .checkmark {
-    width: 25px;
-    height: 25px;
+    width: 23px;
+    height: 23px;
     position: relative;
     border: 2px solid #323232;
     border-radius: 5px;
@@ -36,10 +36,10 @@
 
 .container > .checkmark::after {
     content: '';
-    width: 7px;
-    height: 15px;
+    width: 5px;
+    height: 10px;
     position: absolute;
-    top: 0;
+    top: 2px;
     left: 6px;
     display: none;
     border: solid #fff;

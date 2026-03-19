@@ -2,8 +2,8 @@
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { useParams } from 'next/navigation';
-import { TbFileTypePdf } from 'react-icons/tb';
 import { printSection } from '@/utils/printSection';
+import { TbFileTypePdf, TbPrinter } from 'react-icons/tb';
 import { ParticipantProps } from '@/@Types/ParticipantsTypes';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { downloadSectionAsPdf } from '@/utils/downloadSectionAsPdf';
@@ -52,7 +52,7 @@ export default function Participants(): React.ReactElement {
                 <h1>Gerenciamento de Participantes</h1>
                 <div className={styles.buttonsParticipantsPage}>
                     <button onClick={() => downloadSectionAsPdf('idParticipantsTable', `Lista_de_Presença`)}><TbFileTypePdf />Exportar por PDF</button>
-                    <button onClick={() => printSection('idParticipantsTable')}><TbFileTypePdf />Imprimir</button>
+                    <button onClick={() => printSection('idParticipantsTable')}><TbPrinter />Imprimir</button>
                 </div>
             </header>
             {loading && <Loader />}

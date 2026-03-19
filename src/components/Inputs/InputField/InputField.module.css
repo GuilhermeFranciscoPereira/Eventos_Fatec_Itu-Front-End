@@ -1,0 +1,55 @@
+.wrapper > .waveGroup {
+    position: relative;
+}
+
+.wrapper > .waveGroup > .inputField {
+    width: var(--field-width);
+    min-height: var(--field-min-height);
+    margin-top: var(--field-margin-top);
+    padding: var(--field-padding);
+    border-radius: var(--field-radius);
+    display: block;
+    background-color: var(--field-bg);
+    color: var(--field-color);
+    border: var(--field-border);
+    font-family: var(--field-font-family);
+    font-size: var(--field-font-size);
+}
+
+.wrapper > .waveGroup > .inputField:focus {
+    outline: none;
+}
+
+.wrapper > .waveGroup > .label {
+    color: var(--field-label-color);
+    font-size: var(--field-label-font-size);
+    font-weight: normal;
+    position: absolute;
+    top: var(--field-label-top);
+    left: var(--field-label-left);
+    pointer-events: none;
+    display: flex;
+}
+
+.wrapper > .waveGroup > .label > .labelChar {
+    transition: 0.2s ease all;
+    transition-delay: calc(var(--index) * 0.05s);
+}
+
+.wrapper > .waveGroup > .inputField:focus ~ .label > .labelChar,
+.wrapper > .waveGroup > .inputField:valid ~ .label > .labelChar {
+    transform: translateY(var(--field-label-translate-y));
+    font-size: var(--field-label-font-size);
+    color: var(--field-label-active-color);
+}
+
+.wrapper > .waveGroup > .showPasswordToggle {
+    position: absolute;
+    right: 20px;
+    top: 11px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: var(--field-font-size);
+    color: var(--field-label-active-color);
+}

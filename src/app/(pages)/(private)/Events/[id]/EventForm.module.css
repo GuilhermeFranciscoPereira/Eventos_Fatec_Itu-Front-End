@@ -1,6 +1,6 @@
 .formPage {
     max-width: 900px;
-    margin: 2rem auto;
+    margin: 1rem auto;
     color: var(--text-color);
     background-color: var(--background);
     transition: color .4s ease-in-out, background .4s ease-in-out;
@@ -22,7 +22,11 @@
 .formPage > .form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
+}
+
+.formPage > .form > .checkboxRow {
+    margin: -10px 0px -30px;
 }
 
 .formPage > .form > .upload {
@@ -36,19 +40,11 @@
     box-shadow: var(--box-shadow);
 }
 
-
 .formPage > .form > .upload > .previewImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
-}
-
-.formPage > .form > .upload > .uploadPlaceholder > p {
-    margin-top: 20px;
-    font-size: 1rem;
-    color: var(--text-color);
-    text-align: center;
 }
 
 .formPage > .form > .row {
@@ -59,44 +55,98 @@
 
 .formPage > .form > .row > .checkboxInput {
     justify-self: start;
-    padding-left: 5px;
-}
-
-.formPage > .form > .row > .input,
-.formPage > .form > .row > .customWrapper > .input {
-    font-size: 20px;
-    padding: 15px;
-    border-radius: 10px;
-    display: block;
-    width: 100%;
-    outline: none;
-    margin-top: 40px;
-    background-color: var(--background);
-    color: var(--text-color);
-    border: 2px solid var(--red-primary);
-}
-
-.formPage > .form > .row > .input:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    padding-left: 3px;
 }
 
 .formPage > .form > .row > .customWrapper {
     display: flex;
     gap: 0.5rem;
+    width: 100%;
 }
 
-.formPage > .form > .textarea {
+.formPage > .form > .row > .customWrapper > .flexField {
+    flex: 1;
+}
+
+.formPage > .form > .row > .fieldWrapper,
+.formPage > .form > .fieldWrapper {
     width: 100%;
+}
+
+.formPage > .form > .row > .fieldWrapper > .fieldBox,
+.formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox,
+.formPage > .form > .fieldWrapper > .fieldBox {
+    position: relative;
+    width: 100%;
+}
+
+.formPage > .form > .row > .fieldWrapper > .fieldBox > .nativeField,
+.formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox > .nativeField,
+.formPage > .form > .fieldWrapper > .fieldBox > .nativeField {
+    width: var(--field-width);
+    min-height: var(--field-min-height);
+    margin-top: var(--field-margin-top);
+    padding: var(--field-padding);
+    border-radius: var(--field-radius);
+    display: block;
+    background-color: var(--field-bg);
+    color: var(--field-color);
+    border: var(--field-border);
+    font-family: var(--field-font-family);
+    font-size: var(--field-font-size);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.formPage > .form > .fieldWrapper.textareaWrapper > .fieldBox > .nativeTextarea {
+    width: var(--field-width);
     min-height: 120px;
-    padding: 1rem;
-    border: 2px solid var(--red-primary);
-    outline: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    background-color: var(--background);
-    color: var(--text-color);
+    margin-top: var(--field-margin-top);
+    padding: 10px;
+    border-radius: var(--field-radius);
+    display: block;
+    background-color: var(--field-bg);
+    color: var(--field-color);
+    border: var(--field-border);
+    font-family: var(--field-font-family);
+    font-size: var(--field-font-size);
     resize: vertical;
+}
+
+.formPage > .form > .row > .fieldWrapper > .fieldBox > .fieldLabel,
+.formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox > .fieldLabel,
+.formPage > .form > .fieldWrapper > .fieldBox > .fieldLabel {
+    position: absolute;
+    top: var(--field-label-top);
+    left: var(--field-label-left);
+    pointer-events: none;
+    display: flex;
+    color: var(--field-label-active-color);
+    font-size: var(--field-label-font-size);
+}
+
+.formPage > .form > .row > .fieldWrapper > .fieldBox > .fieldLabel > .labelChar,
+.formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox > .fieldLabel > .labelChar,
+.formPage > .form > .fieldWrapper > .fieldBox > .fieldLabel > .labelChar {
+    transition: 0.2s ease all;
+    transition-delay: calc(var(--index) * 0.05s);
+    transform: translateY(var(--field-label-translate-y));
+}
+
+.formPage > .form > .row > .fieldWrapper > .fieldBox > .nativeField:focus,
+.formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox > .nativeField:focus,
+.formPage > .form > .fieldWrapper > .fieldBox > .nativeField:focus,
+.formPage > .form > .fieldWrapper.textareaWrapper > .fieldBox > .nativeTextarea:focus {
+    outline: none;
+}
+
+.formPage > .form > .row > .fieldWrapper > .fieldBox > .nativeField:disabled,
+.formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox > .nativeField:disabled,
+.formPage > .form > .fieldWrapper > .fieldBox > .nativeField:disabled,
+.formPage > .form > .fieldWrapper.textareaWrapper > .fieldBox > .nativeTextarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .formPage > .form > .buttonSubmit {
@@ -115,6 +165,12 @@
     gap: 50px;
 }
 
+.formPage > .form > .row > .fieldWrapper > .fieldBox > .nativeField::-webkit-calendar-picker-indicator,
+.formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox > .nativeField::-webkit-calendar-picker-indicator,
+.formPage > .form > .fieldWrapper > .fieldBox > .nativeField::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
 @media (max-width: 480px) {
     .formPage {
         width: 90%;
@@ -127,6 +183,10 @@
 
     .formPage > .form > .upload {
         padding: 0;
+    }
+
+    .formPage > .form > .row > .customWrapper {
+        flex-direction: column;
     }
 
     .formPage > .form > .buttonSubmit {

@@ -2,11 +2,12 @@
     position: relative;
     width: 95%;
     left: 2.5%;
-    top: 10px;
+    top: 0.625rem;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
+    gap: 1rem;
 }
 
 .filtersContainer > .leftSideFilters,
@@ -15,9 +16,17 @@
     flex-direction: column;
     align-items: flex-start;
     width: 30%;
-    gap: 10px;
+    gap: 0.5rem;
 }
 
+.filtersContainer > .leftSideFilters > .label,
+.filtersContainer > .centerSideFilters > .label,
+.filtersContainer > .rightSideFilters > .datesFilter > .label {
+    font-size: var(--field-label-font-size);
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--field-label-color);
+}
 
 .filtersContainer > .leftSideFilters > .searchBox {
     position: relative;
@@ -26,90 +35,87 @@
 
 .filtersContainer > .leftSideFilters > .searchBox > .searchIcon {
     position: absolute;
-    left: 0.75rem;
+    left: 0.875rem;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #888;
 }
 
 .filtersContainer > .leftSideFilters > .searchBox > .inputText {
-    width: 100%;
-    padding-left: 2.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-right: 0.75rem;
-    font-size: 1rem;
+    width: var(--field-width);
+    min-height: var(--field-min-height);
+    padding: 5px 5px 5px 2.75rem;
     border: 1px solid #ccc;
-    background-color: var(--background);
-    color: var(--text-color);
+    background-color: var(--field-bg);
+    color: var(--field-color);
     outline: none;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: var(--field-radius);
+    font-family: var(--field-font-family);
+    font-size: var(--field-font-size);
+    line-height: 1.25;
 }
 
 .filtersContainer > .centerSideFilters > .selectDropdown {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    font-size: 1rem;
+    width: var(--field-width);
+    min-height: var(--field-min-height);
+    padding: var(--field-padding);
+    font-family: var(--field-font-family);
+    font-size: var(--field-font-size);
+    line-height: 1.25;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    background-color: var(--background);
-    color: var(--text-color);
+    border-radius: var(--field-radius);
+    background-color: var(--field-bg);
+    color: var(--field-color);
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.filtersContainer > .centerSideFilters > .selectDropdown:focus {
     outline: none;
-    border-color: #888;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 .filtersContainer > .rightSideFilters {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .filtersContainer > .rightSideFilters > .datesFilter {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 0.5rem;
 }
 
 .filtersContainer > .rightSideFilters > .datesFilter > .inputDate,
-.filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate {
-    padding: 0.5rem 0.75rem;
+.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate {
+    width: var(--field-width);
+    min-height: var(--field-min-height);
+    padding: var(--field-padding);
     border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: var(--background);
-    color: var(--text-color);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-size: 0.9rem;
-    height: 2.5rem;
+    border-radius: var(--field-radius);
+    background-color: var(--field-bg);
+    color: var(--field-color);
+    font-family: var(--field-font-family);
+    font-size: 15px;
+    line-height: 1.25;
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:focus,
-.filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate:focus {
     outline: none;
-    border-color: #888;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 .filtersContainer > .rightSideFilters > .datesFilter > .inputDate:disabled,
-.filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate:disabled {
+.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate:disabled {
     cursor: not-allowed;
+    opacity: var(--field-disabled-opacity);
 }
 
 .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper {
     position: relative;
-    display: inline-block;
-    width: auto;
+    display: block;
+    width: 100%;
 }
 
 .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .tooltipBubble {
@@ -119,9 +125,9 @@
     transform: translateX(-50%) translateY(6px);
     opacity: 0;
     pointer-events: none;
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-size: 0.85rem;
+    padding: 0.5rem 0.625rem;
+    border-radius: 0.5rem;
+    font-size: var(--font-size-sm);
     line-height: 1.2;
     background: white;
     color: black;
@@ -145,8 +151,8 @@
     position: absolute;
     top: 100%;
     left: 40%;
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
     transform: translateX(-50%) rotate(45deg);
     background: white;
     box-shadow: var(--box-shadow);
@@ -155,34 +161,25 @@
 @media (max-width: 768px) {
     .filtersContainer {
         flex-direction: column;
-        gap: 20px;
+        align-items: stretch;
+        gap: 1.25rem;
         width: 95%;
     }
 
     .filtersContainer > .leftSideFilters,
     .filtersContainer > .centerSideFilters,
     .filtersContainer > .rightSideFilters {
-        gap: 1px;
         width: 100%;
+        gap: 0.5rem;
     }
 
     .filtersContainer > .rightSideFilters > .datesFilter {
         width: 50%;
     }
-    
-    .filtersContainer > .rightSideFilters > .datesFilter > .inputDate {
-        appearance: none;
-        width: 98%;
-    }
-    
-    .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper {
-        display: block;
-        width: 100%;
-    }
-    
+
+    .filtersContainer > .rightSideFilters > .datesFilter > .inputDate,
     .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate {
-        width: 98%;
-        appearance: none;
+        width: 100%;
         box-sizing: border-box;
     }
 
@@ -190,20 +187,5 @@
         text-align: end;
         align-items: flex-end;
     }
-
-    .filtersContainer > .rightSideFilters > .datesFilter > .inputDate,
-    .filtersContainer > .rightSideFilters > .datesFilter > div > .inputDate {
-        position: relative;
-    }
-
-    .inputDate.emptyDate::before {
-        content: attr(placeholder);
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #888;
-        pointer-events: none;
-        font-size: 0.9rem;
-    }
+   
 }

@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { useModalStore } from '@/stores/useModalStore';
-import InputDefault from '@/components/Inputs/InputDefault';
+import InputField from '@/components/Inputs/InputField';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import styles from '@/app/(pages)/(private)/Courses/Courses.module.css';
 import { useEditCourse } from '@/hooks/api/Courses/Patch/useEditCourses';
@@ -67,7 +67,7 @@ export default function Course(): React.ReactElement {
             title: 'Criar novo curso',
             message: (
                 <form className={styles.form}>
-                    <InputDefault ref={newNameRef} label="Nome do curso" />
+                    <InputField ref={newNameRef} label="Nome do curso" autoFocus />
                 </form>
             ),
             confirmLabel: 'Criar curso',
@@ -85,7 +85,7 @@ export default function Course(): React.ReactElement {
             title: 'Editar curso',
             message: (
                 <form className={styles.form}>
-                    <InputDefault ref={nameRef} label="Nome do curso" defaultValue={cat.name} />
+                    <InputField ref={nameRef} label="Nome do curso" defaultValue={cat.name} autoFocus />
                 </form>
             ),
             confirmLabel: 'Salvar curso',

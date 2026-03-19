@@ -80,6 +80,41 @@
     width: 60%;
 }
 
+.emptyStateSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.emptyStateSection > .emptyStateBox {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 24px;
+    border-radius: 16px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.emptyStateSection > .emptyStateBox > .emptyStateTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.emptyStateSection > .emptyStateBox > .emptyStateText {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.9;
+}
+
 @media (max-width: 769px) {
     .cardEventsSection {
         grid-template-columns: repeat(2, 1fr);

@@ -64,6 +64,7 @@ export default function ResetPassword(): React.ReactElement {
                                         ref={emailRef as React.RefObject<HTMLInputElement>}
                                         autoComplete="email"
                                         required
+                                        autoFocus
                                     />
                                 </div>
                             </div>
@@ -92,6 +93,7 @@ export default function ResetPassword(): React.ReactElement {
                                         ref={newPasswordRef as React.RefObject<HTMLInputElement>}
                                         autoComplete="new-password"
                                         required
+                                        autoFocus
                                     />
                                     <button
                                         type="button"

@@ -5,6 +5,37 @@
   --text-color-reverse: #F9F9F9;
   --red-primary: #A33535;
   --box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15);
+
+  --font-family-base: 'Roboto', sans-serif;
+
+  --font-size-xs: 0.65rem;
+  --font-size-sm: 0.775rem;
+  --font-size-md: 0.9rem;
+  --font-size-lg: 1rem;
+
+  --line-height-base: 1.5;
+
+  --field-width: 100%;
+  --field-margin-top: 40px;
+  --field-min-height: 41px;
+  --field-padding: 5px;
+  --field-radius: 5px;
+  --field-border-width: 1px;
+  --field-border-color: var(--red-primary);
+  --field-border: var(--field-border-width) solid var(--field-border-color);
+  --field-bg: var(--background);
+  --field-color: var(--text-color);
+  --field-font-size: 16px;
+  --field-font-family: var(--font-family-base);
+
+  --field-label-top: 8px;
+  --field-label-left: 5px;
+  --field-label-font-size: 16px;
+  --field-label-color: var(--text-color);
+  --field-label-active-color: var(--red-primary);
+  --field-label-translate-y: -35px;
+
+  --field-disabled-opacity: 0.5;
 }
 
 .DarkTheme {
@@ -27,9 +58,24 @@ body {
   height: 100vh;
   overflow-x: hidden;
   color: var(--text-color);
-  font-family: 'Roboto', sans-serif;
   background-color: var(--background);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-base);
   transition: color .4s ease-in-out, background .4s ease-in-out;
   /* ´CAUSE THE HEADER COMPONENTE */
   padding-top: 70px;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-family-base);
 }

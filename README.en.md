@@ -26,15 +26,31 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Header:` Refactored the Header so that on non-mobile screens the main navigation is centered at the top, with animation on mouse hover and support for dropdown and subdropdown on hover.
+### `Reason for this commit:` After a meeting with the thesis advisor, visual changes to the website were requested. For this reason, this commitment was made. For more information on the areas changed, see the details below.
 
-### `./src/components/Sidebar:` Refactored the Sidebar to be used only on mobile, maintaining the existing visual pattern for side opening and adapting the navigation to support menus and submenus.
+### `./src/components/CardEvents:` Implemented handling to display a message when no events are available and a dynamic message when the applied filters return no results, detailing the criteria used in the search.
 
-### `./src/components/NavigationData:` Created a shared file to centralize the application's navigation configuration, allowing the reuse of the same menu items in the desktop Header and the mobile Sidebar, respecting visibility based on the user's role.
+### `./src/components/CardEvents/CardEvents.module.css:` Added styling for the empty state of the events listing.dfdfsafs
 
-### `./src/components/Header/Header.module.css:` Added a new set of styles for centered desktop navigation, dropdown, subdropdown, hover animations, and visual treatment of internal and external links. ### `./src/components/Sidebar/Sidebar.module.css:` Adjusted the mobile menu to maintain the same previous visual size, correcting leakage when the menu is closed, styling submenus, handling ellipsis only at the end of the text, and ensuring visual behavior consistent with the new navigation structure.
+### `inputs:` Added automatic focus to the first entry of forms configured in modal, improving the user experience when opening creation and editing screens on the following pages: Carousel, Categories, Courses, and Users.
 
-### `./src/components/NavigationData.ts:` Added two new sections visible to all users: Student Area and Institutional, containing external links and a nested submenu in the Schedules section.
+### `./src/components/Inputs/InputField:` Implemented automatic formatting of the typed value, converting it to a standard with the first letter of each word in uppercase and the rest in lowercase, keeping words with up to two letters entirely in lowercase.
+
+### `./src/app/global.css, ./src/components/Inputs/InputField, ./src/components/Inputs/FiltersHome and related forms/modals:` Standardized the typography, sizes, and measurements of the application's fields, unifying font, height, spacing, and visual styles between inputs, selects, textarea, and date input.
+
+### `./src/components/Inputs/FiltersHome/Filters.module.css:` Corrected the visual inconsistency of the data filter, adjusting its height, font size, padding, and appearance to match the standard of the other filter fields.
+
+### `pages and components with forms:` Applied general styling standardization to maintain the same size and visual behavior in equivalent elements, regardless of the screen on which they are displayed.
+
+### `./src/components/Inputs/InputCheckbox:` Reduced the size of the checkbox input (height and width)
+
+### `./src/components/Inputs/InputField:` Renamed InputDefault -> InputField for better understanding
+
+### `./src/components/Inputs/FiltersHome:` Changed the Filters folder to Inputs and renamed from Filters -> FiltersHome
+
+### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx & EventForm.module.css:` Refactored the selection, date, time, and description fields of the event form to adopt the same visual standard as the InputField component, with a top-left label and complete standardization of colors, borders, font-size, radius, spacing, height, and overall appearance of the fields. ### `/src/components/Footer/Footer.tsx & Footer.module.css:` Refactored the footer layout to structure it in three columns (left, center, and right), organizing institutional information, social media, and institutional data in a clearer and more responsive way. Adjusted the behavior at different breakpoints to ensure proper alignment on desktop, tablet, and mobile.
+
+### `./src/(pages)/(private)/Events/page.tsx:` Removed the data and time columns to transform them into a single column that displays both pieces of information.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -104,13 +120,13 @@
     - `CardEvents:` Cards that show events to unauthenticated users, they only show events that have not yet occurred, they contain brief information such as the photo, title, day and time and speaker.
     - `CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.
-    - `Filters:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
     - `Footer:` Footer that contains information such as: Address, telephone number, links to student areas
     - `Header:` A component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the website. On non-mobile screens, it is also responsible for displaying the main navigation in a centralized area with support for dropdown and subdropdown on hover.
     - `ImageCloudinary:` Responsible for rendering images hosted on Cloudinary in an optimized way with the next Image tag, making a component that can be reused anywhere, making the image stay 100% within the parent element correctly
     - `Inputs:`
+        - `FiltersHome:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
-        - `InputDefault:` Reusable input that changes data based on received props.
+        - `InputField:` Reusable input that changes data based on received props.
         - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected.
     - `Loader:` Component that shows the user that something is loading.
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.

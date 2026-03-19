@@ -8,7 +8,7 @@ import { useRef, forwardRef, useState } from 'react';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import { useModalStore } from '@/stores/useModalStore';
 import ImageCloudinary from '@/components/ImageCloudinary';
-import InputDefault from '@/components/Inputs/InputDefault';
+import InputField from '@/components/Inputs/InputField';
 import { CoursePublicResponse } from '@/@Types/CoursesTypes';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
@@ -193,8 +193,8 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
                     />
                 }
             </div>
-            <InputDefault ref={nameRef} label="Nome completo" required />
-            <InputDefault ref={emailRef} label={isStudent ? 'E-mail institucional' : 'E-mail'} type="email" required />
+            <InputField ref={nameRef} label="Nome completo" required autoFocus />
+            <InputField ref={emailRef} label={isStudent ? 'E-mail institucional' : 'E-mail'} type="email" required />
             {isStudent && (
                 <>
                     <div className={styles.fieldGroup}>
@@ -225,7 +225,7 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
                             ))}
                         </select>
                     </div>
-                    <InputDefault ref={raRef} label="RA" minLength={13} maxLength={13} />
+                    <InputField ref={raRef} label="RA" minLength={13} maxLength={13} />
                 </>
             )}
         </form>

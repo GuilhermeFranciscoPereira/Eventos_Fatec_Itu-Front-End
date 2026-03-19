@@ -9,7 +9,7 @@ import ButtonRay from '@/components/Buttons/ButtonRay';
 import { useModalStore } from '@/stores/useModalStore';
 import InputImage from '@/components/Inputs/InputImage';
 import ImageCloudinary from '@/components/ImageCloudinary';
-import InputDefault from '@/components/Inputs/InputDefault';
+import InputField from '@/components/Inputs/InputField';
 import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Sidebar/Sidebar.module.css';
 import { useEditPersonalProfile } from '@/hooks/api/Users/Patch/useEditPersonalProfile';
@@ -202,8 +202,8 @@ export default function Sidebar(): React.ReactElement {
             title: 'Gerenciar perfil',
             message: (
                 <form className={styles.profileForm}>
-                    <InputDefault ref={nameRef} label="Nome" defaultValue={user?.name} />
-                    <InputDefault ref={emailRef} label="E-mail" defaultValue={user?.email} />
+                    <InputField ref={nameRef} label="Nome" defaultValue={user?.name} />
+                    <InputField ref={emailRef} label="E-mail" defaultValue={user?.email} />
                     <br />
                     <div className={styles.formGroup}>
                         <InputImage

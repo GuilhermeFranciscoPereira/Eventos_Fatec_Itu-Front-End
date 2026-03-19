@@ -8,7 +8,7 @@ import { useToastStore } from '@/stores/useToastStore';
 import { useModalStore } from '@/stores/useModalStore';
 import InputImage from '@/components/Inputs/InputImage';
 import ImageCloudinary from '@/components/ImageCloudinary';
-import InputDefault from '@/components/Inputs/InputDefault';
+import InputField from '@/components/Inputs/InputField';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import styles from '@/app/(pages)/(private)/Carousel/Carousel.module.css';
 import { useCreateCarousel } from '@/hooks/api/Carousel/Post/useCreateCarousel';
@@ -38,7 +38,6 @@ export default function Carousel(): React.ReactElement {
                     <ImageCloudinary
                         src={c.imageUrl}
                         alt={c.name}
-                        sizes="100px"
                     />
                 </div>
             )
@@ -88,8 +87,8 @@ export default function Carousel(): React.ReactElement {
             title: 'Adicionar nova imagem',
             message: (
                 <form className={styles.form}>
-                    <InputDefault ref={nameRef} label="Título da imagem" />
-                    <InputDefault ref={orderRef} label="Ordem no carrossel" type="number" min={1} />
+                    <InputField ref={nameRef} label="Título da imagem" autoFocus />
+                    <InputField ref={orderRef} label="Ordem no carrossel" type="number" min={1} />
                     <InputCheckbox
                         ref={activeRef}
                         defaultChecked
@@ -129,8 +128,8 @@ export default function Carousel(): React.ReactElement {
             title: 'Editar imagem',
             message: (
                 <form className={styles.form}>
-                    <InputDefault ref={nameRef} label="Título da imagem" defaultValue={item.name} />
-                    <InputDefault ref={orderRef} label="Ordem" type="number" min={1} defaultValue={String(item.order)} />
+                    <InputField ref={nameRef} label="Título da imagem" defaultValue={item.name} autoFocus />
+                    <InputField ref={orderRef} label="Ordem" type="number" min={1} defaultValue={String(item.order)} />
                     <InputCheckbox
                         ref={activeRef}
                         label="Imagem deve aparecer no carrossel?"

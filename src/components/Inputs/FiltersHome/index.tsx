@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { HiMiniMagnifyingGlass } from 'react-icons/hi2';
-import styles from '@/components/Filters/Filters.module.css';
+import styles from '@/components/Inputs/FiltersHome/FiltersHome.module.css';
 import { CategoryPublicResponse } from '@/@Types/CategoriesTypes';
 import { useGetAllCategoriesPublic } from '@/hooks/api/Categories/Get/useGetAllCategories';
 
@@ -67,7 +67,6 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                     <input
                         id="filter-start"
                         type="date"
-                        placeholder="dd/mm/aaaa"
                         min={new Date().toISOString().split('T')[0]}
                         value={startDate}
                         onChange={(e) => {
@@ -89,7 +88,6 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                         <input
                             id="filter-end"
                             type="date"
-                            placeholder="dd/mm/aaaa"
                             value={endDate}
                             min={startDate || undefined}
                             onChange={(e) => setEndDate(e.target.value)}

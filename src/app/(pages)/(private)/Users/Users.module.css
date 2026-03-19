@@ -3,7 +3,7 @@
   color: var(--text-color);
   padding: 10px 20px;
   max-width: 70vw;
-  margin: 0px auto;
+  margin: 0 auto;
   transition: color .4s ease-in-out, background .4s ease-in-out;
 }
 
@@ -52,20 +52,55 @@
 
 .editForm > .selectWrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 30px 5px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  width: 100%;
+}
+
+.editForm > .selectWrapper > .selectLabel {
+  font-size: var(--field-label-font-size);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--field-label-color);
 }
 
 .editForm > .selectWrapper > .select {
-  padding: 5px;
-  border: none;
+  width: var(--field-width);
+  min-height: var(--field-min-height);
+  padding: var(--field-padding);
+  border: var(--field-border);
   outline: none;
-  border-radius: 7px;
-  box-shadow: var(--box-shadow);
+  border-radius: var(--field-radius);
+  background-color: var(--field-bg);
+  color: var(--field-color);
+  font-family: var(--field-font-family);
+  font-size: var(--field-font-size);
+  line-height: 1.25;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
-@media (max-width: 480px) {
+.editForm > .selectWrapper > .select:disabled {
+  opacity: var(--field-disabled-opacity);
+  cursor: not-allowed;
+}
+
+@media (max-width: 1060px) {
+  .usersPage {
+      max-width: 80vw;
+  }
+}
+
+@media (max-width: 930px) {
+  .usersPage {
+      max-width: 95vw;
+  }
+}
+
+@media (max-width: 768px) {
   .usersPage {
     max-width: 100vw;
   }
@@ -78,7 +113,6 @@
 
   .usersPage > .usersPageHeader > .createNewUsers {
     font-size: 20px;
-    margin: 20px 0px;
+    margin: 20px 0;
   }
-
 }
