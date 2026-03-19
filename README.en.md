@@ -26,31 +26,11 @@
 
 ## 🛎️ Updates to this commit
 
-### `Reason for this commit:` After a meeting with the thesis advisor, visual changes to the website were requested. For this reason, this commitment was made. For more information on the areas changed, see the details below.
+### `./src/components/Buttons/ButtonScrollToTop:` Created a component responsible for displaying a floating return button to the top of the page, with conditional rendering based on page height and scroll position, ensuring a better browsing experience on long pages.
 
-### `./src/components/CardEvents:` Implemented handling to display a message when no events are available and a dynamic message when the applied filters return no results, detailing the criteria used in the search.
+### `./src/components/Buttons/ButtonScrollToTop/ButtonScrollToTop.module.css:` Implemented complete button styling with fixed positioning, smooth entry/exit animations, hover/active effects, and responsiveness for different screen sizes.
 
-### `./src/components/CardEvents/CardEvents.module.css:` Added styling for the empty state of the events listing.dfdfsafs
-
-### `inputs:` Added automatic focus to the first entry of forms configured in modal, improving the user experience when opening creation and editing screens on the following pages: Carousel, Categories, Courses, and Users.
-
-### `./src/components/Inputs/InputField:` Implemented automatic formatting of the typed value, converting it to a standard with the first letter of each word in uppercase and the rest in lowercase, keeping words with up to two letters entirely in lowercase.
-
-### `./src/app/global.css, ./src/components/Inputs/InputField, ./src/components/Inputs/FiltersHome and related forms/modals:` Standardized the typography, sizes, and measurements of the application's fields, unifying font, height, spacing, and visual styles between inputs, selects, textarea, and date input.
-
-### `./src/components/Inputs/FiltersHome/Filters.module.css:` Corrected the visual inconsistency of the data filter, adjusting its height, font size, padding, and appearance to match the standard of the other filter fields.
-
-### `pages and components with forms:` Applied general styling standardization to maintain the same size and visual behavior in equivalent elements, regardless of the screen on which they are displayed.
-
-### `./src/components/Inputs/InputCheckbox:` Reduced the size of the checkbox input (height and width)
-
-### `./src/components/Inputs/InputField:` Renamed InputDefault -> InputField for better understanding
-
-### `./src/components/Inputs/FiltersHome:` Changed the Filters folder to Inputs and renamed from Filters -> FiltersHome
-
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx & EventForm.module.css:` Refactored the selection, date, time, and description fields of the event form to adopt the same visual standard as the InputField component, with a top-left label and complete standardization of colors, borders, font-size, radius, spacing, height, and overall appearance of the fields. ### `/src/components/Footer/Footer.tsx & Footer.module.css:` Refactored the footer layout to structure it in three columns (left, center, and right), organizing institutional information, social media, and institutional data in a clearer and more responsive way. Adjusted the behavior at different breakpoints to ensure proper alignment on desktop, tablet, and mobile.
-
-### `./src/(pages)/(private)/Events/page.tsx:` Removed the data and time columns to transform them into a single column that displays both pieces of information.
+### `./src/app/layout.tsx:` Integrated the ButtonScrollToTop component into the application's global layout, ensuring its availability on all pages.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -117,6 +97,7 @@
     - `Buttons:`
         - `ButtonDarkMode:` Button responsible for managing the website's dark mode (light/dark mode). - `ButtonRay:` Button that is reused in various parts of the code, changing the text, etc., based on props.
         - `Button Ray:` Button that is used in different parts of the code, changing the text and etc based on the props
+        - `ButtonScrollToTop:` Floating button fixed in the bottom corner of the screen that allows the user to smoothly return to the top of the page.
     - `CardEvents:` Cards that show events to unauthenticated users, they only show events that have not yet occurred, they contain brief information such as the photo, title, day and time and speaker.
     - `CarouselComponent:` Carousel component that appears on the home screen displaying images chosen by administrators/coordinators.
     - `CodeInputValidation:` Reusable component with 6 boxes for 2FA, both to confirm login and to reset the password.

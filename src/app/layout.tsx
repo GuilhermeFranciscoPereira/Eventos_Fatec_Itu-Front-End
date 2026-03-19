@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { Poppins } from 'next/font/google';
 import WrapperVLibras from "@/utils/wrapperVLibras";
 import ZustandWrapper from "@/stores/ZustandWrapper";
+import ButtonScrollToTop from "@/components/Buttons/ButtonScrollToTop";
 
 export const metadata: Metadata = {
   title: "Eventos Fatec Itu",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <Sidebar />
         {children}
+        <ButtonScrollToTop />
         <WrapperVLibras />
       </body>
     </html >

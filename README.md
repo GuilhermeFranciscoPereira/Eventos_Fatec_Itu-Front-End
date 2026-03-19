@@ -26,37 +26,11 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Motivo deste commit:` Após reunião com o professor orientador do TG, foram solicitadas alterações visuais no site. Por esse motivo, este commit foi realizado. Para mais informações sobre as áreas alteradas, veja os detalhes abaixo.
+### `./src/components/Buttons/ButtonScrollToTop:` Criado componente responsável por exibir um botão flutuante de retorno ao topo da página, com renderização condicional baseada na altura da página e posição do scroll, garantindo melhor experiência de navegação em páginas longas.
 
-### `./src/app/globals.css:` Padronização global de tipografia e variáveis de estilo. Implementado um sistema centralizado de variáveis CSS no :root para garantir consistência visual em toda a aplicação, incluindo definição de fonte base, escala de tamanhos de fonte, line-height padrão e tokens reutilizáveis para campos de formulário (inputs, selects e textarea).
+### `./src/components/Buttons/ButtonScrollToTop/ButtonScrollToTop.module.css:` Implementada estilização completa do botão com posicionamento fixo, animações suaves de entrada/saída, efeitos de hover/active e responsividade para diferentes tamanhos de tela.
 
-### `./src/components/CardEvents:` Implementado tratamento para exibir mensagem quando não houver eventos disponíveis e mensagem dinâmica quando os filtros aplicados não retornarem resultados, detalhando os critérios usados na busca.
-
-### `./src/components/CardEvents/CardEvents.module.css:` Adicionadas estilizações para o estado vazio da listagem de eventos.dfdfsafs
-
-### `inputs:` Adicionado foco automático no primeiro input dos formulários exibidos em modal, melhorando a experiência do usuário ao abrir telas de criação e edição nas páginas: Carousel, Categories, Courses e Users.
-
-### `./src/components/Inputs/InputField:` Implementada formatação automática do valor digitado, convertendo para padrão com a primeira letra de cada palavra em maiúsculo e o restante em minúsculo, mantendo palavras com até duas letras totalmente em minúsculo.
-
-### `./src/app/global.css, ./src/components/Inputs/InputField, ./src/components/Inputs/FiltersHome e formulários/modais relacionados:` Padronizadas as tipografias, tamanhos e medidas dos campos da aplicação, unificando fonte, altura, espaçamentos e estilos visuais entre inputs, selects, textarea e date input.
-
-### `./src/components/Inputs/FiltersHome/FiltersHome.module.css:` Corrigida a inconsistência visual do filtro de data, ajustando sua altura, font-size, padding e aparência para ficar no mesmo padrão dos demais campos de filtro.
-
-### `pages e componentes com formulários:` Aplicada padronização geral de estilização para manter o mesmo tamanho e comportamento visual em elementos equivalentes, independentemente da tela em que são exibidos.
-
-### `./src/components/Inputs/InputCheckbox:` Diminido o tamanho do input de checkbox (height e width)
-
-### `./src/components/Inputs/InputField:` Renomeação de InputDefault -> InputField para melhor entendimento 
-
-### `./src/components/Inputs/FiltersHome:` Alterado a pastas Filters para Inputs e renomeado de Filters -> FiltersHome
-
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx & EventForm.module.css:` Refatorados os campos de seleção, data, horário e descrição do formulário de eventos para adotar o mesmo padrão visual do componente InputField, com label superior à esquerda e padronização completa de cores, bordas, font-size, radius, espaçamentos, altura e aparência geral dos campos.
-
-### `/src/components/Footer/Footer.tsx & Footer.module.css:` Refatorado o layout do footer para estrutura em três colunas (esquerda, centro e direita), organizando informações institucionais, redes sociais e dados institucionais de forma mais clara e responsiva. Ajustado o comportamento em diferentes breakpoints para garantir alinhamento adequado em desktop, tablet e mobile.
-
-### `./src/(pages)/(private)/Events/page.tsx:` Removido às colunas de data e horário para transformar em uma única coluna que apresenta as duas informações
-
-### `./src/components/Table:` Adicionado um novo break point no media querie para que aumente a tabela de 70vw para 80vw quando chegar à 1060px
+### `./src/app/layout.tsx:` Integração do componente ButtonScrollToTop ao layout global da aplicação, garantindo sua disponibilidade em todas as páginas.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -123,6 +97,7 @@
     - `Buttons:`
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
         - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
+        - `ButtonScrollToTop:` Botão flutuante fixado no canto inferior da tela que permite ao usuário retornar suavemente ao topo da página.
     - `CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.
     - `CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
