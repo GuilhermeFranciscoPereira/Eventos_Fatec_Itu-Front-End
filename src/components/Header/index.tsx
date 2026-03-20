@@ -8,7 +8,7 @@ import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import { useUserStore } from '@/stores/useUserStore';
 import styles from '@/components/Header/Header.module.css';
 import ButtonDarkMode from '@/components/Buttons/ButtonDarkMode';
-import { filterNavigationByRole, isTreeActive, type NavItem, navigationItems } from '@/components/NavigationData';
+import { filterNavigationByRole, isTreeActive, type NavItem, navigationItems } from '@/utils/navigationData';
 
 function RenderNavLink({
     item,
@@ -41,10 +41,7 @@ function RenderNavLink({
     return null;
 }
 
-function DesktopNavItem({
-    item,
-    pathname
-}: {
+function DesktopNavItem({ item, pathname }: {
     item: NavItem;
     pathname: string;
 }): React.ReactElement | null {

@@ -36,7 +36,7 @@ function FieldShell({ label, children, className }: FieldShellProps): React.Reac
 }
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValue, locationOptions, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -131,16 +131,18 @@ export default function EventForm(): React.ReactElement {
                 onChange={handleLocationChange}
                 required
               >
-                <option value="">Localização</option>
-                {locationOptions.map((value) => (
-                  <option key={value} value={value}>
-                    {value.replace(/_/g, ' ')}
+                <option value="" disabled hidden>
+                  Selecione uma localização
+                </option>
+                {locations.map((location) => (
+                  <option key={location.id} value={location.id}>
+                    {location.name}
                   </option>
                 ))}
               </select>
             </FieldShell>
 
-            {locationRef.current?.value === 'OUTROS' && (
+            {locations.find(location => String(location.id) === locationRef.current?.value)?.name.toLowerCase() === 'outros' && (
               <InputField label="Qual o local" ref={customLocRef} />
             )}
           </div>

@@ -117,9 +117,9 @@ export default function EventDetail(): React.ReactElement {
                         <MdLocationOn size={20} className={styles.icon} />
                         <strong className={styles.label}>Local:</strong>
                         <p className={styles.infoText}>
-                            {event.location === 'OUTROS'
+                            {event.locationName.toLowerCase() === 'outros'
                                 ? event.customLocation
-                                : event.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase())}
+                                : event.locationName}
                         </p>
                     </div>
                     <div className={styles.infoItem}>

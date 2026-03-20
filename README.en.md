@@ -12,7 +12,7 @@
 
 ## 📌 About the project
 
-### This system was developed so that events at Fatec Itu - Dom Amaury Castanho could have a more practical registration method, making it easier for students, outsiders, and event organizers. Clearly, this system is also used by event organizers to manage and control events, users, carousel, categories, etc.
+### This system was developed so that events at Fatec Itu - Dom Amaury Castanho could have a more practical registration method, making it easier for students, outsiders, and event organizers. Clearly, this system is also used by event organizers to manage and control events, users, carousel, categories, local and other administrative structures.
 
 ### 👥 This system is being created by: Guilherme Francisco Pereira as a final project development / Real system
 
@@ -26,11 +26,37 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Buttons/ButtonScrollToTop:` Created a component responsible for displaying a floating return button to the top of the page, with conditional rendering based on page height and scroll position, ensuring a better browsing experience on long pages.
+### `./src/@Types/EventTypes:` Event typings have been updated to reflect the new relational location model. The enum-based `location` field has been removed and replaced with `locationId` and `locationName`, allowing the front-end to work with a dynamic location from the database instead of a hardcoded fixed list.
 
-### `./src/components/Buttons/ButtonScrollToTop/ButtonScrollToTop.module.css:` Implemented complete button styling with fixed positioning, smooth entry/exit animations, hover/active effects, and responsiveness for different screen sizes.
+### `./src/@Types/LocationsTypes:` A shared typing file has been created for the new location entity, centralizing the types used in location CRUD operations and public/private listings.
 
-### `./src/app/layout.tsx:` Integrated the ButtonScrollToTop component into the application's global layout, ensuring its availability on all pages.
+### `./src/hooks/api/Locations/Get/useGetAllLocations.ts:` A hook has been created to retrieve all locations registered in the system, both for the private management area and for public/dynamic use in the event form.
+
+### `./src/hooks/api/Locations/Post/useCreateLocation.ts:` Created a hook responsible for sending the request to create a new location to the back-end, using CSRF protection and error handling.
+
+### `./src/hooks/api/Locations/Patch/useEditLocation.ts:` Created a hook responsible for updating the data of an already registered location, allowing the name to be edited and maintaining the security of the operation with CSRF.
+
+### `./src/hooks/api/Locations/Delete/useDeleteLocation.ts:` Created a hook responsible for deleting an existing location from the system, handling errors and displaying visual feedback via toast.
+
+### `./src/app/(pages)/(private)/Locations:` Created a new private location management screen, allowing listing, creating, editing, and deleting locations in a manner similar to category management.
+
+### `./src/app/(pages)/(private)/Locations/Locations.module.css:` The location management screen has been styled to follow the same visual pattern adopted in the other administrative screens of the system.
+
+## `./src/hooks/pages/(private)/Events/useEventForm.ts:` The entire logic of the event form has been updated to consume dynamic locations from the API, replacing the use of hardcoded enums with selection based on `locationId`. The custom location rule has also been adapted to work from the location record named `Other`.
+
+### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Updated the visual event creation/editing form to list locations from the database, displaying options dynamically and keeping the custom location field only when the selected location is `Other`.
+
+## `./src/hooks/api/Events/Get/useGetAvailabilityDates.ts:` Updated to retrieve available dates based on `locationId`, following the new relational structure of locations.
+
+## `./src/hooks/api/Events/Get/useGetAvailabilityTimes.ts:` Updated to retrieve available times based on `locationId`, ensuring compatibility with the new database model.
+
+### `./src/hooks/api/Events/Post/useCreateEvent.ts:` Updated to send `locationId` in the event creation payload, removing the dependency on the enum-based `location` field.
+
+## `./src/hooks/api/Events/Patch/useEditEvent.ts:` Updated to edit events using `locationId`, adapting the data sending to the new relational structure.
+
+## `./src/app/(pages)/(private)/Events/page.tsx:` Updated the administrative event listing to display the location name via `locationName`, instead of relying on the old enum.
+
+### `./src/components/CardEvents/index.tsx:` Updated the public event card to correctly display the location name from `locationName`, while maintaining compatibility with custom location logic.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -67,12 +93,15 @@
 - `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
 
 - `./src/@Types:` Stores the typings that are reused in the code.
-    - `CarouselTypes:` Shared typings from the Carousel screen.
-    - `CategoriesTypes:` Shared typings from the Categories screen.
-    - `EventTypes:` Shared typings from the Events screen.
-    - `ParticipantsTypes:` Shared typings from the Participants screen.
-    - `UsersTypes:` Shared typings from the Users screen.
-    - `UserJwtProps.ts:` User typings and their roles.
+    - `CarouselTypes:` Shared typings from the Carousel screen
+    - `CategoriesTypes:` Shared typings from the Categories screen
+    - `CertificateTypes:` Shared typings for automatic certificate management
+    - `CoursesTypes:` Shared typings from the Courses screen
+    - `EventTypes:` Shared typings from the Events screen
+    - `LocationsTypes:` Shared typings from the Locations screen
+    - `ParticipantsTypes:` Shared typings from the Participants screen
+    - `UsersTypes:` Shared typings from the Users screen
+    - `UserJwtProps.ts:` User typing and their roles.
 
 - `./src/app:` This is a Next project. If you don't have any knowledge of Next, look up "App Router Next" to learn more about the project and its folder and route structure! Within the app, we have:
     - `global.css:` Global styles, imported within our layout.tsx to be passed throughout the application.
@@ -80,18 +109,19 @@
     - `loading.tsx:` This is a special Next.js component to display something loading during data fetch or route changes. To display this to the user, we insert our Loader component.
 - `(pages):` Contains all of our application routes, but remember, whenever they are within parent folders, that folder will not be recognized as a route! Our pages:
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
-        - `Carousel`: Carousel management screen, control the active photos in the carousel, title, order in which each photo will appear in the carousel, add a new photo, delete a photo, and edit photos, all this integrating with the API hooks in: ./src/hooks/api/Carousel
-        - `Categories:` Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit or delete each category, integrating with the API hooks at: ./src/hooks/api/Categories/
-        - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit or delete each event, integrating with the API hooks at: ./src/hooks/api/Events/
-            - `Participants:` Page that shows who are the participants of the desired event, showing the name, email, RA, registration date and option to mark attendance.
-        - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: ./src/hooks/api/Users/
+        - `Carousel`: Carousel management screen, controls the active photos in the carousel, title, order in which each photo will appear in the carousel, add new photos, delete photos, and edit photos, all integrating with the API hooks at: `./src/hooks/api/Carousel`
+        - `Categories`: Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit, or delete each category, integrating with the API hooks at: `./src/hooks/api/Categories/`
+        - `Courses`: Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit, or delete each course, integrating with the API hooks at: `./src/hooks/api/Courses/`
+        - `Events`: Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit, or delete events Each event integrates with the API hooks at: `./src/hooks/api/Events/`
+            - `[id]:` Dynamic page used for creating and editing events. Here, the user can fill in or change data such as name, category, course, semester, registration limit, location, date, times, speaker, description, image, and event restriction rules.
+            - `Participants:` Page that shows who the participants of the desired event are, providing their name, email, student ID, registration date, and the option to mark their attendance.
+        - `Locations:` Location management screen, responsible for displaying the list of registered locations and offering the actions to create, edit, or delete each location, integrating with the API hooks at: `./src/hooks/api/Locations/`
+        - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: `./src/hooks/api/Users/`
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
         - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
         - `EventDetail:` Screen to show the event in more detail to unauthenticated users, also allowing them to register for the event
         - `Login:` Login screen, when accessing: /Login. Requests email and password for the user to access the platform. If the email and password are correct, the user moves to the 'confirm' stage where they enter the 6-digit code sent to their email to access (2FA).
             - `ResetPassword:` Screen for the user to change their password, when accessing: /Login/ResetPassword. First, it requests email. If available, it moves to the screen to enter the new password, confirm, and enter the 6-digit code sent to the email.
-
-    - `(private):` These are our private route pages, where only logged-in users can access!
 
 - `./src/components:` Where the components that will be reused in various parts of the code are located. In this project, we have the following components:
     - `Buttons:`
@@ -111,7 +141,6 @@
         - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected.
     - `Loader:` Component that shows the user that something is loading.
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
-    - `NavigationData:` File responsible for centralizing the configuration of navigation items reused in the Header and Sidebar, including internal routes, external links, dropdowns, subdropdowns, and visibility control based on the user's role.
     - `Sidebar:` A side menu used only on mobile screens to allow users to switch routes more easily without taking up as much screen space, including support for submenus and sub-submenus based on the same shared navigation configuration used in the Header.
     - `Table:` Reusable table, you just need to pass the columns, the data, and the hidden columns on mobile.
     - `Toast:` Displays brief notifications. Can be reused in different scenarios by changing only the message and type props (Success, Alert, Error).
@@ -146,6 +175,20 @@
             - `Post:` POST requests on /categories/ routes
                 - `useCreateCategory.ts:` Hook to create a new category in the system via POST request, constructing the payload typed with the category name and including CSRF protection to ensure the security of the operation.
 
+        - `Certificates`: All requests to the back-end on the /certificates/ routes
+            - `Get`: GET requests on the /certificates/ routes
+                - `useGetVerifyCertificate.ts`: Hook responsible for publicly validating a certificate from the token provided in the URL, querying the back-end to verify authenticity, retrieving certificate data, and controlling loading and no-result states.
+
+        - `Courses`: All requests to the back-end on the /courses/ routes
+            - `Delete`: DELETE requests on the /courses/delete/ routes
+                - `useDeleteCourse.ts`: Hook that encapsulates the HTTP request logic to delete a specific course, sending a CSRF-protected DELETE and ensuring error handling to report deletion failures.
+            - `Get:` GET requests on the /courses/ routes
+                - `useGetAllCourses.ts:` Hook that retrieves the entire list of courses via GET request, managing loading and error states, and allowing refetch after CRUD operations. It also exposes a public listing for selection and use in system forms.
+            - `Patch:` PATCH requests on the /courses/patch/:id routes
+                - `useEditCourse.ts:` Hook responsible for sending partial data updates of an existing course through a PATCH request with CSRF, allowing modification of the course name.
+            - `Post:` POST requests on the /courses/create routes
+                - `useCreateCourse.ts:` Hook to create a new course in the system via POST request, building the typed payload with the course name and including CSRF protection to ensure the security of the operation.
+
         - `Events:` All requests to the backend on /events/ routes
             - `Delete:` DELETE requests on /event/delete/:id routes
             - `useDeleteEvent.ts:` Hook that encapsulates the logic for deleting an event, sending DELETE requests with CSRF protection and handling failures to display error messages.
@@ -156,6 +199,16 @@
             - `useEditEvent.ts:` Hook for editing an entire event, allowing for overriding values.
             - `Post:` POST requests on the /event/create routes
             - `useCreateEvent.ts:` Responsible for creating a new event, making the request to the backend and passing the correct values
+
+        - `Locations:` All requests to the back-end on the /locations/ routes
+            - `Delete:` DELETE requests on the /locations/delete/:id routes
+                - `useDeleteLocation.ts:` Hook that encapsulates the HTTP request logic to delete a specific location, sending a CSRF-protected DELETE and handling failures to inform the user when the deletion cannot be completed.
+            - `Get:` GET requests on the /locations/ routes
+                - `useGetAllLocations.ts:` Hook responsible for retrieving the complete list of locations registered in the system, managing loading states, data storage, and the possibility of refetch after CRUD operations. It also exposes the public listing for dynamic use in forms and interfaces that depend on location selection.
+            - `Patch:` Patch requests on the /locations/patch/:id routes
+                - `useEditLocation.ts:` Hook responsible for sending partial updates of an existing location via a PATCH request with CSRF protection, allowing modification of the registered location name.
+            - `Post:` Post requests on the /locations/create routes
+                - `useCreateLocation.ts:` Hook to create a new location in the system via POST request, sending the location name to the back-end with CSRF protection and error handling.
 
         - `Participants:` All requests to the backend on the /participants/ routes
             - `Get:` GET requests on the /participants/ routes
@@ -199,8 +252,10 @@
         - `index.ts:` To set the user in the application
 
 - `./src/utils:` Folder that groups generic utility functions, without dependence on specific components, used throughout the application for common DOM and export operations.
-    - `downloadSectionAsPdf.ts:` Function that captures a section of the page (identified by ID) and generates a PDF file with its full extension, including A4 page breaks. This allows the user to download any part of the interface as a portable document.
-    - `printSection.ts:` Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, while maintaining the exact colors of the table header. This function triggers the browser's print dialog and prints only the desired content.
+    - `downloadSectionAsPdf`: Function that captures a section of the page (identified by ID) and generates a PDF file with its entire extent, including A4 page breaks. It allows the user to download any part of the interface as a portable document.
+    - `navigationData`: File responsible for centralizing the configuration of navigation items reused in the Header and Sidebar, including internal routes, external links, dropdown, subdropdown, and visibility control based on the user's role.
+    - `printSection`: Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, maintaining the exact colors of the table header. It serves to trigger the browser's print dialog and print only the desired content.
+    - `wrapperVLibras`: Client utility component responsible for globally initializing the integration with the VLibras plugin within the application. It serves to make the accessibility feature of translation into Libras (Brazilian Sign Language) available on all pages when imported into `layout.tsx`.
 
 ## ❔ How to run the project on my machine?
 

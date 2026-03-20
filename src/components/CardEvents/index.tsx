@@ -152,11 +152,9 @@ export default function CardEvents({
                                     <p className={styles.local}>
                                         Local:{' '}
                                         <span>
-                                            {event.customLocation ??
-                                                event.location
-                                                    .replace(/_/g, ' ')
-                                                    .toLowerCase()
-                                                    .replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase())}
+                                            {event.locationName.toLowerCase() === 'outros'
+                                                ? event.customLocation
+                                                : event.locationName}
                                         </span>
                                     </p>
                                     <p>Palestrante: {event.speakerName}</p>

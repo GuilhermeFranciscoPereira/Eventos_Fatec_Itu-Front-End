@@ -52,7 +52,7 @@ export default function Events(): React.ReactElement {
             id: 'location',
             header: 'Local',
             accessor: (e: EventProps) =>
-                e.location === 'OUTROS' ? e.customLocation : e.location.replace(/_/g, ' ').toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()),
+                e.locationName.toLowerCase() === 'outros' ? e.customLocation : e.locationName
         },
         {
             id: 'actions',

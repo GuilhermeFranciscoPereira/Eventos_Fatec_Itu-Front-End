@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
-import { Location, AvailabilityTime } from '@/@Types/EventTypes';
+import { AvailabilityTime } from '@/@Types/EventTypes';
 
 type useGetAvailabilityTimesProps = {
-    (location: Location, date: string, exceptId?: number): Promise<AvailabilityTime[]>;
+    (locationId: number, date: string, exceptId?: number): Promise<AvailabilityTime[]>;
 };
 
 export function useGetAvailabilityTimes(): useGetAvailabilityTimesProps {
-    return useCallback(async (loc, date, exceptId) => {
+    return useCallback(async (locationId, date, exceptId) => {
         const url = new URL(`${process.env.NEXT_PUBLIC_URL_API}/events/availability/times`);
-        url.searchParams.set('location', loc);
+        url.searchParams.set('locationId', String(locationId));
         url.searchParams.set('date', date);
         if (exceptId !== undefined) url.searchParams.set('exceptId', String(exceptId));
 

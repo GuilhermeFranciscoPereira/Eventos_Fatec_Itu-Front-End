@@ -19,7 +19,7 @@ export function useCreateEvent(): UseCreateEvent {
         if (dto.semester) form.append('semester', dto.semester)
         form.append('maxParticipants', String(dto.maxParticipants))
         form.append('isRestricted', String(dto.isRestricted))
-        form.append('location', dto.location)
+        form.append('locationId', String(dto.locationId))
         if (dto.customLocation) form.append('customLocation', dto.customLocation)
         form.append('speakerName', dto.speakerName)
         form.append('startDate', dto.startDate)

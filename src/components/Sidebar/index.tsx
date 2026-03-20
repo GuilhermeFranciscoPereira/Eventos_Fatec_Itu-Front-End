@@ -13,7 +13,7 @@ import InputField from '@/components/Inputs/InputField';
 import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Sidebar/Sidebar.module.css';
 import { useEditPersonalProfile } from '@/hooks/api/Users/Patch/useEditPersonalProfile';
-import { filterNavigationByRole, isTreeActive, type NavItem, navigationItems } from '@/components/NavigationData';
+import { filterNavigationByRole, isTreeActive, type NavItem, navigationItems } from '@/utils/navigationData';
 import { usePathname } from 'next/navigation';
 
 function MobileLink({
