@@ -26,37 +26,25 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/@Types/EventTypes:` Atualizadas as tipagens dos eventos para refletir a nova modelagem relacional de locais. O campo `location` baseado em enum foi removido e substituído por `locationId` e `locationName`, permitindo que o front-end trabalhe com um local dinâmico vindo do banco de dados ao invés de uma lista fixa hardcoded.
+### `./src/components/Inputs/InputSelect:` Criado componente customizado de select reutilizável, permitindo substituir o uso de `<select>` nativo por uma interface padronizada no projeto, com suporte a label, placeholder, estado desabilitado e opções dinâmicas.
 
-### `./src/@Types/LocationsTypes:` Criado arquivo de tipagens compartilhadas para a nova entidade de locais, centralizando os tipos utilizados no CRUD de locais e nas listagens públicas/privadas.
+### `./src/components/Inputs/InputSelect/InputSelect.module.css:` Criada estilização própria do novo componente de select, seguindo o mesmo padrão visual dos demais inputs do sistema e garantindo consistência visual entre formulários e modais.
 
-### `./src/hooks/api/Locations/Get/useGetAllLocations.ts:` Criado hook responsável por buscar todos os locais cadastrados no sistema, tanto para a área privada de gerenciamento quanto para o uso público/dinâmico no formulário de eventos.
+### `./src/app/(pages)/(private)/Users/page.tsx:` Atualizada a tela de gerenciamento de usuários para utilizar o novo `InputSelect` nos fluxos de criação e edição, substituindo os selects nativos por controle via estado e mantendo a tipagem correta dos níveis de usuário.
 
-### `./src/hooks/api/Locations/Post/useCreateLocation.ts:` Criado hook responsável por enviar a requisição de criação de um novo local ao back-end, utilizando proteção CSRF e tratamento de erros.
+### `./src/components/Inputs/FiltersHome/index.tsx:` Atualizado o filtro de eventos da home para utilizar o novo `InputSelect` na seleção de categorias, mantendo o comportamento dos filtros e adaptando o valor selecionado para o formato esperado pela busca.
 
-### `./src/hooks/api/Locations/Patch/useEditLocation.ts:` Criado hook responsável por atualizar os dados de um local já cadastrado, permitindo a edição do nome e mantendo a segurança da operação com CSRF.
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Atualizado o modal de inscrição em eventos para utilizar o novo `InputSelect` na seleção de curso e semestre, substituindo os selects nativos por controle baseado em estado e mantendo a lógica condicional de inscrição para alunos.
 
-### `./src/hooks/api/Locations/Delete/useDeleteLocation.ts:` Criado hook responsável por excluir um local existente do sistema, tratando erros e exibindo feedback visual por toast.
+### `./src/hooks/pages/(private)/Events/useEventForm.ts:` Refatorada a lógica do formulário de eventos para substituir refs de selects nativos por estados controlados, adequando o hook ao novo `InputSelect` e mantendo a integração com categorias, cursos, semestres, locais e horários.
 
-### `./src/app/(pages)/(private)/Locations:` Criada a nova tela privada de gerenciamento de locais, permitindo listar, criar, editar e excluir locais de forma semelhante ao gerenciamento de categorias.
+### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Atualizado o formulário de criação/edição de eventos para utilizar o novo `InputSelect` nos campos de categoria, curso, semestre, localização e horários, mantendo o comportamento dinâmico do formulário com a nova estrutura controlada por estado.
 
-### `./src/app/(pages)/(private)/Locations/Locations.module.css:` Criada estilização da tela de gerenciamento de locais, seguindo o mesmo padrão visual adotado nas demais telas administrativas do sistema.
+### `./src/components/Inputs/FiltersHome/FiltersHome.module.css:` Ajustada a estilização do filtro da home para acompanhar a substituição do select nativo pelo novo componente customizado, preservando o layout e a responsividade da seção.
 
-### `./src/hooks/pages/(private)/Events/useEventForm.ts:` Atualizada toda a lógica do formulário de eventos para consumir locais dinâmicos vindos da API, substituindo o uso de enum hardcoded por seleção baseada em `locationId`. Também foi adaptada a regra de local personalizado para funcionar a partir do registro de local com nome `Outros`.
+### `./src/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css:` Ajustada a estilização do formulário de inscrição no modal para acompanhar a substituição dos selects nativos pelo novo componente customizado, mantendo o padrão visual já utilizado na página.
 
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Atualizado o formulário visual de criação/edição de eventos para listar locais vindos do banco de dados, exibindo as opções dinamicamente e mantendo o campo de local personalizado apenas quando o local selecionado for `Outros`.
-
-### `./src/hooks/api/Events/Get/useGetAvailabilityDates.ts:` Atualizado para buscar datas disponíveis com base em `locationId`, acompanhando a nova estrutura relacional dos locais.
-
-### `./src/hooks/api/Events/Get/useGetAvailabilityTimes.ts:` Atualizado para buscar horários disponíveis com base em `locationId`, garantindo compatibilidade com a nova modelagem do banco.
-
-### `./src/hooks/api/Events/Post/useCreateEvent.ts:` Atualizado para enviar `locationId` no payload de criação de eventos, removendo a dependência do campo `location` baseado em enum.
-
-### `./src/hooks/api/Events/Patch/useEditEvent.ts:` Atualizado para editar eventos utilizando `locationId`, adequando o envio dos dados à nova estrutura relacional.
-
-### `./src/app/(pages)/(private)/Events/page.tsx:` Atualizada a listagem administrativa de eventos para exibir o nome do local através de `locationName`, ao invés de depender do enum antigo.
-
-### `./src/components/CardEvents/index.tsx:` Atualizado o card público de eventos para exibir corretamente o nome do local a partir de `locationName`, mantendo compatibilidade com a lógica de local personalizado.
+### `./src/app/(pages)/(private)/Users/Users.module.css:` Ajustada a estilização do formulário exibido nos modais de criação e edição de usuários para acompanhar a substituição dos selects nativos pelo novo componente customizado.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -123,8 +111,6 @@
         - `Login:` Tela de login, ao acessar: /Login. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
             - `ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail, se existir troca para a tela para informar a nova senha, confirmar, e inserir o código de 6 dígitos enviado ao e-mail.
 
-git commit -m "feat(pages/privte/Locations): add locations management screen and update events to use dynamic locations"
-
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
     - `Buttons:`
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
@@ -141,6 +127,7 @@ git commit -m "feat(pages/privte/Locations): add locations management screen and
         - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
         - `InputField:` Input reutilizável alterando os dados com base nas props recebidas
         - `InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado
+        - `InputSelect:` Componente customizado de select reutilizável, permitindo substituir o uso de `<select>` nativo por uma interface padronizada no projeto, com suporte a label, placeholder, estado desabilitado e opções dinâmicas.
     - `Loader:` Componente que mostra ao usuário que algo está carregando
     - `Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.
     - `Sidebar:` Menu lateral utilizado apenas em telas mobile para o usuário conseguir trocar de rotas de uma maneira mais acessível sem ocupar tanto espaço de tela, incluindo suporte à submenu e subsubmenu com base na mesma configuração de navegação compartilhada utilizada no Header.

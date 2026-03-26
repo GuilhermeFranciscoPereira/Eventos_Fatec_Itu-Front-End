@@ -50,3 +50,16 @@
 .container > .checkboxInput:checked~.checkmark::after {
     display: block;
 }
+
+.container:has(> .checkboxInput:disabled) {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.container:has(> .checkboxInput:disabled) > .checkmark {
+    cursor: not-allowed;
+}
+
+.container:has(> .checkboxInput:disabled) > p {
+    cursor: not-allowed;
+}

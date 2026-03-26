@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { HiMiniMagnifyingGlass } from 'react-icons/hi2';
-import styles from '@/components/Inputs/FiltersHome/FiltersHome.module.css';
+import InputSelect from '@/components/Inputs/InputSelect/index';
 import { CategoryPublicResponse } from '@/@Types/CategoriesTypes';
+import styles from '@/components/Inputs/FiltersHome/FiltersHome.module.css';
 import { useGetAllCategoriesPublic } from '@/hooks/api/Categories/Get/useGetAllCategories';
 
 type FiltersProps = {
@@ -18,7 +19,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
     const [endDate, setEndDate] = useState<string>('');
     const [showTooltip, setShowTooltip] = useState(false);
     const [startDate, setStartDate] = useState<string>('');
-    const [categoryId, setCategoryId] = useState<number | ''>('');
+    const [categoryId, setCategoryId] = useState<string>('');
 
     const { datas } = useGetAllCategoriesPublic();
 
@@ -27,7 +28,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
             name: name.trim() || undefined,
             startDate: startDate || undefined,
             endDate: endDate || undefined,
-            categoryId: categoryId === '' ? undefined : categoryId,
+            categoryId: categoryId === '' ? undefined : Number(categoryId),
         });
     }, [name, startDate, endDate, categoryId, onFilterChange]);
 
@@ -49,16 +50,21 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
             </div>
 
             <div className={styles.centerSideFilters}>
-                <label htmlFor="filter-category" className={styles.label}>Filtrar eventos por categoria</label>
-                <select
-                    id="filter-category"
+                <InputSelect
+                    className={styles.customSelect}
+                    labelClassName={styles.customSelectLabel}
+                    triggerClassName={styles.customSelectTrigger}
+                    label="Filtrar eventos por categoria"
                     value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value === '' ? '' : Number(e.target.value))}
-                    className={styles.selectDropdown}
-                >
-                    <option value="">Todas</option>
-                    {datas.map((c: CategoryPublicResponse) => (<option key={c.id} value={c.id}>{c.name}</option>))}
-                </select>
+                    onChange={setCategoryId}
+                    options={[
+                        { label: 'Todas', value: '' },
+                        ...datas.map((c: CategoryPublicResponse) => ({
+                            label: c.name ?? 'Sem nome',
+                            value: String(c.id),
+                        }))
+                    ]}
+                />
             </div>
 
             <div className={styles.rightSideFilters}>

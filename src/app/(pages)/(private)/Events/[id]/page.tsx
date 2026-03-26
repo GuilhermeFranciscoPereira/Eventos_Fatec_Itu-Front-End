@@ -4,6 +4,7 @@ import Loader from '@/components/Loader';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import InputImage from '@/components/Inputs/InputImage';
 import InputField from '@/components/Inputs/InputField';
+import InputSelect from '@/components/Inputs/InputSelect';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
@@ -36,7 +37,7 @@ function FieldShell({ label, children, className }: FieldShellProps): React.Reac
 }
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, today, loadedDate, nameRef, descRef, speakerRef, maxRef, locationRef, customLocRef, courseRef, semesterRef, categoryRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValue, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -60,90 +61,88 @@ export default function EventForm(): React.ReactElement {
           <InputField ref={nameRef} label="Nome do Evento" />
 
           <div className={styles.customWrapper}>
-            <FieldShell label="Categoria" className={styles.flexField}>
-              <select
-                ref={categoryRef}
-                className={styles.nativeField}
-                defaultValue=""
+            <div className={styles.flexField}>
+              <InputSelect
+                label="Categoria"
+                value={categoryValue}
                 onChange={handleCategoryChange}
-              >
-                <option value="">Categoria (opcional)</option>
-                {categories.map(({ id, name }) => (
-                  <option key={id} value={id}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-            </FieldShell>
+                options={[
+                  { label: 'Não especificar', value: '' },
+                  ...categories
+                    .filter(({ name }) => name)
+                    .map(({ id, name }) => ({
+                      label: name as string,
+                      value: String(id),
+                    })),
+                ]}
+              />
+            </div>
 
             {isOnline && <InputField ref={durationRef} label="Duração (min)" type="number" />}
           </div>
         </div>
 
         <div className={styles.row}>
-          <FieldShell label="Curso">
-            <select
-              ref={courseRef}
-              className={styles.nativeField}
-              defaultValue=""
-              onChange={handleCourseChangeUI}
-            >
-              <option value="">Curso (Todos)</option>
-              {courses.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </FieldShell>
+          <InputSelect
+            label="Curso"
+            value={courseValue}
+            onChange={handleCourseChangeUI}
+            options={[
+              { label: 'Todos', value: '' },
+              ...courses
+                .filter(({ name }) => name)
+                .map(({ id, name }) => ({
+                  label: name as string,
+                  value: String(id),
+                })),
+            ]}
+          />
 
-          <FieldShell label="Semestre">
-            <select
-              ref={semesterRef}
-              className={styles.nativeField}
-              defaultValue=""
-              disabled={courseValue === ''}
-              onChange={handleSemesterChangeUI}
-            >
-              <option value="">Semestre (opcional)</option>
-              {semesterOptions.map((value) => (
-                <option key={value} value={value}>
-                  {value === 'ALL'
+          <InputSelect
+            label="Semestre"
+            value={semesterValue}
+            disabled={courseValue === ''}
+            onChange={handleSemesterChangeUI}
+            options={[
+              { label: 'Não especificar', value: '' },
+              ...semesterOptions.map((value) => ({
+                label:
+                  value === 'ALL'
                     ? 'Todos'
                     : value === 'ESPECIAL'
                       ? 'Especial'
-                      : `${value.replace('SEMESTER', '')}º`}
-                </option>
-              ))}
-            </select>
-          </FieldShell>
+                      : `${value.replace('SEMESTER', '')}º`,
+                value,
+              })),
+            ]}
+          />
         </div>
 
         <div className={styles.row}>
           <InputField ref={maxRef} label="Limite de Inscrições" type="number" />
 
           <div className={styles.customWrapper}>
-            <FieldShell label="Localização" className={styles.flexField}>
-              <select
-                ref={locationRef}
-                className={styles.nativeField}
-                defaultValue=""
+            <div className={styles.flexField}>
+              <InputSelect
+                label="Localização"
+                value={locationValue}
                 onChange={handleLocationChange}
-                required
-              >
-                <option value="" disabled hidden>
-                  Selecione uma localização
-                </option>
-                {locations.map((location) => (
-                  <option key={location.id} value={location.id}>
-                    {location.name}
-                  </option>
-                ))}
-              </select>
-            </FieldShell>
+                hideOptionValue='Selecione uma localização'
+                options={[
+                  ...locations
+                    .filter((location) => location.name)
+                    .map((location) => ({
+                      label: location.name as string,
+                      value: String(location.id),
+                    })),
+                ]}
+              />
+            </div>
 
-            {locations.find(location => String(location.id) === locationRef.current?.value)?.name.toLowerCase() === 'outros' && (
-              <InputField label="Qual o local" ref={customLocRef} />
+            {isOtherLocation && (
+              <div className={styles.flexField}>
+                <InputField label="Qual o local" ref={customLocRef} />
+              </div>
             )}
           </div>
         </div>
@@ -158,7 +157,7 @@ export default function EventForm(): React.ReactElement {
               className={styles.nativeField}
               defaultValue={loadedDate || ''}
               min={isNew ? today : undefined}
-              disabled={isNew && !availableDates.length && !isOnline}
+              disabled={isNew && !availableDates.length && !isOnline && !isOtherLocation}
               onChange={handleDateChange}
               required
             />
@@ -166,52 +165,47 @@ export default function EventForm(): React.ReactElement {
         </div>
 
         <div className={styles.row}>
-          <FieldShell label="Horário de Início">
-            <select
-              className={styles.nativeField}
-              value={startTime}
-              disabled={!startOptions.length}
-              required
-              onChange={(e) => {
-                setStartTime(e.target.value);
-                handleStartTimeChange(e.target.value);
-                setEndTime('');
-              }}
-            >
-              <option value="" disabled>
-                Horário de início
-              </option>
-              {startOptions.map((slot) => (
-                <option key={slot} value={slot}>
-                  {slot}
-                </option>
-              ))}
-            </select>
-          </FieldShell>
+          <InputSelect
+            label="Horário de Início"
+            value={startTime}
+            disabled={!startOptions.length}
+            onChange={(value) => {
+              setStartTime(value);
+              handleStartTimeChange(value);
+              setEndTime('');
+            }}
+            options={[
+              { label: 'Horário de início', value: '' },
+              ...startOptions.map((slot) => ({
+                label: slot,
+                value: slot,
+              })),
+            ]}
+          />
 
-          <FieldShell label="Horário de Fim">
-            <select
-              className={styles.nativeField}
-              value={endTime}
-              disabled={!startTime}
-              required
-              onChange={(e) => setEndTime(e.target.value)}
-            >
-              <option value="" disabled>
-                Horário de fim
-              </option>
-              {endOptions.map((slot) => (
-                <option key={slot} value={slot}>
-                  {slot}
-                </option>
-              ))}
-            </select>
-          </FieldShell>
+          <InputSelect
+            label="Horário de Fim"
+            value={endTime}
+            disabled={!startTime}
+            onChange={setEndTime}
+            options={[
+              { label: 'Horário de fim', value: '' },
+              ...endOptions.map((slot) => ({
+                label: slot,
+                value: slot,
+              })),
+            ]}
+          />
         </div>
 
         <div className={`${styles.row} ${styles.checkboxRow}`}>
           <div className={styles.checkboxInput}>
-            <InputCheckbox ref={restrictedRef} label="Evento Restrito?" />
+            <InputCheckbox
+              ref={restrictedRef}
+              label="Evento Restrito?"
+              disabled={courseValue !== ''}
+              title={courseValue !== '' ? 'Eventos vinculados a um curso são automaticamente restritos' : ''}
+            />
           </div>
         </div>
 

@@ -50,44 +50,6 @@
   color: var(--red-primary);
 }
 
-.editForm > .selectWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin: 1.25rem 0 0;
-  width: 100%;
-}
-
-.editForm > .selectWrapper > .selectLabel {
-  font-size: var(--field-label-font-size);
-  font-weight: 500;
-  line-height: 1.25;
-  color: var(--field-label-color);
-}
-
-.editForm > .selectWrapper > .select {
-  width: var(--field-width);
-  min-height: var(--field-min-height);
-  padding: var(--field-padding);
-  border: var(--field-border);
-  outline: none;
-  border-radius: var(--field-radius);
-  background-color: var(--field-bg);
-  color: var(--field-color);
-  font-family: var(--field-font-family);
-  font-size: var(--field-font-size);
-  line-height: 1.25;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-.editForm > .selectWrapper > .select:disabled {
-  opacity: var(--field-disabled-opacity);
-  cursor: not-allowed;
-}
-
 @media (max-width: 1060px) {
   .usersPage {
       max-width: 80vw;

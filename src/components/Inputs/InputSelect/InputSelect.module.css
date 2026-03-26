@@ -1,0 +1,121 @@
+.inputSelectField {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.inputSelectField > .fieldLabel {
+    font-size: var(--field-label-font-size);
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--red-primary);
+}
+
+.inputSelectField > .trigger {
+    position: relative;
+    width: var(--field-width);
+    min-height: var(--field-min-height);
+    padding: var(--field-padding);
+    padding-right: 40px;
+    border-radius: var(--field-radius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background-color: var(--field-bg);
+    color: var(--field-color);
+    border: var(--field-border);
+    font-family: var(--field-font-family);
+    font-size: var(--field-font-size);
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.inputSelectField > .trigger:focus {
+    outline: none;
+}
+
+.inputSelectField > .trigger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.inputSelectField > .trigger > .triggerText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inputSelectField > .trigger > .arrow {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-60%) rotate(45deg);
+    transform-origin: center;
+    transition: transform .2s ease;
+    pointer-events: none;
+}
+
+.inputSelectField > .trigger > .arrowOpen {
+    transform: translateY(-50%) rotate(225deg);
+}
+
+.inputSelectField > .dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    min-width: 250px;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 16px;
+    background: var(--background);
+    box-shadow: var(--box-shadow);
+    z-index: 30;
+}
+
+.inputSelectField > .dropdown > .dropdownList {
+    display: grid;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.inputSelectField > .dropdown > .dropdownList > .dropdownItem {
+    position: relative;
+}
+
+.inputSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .2s ease, color .2s ease;
+}
+
+.inputSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink:hover,
+.inputSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink.active {
+    background: rgba(163, 53, 53, .08);
+    color: var(--red-primary);
+}

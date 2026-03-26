@@ -26,37 +26,23 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/@Types/EventTypes:` Event typings have been updated to reflect the new relational location model. The enum-based `location` field has been removed and replaced with `locationId` and `locationName`, allowing the front-end to work with a dynamic location from the database instead of a hardcoded fixed list.
+### `./src/components/Inputs/InputSelect:` Created a reusable custom select component, allowing the replacement of the native `<select>` with a standardized interface in the project, with support for labels, placeholders, disabled state, and dynamic options.
 
-### `./src/@Types/LocationsTypes:` A shared typing file has been created for the new location entity, centralizing the types used in location CRUD operations and public/private listings.
+### `./src/components/Inputs/InputSelect/InputSelect.module.css:` Created custom styling for the new select component, following the same visual pattern as the other inputs in the system and ensuring visual consistency between forms and modals.
 
-### `./src/hooks/api/Locations/Get/useGetAllLocations.ts:` A hook has been created to retrieve all locations registered in the system, both for the private management area and for public/dynamic use in the event form.
+### `./src/app/(pages)/(private)/Users/page.tsx:` Updated the user management screen to use the new `InputSelect` in the creation and editing flows, replacing the native selects with state-based control and maintaining the correct typing of user levels.
 
-### `./src/hooks/api/Locations/Post/useCreateLocation.ts:` Created a hook responsible for sending the request to create a new location to the back-end, using CSRF protection and error handling.
+### `./src/components/Inputs/FiltersHome/index.tsx:` Updated the home page event filter to use the new `InputSelect` for category selection, maintaining filter behavior and adapting the selected value to the format expected by the search.
 
-### `./src/hooks/api/Locations/Patch/useEditLocation.ts:` Created a hook responsible for updating the data of an already registered location, allowing the name to be edited and maintaining the security of the operation with CSRF.
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Updated the event registration modal to use the new `InputSelect` for course and semester selection, replacing native selects with state-based control and maintaining the conditional registration logic for students.
 
-### `./src/hooks/api/Locations/Delete/useDeleteLocation.ts:` Created a hook responsible for deleting an existing location from the system, handling errors and displaying visual feedback via toast.
+### `./src/hooks/pages/(private)/Events/useEventForm.ts:` Refactored the event form logic to replace native select refs with controlled states, adapting the hook to the new `InputSelect` and maintaining integration with categories, courses, semesters, locations, and schedules. ### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Updated the event creation/editing form to use the new `InputSelect` in the category, course, semester, location, and schedule fields, maintaining the form's dynamic behavior with the new state-controlled structure.
 
-### `./src/app/(pages)/(private)/Locations:` Created a new private location management screen, allowing listing, creating, editing, and deleting locations in a manner similar to category management.
+### `./src/components/Inputs/FiltersHome/FiltersHome.module.css:` Adjusted the styling of the home page filter to reflect the replacement of the native select with the new custom component, preserving the layout and responsiveness of the section.
 
-### `./src/app/(pages)/(private)/Locations/Locations.module.css:` The location management screen has been styled to follow the same visual pattern adopted in the other administrative screens of the system.
+### `./src/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css:` Adjusted the styling of the modal registration form to reflect the replacement of the native selects with the new custom component, maintaining the visual pattern already used on the page.
 
-## `./src/hooks/pages/(private)/Events/useEventForm.ts:` The entire logic of the event form has been updated to consume dynamic locations from the API, replacing the use of hardcoded enums with selection based on `locationId`. The custom location rule has also been adapted to work from the location record named `Other`.
-
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Updated the visual event creation/editing form to list locations from the database, displaying options dynamically and keeping the custom location field only when the selected location is `Other`.
-
-## `./src/hooks/api/Events/Get/useGetAvailabilityDates.ts:` Updated to retrieve available dates based on `locationId`, following the new relational structure of locations.
-
-## `./src/hooks/api/Events/Get/useGetAvailabilityTimes.ts:` Updated to retrieve available times based on `locationId`, ensuring compatibility with the new database model.
-
-### `./src/hooks/api/Events/Post/useCreateEvent.ts:` Updated to send `locationId` in the event creation payload, removing the dependency on the enum-based `location` field.
-
-## `./src/hooks/api/Events/Patch/useEditEvent.ts:` Updated to edit events using `locationId`, adapting the data sending to the new relational structure.
-
-## `./src/app/(pages)/(private)/Events/page.tsx:` Updated the administrative event listing to display the location name via `locationName`, instead of relying on the old enum.
-
-### `./src/components/CardEvents/index.tsx:` Updated the public event card to correctly display the location name from `locationName`, while maintaining compatibility with custom location logic.
+### `./src/app/(pages)/(private)/Users/Users.module.css:` The styling of the form displayed in the user creation and editing modals has been adjusted to reflect the replacement of the native selects with the new custom component.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -139,6 +125,7 @@
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
         - `InputField:` Reusable input that changes data based on received props.
         - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected.
+        - `InputSelect:` A reusable custom select component, allowing you to replace the use of native `<select>` with a standardized interface in the project, supporting labels, placeholders, disabled state, and dynamic options.
     - `Loader:` Component that shows the user that something is loading.
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.
     - `Sidebar:` A side menu used only on mobile screens to allow users to switch routes more easily without taking up as much screen space, including support for submenus and sub-submenus based on the same shared navigation configuration used in the Header.

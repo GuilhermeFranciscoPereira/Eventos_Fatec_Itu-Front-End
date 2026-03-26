@@ -7,8 +7,9 @@ import type { Semester } from '@/@Types/EventTypes';
 import { useRef, forwardRef, useState } from 'react';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import { useModalStore } from '@/stores/useModalStore';
-import ImageCloudinary from '@/components/ImageCloudinary';
 import InputField from '@/components/Inputs/InputField';
+import InputSelect from '@/components/Inputs/InputSelect';
+import ImageCloudinary from '@/components/ImageCloudinary';
 import { CoursePublicResponse } from '@/@Types/CoursesTypes';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
@@ -21,8 +22,10 @@ import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription, MdScho
 type SubscriptionFormProps = {
     nameRef: React.RefObject<HTMLInputElement | null>;
     emailRef: React.RefObject<HTMLInputElement | null>;
-    courseRef: React.RefObject<HTMLSelectElement | null>;
-    semesterRef: React.RefObject<HTMLSelectElement | null>;
+    courseValue: string;
+    semesterValue: string;
+    onCourseChange: (value: string) => void;
+    onSemesterChange: (value: string) => void;
     courseOptions: CoursePublicResponse[];
     coursesLoading: boolean;
     raRef: React.RefObject<HTMLInputElement | null>;
@@ -41,8 +44,6 @@ export default function EventDetail(): React.ReactElement {
     const raRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
-    const courseRef = useRef<HTMLSelectElement>(null);
-    const semesterRef = useRef<HTMLSelectElement>(null);
 
     const semesterOptions: Semester[] = ['SEMESTER1', 'SEMESTER2', 'SEMESTER3', 'SEMESTER4', 'SEMESTER5', 'SEMESTER6', 'ESPECIAL'];
 
@@ -110,7 +111,7 @@ export default function EventDetail(): React.ReactElement {
                         <strong className={styles.label}>Data:</strong>
                         <p className={styles.infoText}>
                             {new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} – {' '}
-                            {[event.startTime, event.endTime].map(t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' - ')}
+                            {[event.startTime, event.endTime].map(t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' às ')}
                         </p>
                     </div>
                     <div className={styles.infoItem}>
@@ -144,6 +145,9 @@ export default function EventDetail(): React.ReactElement {
     );
 
     function handleSubscribe(): void {
+        let selectedCourse = '';
+        let selectedSemester = '';
+
         openModal({
             title: 'Se inscreva no evento!',
             icon: <MdAssignmentAdd size={32} className={styles.icon} />,
@@ -151,36 +155,42 @@ export default function EventDetail(): React.ReactElement {
                 <SubscriptionForm
                     nameRef={nameRef}
                     emailRef={emailRef}
-                    courseRef={courseRef}
-                    semesterRef={semesterRef}
                     raRef={raRef}
                     courseOptions={publicCourses}
                     coursesLoading={coursesLoading}
                     semesterOptions={semesterOptions}
                     ref={null}
                     onlyStudents={event?.isRestricted ? event?.isRestricted : false}
+                    courseValue={selectedCourse}
+                    semesterValue={selectedSemester}
+                    onCourseChange={(value) => {
+                        selectedCourse = value;
+                    }}
+                    onSemesterChange={(value) => {
+                        selectedSemester = value;
+                    }}
                 />
             ),
             confirmLabel: 'Confirmar inscrição',
             onConfirm: async () => {
-                const courseIdStr = courseRef.current?.value || ''
-                const semesterStr = semesterRef.current?.value || ''
                 const dto: CreateParticipantDto = {
                     name: nameRef.current!.value.trim(),
                     email: emailRef.current!.value.trim(),
                     eventId,
-                    courseId: courseIdStr ? Number(courseIdStr) : undefined,
-                    semester: semesterStr ? (semesterStr as Semester) : null,
+                    courseId: selectedCourse ? Number(selectedCourse) : undefined,
+                    semester: selectedSemester ? (selectedSemester as Semester) : null,
                     ra: raRef.current && raRef.current.value ? raRef.current.value.trim() : null,
-                }
-                await createParticipant(dto)
+                };
+                await createParticipant(dto);
             },
         });
     }
 }
 
-const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ nameRef, emailRef, courseRef, semesterRef, raRef, courseOptions, coursesLoading, semesterOptions, onlyStudents }, ref) => {
+const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ nameRef, emailRef, raRef, courseOptions, coursesLoading, semesterOptions, onlyStudents, courseValue, semesterValue, onCourseChange, onSemesterChange }, ref) => {
     const [isStudent, setIsStudent] = useState(onlyStudents)
+    const [selectedCourse, setSelectedCourse] = useState<string>(courseValue);
+    const [selectedSemester, setSelectedSemester] = useState<string>(semesterValue);
 
     return (
         <form ref={ref} className={styles.form}>
@@ -189,7 +199,17 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
                     <InputCheckbox
                         checked={isStudent}
                         label="Sou aluno"
-                        onChange={() => setIsStudent(!isStudent)}
+                        onChange={() => {
+                            const nextValue = !isStudent;
+                            setIsStudent(nextValue);
+
+                            if (!nextValue) {
+                                setSelectedCourse('');
+                                setSelectedSemester('');
+                                onCourseChange('');
+                                onSemesterChange('');
+                            }
+                        }}
                     />
                 }
             </div>
@@ -198,32 +218,44 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
             {isStudent && (
                 <>
                     <div className={styles.fieldGroup}>
-                        <label htmlFor="course">Curso</label>
-                        <select
-                            id="course"
-                            ref={courseRef}
-                            className={styles.select}
-                            required={courseOptions.length > 0}
+                        <InputSelect
+                            label="Curso"
+                            value={selectedCourse}
+                            onChange={(value) => {
+                                setSelectedCourse(value);
+                                onCourseChange(value);
+                            }}
                             disabled={coursesLoading}
-                        >
-                            <option value="">
-                                {coursesLoading ? 'Carregando...' : (courseOptions.length ? 'Selecione' : 'Nenhum curso encontrado')}
-                            </option>
-                            {!coursesLoading && courseOptions.map(c => (
-                                <option key={c.id} value={c.id}>{c.name}</option>
-                            ))}
-                        </select>
+                            options={[
+                                {
+                                    label: coursesLoading ? 'Carregando...' : (courseOptions.length ? 'Selecione' : 'Nenhum curso encontrado'),
+                                    value: '',
+                                },
+                                ...courseOptions
+                                    .filter((course) => course.name)
+                                    .map((course) => ({
+                                        label: course.name as string,
+                                        value: String(course.id),
+                                    })),
+                            ]}
+                        />
                     </div>
                     <div className={styles.fieldGroup}>
-                        <label htmlFor="semester">Semestre</label>
-                        <select id="semester" ref={semesterRef} className={styles.select} required>
-                            <option value="">Selecione</option>
-                            {semesterOptions.map(v => (
-                                <option key={v} value={v}>
-                                    {v === 'ESPECIAL' ? 'Especial' : `${v.replace('SEMESTER', '')}º`}
-                                </option>
-                            ))}
-                        </select>
+                        <InputSelect
+                            label="Semestre"
+                            value={selectedSemester}
+                            onChange={(value) => {
+                                setSelectedSemester(value);
+                                onSemesterChange(value);
+                            }}
+                            options={[
+                                { label: 'Selecione', value: '' },
+                                ...semesterOptions.map((value) => ({
+                                    label: value === 'ESPECIAL' ? 'Especial' : `${value.replace('SEMESTER', '')}º`,
+                                    value,
+                                })),
+                            ]}
+                        />
                     </div>
                     <InputField ref={raRef} label="RA" minLength={13} maxLength={13} />
                 </>

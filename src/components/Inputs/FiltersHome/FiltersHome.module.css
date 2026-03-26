@@ -19,6 +19,17 @@
     gap: 0.5rem;
 }
 
+.filtersContainer > .centerSideFilters > .customSelect > .customSelectLabel {
+    font-size: var(--field-label-font-size);
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--field-label-color);
+}
+
+.filtersContainer > .centerSideFilters > .customSelect > .customSelectTrigger {
+    border: 1px solid #ccc;
+}
+
 .filtersContainer > .leftSideFilters > .label,
 .filtersContainer > .centerSideFilters > .label,
 .filtersContainer > .rightSideFilters > .datesFilter > .label {
@@ -55,24 +66,6 @@
     font-family: var(--field-font-family);
     font-size: var(--field-font-size);
     line-height: 1.25;
-}
-
-.filtersContainer > .centerSideFilters > .selectDropdown {
-    width: var(--field-width);
-    min-height: var(--field-min-height);
-    padding: var(--field-padding);
-    font-family: var(--field-font-family);
-    font-size: var(--field-font-size);
-    line-height: 1.25;
-    border: 1px solid #ccc;
-    border-radius: var(--field-radius);
-    background-color: var(--field-bg);
-    color: var(--field-color);
-    cursor: pointer;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
 .filtersContainer > .rightSideFilters {

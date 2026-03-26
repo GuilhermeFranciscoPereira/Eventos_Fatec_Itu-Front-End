@@ -1,11 +1,12 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { useModalStore } from '@/stores/useModalStore';
 import InputField from '@/components/Inputs/InputField';
+import InputSelect from '@/components/Inputs/InputSelect';
 import { UserProps, CreateUserDto } from '@/@Types/UsersTypes';
 import { useEditUser } from '@/hooks/api/Users/Patch/useEditUser';
 import styles from '@/app/(pages)/(private)/Users/Users.module.css';
@@ -22,10 +23,8 @@ export default function Users(): React.ReactElement {
 
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
-    const roleRef = useRef<HTMLSelectElement>(null);
     const newNameRef = useRef<HTMLInputElement>(null);
     const newEmailRef = useRef<HTMLInputElement>(null);
-    const newRoleRef = useRef<HTMLSelectElement>(null);
     const newPasswordRef = useRef<HTMLInputElement>(null);
 
     const schemaTable = [
@@ -62,68 +61,105 @@ export default function Users(): React.ReactElement {
         </main>
     );
 
+    type UserRole = 'ADMIN' | 'COORDENADOR' | 'AUXILIAR';
+
     function handleCreate(): void {
-        openModal({
-            icon: <IoMdPersonAdd size={32} />,
-            title: 'Criar novo usuário',
-            message: (
+        let selectedRole: UserRole = 'AUXILIAR';
+
+        function CreateContent(): React.ReactElement {
+            const [role, setRole] = useState<UserRole>('AUXILIAR');
+
+            function handleRoleChange(value: string): void {
+                const nextRole = value as UserRole;
+                selectedRole = nextRole;
+                setRole(nextRole);
+            }
+
+            return (
                 <form className={styles.editForm}>
                     <InputField ref={newNameRef} label="Nome" autoFocus />
                     <InputField ref={newEmailRef} label="E-mail" type="email" />
                     <InputField ref={newPasswordRef} label="Senha" type="password" />
-                    <div className={styles.selectWrapper}>
-                        <label htmlFor="role-create" className={styles.selectLabel}>Nível de usuário</label>
-                        <select id="role-create" ref={newRoleRef} defaultValue="AUXILIAR" className={styles.select}>
-                            <option value="ADMIN">Administrador</option>
-                            <option value="COORDENADOR">Coordenador</option>
-                            <option value="AUXILIAR">Auxiliar Docente</option>
-                        </select>
-                    </div>
+                    <br />
+                    <InputSelect
+                        label="Nível de usuário"
+                        value={role}
+                        onChange={handleRoleChange}
+                        options={[
+                            { label: 'Administrador', value: 'ADMIN' },
+                            { label: 'Coordenador', value: 'COORDENADOR' },
+                            { label: 'Auxiliar Docente', value: 'AUXILIAR' },
+                        ]}
+                    />
                 </form>
-            ),
+            );
+        }
+
+        openModal({
+            icon: <IoMdPersonAdd size={32} />,
+            title: 'Criar novo usuário',
+            message: <CreateContent />,
             confirmLabel: 'Criar',
             onConfirm: async () => {
                 const dto: CreateUserDto = {
                     name: newNameRef.current?.value ?? '',
                     email: newEmailRef.current?.value ?? '',
                     password: newPasswordRef.current?.value ?? '',
-                    role: newRoleRef.current?.value ?? null,
+                    role: selectedRole,
                 };
+
                 await createUser(dto);
                 refetch();
             },
         });
-    };
+    }
 
     function handleEdit(user: UserProps): void {
-        openModal({
-            icon: <MdEdit size={32} />,
-            title: 'Editar usuário',
-            message: (
+        let selectedRole: UserRole = user.role as UserRole;
+
+        function EditContent(): React.ReactElement {
+            const [role, setRole] = useState<UserRole>(user.role as UserRole);
+
+            function handleRoleChange(value: string): void {
+                const nextRole = value as UserRole;
+                selectedRole = nextRole;
+                setRole(nextRole);
+            }
+
+            return (
                 <form className={styles.editForm}>
                     <InputField ref={nameRef} label="Nome" defaultValue={user.name} autoFocus />
                     <InputField ref={emailRef} label="E-mail" type="email" defaultValue={user.email} />
-                    <div className={styles.selectWrapper}>
-                        <label htmlFor="role-edit" className={styles.selectLabel}>Nível de usuário</label>
-                        <select id="role-edit" ref={roleRef} defaultValue={user.role} className={styles.select}>
-                            <option value="ADMIN">Administrador</option>
-                            <option value="COORDENADOR">Coordenador</option>
-                            <option value="AUXILIAR">Auxiliar Docente</option>
-                        </select>
-                    </div>
+                    <br />
+                    <InputSelect
+                        label="Nível de usuário"
+                        value={role}
+                        onChange={handleRoleChange}
+                        options={[
+                            { label: 'Administrador', value: 'ADMIN' },
+                            { label: 'Coordenador', value: 'COORDENADOR' },
+                            { label: 'Auxiliar Docente', value: 'AUXILIAR' },
+                        ]}
+                    />
                 </form>
-            ),
+            );
+        }
+
+        openModal({
+            icon: <MdEdit size={32} />,
+            title: 'Editar usuário',
+            message: <EditContent />,
             confirmLabel: 'Salvar',
             onConfirm: async () => {
                 await editUser(user.id, {
                     name: nameRef.current?.value ?? '',
                     email: emailRef.current?.value ?? '',
-                    role: roleRef.current?.value ?? '',
+                    role: selectedRole,
                 });
                 refetch();
             },
         });
-    };
+    }
 
     function handleDelete(user: UserProps): void {
         openModal({
