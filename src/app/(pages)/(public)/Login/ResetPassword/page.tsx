@@ -1,21 +1,16 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 import Loader from '@/components/Loader';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import styles from '@/app/(pages)/(public)/Login/Login.module.css';
 import CodeInputValidation from '@/components/CodeInputValidation';
 import { MdEmail, MdKey, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { usePasswordResetConfirm, usePasswordResetRequest } from '@/hooks/api/Auth/Post/useResetPassword';
+import { useResetPasswordPage } from '@/hooks/pages/(public)/Login/useResetPasswordPage';
 
 export default function ResetPassword(): React.ReactElement {
-    const { emailRef, handleRequest, loading: loadingRequest, error, stage } = usePasswordResetRequest();
-    const { newPasswordRef, confirmPasswordRef, handleConfirm, loading: loadingConfirm } = usePasswordResetConfirm();
-
-    const [visible1, setVisible1] = useState(false);
-    const [visible2, setVisible2] = useState(false);
-
+    const { emailRef, handleRequest, loadingRequest, error, stage, newPasswordRef, confirmPasswordRef, handleConfirm, loadingConfirm, visible1, setVisible1, visible2, setVisible2 } = useResetPasswordPage();
+    
     return (
         <main className={styles.main}>
             {(loadingRequest || loadingConfirm) && <Loader />}

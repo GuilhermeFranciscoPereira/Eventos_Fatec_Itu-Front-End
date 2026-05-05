@@ -26,25 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Inputs/InputSelect:` Criado componente customizado de select reutilizável, permitindo substituir o uso de `<select>` nativo por uma interface padronizada no projeto, com suporte a label, placeholder, estado desabilitado e opções dinâmicas.
+### `./src/app/(pages)/(private) | (public):` Todas as páginas privadas e públicas passaram por uma refatoração onde foi retirado a parte lógica delas e inseridas nos hooks para apenas serem chamadas do hook para o page
 
-### `./src/components/Inputs/InputSelect/InputSelect.module.css:` Criada estilização própria do novo componente de select, seguindo o mesmo padrão visual dos demais inputs do sistema e garantindo consistência visual entre formulários e modais.
-
-### `./src/app/(pages)/(private)/Users/page.tsx:` Atualizada a tela de gerenciamento de usuários para utilizar o novo `InputSelect` nos fluxos de criação e edição, substituindo os selects nativos por controle via estado e mantendo a tipagem correta dos níveis de usuário.
-
-### `./src/components/Inputs/FiltersHome/index.tsx:` Atualizado o filtro de eventos da home para utilizar o novo `InputSelect` na seleção de categorias, mantendo o comportamento dos filtros e adaptando o valor selecionado para o formato esperado pela busca.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Atualizado o modal de inscrição em eventos para utilizar o novo `InputSelect` na seleção de curso e semestre, substituindo os selects nativos por controle baseado em estado e mantendo a lógica condicional de inscrição para alunos.
-
-### `./src/hooks/pages/(private)/Events/useEventForm.ts:` Refatorada a lógica do formulário de eventos para substituir refs de selects nativos por estados controlados, adequando o hook ao novo `InputSelect` e mantendo a integração com categorias, cursos, semestres, locais e horários.
-
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Atualizado o formulário de criação/edição de eventos para utilizar o novo `InputSelect` nos campos de categoria, curso, semestre, localização e horários, mantendo o comportamento dinâmico do formulário com a nova estrutura controlada por estado.
-
-### `./src/components/Inputs/FiltersHome/FiltersHome.module.css:` Ajustada a estilização do filtro da home para acompanhar a substituição do select nativo pelo novo componente customizado, preservando o layout e a responsividade da seção.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css:` Ajustada a estilização do formulário de inscrição no modal para acompanhar a substituição dos selects nativos pelo novo componente customizado, mantendo o padrão visual já utilizado na página.
-
-### `./src/app/(pages)/(private)/Users/Users.module.css:` Ajustada a estilização do formulário exibido nos modais de criação e edição de usuários para acompanhar a substituição dos selects nativos pelo novo componente customizado.
+#### `./src/hooks/pages/(private) | (public):` Novas pastas desenvolvidas para armazenarem as partes lógicas das páginas
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -97,14 +81,14 @@
     - `loading.tsx:` Este é um componente especial do Next.js para exibir algo em carregamento durante o fetch de dados ou mudança de rota, para mostrar isso ao usuário inserimos o nosso componente Loader.
   - `(pages):` Possui todas nossas rotas da aplicação, mas lembre-se, sempre que estiver dentro de parentes não será reconhecido como rota aquela pasta! Nossa páginas:
     - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado à estar logado para poder acessar. Nela temos:
-        - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: `./src/hooks/api/Carousel`
-        - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: `./src/hooks/api/Categories/`
-        - `Courses:` Tela de gerenciamento de cursos, responsável por exibir a lista dos cursos cadastrados e oferecer as ações de criar, editar ou excluir cada curso, integrando-se aos hooks de API em: `./src/hooks/api/Courses/`
-        - `Events:` Tela de gerenciamento dos eventos, responsável por exibir a lista dos eventos cadastrados e oferecer as ações de criar, editar ou excluir cada evento, integrando-se aos hooks de API em: `./src/hooks/api/Events/`
+        - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: `./src/hooks/api/Carousel` e parte lógica em: `./src/hooks/pages/private/Carousel/useCarouselPage`
+        - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: `./src/hooks/api/Categories/` e parte lógica em: `./src/hooks/pages/private/Categories/useCategoriesPage`
+        - `Courses:` Tela de gerenciamento de cursos, responsável por exibir a lista dos cursos cadastrados e oferecer as ações de criar, editar ou excluir cada curso, integrando-se aos hooks de API em: `./src/hooks/api/Courses/` e parte lógica em: `./src/hooks/pages/private/Courses/useCoursesPage`
+        - `Events:` Tela de gerenciamento dos eventos, responsável por exibir a lista dos eventos cadastrados e oferecer as ações de criar, editar ou excluir cada evento, integrando-se aos hooks de API em: `./src/hooks/api/Events/` e parte lógica em: `./src/hooks/pages/private/Events/useEventsPage`
             - `[id]:` Página dinâmica utilizada para criação e edição de eventos. Nela o usuário consegue preencher ou alterar dados como nome, categoria, curso, semestre, limite de inscrições, local, data, horários, palestrante, descrição, imagem e regras de restrição do evento.
             - `Participants:` Página que mostra quais são os participantes do evento desejado, trazendo o nome, email, RA, data de inscrição e opção para marcar a presença.
-        - `Locations:` Tela de gerenciamento de locais, responsável por exibir a lista dos locais cadastrados e oferecer as ações de criar, editar ou excluir cada local, integrando-se aos hooks de API em: `./src/hooks/api/Locations/`
-        - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: `./src/hooks/api/Users/`
+        - `Locations:` Tela de gerenciamento de locais, responsável por exibir a lista dos locais cadastrados e oferecer as ações de criar, editar ou excluir cada local, integrando-se aos hooks de API em: `./src/hooks/api/Locations/` e parte lógica em: `./src/hooks/pages/private/Locations/useLocationsPage`
+        - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: `./src/hooks/api/Users/` e parte lógica em: `./src/hooks/pages/private/Users/useUsersPage`
     - `(public):` Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
         - `page.tsx`: Nossa primeira página, também conhecido como o nosso "home", é a tela em que o usuário visualiza assim que acessa o site.
         - `EventDetail:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento
@@ -227,11 +211,30 @@
             - `useCarouselComponent:` Parte lógica do carrossel, lida com o passar de imagens automático ou manual, clique nas bolinhas que estão centralizadas na parte inferior e etc.
         - `CodeInputValidation:` 
             - `useCodeInputValidation:` Lida com a parte lógica dos inputs da autenticação em dois fatores
-    - `pages` Lógicas das páginas, arquivos page.tsx que fica dentro de app
-        - `(private):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/private)
-            - `/Events:` Partes lógicas da rota /Events
-                - `/useEventForm:` Todas as partes lógicas da tela de criação ou edição de eventos
-        - `(public):` Lógicas das páginas, arquivos page.tsx que fica dentro de app -> (pages/public)
+    
+    - `pages:` Lógicas das páginas, arquivos page.tsx que fica dentro de app
+        - `(private):` Partes lógicas das páginas de rotas privadas (pages/private)
+            - `Carousel:`
+                - `useCarouselPage:` Partes lógicas à serem usadas no page de Carousel
+            - `Categories:`
+                - `useCartegoriesPage:` Partes lógicas à serem usadas no page de Cartegories
+            - `Courses:`
+                - `useCoursesPage:` Partes lógicas à serem usadas no page de Courses
+            - `Events:`
+                - `id:`
+                    - `/useEventForm:` Todas as partes lógicas da tela de criação ou edição de eventos
+                - `useEventsPage:` Partes lógicas à serem usadas no page de Events
+            - `Locations:`
+                - `useLocationsPage:` Partes lógicas à serem usadas no page de Locations
+            - `Users:`
+                - `useUsersPage:` Partes lógicas à serem usadas no page de Users
+        - `(public):` Partes lógicas das páginas de rotas públicas (pages/public)
+            - `EventDetail:`
+                - `id:`
+                    - `useEventDetailPage:` Partes lógicas à serem usadas no page de EventDetail
+            - `Login:`
+                - `useLoginPage:` Partes lógicas à serem usadas no page de Login
+                - `useResetPasswordPage:` Partes lógicas à serem usadas no page de ResetPassword
 
 - `./src/stores:` Stores para a biblioteca Zustand
     - `ZustandWrapper:` Junta todos os components do Zustand para compartilharmos de uma única forma para o layout.tsx

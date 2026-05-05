@@ -11,6 +11,17 @@ export const metadata: Metadata = {
   title: "Eventos Fatec Itu",
   description: "Aqui você encontra todas os eventos atuais da Fatec Itu! Palestras, workshops, feiras e encontros acadêmicos organizados pela instituição. Confira datas, horários e locais, faça sua inscrição com facilidade e não perca nenhuma oportunidade de aprendizado, troca de experiências e networking!",
   creator: "Guilherme Francisco Pereira -> https://github.com/GuilhermeFranciscoPereira",
+  keywords: [
+    'agenda fatec itu',
+    'eventos fatec itu',
+    'calendário fatec itu',
+    'fatec itu eventos',
+    'palestras fatec itu',
+    'workshops fatec itu',
+    'atividades acadêmicas fatec itu',
+    'eventos acadêmicos itu',
+  ],
+  robots: { index: true, follow: true, },
 };
 
 const poppins = Poppins({

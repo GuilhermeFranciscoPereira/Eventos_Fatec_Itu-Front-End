@@ -1,23 +1,16 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 import Loader from '@/components/Loader';
 import ButtonRay from '@/components/Buttons/ButtonRay';
-import { useLogin } from '@/hooks/api/Auth/Post/useLogin';
-import { useTwoFactor } from '@/hooks/api/Auth/Post/useLogin';
 import CodeInputValidation from '@/components/CodeInputValidation';
 import styles from '@/app/(pages)/(public)/Login/Login.module.css';
+import { useLoginPage } from '@/hooks/pages/(public)/Login/useLoginPage';
 import { MdEmail, MdKey, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
 export default function Login(): React.ReactElement {
-    const { submitCode, loading: loadingTwoFactor, error: twoFactorError } = useTwoFactor();
-    const { emailRef, passwordRef, errors, stage, setStage, handleSubmit } = useLogin();
-
-    const [visible, setVisible] = useState(false);
-    const [remember, setRemember] = useState(false);
-    const type = visible ? 'text' : 'password';
-
+    const { submitCode, loadingTwoFactor, twoFactorError, emailRef, passwordRef, errors, stage, setStage, handleSubmit, setVisible, remember, setRemember, type } = useLoginPage();
+    
     return (
         <main className={styles.main}>
             {(loadingTwoFactor) && <Loader />}
@@ -123,7 +116,7 @@ export default function Login(): React.ReactElement {
                             >
                                 {twoFactorError && <p className={styles.error}>{twoFactorError}</p>}
                             </CodeInputValidation>
-                            
+
                             <hr />
 
                             <div className={styles.rowAlt} onClick={() => setStage('request')}>

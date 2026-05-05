@@ -1,31 +1,18 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { MdEdit, MdDelete } from 'react-icons/md';
-import { useModalStore } from '@/stores/useModalStore';
 import InputField from '@/components/Inputs/InputField';
 import InputSelect from '@/components/Inputs/InputSelect';
-import { UserProps, CreateUserDto } from '@/@Types/UsersTypes';
-import { useEditUser } from '@/hooks/api/Users/Patch/useEditUser';
+import type { UserRoleTypes } from '@/@Types/UserJwtProps';
+import type { UserProps, CreateUserDto } from '@/@Types/UsersTypes';
 import styles from '@/app/(pages)/(private)/Users/Users.module.css';
-import { useCreateUser } from '@/hooks/api/Users/Post/useCreateUser';
-import { useGetAllUsers } from '@/hooks/api/Users/Get/useGetAllUsers';
-import { useDeleteUser } from '@/hooks/api/Users/Delete/useDeleteUser';
+import { useUsersPage } from '@/hooks/pages/(private)/Users/useUsersPage';
 
 export default function Users(): React.ReactElement {
-    const editUser = useEditUser();
-    const createUser = useCreateUser();
-    const deleteUser = useDeleteUser();
-    const openModal = useModalStore((s) => s.openModal);
-    const { users, loading, refetch } = useGetAllUsers();
-
-    const nameRef = useRef<HTMLInputElement>(null);
-    const emailRef = useRef<HTMLInputElement>(null);
-    const newNameRef = useRef<HTMLInputElement>(null);
-    const newEmailRef = useRef<HTMLInputElement>(null);
-    const newPasswordRef = useRef<HTMLInputElement>(null);
+    const { editUser, createUser, deleteUser, openModal, users, loading, refetch, nameRef, emailRef, newNameRef, newEmailRef, newPasswordRef } = useUsersPage();
 
     const schemaTable = [
         { id: 'name', header: 'Nome', accessor: (u: UserProps) => u.name },
@@ -61,16 +48,14 @@ export default function Users(): React.ReactElement {
         </main>
     );
 
-    type UserRole = 'ADMIN' | 'COORDENADOR' | 'AUXILIAR';
-
     function handleCreate(): void {
-        let selectedRole: UserRole = 'AUXILIAR';
+        let selectedRole: UserRoleTypes = 'AUXILIAR';
 
         function CreateContent(): React.ReactElement {
-            const [role, setRole] = useState<UserRole>('AUXILIAR');
+            const [role, setRole] = useState<UserRoleTypes>('AUXILIAR');
 
             function handleRoleChange(value: string): void {
-                const nextRole = value as UserRole;
+                const nextRole = value as UserRoleTypes;
                 selectedRole = nextRole;
                 setRole(nextRole);
             }
@@ -115,13 +100,13 @@ export default function Users(): React.ReactElement {
     }
 
     function handleEdit(user: UserProps): void {
-        let selectedRole: UserRole = user.role as UserRole;
+        let selectedRole: UserRoleTypes = user.role as UserRoleTypes;
 
         function EditContent(): React.ReactElement {
-            const [role, setRole] = useState<UserRole>(user.role as UserRole);
+            const [role, setRole] = useState<UserRoleTypes>(user.role as UserRoleTypes);
 
             function handleRoleChange(value: string): void {
-                const nextRole = value as UserRole;
+                const nextRole = value as UserRoleTypes;
                 selectedRole = nextRole;
                 setRole(nextRole);
             }

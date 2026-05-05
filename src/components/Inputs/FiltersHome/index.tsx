@@ -35,7 +35,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
     return (
         <div className={styles.filtersContainer}>
             <div className={styles.leftSideFilters}>
-                <label htmlFor="filter-name" className={styles.label}>Filter eventos por nome</label>
+                <label htmlFor="filter-name" className={styles.label}>Filtrar por nome</label>
                 <div className={styles.searchBox}>
                     <HiMiniMagnifyingGlass className={styles.searchIcon} />
                     <input
@@ -54,7 +54,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                     className={styles.customSelect}
                     labelClassName={styles.customSelectLabel}
                     triggerClassName={styles.customSelectTrigger}
-                    label="Filtrar eventos por categoria"
+                    label="Filtrar por categoria"
                     value={categoryId}
                     onChange={setCategoryId}
                     options={[
@@ -84,7 +84,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                 </div>
 
                 <div className={styles.datesFilter}>
-                    <label htmlFor="filter-end" className={styles.label}>Data Fim</label>
+                    <label htmlFor="filter-end" className={styles.label}>Data Término</label>
                     <div
                         className={styles.dateFieldWrapper}
                         onMouseEnter={() => !startDate && setShowTooltip(true)}

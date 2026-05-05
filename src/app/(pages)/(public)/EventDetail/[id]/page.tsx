@@ -2,55 +2,31 @@
 import Loader from '@/components/Loader';
 import Footer from '@/components/Footer';
 import { useParams } from 'next/navigation';
+import { forwardRef, useState } from 'react';
 import CardEvents from '@/components/CardEvents';
 import type { Semester } from '@/@Types/EventTypes';
-import { useRef, forwardRef, useState } from 'react';
 import ButtonRay from '@/components/Buttons/ButtonRay';
-import { useModalStore } from '@/stores/useModalStore';
 import InputField from '@/components/Inputs/InputField';
 import InputSelect from '@/components/Inputs/InputSelect';
 import ImageCloudinary from '@/components/ImageCloudinary';
-import { CoursePublicResponse } from '@/@Types/CoursesTypes';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
-import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
+import type { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
-import { useGetAllCoursesPublic } from '@/hooks/api/Courses/Get/useGetAllCourses';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
-import { useCreateParticipant } from '@/hooks/api/Participants/Post/useCreateParticipant';
+import { useEventDetailPage } from '@/hooks/pages/(public)/EventDetail/id/useEventDetailPage';
+import type { SubscriptionFormProps } from '@/hooks/pages/(public)/EventDetail/id/useEventDetailPage';
 import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription, MdSchool, MdLock, MdMenuBook } from 'react-icons/md';
 
-type SubscriptionFormProps = {
-    nameRef: React.RefObject<HTMLInputElement | null>;
-    emailRef: React.RefObject<HTMLInputElement | null>;
-    courseValue: string;
-    semesterValue: string;
-    onCourseChange: (value: string) => void;
-    onSemesterChange: (value: string) => void;
-    courseOptions: CoursePublicResponse[];
-    coursesLoading: boolean;
-    raRef: React.RefObject<HTMLInputElement | null>;
-    semesterOptions: Semester[];
-    onlyStudents: boolean;
-};
-
 export default function EventDetail(): React.ReactElement {
+    const { createParticipant, openModal, publicCourses, coursesLoading, raRef, nameRef, emailRef, semesterOptions } = useEventDetailPage();
+
     const { id } = useParams() as { id: string };
     const eventId = Number(id);
-    const createParticipant = useCreateParticipant();
-    const openModal = useModalStore(s => s.openModal);
     const { event, loading } = useGetEventById(eventId);
-    const { datas: publicCourses, loading: coursesLoading } = useGetAllCoursesPublic();
-
-    const raRef = useRef<HTMLInputElement>(null);
-    const nameRef = useRef<HTMLInputElement>(null);
-    const emailRef = useRef<HTMLInputElement>(null);
-
-    const semesterOptions: Semester[] = ['SEMESTER1', 'SEMESTER2', 'SEMESTER3', 'SEMESTER4', 'SEMESTER5', 'SEMESTER6', 'ESPECIAL'];
-
-    if (loading) return <Loader />;
-    if (!event) return <h1>Evento não encontrado!</h1>;
-
+    if (!event) return <h1>Evento não encontrado! </h1>;
     const courseName = !event.courseId ? 'Todos os cursos' : (event.courseName ?? publicCourses.find(c => c.id === event.courseId)?.name ?? 'Carregando...');
+    if (loading) return <Loader />;
+
     return (
         <>
             <main className={styles.eventDetailPage}>
@@ -129,7 +105,7 @@ export default function EventDetail(): React.ReactElement {
                         <p className={styles.infoText}>{event.description}</p>
                     </div>
                     <div className={styles.subscribe}>
-                        <ButtonRay text="Se inscrever" onClick={handleSubscribe} type="button" />
+                        <ButtonRay text="Inscreva-se" onClick={handleSubscribe} type="button" />
                     </div>
                 </div>
                 <div className={styles.cardContainer}>
@@ -144,12 +120,14 @@ export default function EventDetail(): React.ReactElement {
         </>
     );
 
+    // Below we have the modals
+
     function handleSubscribe(): void {
         let selectedCourse = '';
         let selectedSemester = '';
 
         openModal({
-            title: 'Se inscreva no evento!',
+            title: 'Inscreva-se no evento!',
             icon: <MdAssignmentAdd size={32} className={styles.icon} />,
             message: (
                 <SubscriptionForm

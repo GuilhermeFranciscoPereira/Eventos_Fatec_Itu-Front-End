@@ -3,22 +3,16 @@ import Link from 'next/link';
 import Loader from '@/components/Loader';
 import { TiGroup } from 'react-icons/ti';
 import { Table } from '@/components/Table';
-import { EventProps } from '@/@Types/EventTypes';
-import { useUserStore } from '@/stores/useUserStore';
-import { useModalStore } from '@/stores/useModalStore';
+import type { EventProps } from '@/@Types/EventTypes';
 import ImageCloudinary from '@/components/ImageCloudinary';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import styles from '@/app/(pages)/(private)/Events/Events.module.css';
-import { useGetAllEvents } from '@/hooks/api/Events/Get/useGetAllEvents';
-import { useDeleteEvent } from '@/hooks/api/Events/Delete/useDeleteEvent';
+import { useEventsPage } from '@/hooks/pages/(private)/Events/useEventsPage';
 
 export default function Events(): React.ReactElement {
-    const deleteEvent = useDeleteEvent();
-    const user = useUserStore((state) => state.user);
-    const openModal = useModalStore((s) => s.openModal);
-    const { events, loading, refetch } = useGetAllEvents();
+    const { deleteEvent, user, openModal, formatEventDateTime, getEventLocation, events, loading, refetch } = useEventsPage();
 
-    const schema = [
+    const schemaTable = [
         {
             id: 'preview', header: 'Preview', accessor: (c: EventProps) => (
                 <div className={styles.previewWrapper}>
@@ -30,29 +24,12 @@ export default function Events(): React.ReactElement {
         {
             id: 'dateTime',
             header: 'Data e horário',
-            accessor: (e: EventProps) => {
-                const date = new Date(e.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-
-                const start = new Date(e.startTime).toLocaleTimeString('pt-BR', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    timeZone: 'UTC'
-                });
-
-                const end = new Date(e.endTime).toLocaleTimeString('pt-BR', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    timeZone: 'UTC'
-                });
-
-                return `${date} às ${start} - ${end}`;
-            },
+            accessor: formatEventDateTime
         },
         {
             id: 'location',
             header: 'Local',
-            accessor: (e: EventProps) =>
-                e.locationName.toLowerCase() === 'outros' ? e.customLocation : e.locationName
+            accessor: getEventLocation
         },
         {
             id: 'actions',
@@ -105,12 +82,14 @@ export default function Events(): React.ReactElement {
 
             <Table<EventProps>
                 records={events}
-                schema={schema}
+                schema={schemaTable}
                 getIdentifier={(e) => e.id}
                 hiddenOnMobile={['name', 'dateTime', 'location']}
             />
         </main>
     );
+
+    // Below we have the modal to delete
 
     function handleDelete(e: EventProps): void {
         openModal({

@@ -1,4 +1,4 @@
-import { Semester } from "@/@Types/EventTypes";
+import type { Semester } from "@/@Types/EventTypes";
 
 export type ParticipantProps = {
     id: number;

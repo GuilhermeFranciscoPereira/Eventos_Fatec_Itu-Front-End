@@ -1,4 +1,4 @@
-import { UserRoleTypes } from "../UserJwtProps";
+import type { UserRoleTypes } from "../UserJwtProps";
 
 export type UserProps = {
     id: number;

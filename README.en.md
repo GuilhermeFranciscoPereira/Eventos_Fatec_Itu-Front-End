@@ -26,23 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Inputs/InputSelect:` Created a reusable custom select component, allowing the replacement of the native `<select>` with a standardized interface in the project, with support for labels, placeholders, disabled state, and dynamic options.
+### `./src/app/(pages)/(private) | (public):` All private and public pages underwent a refactoring where their logic was removed and placed in hooks so that they can only be called from the hook to the page.
 
-### `./src/components/Inputs/InputSelect/InputSelect.module.css:` Created custom styling for the new select component, following the same visual pattern as the other inputs in the system and ensuring visual consistency between forms and modals.
-
-### `./src/app/(pages)/(private)/Users/page.tsx:` Updated the user management screen to use the new `InputSelect` in the creation and editing flows, replacing the native selects with state-based control and maintaining the correct typing of user levels.
-
-### `./src/components/Inputs/FiltersHome/index.tsx:` Updated the home page event filter to use the new `InputSelect` for category selection, maintaining filter behavior and adapting the selected value to the format expected by the search.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Updated the event registration modal to use the new `InputSelect` for course and semester selection, replacing native selects with state-based control and maintaining the conditional registration logic for students.
-
-### `./src/hooks/pages/(private)/Events/useEventForm.ts:` Refactored the event form logic to replace native select refs with controlled states, adapting the hook to the new `InputSelect` and maintaining integration with categories, courses, semesters, locations, and schedules. ### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Updated the event creation/editing form to use the new `InputSelect` in the category, course, semester, location, and schedule fields, maintaining the form's dynamic behavior with the new state-controlled structure.
-
-### `./src/components/Inputs/FiltersHome/FiltersHome.module.css:` Adjusted the styling of the home page filter to reflect the replacement of the native select with the new custom component, preserving the layout and responsiveness of the section.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css:` Adjusted the styling of the modal registration form to reflect the replacement of the native selects with the new custom component, maintaining the visual pattern already used on the page.
-
-### `./src/app/(pages)/(private)/Users/Users.module.css:` The styling of the form displayed in the user creation and editing modals has been adjusted to reflect the replacement of the native selects with the new custom component.
+#### `./src/hooks/pages/(private) | (public):` New folders were developed to store the logical parts of the pages.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -95,14 +81,14 @@
     - `loading.tsx:` This is a special Next.js component to display something loading during data fetch or route changes. To display this to the user, we insert our Loader component.
 - `(pages):` Contains all of our application routes, but remember, whenever they are within parent folders, that folder will not be recognized as a route! Our pages:
     - `(private):` Everything inside this folder is our private route pages, which the user must be logged in to access. It contains:
-        - `Carousel`: Carousel management screen, controls the active photos in the carousel, title, order in which each photo will appear in the carousel, add new photos, delete photos, and edit photos, all integrating with the API hooks at: `./src/hooks/api/Carousel`
-        - `Categories`: Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit, or delete each category, integrating with the API hooks at: `./src/hooks/api/Categories/`
-        - `Courses`: Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit, or delete each course, integrating with the API hooks at: `./src/hooks/api/Courses/`
-        - `Events`: Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit, or delete events Each event integrates with the API hooks at: `./src/hooks/api/Events/`
+        - `Carousel`: Carousel management screen, controls the active photos in the carousel, title, order in which each photo will appear in the carousel, add new photos, delete photos, and edit photos, all integrating with the API hooks in: `./src/hooks/api/Carousel` and logic in: `./src/hooks/pages/private/Carousel/useCarouselPage`
+        - `Categories`: Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit, or delete each category, integrating with the API hooks in: `./src/hooks/api/Categories/` and logic in: `./src/hooks/pages/private/Categories/useCategoriesPage`
+        - `Courses`: Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit, or delete each course. integrating with API hooks at: `./src/hooks/api/Courses/` and logic at: `./src/hooks/pages/private/Courses/useCoursesPage`
+        - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit, or delete each event, integrating with API hooks at: `./src/hooks/api/Events/` and logic at: `./src/hooks/pages/private/Events/useEventsPage`
             - `[id]:` Dynamic page used for creating and editing events. Here, the user can fill in or change data such as name, category, course, semester, registration limit, location, date, times, speaker, description, image, and event restriction rules.
             - `Participants:` Page that shows who the participants of the desired event are, providing their name, email, student ID, registration date, and the option to mark their attendance.
-        - `Locations:` Location management screen, responsible for displaying the list of registered locations and offering the actions to create, edit, or delete each location, integrating with the API hooks at: `./src/hooks/api/Locations/`
-        - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: `./src/hooks/api/Users/`
+        - `Locations:` Location management screen, responsible for displaying the list of registered locations and offering the actions to create, edit, or delete each location, integrating with the API hooks at: `./src/hooks/api/Locations/` and the logic at: `./src/hooks/pages/private/Locations/useLocationsPage`
+        - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: `./src/hooks/api/Users/` and the logic at: `./src/hooks/pages/private/Users/useUsersPage`
     - `(public):` Everything inside this folder is our public route pages, which the user can access even without being logged in. Here we have:
         - `page.tsx`: Our first page, also known as our "home" page, is the screen the user sees as soon as they access the site.
         - `EventDetail:` Screen to show the event in more detail to unauthenticated users, also allowing them to register for the event
@@ -223,11 +209,30 @@
             - `useCarouselComponent:` Logical part of the carousel, handles automatic or manual image scrolling, clicking on the balls centered at the bottom, etc.
         - `CodeInputValidation:`
             - `useCodeInputValidation:` Handles the logical part of two-factor authentication inputs
-    - `pages` Page logic, page.tsx files located within the app
-        - `(private):` Page logic, page.tsx files located within the app -> (pages/private)
-            - `/Events:` Logical parts of the /Events route
-                - `/useEventForm:` All logical parts of the event creation or editing screen
-        - `(public):` Page logic, page.tsx files located within the app -> (pages/public)
+    
+    - `pages:` Page logic, page.tsx files located within the app
+        - `(private):` Logical parts of private route pages (pages/private)
+            - `Carousel:`
+                - `useCarouselPage:` Logical parts to be used in the Carousel page
+            - `Categories:`
+                - `useCartegoriesPage:` Logical parts to be used in the Categories page
+            - `Courses:`
+                - `useCoursesPage:` Logical parts to be used in the Courses page
+            - `Events:`
+                - `id:`
+                    - `/useEventForm:` All logical parts of the event creation or editing screen
+                - `useEventsPage:` Logical parts to be used in the Events page
+            - `Locations:`
+                - `useLocationsPage:` Logical parts to be used in the Locations page
+            - `Users:`
+                - `useUsersPage:` Logical parts to be used on the Users page
+        - `(public):` Logical parts of public route pages (pages/public)
+            - `EventDetail:`
+                - `id:`
+                    - `useEventDetailPage:` Logical parts to be used on the EventDetail page
+            - `Login:`
+                - `useLoginPage:` Logical parts to be used on the Login page
+                - `useResetPasswordPage:` Logical parts to be used on the ResetPassword page
 
 - `./src/stores:` Stores for the Zustand library
     - `ZustandWrapper:` Brings together all Zustand components to share in a single form for the layout.tsx

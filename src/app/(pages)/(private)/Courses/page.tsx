@@ -1,25 +1,14 @@
 'use client';
-import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
-import { useModalStore } from '@/stores/useModalStore';
 import InputField from '@/components/Inputs/InputField';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import styles from '@/app/(pages)/(private)/Courses/Courses.module.css';
-import { useEditCourse } from '@/hooks/api/Courses/Patch/useEditCourses';
-import { useGetAllCourses } from '@/hooks/api/Courses/Get/useGetAllCourses';
-import { useCreateCourse } from '@/hooks/api/Courses/Post/useCreateCourses';
-import { useDeleteCourse } from '@/hooks/api/Courses/Delete/useDeleteCourses';
-import { CourseProps, CreateCourseDto, UpdateCourseDto } from '@/@Types/CoursesTypes';
+import { useCoursesPage } from '@/hooks/pages/(private)/Courses/useCoursesPage';
+import type { CourseProps, CreateCourseDto, UpdateCourseDto } from '@/@Types/CoursesTypes';
 
 export default function Course(): React.ReactElement {
-    const editCourse = useEditCourse();
-    const createCourse = useCreateCourse();
-    const deleteCourse = useDeleteCourse();
-    const openModal = useModalStore(s => s.openModal);
-    const { courses, loading, refetch } = useGetAllCourses();
-    const nameRef = useRef<HTMLInputElement>(null);
-    const newNameRef = useRef<HTMLInputElement>(null);
+    const { editCourse, createCourse, deleteCourse, openModal, courses, loading, refetch, nameRef, newNameRef } = useCoursesPage();
 
     const schemaTable = [
         { id: 'name', header: 'Nome', accessor: (c: CourseProps) => c.name },
@@ -60,6 +49,8 @@ export default function Course(): React.ReactElement {
             />
         </main>
     );
+
+    // Below we have the modals
 
     function handleCreate(): void {
         openModal({

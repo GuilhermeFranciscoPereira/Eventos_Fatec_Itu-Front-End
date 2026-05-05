@@ -6,16 +6,10 @@ import InputImage from '@/components/Inputs/InputImage';
 import InputField from '@/components/Inputs/InputField';
 import InputSelect from '@/components/Inputs/InputSelect';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
-import { useEventForm } from '@/hooks/pages/(private)/Events/useEventForm';
+import { useEventForm } from '@/hooks/pages/(private)/Events/id/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
-type FieldShellProps = {
-  label: string;
-  children: ReactNode;
-  className?: string;
-};
-
-function FieldShell({ label, children, className }: FieldShellProps): React.ReactElement {
+const FieldShell = ({ label, children, className }: { label: string; children: ReactNode; className?: string; }): React.ReactElement => {
   return (
     <div className={`${styles.fieldWrapper} ${className ?? ''}`.trim()}>
       <div className={styles.fieldBox}>

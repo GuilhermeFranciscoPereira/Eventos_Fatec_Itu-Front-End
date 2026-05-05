@@ -1,35 +1,18 @@
 'use client';
-import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
 import { RiImageAddLine } from 'react-icons/ri';
 import { MdEdit, MdDelete } from 'react-icons/md';
-import { useToastStore } from '@/stores/useToastStore';
-import { useModalStore } from '@/stores/useModalStore';
 import InputImage from '@/components/Inputs/InputImage';
-import ImageCloudinary from '@/components/ImageCloudinary';
 import InputField from '@/components/Inputs/InputField';
+import ImageCloudinary from '@/components/ImageCloudinary';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
 import styles from '@/app/(pages)/(private)/Carousel/Carousel.module.css';
-import { useCreateCarousel } from '@/hooks/api/Carousel/Post/useCreateCarousel';
-import { useGetAllCarousels } from '@/hooks/api/Carousel/Get/useGetAllCarousels';
-import { useDeleteCarousel } from '@/hooks/api/Carousel/Delete/useDeleteCarousel';
-import { CarouselProps, CreateCarouselDto, UpdateCarouselDto } from '@/@Types/CarouselTypes';
-import { useEditCarousel, useToggleActiveCarousel } from '@/hooks/api/Carousel/Patch/useEditCarousel';
+import { useCarouselPage } from '@/hooks/pages/(private)/Carousel/useCarouselPage';
+import type { CarouselProps, CreateCarouselDto, UpdateCarouselDto } from '@/@Types/CarouselTypes';
 
 export default function Carousel(): React.ReactElement {
-    const editCarousel = useEditCarousel();
-    const createCarousel = useCreateCarousel();
-    const deleteCarousel = useDeleteCarousel();
-    const toggleActive = useToggleActiveCarousel();
-    const openModal = useModalStore(s => s.openModal);
-    const showToast = useToastStore((s) => s.showToast);
-    const { records: carousels, loading, refetch } = useGetAllCarousels();
-
-    const nameRef = useRef<HTMLInputElement>(null);
-    const orderRef = useRef<HTMLInputElement>(null);
-    const activeRef = useRef<HTMLInputElement>(null);
-    const selectedFileRef = useRef<File | null>(null);
+    const { editCarousel, createCarousel, deleteCarousel, openModal, showToast, handleToggle, carousels, loading, refetch, nameRef, orderRef, activeRef, selectedFileRef } = useCarouselPage()
 
     const schemaTable = [
         {
@@ -81,7 +64,11 @@ export default function Carousel(): React.ReactElement {
         </main>
     );
 
+    // Below we have the modals
+
     function handleCreate(): void {
+        selectedFileRef.current = null;
+
         openModal({
             icon: <RiImageAddLine size={32} />,
             title: 'Adicionar nova imagem',
@@ -123,6 +110,8 @@ export default function Carousel(): React.ReactElement {
     }
 
     function handleEdit(item: CarouselProps): void {
+        selectedFileRef.current = null;
+
         openModal({
             icon: <MdEdit size={32} />,
             title: 'Editar imagem',
@@ -173,10 +162,5 @@ export default function Carousel(): React.ReactElement {
                 refetch();
             }
         });
-    }
-
-    async function handleToggle(id: number, nextState: boolean): Promise<void> {
-        await toggleActive(id, nextState);
-        refetch();
     }
 }

@@ -1,25 +1,14 @@
 'use client';
-import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
-import { useModalStore } from '@/stores/useModalStore';
 import InputField from '@/components/Inputs/InputField';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import styles from '@/app/(pages)/(private)/Categories/Categories.module.css';
-import { useEditCategory } from '@/hooks/api/Categories/Patch/useEditCategory';
-import { useCreateCategory } from '@/hooks/api/Categories/Post/useCreateCategory';
-import { useDeleteCategory } from '@/hooks/api/Categories/Delete/useDeleteCategory';
-import { useGetAllCategories } from '@/hooks/api/Categories/Get/useGetAllCategories';
-import { CategoryProps, CreateCategoryDto, UpdateCategoryDto } from '@/@Types/CategoriesTypes';
+import { useCategoriesPage } from '@/hooks/pages/(private)/Categories/useCategoriesPage';
+import type { CategoryProps, CreateCategoryDto, UpdateCategoryDto } from '@/@Types/CategoriesTypes';
 
 export default function Categories(): React.ReactElement {
-    const editCategory = useEditCategory();
-    const createCategory = useCreateCategory();
-    const deleteCategory = useDeleteCategory();
-    const openModal = useModalStore(s => s.openModal);
-    const { categories, loading, refetch } = useGetAllCategories();
-    const nameRef = useRef<HTMLInputElement>(null);
-    const newNameRef = useRef<HTMLInputElement>(null);
+    const { editCategory, createCategory, deleteCategory, openModal, categories, loading, refetch, nameRef, newNameRef } = useCategoriesPage();
 
     const schemaTable = [
         { id: 'name', header: 'Nome', accessor: (c: CategoryProps) => c.name },
@@ -60,6 +49,8 @@ export default function Categories(): React.ReactElement {
             />
         </main>
     );
+
+    // Below we have the modals
 
     function handleCreate(): void {
         openModal({

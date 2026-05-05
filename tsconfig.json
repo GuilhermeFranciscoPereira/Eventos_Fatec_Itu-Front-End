@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/hooks/api/Categories/Get/useGetAllCategories"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/hooks/api/Categories/Get/useGetAllCategories", "src/hooks/pages/(private)/Carousel/useCarouselPage"],
   "exclude": ["node_modules"]
 }

@@ -29,16 +29,20 @@ export default forwardRef<HTMLInputElement, InputFieldProps>(
                         onChange={(e) => {
                             const value = e.target.value;
 
-                            const formatted = value
-                                .toLowerCase()
-                                .split(' ')
-                                .map((word) => {
-                                    if (word.length <= 2) return word;
-                                    return word.charAt(0).toUpperCase() + word.slice(1);
-                                })
-                                .join(' ');
+                            if (type === 'email') {
+                                e.target.value = value.toLowerCase();
+                            } else {
+                                const formatted = value
+                                    .toLowerCase()
+                                    .split(' ')
+                                    .map((word) => {
+                                        if (word.length <= 2) return word;
+                                        return word.charAt(0).toUpperCase() + word.slice(1);
+                                    })
+                                    .join(' ');
 
-                            e.target.value = formatted;
+                                e.target.value = formatted;
+                            }
 
                             inputProps.onChange?.(e);
                         }}

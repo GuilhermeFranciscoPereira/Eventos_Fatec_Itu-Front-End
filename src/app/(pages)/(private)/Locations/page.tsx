@@ -1,25 +1,14 @@
 'use client';
-import { useRef } from 'react';
 import Loader from '@/components/Loader';
 import { Table } from '@/components/Table';
-import { useModalStore } from '@/stores/useModalStore';
 import InputField from '@/components/Inputs/InputField';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
 import styles from '@/app/(pages)/(private)/Locations/Locations.module.css';
-import { useEditLocation } from '@/hooks/api/Locations/Patch/useEditLocation';
-import { useCreateLocation } from '@/hooks/api/Locations/Post/useCreateLocation';
-import { useDeleteLocation } from '@/hooks/api/Locations/Delete/useDeleteLocation';
-import { useGetAllLocations } from '@/hooks/api/Locations/Get/useGetAllLocations';
-import { LocationProps, CreateLocationDto, UpdateLocationDto } from '@/@Types/LocationsTypes';
+import { useLocationsPage } from '@/hooks/pages/(private)/Locations/useLocationsPage';
+import type { LocationProps, CreateLocationDto, UpdateLocationDto } from '@/@Types/LocationsTypes';
 
 export default function Locations(): React.ReactElement {
-    const editLocation = useEditLocation();
-    const createLocation = useCreateLocation();
-    const deleteLocation = useDeleteLocation();
-    const openModal = useModalStore(s => s.openModal);
-    const { locations, loading, refetch } = useGetAllLocations();
-    const nameRef = useRef<HTMLInputElement>(null);
-    const newNameRef = useRef<HTMLInputElement>(null);
+    const { editLocation, createLocation, deleteLocation, openModal, locations, loading, refetch, nameRef, newNameRef } = useLocationsPage();
 
     const schemaTable = [
         { id: 'name', header: 'Nome', accessor: (l: LocationProps) => l.name },
@@ -65,6 +54,8 @@ export default function Locations(): React.ReactElement {
             />
         </main>
     );
+
+    // Below we have the modals
 
     function handleCreate(): void {
         openModal({
