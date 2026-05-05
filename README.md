@@ -26,9 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/app/(pages)/(private) | (public):` Todas as páginas privadas e públicas passaram por uma refatoração onde foi retirado a parte lógica delas e inseridas nos hooks para apenas serem chamadas do hook para o page
+### `./Dockerfile:` Criado o Dockerfile na raiz do projeto para empacotar o front-end em uma imagem Docker de produção. O arquivo utiliza build multi-stage com Node.js 22 Alpine, separando a instalação das dependências, a geração do build do Next.js e a execução final da aplicação. Com isso, o projeto passa a ter um processo padronizado para buildar e iniciar o front-end em container.
 
-#### `./src/hooks/pages/(private) | (public):` Novas pastas desenvolvidas para armazenarem as partes lógicas das páginas
+### `./.dockerignore` Criado o dockeringore que serve para remover arquivos desnecessários do contexto de build Docker.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -40,6 +40,7 @@
 !['NextJS'](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 !['TypescriptLogo'](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 !['CssLogo'](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+!['DockerLogo'](https://img.shields.io/badge/docker-257bd6?style=for-the-badge&logo=docker&logoColor=white)
 
 </div>
 
@@ -47,6 +48,7 @@
     - Next: 15.4.2
     - React: 19.1.0
     - Typescript: 5
+    - Docker: 28.3.2
 
 ## 🙋🏻‍♂ Como me localizar no projeto?
 
@@ -251,7 +253,15 @@
     - `printSection:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
     - `wrapperVLibras:` Componente utilitário cliente responsável por inicializar globalmente a integração com o plugin VLibras dentro da aplicação. Serve para disponibilizar o recurso de acessibilidade de tradução para Libras em todas as páginas ao ser importado no `layout.tsx`.
 
+- `./Dockerfile:` Arquivo responsável por definir o processo de containerização do front-end. Utiliza Node.js 22 Alpine e build multi-stage para instalar dependências com `npm ci`, gerar o build de produção do Next.js com `npm run build` e executar a aplicação em modo production
+
+- `./.dockerignore` Define quais arquivos e diretórios devem ser ignorados durante o build da imagem Docker.
+
 ## ❔ Como rodar o projeto na minha máquina?
+
+- O projeto pode ser executado de duas formas, ambas vão ser ensinadas abaixo:
+    - Localmente, rodando o código na sua máquina.
+    - Via Docker, subindo o front-end em container mas não se esqueça de no meu github também pegar o back-end para subir na nuvem também.
 
 - Antes de tudo, você precisa ter o Git instalado no seu computador. O Git é uma ferramenta que permite clonar e gerenciar repositórios de código.
     - Windows: Baixe o Git <a href="https://git-scm.com/download/win" target="_blank">aqui</a> e siga as instruções de instalação.
@@ -264,7 +274,6 @@
         ```bash
         sudo apt install git
         ```
-        
 
 - Abra o terminal (no Windows, você pode usar o Git Bash, que é instalado junto com o Git).
 
@@ -298,6 +307,50 @@
       ```
 
     - ⚠️ Lembre-se de criar o arquivo .env com base em tudo que contem no arquivo: `.env.example`
+
+##
+
+## 🐳 Comandos Docker
+
+### O Dockerfile do front-end utiliza build multi-stage com três etapas:
+
+- `deps:` Instala as dependências do projeto com `npm ci` a partir dos arquivos `package.json` e `package-lock.json`.
+- `builder:` Copia os arquivos do projeto, reutiliza as dependências instaladas e executa o build de produção com `npm run build`.
+- `runner:` Prepara o ambiente final de produção, copia os arquivos necessários do build e inicia a aplicação Next.js na porta `4001`.
+
+### Após criar o `Dockerfile` e configurar o serviço no `docker-compose.yml`, gere a imagem e rode o container:
+``` bash
+docker-compose up --build -d
+```
+
+### Isso vai:
+- Gerar a imagem Docker do front-end
+- Iniciar a aplicação Next.js
+- Mapear a porta configurada no docker-compose.yml
+
+### Verifique se o container está mesmo up e com a porta mapeada
+
+```bash
+docker-compose ps
+```
+
+### Abre na porta que estiver aparecendo, por exemplo:
+
+```bash
+http://localhost:4001
+```
+
+### Para reiniciar o frontend quando mudar o código:
+
+```bash
+docker-compose restart frontend_events-fatec-itu
+```
+
+### Parar só o frontend
+
+```bash
+docker-compose stop frontend_events-fatec-itu
+```
 
 ##
 
