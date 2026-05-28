@@ -26,15 +26,15 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/@Types/EventTypes:` Adicionado o campo opcional `presenceSecret` nas tipagens de criação e edição de eventos, permitindo que o front-end envie a palavra secreta de presença para o back-end.
+### `./Dockerfile:` Ajustado o processo de containerização do front-end para gerar a build de produção com Next.js, utilizando imagem Node.js 22 Alpine, instalação das dependências com `npm ci`, build da aplicação e execução na porta `4001`.
 
-### `./src/hooks/api/Events/Post/useCreateEvent.ts:` Atualizado o envio do formulário de criação de evento para incluir o campo `presenceSecret` dentro do `FormData`, junto aos demais dados do evento.
+### `./.dockerignore:` Adicionado arquivo para impedir que diretórios e arquivos desnecessários, como `node_modules`, `.next`, `.git`, `.env` e arquivos de log sejam enviados para o contexto de build do Docker.
 
-### `./src/hooks/api/Events/Patch/useEditEvent.ts:` Mantido o envio dinâmico dos dados de edição, permitindo que o campo `presenceSecret` também seja enviado quando preenchido no formulário.
+### `./.github/workflows/deploy.yml:` Adicionado workflow de CI/CD com GitHub Actions para automatizar o build da imagem Docker do front-end, publicar a imagem no GitHub Container Registry e atualizar automaticamente o container na VPS após cada `git push` na branch `main`.
 
-### `./src/hooks/pages/private/Events/id/useEventForm.ts:` Adicionada a referência e o envio da palavra secreta de presença junto ao objeto usado para criar ou editar eventos.
+### `GitHub Container Registry:` Configurado o fluxo de publicação da imagem `ghcr.io/guilhermefranciscopereira/eventos-fatec-itu-frontend:latest`, permitindo que a VPS baixe a versão mais recente da aplicação sem precisar realizar o build localmente.
 
-### `./src/app/(pages)/(private)/Events/[id]/components/EventForm.tsx:` Adicionado o campo visual de palavra secreta de presença no formulário de criação e edição de eventos.
+### `Deploy automatizado:` Alterado o fluxo de deploy para que a VPS execute apenas `docker compose pull` e `docker compose up -d`, reduzindo o consumo de RAM e evitando falhas durante o build em ambiente de produção.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -69,6 +69,12 @@
             - `footer:` Pasta que irá armazenar nossas fotos para utilizar no componente Footer
             - `login:` Pasta que irá armazenar nossas fotos para utilizar nas telas de Login ( Recuperar senha e autenticação em dois fatores )
             - `readme:` Pasta que irá armazenar nossas fotos para utilizar na documentação ( README )
+
+- `./.github/workflows/deploy.yml:` Workflow do GitHub Actions responsável pelo CI/CD do front-end. Ao receber um `git push` na branch `main`, realiza o build da imagem Docker, publica no GitHub Container Registry e atualiza automaticamente o container do front-end na VPS.
+
+- `./Dockerfile:` Arquivo responsável por definir o processo de containerização do front-end. Utiliza Node.js 22 Alpine e build multi-stage para instalar dependências com `npm ci`, gerar o build de produção do Next.js com `npm run build` e executar a aplicação em modo production
+
+- `./.dockerignore` Define quais arquivos e diretórios devem ser ignorados durante o build da imagem Docker.
 
 - `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
 
@@ -259,15 +265,11 @@
     - `printSection:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
     - `wrapperVLibras:` Componente utilitário cliente responsável por inicializar globalmente a integração com o plugin VLibras dentro da aplicação. Serve para disponibilizar o recurso de acessibilidade de tradução para Libras em todas as páginas ao ser importado no `layout.tsx`.
 
-- `./Dockerfile:` Arquivo responsável por definir o processo de containerização do front-end. Utiliza Node.js 22 Alpine e build multi-stage para instalar dependências com `npm ci`, gerar o build de produção do Next.js com `npm run build` e executar a aplicação em modo production
-
-- `./.dockerignore` Define quais arquivos e diretórios devem ser ignorados durante o build da imagem Docker.
-
 ## ❔ Como rodar o projeto na minha máquina?
 
 - O projeto pode ser executado de duas formas, ambas vão ser ensinadas abaixo:
     - Localmente, rodando o código na sua máquina.
-    - Via Docker, subindo o front-end em container mas não se esqueça de no meu github também pegar o back-end para subir na nuvem também.
+    - Via Docker, subindo o front-end em container mas não se esqueça de no meu github também pegar o back-end.
 
 - Antes de tudo, você precisa ter o Git instalado no seu computador. O Git é uma ferramenta que permite clonar e gerenciar repositórios de código.
     - Windows: Baixe o Git <a href="https://git-scm.com/download/win" target="_blank">aqui</a> e siga as instruções de instalação.
