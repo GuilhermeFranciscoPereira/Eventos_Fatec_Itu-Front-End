@@ -31,7 +31,7 @@ const FieldShell = ({ label, children, className }: { label: string; children: R
 }
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValue, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValue, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, hasPresenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -192,8 +192,27 @@ export default function EventForm(): React.ReactElement {
           />
         </div>
 
-        <div className={`${styles.row} ${styles.checkboxRow}`}>
-          <div className={styles.checkboxInput}>
+        <div className={styles.row}>
+          <div className={styles.presenceSecretWrapper}>
+            <InputField
+              ref={presenceSecretRef}
+              label={hasPresenceSecret ? 'Nova palavra secreta de presença' : 'Palavra secreta de presença'}
+            />
+
+            {!isNew && (
+              hasPresenceSecret ? (
+                <span>
+                  Este evento já possui uma palavra secreta cadastrada. Por segurança, ela não é exibida. Deixe o campo vazio para manter a palavra atual ou informe uma nova para alterar.
+                </span>
+              ) : (
+                <span>
+                  Este evento ainda não possui uma palavra secreta cadastrada. Informe uma palavra para permitir a validação de presença.
+                </span>
+              )
+            )}
+          </div>
+
+          <div className={styles.restrictedCheckboxWrapper}>
             <InputCheckbox
               ref={restrictedRef}
               label="Evento Restrito?"

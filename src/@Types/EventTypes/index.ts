@@ -28,6 +28,7 @@ export interface EventProps {
     categoryId: number | null;
     createdAt: string;
     updatedAt: string;
+    hasPresenceSecret: boolean;
 }
 
 export interface CreateEventDto {
@@ -46,6 +47,7 @@ export interface CreateEventDto {
     duration?: number;
     categoryId?: number;
     image: File;
+    presenceSecret?: string;
 }
 
 export interface UpdateEventDto {
@@ -64,6 +66,7 @@ export interface UpdateEventDto {
     duration?: number;
     categoryId?: number;
     image?: File;
+    presenceSecret?: string;
 }
 
 export type AvailabilityTime = { start: string; end: string };

@@ -17,7 +17,7 @@ export default function Login(): React.ReactElement {
 
             <section className={styles.imageSection}>
                 <Image
-                    alt="Imagem de um pinguim segurando um binóculo, na volta dele possui um totem de radar"
+                    alt="Imagem de alunos sentados em frente à faculdade Fatec Itu"
                     src="/assets/images/login/loginPage.png"
                     width={580}
                     height={420}
@@ -29,12 +29,12 @@ export default function Login(): React.ReactElement {
             <section className={styles.formSection}>
                 <div className={styles.formDiv}>
                     <div>
-                        <h1>{stage === 'confirm' ? 'Autenticação em dois fatores' : 'Bem-vindo(a) a'}</h1>
+                        <h1>{stage === 'confirm' ? 'Autenticação em dois fatores' : 'Bem-vindo(a) à'}</h1>
                         <h2><span>F</span>atec <span>I</span>tu</h2>
                         {stage === 'confirm' ? (
                             <p className={styles.description}>Digite o código enviado para concluir o seu login!</p>
                         ) : (
-                            <p className={styles.description}>Login restrito somente à colaboradores</p>
+                            <p className={styles.description}>Login restrito somente aos colaboradores</p>
                         )}
                     </div>
 
@@ -48,7 +48,7 @@ export default function Login(): React.ReactElement {
                             method="post"
                         >
                             <div className={styles.inputGroup}>
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email">E-mail</label>
                                 <div className={styles.control}>
                                     <span className={styles.iconLeft}><MdEmail /></span>
                                     <input

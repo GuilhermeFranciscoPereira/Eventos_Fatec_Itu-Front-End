@@ -27,6 +27,7 @@ export function useCreateEvent(): UseCreateEvent {
         form.append('endTime', dto.endTime)
         if (dto.duration !== undefined) form.append('duration', String(dto.duration))
         if (dto.categoryId !== undefined) form.append('categoryId', String(dto.categoryId))
+        if (dto.presenceSecret) form.append('presenceSecret', dto.presenceSecret)
         form.append('image', dto.image)
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/create`, {

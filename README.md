@@ -26,9 +26,15 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./Dockerfile:` Criado o Dockerfile na raiz do projeto para empacotar o front-end em uma imagem Docker de produção. O arquivo utiliza build multi-stage com Node.js 22 Alpine, separando a instalação das dependências, a geração do build do Next.js e a execução final da aplicação. Com isso, o projeto passa a ter um processo padronizado para buildar e iniciar o front-end em container.
+### `./src/@Types/EventTypes:` Adicionado o campo opcional `presenceSecret` nas tipagens de criação e edição de eventos, permitindo que o front-end envie a palavra secreta de presença para o back-end.
 
-### `./.dockerignore` Criado o dockeringore que serve para remover arquivos desnecessários do contexto de build Docker.
+### `./src/hooks/api/Events/Post/useCreateEvent.ts:` Atualizado o envio do formulário de criação de evento para incluir o campo `presenceSecret` dentro do `FormData`, junto aos demais dados do evento.
+
+### `./src/hooks/api/Events/Patch/useEditEvent.ts:` Mantido o envio dinâmico dos dados de edição, permitindo que o campo `presenceSecret` também seja enviado quando preenchido no formulário.
+
+### `./src/hooks/pages/private/Events/id/useEventForm.ts:` Adicionada a referência e o envio da palavra secreta de presença junto ao objeto usado para criar ou editar eventos.
+
+### `./src/app/(pages)/(private)/Events/[id]/components/EventForm.tsx:` Adicionado o campo visual de palavra secreta de presença no formulário de criação e edição de eventos.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -87,7 +93,7 @@
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: `./src/hooks/api/Categories/` e parte lógica em: `./src/hooks/pages/private/Categories/useCategoriesPage`
         - `Courses:` Tela de gerenciamento de cursos, responsável por exibir a lista dos cursos cadastrados e oferecer as ações de criar, editar ou excluir cada curso, integrando-se aos hooks de API em: `./src/hooks/api/Courses/` e parte lógica em: `./src/hooks/pages/private/Courses/useCoursesPage`
         - `Events:` Tela de gerenciamento dos eventos, responsável por exibir a lista dos eventos cadastrados e oferecer as ações de criar, editar ou excluir cada evento, integrando-se aos hooks de API em: `./src/hooks/api/Events/` e parte lógica em: `./src/hooks/pages/private/Events/useEventsPage`
-            - `[id]:` Página dinâmica utilizada para criação e edição de eventos. Nela o usuário consegue preencher ou alterar dados como nome, categoria, curso, semestre, limite de inscrições, local, data, horários, palestrante, descrição, imagem e regras de restrição do evento.
+            - `[id]:` Página dinâmica utilizada para criação e edição de eventos. Nela o usuário consegue preencher ou alterar dados como nome, categoria, curso, semestre, limite de inscrições, local, data, horários, palestrante, descrição, imagem, regras de restrição do evento e palavra secreta para validação de presença.
             - `Participants:` Página que mostra quais são os participantes do evento desejado, trazendo o nome, email, RA, data de inscrição e opção para marcar a presença.
         - `Locations:` Tela de gerenciamento de locais, responsável por exibir a lista dos locais cadastrados e oferecer as ações de criar, editar ou excluir cada local, integrando-se aos hooks de API em: `./src/hooks/api/Locations/` e parte lógica em: `./src/hooks/pages/private/Locations/useLocationsPage`
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: `./src/hooks/api/Users/` e parte lógica em: `./src/hooks/pages/private/Users/useUsersPage`

@@ -5,7 +5,6 @@
 .wrapper > .waveGroup > .inputField {
     width: var(--field-width);
     min-height: var(--field-min-height);
-    margin-top: var(--field-margin-top);
     padding: var(--field-padding);
     border-radius: var(--field-radius);
     display: block;

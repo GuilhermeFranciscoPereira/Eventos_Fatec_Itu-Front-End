@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: .5rem;
 }
 
 .formPage > .formHeader > h1 {
@@ -86,7 +86,7 @@
 .formPage > .form > .fieldWrapper > .fieldBox > .nativeField {
     width: var(--field-width);
     min-height: var(--field-min-height);
-    margin-top: var(--field-margin-top);
+    margin-top: 30px;
     padding: var(--field-padding);
     border-radius: var(--field-radius);
     display: block;
@@ -170,6 +170,26 @@
 .formPage > .form > .row > .customWrapper > .fieldWrapper > .fieldBox > .nativeField::-webkit-calendar-picker-indicator,
 .formPage > .form > .fieldWrapper > .fieldBox > .nativeField::-webkit-calendar-picker-indicator {
     cursor: pointer;
+}
+
+.formPage > .form > .row > .presenceSecretWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    margin-top: 20px;
+}
+
+.formPage > .form > .row > .presenceSecretWrapper > span {
+    font-size: .875rem;
+    opacity: .9;
+}
+
+.formPage > .form > .row > .restrictedCheckboxWrapper {
+    align-self: self-start;
+    justify-self: flex-start;
+    padding-left: 10px;
+    margin-top: 5px;
 }
 
 @media (max-width: 480px) {

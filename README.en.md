@@ -26,9 +26,15 @@
 
 ## 🛎️ Updates to this commit
 
-### `./Dockerfile:` A Dockerfile was created in the project root to package the front-end into a production Docker image. The file uses a multi-stage build with Node.js 22 Alpine, separating the installation of dependencies, the generation of the Next.js build, and the final execution of the application. This standardizes the project's process for building and starting the containerized front-end.
+### `./src/@Types/EventTypes:` Added the optional `presenceSecret` field to the event creation and editing types, allowing the front-end to send the presence secret word to the back-end.
 
-### `./.dockerignore` A dockerignore file was created to remove unnecessary files from the Docker build context.
+### `./src/hooks/api/Events/Post/useCreateEvent.ts:` Updated the event creation form submission to include the `presenceSecret` field within the `FormData`, along with the other event data.
+
+### `./src/hooks/api/Events/Patch/useEditEvent.ts:` Maintained the dynamic sending of edit data, allowing the `presenceSecret` field to also be sent when filled in on the form.
+
+### `./src/hooks/pages/private/Events/id/useEventForm.ts:` Added the reference and sending of the attendance secret word along with the object used to create or edit events.
+
+### `./src/app/(pages)/(private)/Events/[id]/components/EventForm.tsx:` Added the visual field for the attendance secret word in the event creation and editing form.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -87,7 +93,7 @@
         - `Categories`: Category management screen, responsible for displaying the list of registered categories and offering the actions to create, edit, or delete each category, integrating with the API hooks in: `./src/hooks/api/Categories/` and logic in: `./src/hooks/pages/private/Categories/useCategoriesPage`
         - `Courses`: Course management screen, responsible for displaying the list of registered courses and offering the actions to create, edit, or delete each course. integrating with API hooks at: `./src/hooks/api/Courses/` and logic at: `./src/hooks/pages/private/Courses/useCoursesPage`
         - `Events:` Event management screen, responsible for displaying the list of registered events and offering the actions to create, edit, or delete each event, integrating with API hooks at: `./src/hooks/api/Events/` and logic at: `./src/hooks/pages/private/Events/useEventsPage`
-            - `[id]:` Dynamic page used for creating and editing events. Here, the user can fill in or change data such as name, category, course, semester, registration limit, location, date, times, speaker, description, image, and event restriction rules.
+            - `[id]:` Dynamic page used for creating and editing events. Here, the user can fill in or change data such as name, category, course, semester, registration limit, location, date, times, speaker, description, image, event restriction rules, and secret word for attendance validation.
             - `Participants:` Page that shows who the participants of the desired event are, providing their name, email, student ID, registration date, and the option to mark their attendance.
         - `Locations:` Location management screen, responsible for displaying the list of registered locations and offering the actions to create, edit, or delete each location, integrating with the API hooks at: `./src/hooks/api/Locations/` and the logic at: `./src/hooks/pages/private/Locations/useLocationsPage`
         - `Users:` User management screen, responsible for displaying the list of registered users and offering the actions to create, edit, or delete each user, integrating with the API hooks at: `./src/hooks/api/Users/` and the logic at: `./src/hooks/pages/private/Users/useUsersPage`

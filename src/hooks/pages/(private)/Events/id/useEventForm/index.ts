@@ -46,6 +46,7 @@ export function useEventForm() {
     const customLocRef = useRef<HTMLInputElement>(null)
     const startDateRef = useRef<HTMLInputElement>(null)
     const restrictedRef = useRef<HTMLInputElement>(null)
+    const presenceSecretRef = useRef<HTMLInputElement>(null)
 
     const [endTime, setEndTime] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
@@ -60,6 +61,7 @@ export function useEventForm() {
     const [initialUrl, setInitialUrl] = useState<string | null>(null)
     const [availableDates, setAvailableDates] = useState<string[]>([])
     const [semesterValue, setSemesterValue] = useState<Semester | ''>('')
+    const [hasPresenceSecret, setHasPresenceSecret] = useState<boolean>(false)
     const [availableTimes, setAvailableTimes] = useState<AvailabilityTime[]>([])
 
     useEffect(() => {
@@ -79,6 +81,7 @@ export function useEventForm() {
                     setSemesterValue((e.semester ?? 'ALL') as Semester | '')
                     setCategoryValue(e.categoryId?.toString() || '')
                     setLocationValue(String(e.locationId))
+                    setHasPresenceSecret(Boolean(e.hasPresenceSecret))
                     if (customLocRef.current) {
                         customLocRef.current.value =
                             e.locationName?.toLowerCase() === 'outros' ? (e.customLocation ?? '') : ''
@@ -260,6 +263,7 @@ export function useEventForm() {
             endTime: `${day}T${endTime}:00Z`,
             duration: durationRef.current?.value ? Number(durationRef.current.value) : undefined,
             categoryId: categoryValue ? Number(categoryValue) : undefined,
+            presenceSecret: presenceSecretRef.current?.value.trim() || undefined,
         } as const
         try {
             if (isNew) {
@@ -284,5 +288,5 @@ export function useEventForm() {
         }
     }
 
-    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
+    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, hasPresenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
 }

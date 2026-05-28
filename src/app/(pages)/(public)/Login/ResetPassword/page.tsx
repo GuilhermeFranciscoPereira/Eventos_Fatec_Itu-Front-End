@@ -10,14 +10,14 @@ import { useResetPasswordPage } from '@/hooks/pages/(public)/Login/useResetPassw
 
 export default function ResetPassword(): React.ReactElement {
     const { emailRef, handleRequest, loadingRequest, error, stage, newPasswordRef, confirmPasswordRef, handleConfirm, loadingConfirm, visible1, setVisible1, visible2, setVisible2 } = useResetPasswordPage();
-    
+
     return (
         <main className={styles.main}>
             {(loadingRequest || loadingConfirm) && <Loader />}
 
             <section className={styles.imageSection}>
                 <Image
-                    alt="Imagem de um pinguim segurando um binóculo, na volta dele possui um totem de radar"
+                    alt="Imagem de alunos sentados em frente à faculdade Fatec Itu"
                     src="/assets/images/login/resetPage.png"
                     width={580}
                     height={420}
@@ -48,7 +48,7 @@ export default function ResetPassword(): React.ReactElement {
                             method="post"
                         >
                             <div className={styles.inputGroup}>
-                                <label htmlFor="resetEmail">Email</label>
+                                <label htmlFor="resetEmail">E-mail</label>
                                 <div className={styles.control}>
                                     <span className={styles.iconLeft}><MdEmail /></span>
                                     <input
