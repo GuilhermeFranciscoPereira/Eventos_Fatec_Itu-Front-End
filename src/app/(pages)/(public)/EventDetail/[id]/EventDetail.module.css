@@ -55,10 +55,7 @@
 }
 
 .form > .fieldGroup {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 30px 5px;
+    margin: 10px 0px;
 }
 
 @media (max-width: 480px) {

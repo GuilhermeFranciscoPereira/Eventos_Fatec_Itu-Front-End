@@ -69,7 +69,7 @@
 
 .inputSelectField > .dropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 2px);
     left: 0;
     width: 100%;
     min-width: 250px;
