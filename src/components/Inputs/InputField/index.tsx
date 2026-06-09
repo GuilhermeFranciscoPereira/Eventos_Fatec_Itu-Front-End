@@ -10,7 +10,7 @@ type InputFieldProps = {
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 export default forwardRef<HTMLInputElement, InputFieldProps>(
-    function InputField({ type = 'text', label, id, ...inputProps }, ref): React.ReactElement {
+    function InputField({ type = 'text', label, id, required = true, ...inputProps }, ref): React.ReactElement {
         const generatedId: string = useId();
         const inputId: string = id ?? `input-${generatedId}`;
         const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -25,7 +25,7 @@ export default forwardRef<HTMLInputElement, InputFieldProps>(
                         className={styles.inputField}
                         type={type === 'password' && showPassword ? 'text' : type}
                         autoComplete='off'
-                        required
+                        required={required}
                         onChange={(e) => {
                             const value = e.target.value;
 

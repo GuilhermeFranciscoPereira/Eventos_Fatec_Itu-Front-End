@@ -28,7 +28,7 @@ export interface EventProps {
     categoryId: number | null;
     createdAt: string;
     updatedAt: string;
-    hasPresenceSecret: boolean;
+    presenceSecret: string | null;
 }
 
 export interface CreateEventDto {

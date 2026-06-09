@@ -26,15 +26,13 @@
 
 ## 🛎️ Updates to this commit
 
-### `./Dockerfile:` Adjusted the front-end containerization process to generate the production build with Next.js, using the Node.js 22 Alpine image, installing dependencies with `npm ci`, building the application, and running it on port `4001`.
+### `Event Management Flow:` Updated the front-end behavior to work directly with `presenceSecret`, removing the old rule of hiding the secret word and aligning the form with the new business rule.
 
-### `./.dockerignore:` Added a file to prevent unnecessary directories and files, such as `node_modules`, `.next`, `.git`, `.env`, and log files, from being sent to the Docker build context.
+## `./src/types/events.ts:` Updated the event typing to remove the auxiliary field `hasPresenceSecret` and add the field `presenceSecret`, using the secret word itself as the source of truth to identify whether the event has word validation or not.
 
-### `./.github/workflows/deploy.yml:` Added a CI/CD workflow with GitHub Actions to automate the build of the front-end Docker image, publish the image to the GitHub Container Registry, and automatically update the container on the VPS after each `git push` to the `main` branch.
+### `./src/hooks/pages/(private)/Events/id/useEventForm.ts:` Adjusted the form to load the current secret word of the event, automatically fill in the input on edit, and send the updated value when saving.
 
-### `GitHub Container Registry:` Configured the deployment flow for the image `ghcr.io/guilhermefranciscopereira/eventos-fatec-itu-frontend:latest`, allowing the VPS to download the latest version of the application without needing to perform a local build.
-
-## `Automated Deployment:` Modified the deployment flow so that the VPS only executes `docker compose pull` and `docker compose up -d`, reducing RAM consumption and preventing failures during builds in a production environment.
+### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Removed the use of `hasPresenceSecret` and adjusted the field to directly use `presenceSecret`, displaying the current word in the input during event editing.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

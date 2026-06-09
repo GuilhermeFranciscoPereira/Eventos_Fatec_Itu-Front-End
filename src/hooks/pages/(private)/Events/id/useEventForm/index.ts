@@ -61,7 +61,7 @@ export function useEventForm() {
     const [initialUrl, setInitialUrl] = useState<string | null>(null)
     const [availableDates, setAvailableDates] = useState<string[]>([])
     const [semesterValue, setSemesterValue] = useState<Semester | ''>('')
-    const [hasPresenceSecret, setHasPresenceSecret] = useState<boolean>(false)
+    const [presenceSecret, setPresenceSecret] = useState<string | null>(null)
     const [availableTimes, setAvailableTimes] = useState<AvailabilityTime[]>([])
 
     useEffect(() => {
@@ -81,7 +81,10 @@ export function useEventForm() {
                     setSemesterValue((e.semester ?? 'ALL') as Semester | '')
                     setCategoryValue(e.categoryId?.toString() || '')
                     setLocationValue(String(e.locationId))
-                    setHasPresenceSecret(Boolean(e.hasPresenceSecret))
+                    if (presenceSecretRef.current) {
+                        presenceSecretRef.current.value = e.presenceSecret ?? ''
+                    }
+                    setPresenceSecret(e.presenceSecret ?? null)
                     if (customLocRef.current) {
                         customLocRef.current.value =
                             e.locationName?.toLowerCase() === 'outros' ? (e.customLocation ?? '') : ''
@@ -246,6 +249,7 @@ export function useEventForm() {
         setLoading(true)
         const day = startDateRef.current!.value || loadedDate
         const cid = courseValue ? Number(courseValue) : undefined
+        const presenceSecretValue = presenceSecretRef.current?.value.trim() ?? ''
         const base = {
             name: nameRef.current!.value.trim(),
             description: descRef.current!.value.trim(),
@@ -263,7 +267,7 @@ export function useEventForm() {
             endTime: `${day}T${endTime}:00Z`,
             duration: durationRef.current?.value ? Number(durationRef.current.value) : undefined,
             categoryId: categoryValue ? Number(categoryValue) : undefined,
-            presenceSecret: presenceSecretRef.current?.value.trim() || undefined,
+            presenceSecret: presenceSecretValue || null,
         } as const
         try {
             if (isNew) {
@@ -288,5 +292,5 @@ export function useEventForm() {
         }
     }
 
-    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, hasPresenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
+    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
 }

@@ -26,15 +26,13 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./Dockerfile:` Ajustado o processo de containerização do front-end para gerar a build de produção com Next.js, utilizando imagem Node.js 22 Alpine, instalação das dependências com `npm ci`, build da aplicação e execução na porta `4001`.
+### `Fluxo administrativo de eventos:` Atualizado o comportamento do front-end para trabalhar diretamente com `presenceSecret`, removendo a antiga regra de ocultar a palavra secreta e alinhando o formulário com a nova regra de negócio.
 
-### `./.dockerignore:` Adicionado arquivo para impedir que diretórios e arquivos desnecessários, como `node_modules`, `.next`, `.git`, `.env` e arquivos de log sejam enviados para o contexto de build do Docker.
+### `./src/types/events.ts:` Atualizada a tipagem dos eventos para remover o campo auxiliar `hasPresenceSecret` e adicionar o campo `presenceSecret`, utilizando a própria palavra secreta como fonte de verdade para identificar Wse o evento possui ou não validação por palavra.
 
-### `./.github/workflows/deploy.yml:` Adicionado workflow de CI/CD com GitHub Actions para automatizar o build da imagem Docker do front-end, publicar a imagem no GitHub Container Registry e atualizar automaticamente o container na VPS após cada `git push` na branch `main`.
+### `./src/hooks/pages/(private)/Events/id/useEventForm.ts:` Ajustado o formulário para carregar a palavra secreta atual do evento, preencher o input automaticamente na edição e enviar o valor atualizado ao salvar.
 
-### `GitHub Container Registry:` Configurado o fluxo de publicação da imagem `ghcr.io/guilhermefranciscopereira/eventos-fatec-itu-frontend:latest`, permitindo que a VPS baixe a versão mais recente da aplicação sem precisar realizar o build localmente.
-
-### `Deploy automatizado:` Alterado o fluxo de deploy para que a VPS execute apenas `docker compose pull` e `docker compose up -d`, reduzindo o consumo de RAM e evitando falhas durante o build em ambiente de produção.
+### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Removido o uso de `hasPresenceSecret` e ajustado o campo para usar diretamente `presenceSecret`, exibindo a palavra atual no input durante a edição do evento.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
