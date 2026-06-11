@@ -31,7 +31,9 @@ export default forwardRef<HTMLInputElement, InputFieldProps>(
 
                             if (type === 'email') {
                                 e.target.value = value.toLowerCase();
-                            } else {
+                            }
+
+                            if (type === 'text') {
                                 const formatted = value
                                     .toLowerCase()
                                     .split(' ')

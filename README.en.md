@@ -26,23 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `Event Administration Flow:` The front-end has been updated to allow selecting none, one, or multiple courses when registering and editing events. When no courses are selected, the event remains available to all courses; when one or more courses are selected, the event is automatically restricted to those courses.
+### `System Input Flow:` Adjusted the behavior of the reusable input component to apply automatic capitalization formatting only to `text` type fields, keeping password and numeric fields without automatic value changes.
 
-### `./src/@Types/EventTypes/index.ts:` Added the `courseIds` and `courseNames` data types to events and creation/editing DTOs, maintaining `courseId` and `courseName` for compatibility with older responses or singular use.
-
-### `./src/components/Inputs/InputMultiSelect/index.tsx:` Created a new reusable multi-select component with a dropdown, "All" option, and visual marking of selected courses.
-
-### `./src/components/Inputs/InputMultiSelect/InputMultiSelect.module.css:` The styling for the new multiselect has been created, maintaining the visual standard of existing inputs and ensuring a scrollable list for many courses.
-
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` The form state has been changed from a single `courseValue` to `courseValues`, loading multiple courses in the edit and sending `courseIds` in the creation/edit payload.
-
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` The simple course select has been replaced by the new multiselect for courses, and the semester lock and restriction checkbox have been adjusted based on the number of selected courses.
-
-### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Updated the creation form submission to forward all selected courses as `courseIds`.
-
-### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Updated the edit submission to handle `courseIds` in `FormData`, including when the list is empty to revert the event to "All courses".
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Adjusted the public display of event details to list one or more linked courses, using "Course(s)" and pluralizing the message when necessary.
+### `./src/components/Inputs/InputField/index.tsx:` Changed the input formatting rule to convert emails to lowercase, capitalize only `text` type fields, and preserve the original value of `password` and `number` type fields.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

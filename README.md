@@ -26,23 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Fluxo administrativo de eventos:` Atualizado o front-end para permitir selecionar nenhum, um ou vários cursos no cadastro e edição de eventos. Quando nenhum curso é selecionado, o evento continua disponível para todos os cursos; quando um ou mais cursos são selecionados, o evento fica automaticamente restrito a esses cursos.
+### `Fluxo de inputs do sistema:` Ajustado o comportamento do componente de input reutilizável para aplicar formatação automática de capitalização somente em campos do tipo `text`, mantendo campos de senha e numéricos sem alteração automática de valor.
 
-### `./src/@Types/EventTypes/index.ts:` Adicionadas as tipagens `courseIds` e `courseNames` aos eventos e aos DTOs de criação/edição, mantendo `courseId` e `courseName` como compatibilidade para respostas antigas ou uso singular.
-
-### `./src/components/Inputs/InputMultiSelect/index.tsx:` Criado um novo componente reutilizável de seleção múltipla com dropdown, opção "Todos" e marcação visual dos cursos selecionados.
-
-### `./src/components/Inputs/InputMultiSelect/InputMultiSelect.module.css:` Criada a estilização do novo multiselect, mantendo o padrão visual dos inputs existentes e garantindo lista rolável para muitos cursos.
-
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Alterado o estado do formulário de `courseValue` único para `courseValues`, carregando múltiplos cursos na edição e enviando `courseIds` no payload de criação/edição.
-
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` Substituído o select simples de curso pelo novo multiselect de cursos, além de ajustar o bloqueio do semestre e do checkbox de restrição com base na quantidade de cursos selecionados.
-
-### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Atualizado o envio do formulário de criação para encaminhar todos os cursos selecionados como `courseIds`.
-
-### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Atualizado o envio da edição para tratar `courseIds` em `FormData`, inclusive quando a lista vem vazia para voltar o evento para "Todos os cursos".
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Ajustada a exibição pública dos detalhes do evento para listar um ou vários cursos vinculados, usando "Curso(s)" e pluralizando a mensagem quando necessário.
+### `./src/components/Inputs/InputField/index.tsx:` Alterada a regra de formatação do input para transformar e-mails em minúsculo, capitalizar apenas campos do tipo `text` e preservar o valor original de campos do tipo `password` e `number`.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
