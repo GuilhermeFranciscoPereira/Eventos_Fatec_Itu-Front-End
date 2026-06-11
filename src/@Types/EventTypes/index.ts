@@ -14,6 +14,9 @@ export interface EventProps {
     description: string;
     imageUrl: string;
     courseId?: number;
+    courseName?: string | null;
+    courseIds?: number[];
+    courseNames?: string[];
     semester: Semester | null;
     maxParticipants: number;
     isRestricted: boolean;
@@ -35,6 +38,7 @@ export interface CreateEventDto {
     name: string;
     description: string;
     courseId?: number;
+    courseIds?: number[];
     semester?: Semester;
     maxParticipants: number;
     isRestricted: boolean;
@@ -54,6 +58,7 @@ export interface UpdateEventDto {
     name?: string;
     description?: string;
     courseId?: number;
+    courseIds?: number[];
     semester?: Semester;
     maxParticipants?: number;
     isRestricted?: boolean;
@@ -78,6 +83,8 @@ export type EventPublicResponse = {
     imageUrl: string;
     courseId?: number;
     courseName?: string | null;
+    courseIds?: number[];
+    courseNames?: string[];
     semester: Semester | null;
     maxParticipants: number;
     currentParticipants: number;

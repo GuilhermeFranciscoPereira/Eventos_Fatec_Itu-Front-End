@@ -26,13 +26,23 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Fluxo administrativo de eventos:` Atualizado o comportamento do front-end para trabalhar diretamente com `presenceSecret`, removendo a antiga regra de ocultar a palavra secreta e alinhando o formulário com a nova regra de negócio.
+### `Fluxo administrativo de eventos:` Atualizado o front-end para permitir selecionar nenhum, um ou vários cursos no cadastro e edição de eventos. Quando nenhum curso é selecionado, o evento continua disponível para todos os cursos; quando um ou mais cursos são selecionados, o evento fica automaticamente restrito a esses cursos.
 
-### `./src/types/events.ts:` Atualizada a tipagem dos eventos para remover o campo auxiliar `hasPresenceSecret` e adicionar o campo `presenceSecret`, utilizando a própria palavra secreta como fonte de verdade para identificar Wse o evento possui ou não validação por palavra.
+### `./src/@Types/EventTypes/index.ts:` Adicionadas as tipagens `courseIds` e `courseNames` aos eventos e aos DTOs de criação/edição, mantendo `courseId` e `courseName` como compatibilidade para respostas antigas ou uso singular.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm.ts:` Ajustado o formulário para carregar a palavra secreta atual do evento, preencher o input automaticamente na edição e enviar o valor atualizado ao salvar.
+### `./src/components/Inputs/InputMultiSelect/index.tsx:` Criado um novo componente reutilizável de seleção múltipla com dropdown, opção "Todos" e marcação visual dos cursos selecionados.
 
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Removido o uso de `hasPresenceSecret` e ajustado o campo para usar diretamente `presenceSecret`, exibindo a palavra atual no input durante a edição do evento.
+### `./src/components/Inputs/InputMultiSelect/InputMultiSelect.module.css:` Criada a estilização do novo multiselect, mantendo o padrão visual dos inputs existentes e garantindo lista rolável para muitos cursos.
+
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Alterado o estado do formulário de `courseValue` único para `courseValues`, carregando múltiplos cursos na edição e enviando `courseIds` no payload de criação/edição.
+
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` Substituído o select simples de curso pelo novo multiselect de cursos, além de ajustar o bloqueio do semestre e do checkbox de restrição com base na quantidade de cursos selecionados.
+
+### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Atualizado o envio do formulário de criação para encaminhar todos os cursos selecionados como `courseIds`.
+
+### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Atualizado o envio da edição para tratar `courseIds` em `FormData`, inclusive quando a lista vem vazia para voltar o evento para "Todos os cursos".
+
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Ajustada a exibição pública dos detalhes do evento para listar um ou vários cursos vinculados, usando "Curso(s)" e pluralizando a mensagem quando necessário.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -123,6 +133,7 @@
         - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
         - `InputField:` Input reutilizável alterando os dados com base nas props recebidas
         - `InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado
+        `InputMultiSelect:` Componente customizado e reutilizável de seleção múltipla, permitindo escolher nenhum, um ou vários valores por meio de dropdown com checkboxes. Possui opção "Todos" quando nenhum item está selecionado, exibe os valores escolhidos no campo, fecha automaticamente ao clicar fora e conta com suporte a label, placeholder, estado desabilitado, opções dinâmicas e className personalizada.
         - `InputSelect:` Componente customizado de select reutilizável, permitindo substituir o uso de `<select>` nativo por uma interface padronizada no projeto, com suporte a label, placeholder, estado desabilitado e opções dinâmicas.
     - `Loader:` Componente que mostra ao usuário que algo está carregando
     - `Modal:` É como uma "janela" sobreposta à interface principal que bloqueia a interação com o conteúdo de fundo até ser fechada ou confirmada, usada para exibir informações críticas ou solicitações de ação específicas.

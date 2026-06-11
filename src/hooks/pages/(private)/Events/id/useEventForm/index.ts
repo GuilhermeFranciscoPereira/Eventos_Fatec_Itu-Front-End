@@ -53,7 +53,7 @@ export function useEventForm() {
     const [startTime, setStartTime] = useState<string>('')
     const [isOnline, setIsOnline] = useState<boolean>(false)
     const [loadedDate, setLoadedDate] = useState<string>('')
-    const [courseValue, setCourseValue] = useState<string>('')
+    const [courseValues, setCourseValues] = useState<string[]>([])
     const [endOptions, setEndOptions] = useState<string[]>([])
     const today: string = new Date().toISOString().split('T')[0]
     const [categoryValue, setCategoryValue] = useState<string>('')
@@ -77,7 +77,8 @@ export function useEventForm() {
                     descRef.current!.value = e.description
                     speakerRef.current!.value = e.speakerName
                     maxRef.current!.value = `${e.maxParticipants}`
-                    setCourseValue(e.courseId ? String(e.courseId) : '')
+                    const loadedCourseIds = Array.isArray(e.courseIds) ? e.courseIds : e.courseId ? [e.courseId] : []
+                    setCourseValues(loadedCourseIds.map((courseId: number) => String(courseId)))
                     setSemesterValue((e.semester ?? 'ALL') as Semester | '')
                     setCategoryValue(e.categoryId?.toString() || '')
                     setLocationValue(String(e.locationId))
@@ -117,8 +118,6 @@ export function useEventForm() {
                         }),
                     )
                     setEndTime(e.endTime.slice(11, 16))
-                    setCourseValue(e.courseId ? String(e.courseId) : '')
-                    setSemesterValue((e.semester ?? 'ALL') as Semester | '')
                 } catch (err: unknown) {
                     const msg = err instanceof Error ? err.message : String(err)
                     if (!msg.includes('404')) showToast({ message: 'Falha ao carregar evento.', type: 'error' })
@@ -131,10 +130,10 @@ export function useEventForm() {
     useEffect(() => {
         if (!restrictedRef.current) return
 
-        if (courseValue !== '') {
+        if (courseValues.length) {
             restrictedRef.current.checked = true
         }
-    }, [courseValue])
+    }, [courseValues])
 
     function setSelectedFile(file: File | null): void {
         selectedFileRef.current = file
@@ -226,10 +225,10 @@ export function useEventForm() {
         setEndOptions([...new Set(times)])
     }
 
-    function handleCourseChangeUI(value: string): void {
-        setCourseValue(value)
+    function handleCourseChangeUI(value: string[]): void {
+        setCourseValues(value)
 
-        if (value === '') {
+        if (!value.length) {
             setSemesterValue('ALL')
         }
     }
@@ -248,15 +247,15 @@ export function useEventForm() {
         }
         setLoading(true)
         const day = startDateRef.current!.value || loadedDate
-        const cid = courseValue ? Number(courseValue) : undefined
+        const courseIds = courseValues.map(Number)
         const presenceSecretValue = presenceSecretRef.current?.value.trim() ?? ''
         const base = {
             name: nameRef.current!.value.trim(),
             description: descRef.current!.value.trim(),
-            courseId: cid,
-            semester: cid ? (semesterValue || 'ALL') : 'ALL',
+            courseIds,
+            semester: courseIds.length ? (semesterValue || 'ALL') : 'ALL',
             maxParticipants: Number(maxRef.current!.value),
-            isRestricted: courseValue !== '' ? true : restrictedRef.current!.checked,
+            isRestricted: courseIds.length ? true : restrictedRef.current!.checked,
             locationId: selectedLocationId,
             customLocation: selectedLocation?.name.toLowerCase() === 'outros'
                 ? customLocRef.current!.value.trim() || undefined
@@ -292,5 +291,5 @@ export function useEventForm() {
         }
     }
 
-    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValue, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
+    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValues, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
 }

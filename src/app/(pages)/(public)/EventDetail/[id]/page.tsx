@@ -24,7 +24,11 @@ export default function EventDetail(): React.ReactElement {
     const eventId = Number(id);
     const { event, loading } = useGetEventById(eventId);
     if (!event) return <h1>Evento não encontrado! </h1>;
-    const courseName = !event.courseId ? 'Todos os cursos' : (event.courseName ?? publicCourses.find(c => c.id === event.courseId)?.name ?? 'Carregando...');
+    const courseIds = event.courseIds?.length ? event.courseIds : event.courseId ? [event.courseId] : [];
+    const courseNames = event.courseNames?.length
+        ? event.courseNames
+        : courseIds.map((courseId) => publicCourses.find(c => c.id === courseId)?.name ?? 'Carregando...');
+    const courseLabel = courseIds.length ? courseNames.join(', ') : 'Todos os cursos';
     if (loading) return <Loader />;
 
     return (
@@ -59,10 +63,10 @@ export default function EventDetail(): React.ReactElement {
                     {event.isRestricted && (
                         <div className={styles.infoItem}>
                             <MdMenuBook size={20} className={styles.icon} />
-                            <strong className={styles.label}>Curso:</strong>
+                            <strong className={styles.label}>Curso(s):</strong>
                             <p className={styles.infoText}>
-                                {event.courseId
-                                    ? `Evento disponível somente para alunos do curso: ${courseName}`
+                                {courseIds.length
+                                    ? `Evento disponível somente para alunos ${courseIds.length === 1 ? 'do curso' : 'dos cursos'}: ${courseLabel}`
                                     : 'Evento disponível para todos os cursos'}
                             </p>
                         </div>

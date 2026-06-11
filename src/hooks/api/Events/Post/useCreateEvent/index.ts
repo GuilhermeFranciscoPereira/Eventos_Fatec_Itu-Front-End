@@ -15,7 +15,7 @@ export function useCreateEvent(): UseCreateEvent {
         const form = new FormData()
         form.append('name', dto.name)
         form.append('description', dto.description)
-        if (dto.courseId) form.append('courseId', String(dto.courseId))
+        dto.courseIds?.forEach((courseId) => form.append('courseIds', String(courseId)))
         if (dto.semester) form.append('semester', dto.semester)
         form.append('maxParticipants', String(dto.maxParticipants))
         form.append('isRestricted', String(dto.isRestricted))

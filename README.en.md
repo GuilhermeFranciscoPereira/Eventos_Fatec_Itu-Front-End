@@ -26,13 +26,23 @@
 
 ## 🛎️ Updates to this commit
 
-### `Event Management Flow:` Updated the front-end behavior to work directly with `presenceSecret`, removing the old rule of hiding the secret word and aligning the form with the new business rule.
+### `Event Administration Flow:` The front-end has been updated to allow selecting none, one, or multiple courses when registering and editing events. When no courses are selected, the event remains available to all courses; when one or more courses are selected, the event is automatically restricted to those courses.
 
-## `./src/types/events.ts:` Updated the event typing to remove the auxiliary field `hasPresenceSecret` and add the field `presenceSecret`, using the secret word itself as the source of truth to identify whether the event has word validation or not.
+### `./src/@Types/EventTypes/index.ts:` Added the `courseIds` and `courseNames` data types to events and creation/editing DTOs, maintaining `courseId` and `courseName` for compatibility with older responses or singular use.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm.ts:` Adjusted the form to load the current secret word of the event, automatically fill in the input on edit, and send the updated value when saving.
+### `./src/components/Inputs/InputMultiSelect/index.tsx:` Created a new reusable multi-select component with a dropdown, "All" option, and visual marking of selected courses.
 
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.tsx:` Removed the use of `hasPresenceSecret` and adjusted the field to directly use `presenceSecret`, displaying the current word in the input during event editing.
+### `./src/components/Inputs/InputMultiSelect/InputMultiSelect.module.css:` The styling for the new multiselect has been created, maintaining the visual standard of existing inputs and ensuring a scrollable list for many courses.
+
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` The form state has been changed from a single `courseValue` to `courseValues`, loading multiple courses in the edit and sending `courseIds` in the creation/edit payload.
+
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` The simple course select has been replaced by the new multiselect for courses, and the semester lock and restriction checkbox have been adjusted based on the number of selected courses.
+
+### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Updated the creation form submission to forward all selected courses as `courseIds`.
+
+### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Updated the edit submission to handle `courseIds` in `FormData`, including when the list is empty to revert the event to "All courses".
+
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Adjusted the public display of event details to list one or more linked courses, using "Course(s)" and pluralizing the message when necessary.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -123,6 +133,7 @@
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
         - `InputField:` Reusable input that changes data based on received props.
         - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected.
+        `InputMultiSelect:` A customized and reusable multi-select component, allowing you to choose none, one, or multiple values ​​via a dropdown with checkboxes. It has an "All" option when no item is selected, displays the chosen values ​​in the field, closes automatically when clicked outside, and supports labels, placeholders, disabled state, dynamic options, and custom className.
         - `InputSelect:` A reusable custom select component, allowing you to replace the use of native `<select>` with a standardized interface in the project, supporting labels, placeholders, disabled state, and dynamic options.
     - `Loader:` Component that shows the user that something is loading.
     - `Modal:` This is like a "window" overlaid on top of the main interface that blocks interaction with background content until closed or confirmed. It's used to display critical information or specific action requests.

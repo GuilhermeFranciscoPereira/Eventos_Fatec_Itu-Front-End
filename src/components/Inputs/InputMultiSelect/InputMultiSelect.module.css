@@ -1,0 +1,153 @@
+.inputMultiSelectField {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.inputMultiSelectField > .fieldLabel {
+    font-size: var(--field-label-font-size);
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--red-primary);
+}
+
+.inputMultiSelectField > .trigger {
+    position: relative;
+    width: var(--field-width);
+    min-height: var(--field-min-height);
+    padding: var(--field-padding);
+    padding-right: 40px;
+    border-radius: var(--field-radius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background-color: var(--field-bg);
+    color: var(--field-color);
+    border: var(--field-border);
+    font-family: var(--field-font-family);
+    font-size: var(--field-font-size);
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.inputMultiSelectField > .trigger:focus {
+    outline: none;
+}
+
+.inputMultiSelectField > .trigger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.inputMultiSelectField > .trigger > .triggerText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inputMultiSelectField > .trigger > .arrow {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-60%) rotate(45deg);
+    transform-origin: center;
+    transition: transform .2s ease;
+    pointer-events: none;
+}
+
+.inputMultiSelectField > .trigger > .arrowOpen {
+    transform: translateY(-50%) rotate(225deg);
+}
+
+.inputMultiSelectField > .dropdown {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    width: 100%;
+    min-width: 250px;
+    max-height: 280px;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 8px;
+    background: var(--background);
+    box-shadow: var(--box-shadow);
+    overflow-y: auto;
+    z-index: 30;
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList {
+    display: grid;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem {
+    position: relative;
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-color);
+    text-align: left;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink:hover,
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink.active {
+    background: rgba(163, 53, 53, .08);
+    color: var(--red-primary);
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink > .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid currentColor;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink > .checkboxChecked {
+    background-color: var(--red-primary);
+    border-color: var(--red-primary);
+}
+
+.inputMultiSelectField > .dropdown > .dropdownList > .dropdownItem > .dropdownLink > .checkboxChecked::after {
+    content: '';
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
+}

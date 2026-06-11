@@ -16,7 +16,20 @@ export function useEditEvent(): useEditEventProps {
 
         if (dto.image) {
             const form = new FormData();
-            Object.entries(dto).forEach(([k, v]) => { if (v !== undefined && k !== 'image') form.append(k, String(v)) });
+            Object.entries(dto).forEach(([k, v]) => {
+                if (v === undefined || k === 'image') return;
+
+                if (k === 'courseIds' && Array.isArray(v)) {
+                    if (v.length) {
+                        v.forEach((courseId) => form.append('courseIds', String(courseId)));
+                    } else {
+                        form.append('courseIds', '');
+                    }
+                    return;
+                }
+
+                form.append(k, String(v));
+            });
             form.append('image', dto.image);
 
             response = await fetch(

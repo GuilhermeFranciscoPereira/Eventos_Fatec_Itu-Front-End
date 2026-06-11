@@ -6,6 +6,7 @@ import InputImage from '@/components/Inputs/InputImage';
 import InputField from '@/components/Inputs/InputField';
 import InputSelect from '@/components/Inputs/InputSelect';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
+import InputMultiSelect from '@/components/Inputs/InputMultiSelect';
 import { useEventForm } from '@/hooks/pages/(private)/Events/id/useEventForm';
 import styles from '@/app/(pages)/(private)/Events/[id]/EventForm.module.css';
 
@@ -31,7 +32,7 @@ const FieldShell = ({ label, children, className }: { label: string; children: R
 }
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValue, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValues, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -77,25 +78,22 @@ export default function EventForm(): React.ReactElement {
         </div>
 
         <div className={styles.row}>
-          <InputSelect
-            label="Curso"
-            value={courseValue}
+          <InputMultiSelect
+            label="Cursos"
+            value={courseValues}
             onChange={handleCourseChangeUI}
-            options={[
-              { label: 'Todos', value: '' },
-              ...courses
-                .filter(({ name }) => name)
-                .map(({ id, name }) => ({
-                  label: name as string,
-                  value: String(id),
-                })),
-            ]}
+            options={courses
+              .filter(({ name }) => name)
+              .map(({ id, name }) => ({
+                label: name as string,
+                value: String(id),
+              }))}
           />
 
           <InputSelect
             label="Semestre"
             value={semesterValue}
-            disabled={courseValue === ''}
+            disabled={!courseValues.length}
             onChange={handleSemesterChangeUI}
             options={[
               { label: 'Não especificar', value: '' },
@@ -211,8 +209,8 @@ export default function EventForm(): React.ReactElement {
             <InputCheckbox
               ref={restrictedRef}
               label="Evento Restrito?"
-              disabled={courseValue !== ''}
-              title={courseValue !== '' ? 'Eventos vinculados a um curso são automaticamente restritos' : ''}
+              disabled={courseValues.length > 0}
+              title={courseValues.length > 0 ? 'Eventos vinculados a cursos são automaticamente restritos' : ''}
             />
           </div>
         </div>
