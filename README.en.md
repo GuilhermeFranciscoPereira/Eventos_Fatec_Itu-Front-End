@@ -26,23 +26,19 @@
 
 ## 🛎️ Updates to this commit
 
-### `Multi-Day Event Flow:` Added to the front-end the ability to mark that an event occurs over more than one day, allowing you to specify an end date for cases such as hackathons, academic weeks, and long events.
+### `Carousel management flow:` Added drag-and-drop reordering to the carousel item list and adjusted the `Order` field rule to accept only positive integers within the allowed limit during creation and editing.
 
-### `./src/@Types/EventTypes/index.ts:` Added the `endDate` field to event types, creation and editing, representing the optional end date of the event.
+### `./src/@Types/CarouselTypes/index.ts:` Adjusted the carousel creation type to allow optional `order`, making it possible to automatically place a new image in the last position when the field is left empty.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Added control of `isMultiDay`, `endDateRef`, and `loadedEndDate`, loading the end date on edit, validating if it is later than or equal to the start date, and sending `endDate` along with the payload when the event spans multiple days.
+### `./src/app/(pages)/(private)/Carousel/page.tsx:` Replaced the table with a responsive list using local ordering state, drag-and-drop support, a visual grip icon after the trash icon, API persistence for the new position, and visual rollback if the request fails.
 
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` Added the checkbox "Does the event occur over more than one day?" and the field "Event end date", displayed only when the checkbox is checked.
+### `./src/app/(pages)/(private)/Carousel/Carousel.module.css:` Created the styles for the new carousel list, including dragged item state, target item state, icon actions, order badge, image preview, and responsive adjustments for smaller screens.
 
-### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Updated the event creation submission to include `endDate` when the event has an end date.
+### `./src/hooks/api/Carousel/Post/useCreateCarousel/index.ts:` Adjusted the creation request to include `order` in the `FormData` only when the user provides an order.
 
-### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Adjusted the edit submission via `FormData` to allow clearing null fields, making it possible to remove the end date when the event reverts to being a single-day event.
+### `./src/hooks/api/Carousel/Patch/useEditCarousel/index.ts:` Added the `useReorderCarousel` hook, responsible for persisting only the item's new order through PATCH without triggering a toast on every drag.
 
-### `./src/hooks/pages/(private)/Events/useEventsPage/index.ts:` Adjusted the formatting of the administrative events table to display a date range when `endDate` exists.
-
-### `./src/components/CardEvents/index.tsx:` Adjusted public cards to display the date range and to filter events by intersection with the searched period, considering events that start before and end within the filter.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Updated the event date display to show the range when an end date exists.
+### `./src/hooks/pages/(private)/Carousel/useCarouselPage/index.ts:` Exposed the new reordering hook to the carousel management screen, keeping integration with creation, editing, deletion, activation, and list reloading.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

@@ -4,10 +4,11 @@ import { useToastStore } from "@/stores/useToastStore";
 import { useCreateCarousel } from "@/hooks/api/Carousel/Post/useCreateCarousel";
 import { useGetAllCarousels } from "@/hooks/api/Carousel/Get/useGetAllCarousels";
 import { useDeleteCarousel } from "@/hooks/api/Carousel/Delete/useDeleteCarousel";
-import { useEditCarousel, useToggleActiveCarousel } from "@/hooks/api/Carousel/Patch/useEditCarousel";
+import { useEditCarousel, useReorderCarousel, useToggleActiveCarousel } from "@/hooks/api/Carousel/Patch/useEditCarousel";
 
 export function useCarouselPage() {
     const editCarousel = useEditCarousel();
+    const reorderCarousel = useReorderCarousel();
     const createCarousel = useCreateCarousel();
     const deleteCarousel = useDeleteCarousel();
     const toggleActive = useToggleActiveCarousel();
@@ -25,5 +26,5 @@ export function useCarouselPage() {
         refetch();
     }
 
-    return { editCarousel, createCarousel, deleteCarousel, openModal, showToast, handleToggle, carousels, loading, refetch, nameRef, orderRef, activeRef, selectedFileRef }
+    return { editCarousel, reorderCarousel, createCarousel, deleteCarousel, openModal, showToast, handleToggle, carousels, loading, refetch, nameRef, orderRef, activeRef, selectedFileRef }
 }

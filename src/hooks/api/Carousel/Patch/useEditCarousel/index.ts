@@ -10,6 +10,10 @@ type useToggleActiveCarouselProps = {
   (id: number, isActive: boolean): Promise<void>
 }
 
+type useReorderCarouselProps = {
+  (id: number, order: number): Promise<void>;
+}
+
 export function useEditCarousel(): useEditCarouselProps {
   const showToast = useToastStore(s => s.showToast);
 
@@ -51,6 +55,27 @@ export function useEditCarousel(): useEditCarouselProps {
       showToast({ message: 'Carrossel atualizado!', type: 'success' });
     },
     [showToast]
+  );
+}
+
+export function useReorderCarousel(): useReorderCarouselProps {
+  return useCallback(
+    async (id: number, order: number) => {
+      const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
+
+      const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/${id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+        body: JSON.stringify({ order }),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.message || 'Falha ao reordenar carrossel');
+      }
+    },
+    []
   );
 }
 

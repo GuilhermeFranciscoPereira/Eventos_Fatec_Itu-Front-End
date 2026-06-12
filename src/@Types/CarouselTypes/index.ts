@@ -11,7 +11,7 @@ export type CarouselProps = {
 export type CreateCarouselDto = {
     name: string;
     isActive: boolean;
-    order: number;
+    order?: number;
     image: File;
 }
 

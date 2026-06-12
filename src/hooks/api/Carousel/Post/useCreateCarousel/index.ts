@@ -14,7 +14,7 @@ export function useCreateCarousel(): useCreateCarouselProps {
 
         const form = new FormData();
         form.append('name', dto.name);
-        form.append('order', String(dto.order));
+        if (dto.order !== undefined) form.append('order', String(dto.order));
         form.append('isActive', String(dto.isActive));
         form.append('image', dto.image);
 

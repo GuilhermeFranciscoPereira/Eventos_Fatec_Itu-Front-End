@@ -26,23 +26,19 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Fluxo de eventos com mais de um dia:` Adicionada ao front-end a possibilidade de marcar que um evento ocorre em mais de um dia, permitindo informar uma data final para casos como hackathons, semanas acadêmicas e eventos longos.
+### `Fluxo de gerenciamento do carrossel:` Adicionada reordenação por arrastar e soltar na lista de itens do carrossel e ajustada a regra do campo `Ordem` para aceitar apenas inteiros positivos dentro do limite permitido em criação e edição.
 
-### `./src/@Types/EventTypes/index.ts:` Adicionado o campo `endDate` nas tipagens de eventos, criação e edição, representando a data final opcional do evento.
+### `./src/@Types/CarouselTypes/index.ts:` Ajustada a tipagem de criação do carrossel para permitir `order` opcional, possibilitando que uma nova imagem seja inserida automaticamente na última posição quando o campo vier vazio.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Adicionado controle de `isMultiDay`, `endDateRef` e `loadedEndDate`, carregando a data final na edição, validando se ela é posterior ou igual à data inicial e enviando `endDate` junto ao payload quando o evento tiver múltiplos dias.
+### `./src/app/(pages)/(private)/Carousel/page.tsx:` Substituída a tabela por uma lista responsiva com estado local de ordenação, suporte a drag and drop, ícone visual de grip após a lixeira, persistência da nova posição via API e rollback visual caso a requisição falhe.
 
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` Inserido o checkbox "Evento ocorre em mais de um dia?" e o campo "Data final do Evento", exibido somente quando o checkbox está marcado.
+### `./src/app/(pages)/(private)/Carousel/Carousel.module.css:` Criados os estilos da nova lista do carrossel, incluindo estados de item arrastado, item de destino, ações por ícone, badge de ordem, preview da imagem e ajustes responsivos para telas menores.
 
-### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Atualizado o envio da criação de eventos para incluir `endDate` quando o evento possuir data final.
+### `./src/hooks/api/Carousel/Post/useCreateCarousel/index.ts:` Ajustado o envio de criação para incluir `order` no `FormData` somente quando o usuário informar uma ordem.
 
-### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Ajustado o envio de edição via `FormData` para permitir limpar campos nulos, possibilitando remover a data final quando o evento voltar a ser de apenas um dia.
+### `./src/hooks/api/Carousel/Patch/useEditCarousel/index.ts:` Adicionado o hook `useReorderCarousel`, responsável por persistir apenas a nova ordem do item via PATCH sem disparar toast a cada arraste.
 
-### `./src/hooks/pages/(private)/Events/useEventsPage/index.ts:` Ajustada a formatação da tabela administrativa de eventos para exibir intervalo de datas quando existir `endDate`.
-
-### `./src/components/CardEvents/index.tsx:` Ajustados os cards públicos para exibir o intervalo de datas e para filtrar eventos por interseção com o período pesquisado, considerando eventos que começam antes e terminam dentro do filtro.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Atualizada a exibição da data do evento para mostrar intervalo quando houver data final.
+### `./src/hooks/pages/(private)/Carousel/useCarouselPage/index.ts:` Exposto o novo hook de reordenação para a tela de gerenciamento do carrossel, mantendo a integração com criação, edição, exclusão, ativação e recarregamento da listagem.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
