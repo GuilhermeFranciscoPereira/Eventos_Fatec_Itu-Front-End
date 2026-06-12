@@ -11,6 +11,8 @@ import { useGetAvailabilityTimes } from '@/hooks/api/Events/Get/useGetAvailabili
 import type { Semester, AvailabilityTime, CreateEventDto, UpdateEventDto } from '@/@Types/EventTypes';
 
 const semesterOptions = ['SEMESTER1', 'SEMESTER2', 'SEMESTER3', 'SEMESTER4', 'SEMESTER5', 'SEMESTER6', 'ALL', 'ESPECIAL'] as const
+const BUSINESS_START = '07:00'
+const BUSINESS_END = '22:00'
 
 function parseTime(hhmm: string): number {
     const [h, m] = hhmm.split(':').map(Number)
@@ -45,6 +47,7 @@ export function useEventForm() {
     const durationRef = useRef<HTMLInputElement>(null)
     const customLocRef = useRef<HTMLInputElement>(null)
     const startDateRef = useRef<HTMLInputElement>(null)
+    const endDateRef = useRef<HTMLInputElement>(null)
     const restrictedRef = useRef<HTMLInputElement>(null)
     const presenceSecretRef = useRef<HTMLInputElement>(null)
 
@@ -52,7 +55,9 @@ export function useEventForm() {
     const [loading, setLoading] = useState<boolean>(false)
     const [startTime, setStartTime] = useState<string>('')
     const [isOnline, setIsOnline] = useState<boolean>(false)
+    const [isMultiDay, setIsMultiDay] = useState<boolean>(false)
     const [loadedDate, setLoadedDate] = useState<string>('')
+    const [loadedEndDate, setLoadedEndDate] = useState<string>('')
     const [courseValues, setCourseValues] = useState<string[]>([])
     const [endOptions, setEndOptions] = useState<string[]>([])
     const today: string = new Date().toISOString().split('T')[0]
@@ -93,7 +98,10 @@ export function useEventForm() {
                     restrictedRef.current!.checked = e.isRestricted
                     setIsOnline(categories.find(c => c.id === e.categoryId)?.name === 'Curso Online')
                     const day = e.startDate.split('T')[0]
+                    const endDay = e.endDate ? e.endDate.split('T')[0] : ''
                     setLoadedDate(day)
+                    setLoadedEndDate(endDay)
+                    setIsMultiDay(Boolean(endDay))
                     startDateRef.current!.value = day
                     const times = e.locationName.toLowerCase() === 'outros'
                         ? [{ start: '07:00', end: '22:00' }]
@@ -108,15 +116,21 @@ export function useEventForm() {
                     )
                     const init = e.startTime.slice(11, 16)
                     setStartTime(init)
-                    setEndOptions(
-                        times.flatMap(({ end }) => {
-                            const s0 = parseTime(init) + 30
-                            const eMax = parseTime(end)
-                            return s0 > eMax
-                                ? []
-                                : Array.from({ length: Math.floor((eMax - s0) / 30) + 1 }, (_, i) => formatTime(s0 + i * 30))
-                        }),
-                    )
+                    if (endDay && endDay > day) {
+                        const firstEnd = parseTime(BUSINESS_START)
+                        const lastEnd = parseTime(BUSINESS_END)
+                        setEndOptions(Array.from({ length: Math.floor((lastEnd - firstEnd) / 30) + 1 }, (_, i) => formatTime(firstEnd + i * 30)))
+                    } else {
+                        setEndOptions(
+                            times.flatMap(({ end }) => {
+                                const s0 = parseTime(init) + 30
+                                const eMax = parseTime(end)
+                                return s0 > eMax
+                                    ? []
+                                    : Array.from({ length: Math.floor((eMax - s0) / 30) + 1 }, (_, i) => formatTime(s0 + i * 30))
+                            }),
+                        )
+                    }
                     setEndTime(e.endTime.slice(11, 16))
                 } catch (err: unknown) {
                     const msg = err instanceof Error ? err.message : String(err)
@@ -149,6 +163,8 @@ export function useEventForm() {
             setAvailableDates([])
             setAvailableTimes([])
             startDateRef.current!.value = ''
+            if (endDateRef.current) endDateRef.current.value = ''
+            setLoadedEndDate('')
         }
     }
 
@@ -171,6 +187,8 @@ export function useEventForm() {
         }
 
         startDateRef.current!.value = ''
+        if (endDateRef.current) endDateRef.current.value = ''
+        setLoadedEndDate('')
         setStartTime('')
         setEndTime('')
         setStartOptions([])
@@ -179,6 +197,11 @@ export function useEventForm() {
 
     async function handleDateChange(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
         if (!e.target.value) return
+
+        if (endDateRef.current?.value && endDateRef.current.value < e.target.value) {
+            endDateRef.current.value = ''
+            setLoadedEndDate('')
+        }
 
         const selectedLocationId = Number(locationValue)
         const selectedLocation = locations.find(location => location.id === selectedLocationId)
@@ -210,6 +233,15 @@ export function useEventForm() {
         const m0 = parseTime(value) + 30
         const selectedLocationId = Number(locationValue)
         const selectedLocation = locations.find(location => location.id === selectedLocationId)
+        const startDay = startDateRef.current?.value || loadedDate
+        const endDay = endDateRef.current ? endDateRef.current.value : loadedEndDate
+
+        if (isMultiDay && startDay && endDay && endDay > startDay) {
+            const firstEnd = parseTime(BUSINESS_START)
+            const lastEnd = parseTime(BUSINESS_END)
+            setEndOptions(Array.from({ length: Math.floor((lastEnd - firstEnd) / 30) + 1 }, (_, i) => formatTime(firstEnd + i * 30)))
+            return
+        }
 
         const times =
             selectedLocation?.name.toLowerCase() === 'outros' || isOnline
@@ -223,6 +255,33 @@ export function useEventForm() {
                 })
 
         setEndOptions([...new Set(times)])
+    }
+
+    function handleMultiDayChange(checked: boolean): void {
+        setIsMultiDay(checked)
+
+        if (!checked) {
+            if (endDateRef.current) endDateRef.current.value = ''
+            setLoadedEndDate('')
+            setEndTime('')
+            setEndOptions([])
+            if (startTime) handleStartTimeChange(startTime)
+        }
+    }
+
+    function handleEndDateChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        const startDay = startDateRef.current?.value || loadedDate
+
+        if (startDay && e.target.value && e.target.value < startDay) {
+            e.target.value = ''
+            setLoadedEndDate('')
+            showToast({ message: 'A data final deve ser igual ou posterior Ã  data inicial.', type: 'warning' })
+            return
+        }
+
+        setLoadedEndDate(e.target.value)
+        setEndTime('')
+        if (startTime) handleStartTimeChange(startTime)
     }
 
     function handleCourseChangeUI(value: string[]): void {
@@ -247,6 +306,20 @@ export function useEventForm() {
         }
         setLoading(true)
         const day = startDateRef.current!.value || loadedDate
+        const endDay = isMultiDay ? (endDateRef.current?.value || loadedEndDate) : day
+
+        if (isMultiDay && !endDay) {
+            showToast({ message: 'Informe a data final do evento.', type: 'warning' })
+            setLoading(false)
+            return
+        }
+
+        if (endDay < day) {
+            showToast({ message: 'A data final deve ser igual ou posterior Ã  data inicial.', type: 'warning' })
+            setLoading(false)
+            return
+        }
+
         const courseIds = courseValues.map(Number)
         const presenceSecretValue = presenceSecretRef.current?.value.trim() ?? ''
         const base = {
@@ -262,8 +335,9 @@ export function useEventForm() {
                 : undefined,
             speakerName: speakerRef.current!.value.trim(),
             startDate: `${day}T00:00:00Z`,
+            endDate: isMultiDay ? `${endDay}T00:00:00Z` : null,
             startTime: `${day}T${startTime}:00Z`,
-            endTime: `${day}T${endTime}:00Z`,
+            endTime: `${endDay}T${endTime}:00Z`,
             duration: durationRef.current?.value ? Number(durationRef.current.value) : undefined,
             categoryId: categoryValue ? Number(categoryValue) : undefined,
             presenceSecret: presenceSecretValue || null,
@@ -291,5 +365,5 @@ export function useEventForm() {
         }
     }
 
-    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValues, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
+    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValues, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isMultiDay, isOtherLocation, today, loadedDate, loadedEndDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, endDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleEndDateChange, handleMultiDayChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
 }

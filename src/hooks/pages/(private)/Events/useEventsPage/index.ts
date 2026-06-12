@@ -11,7 +11,11 @@ export function useEventsPage() {
     const { events, loading, refetch } = useGetAllEvents();
 
     function formatEventDateTime(event: EventProps): string {
-        const date = new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+        const startDate = new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+        const endDate = event.endDate
+            ? new Date(event.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+            : null;
+        const date = endDate && endDate !== startDate ? `${startDate} até ${endDate}` : startDate;
 
         const start = new Date(event.startTime).toLocaleTimeString('pt-BR', {
             hour: '2-digit',

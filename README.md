@@ -26,9 +26,23 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Fluxo de inputs do sistema:` Ajustado o comportamento do componente de input reutilizável para aplicar formatação automática de capitalização somente em campos do tipo `text`, mantendo campos de senha e numéricos sem alteração automática de valor.
+### `Fluxo de eventos com mais de um dia:` Adicionada ao front-end a possibilidade de marcar que um evento ocorre em mais de um dia, permitindo informar uma data final para casos como hackathons, semanas acadêmicas e eventos longos.
 
-### `./src/components/Inputs/InputField/index.tsx:` Alterada a regra de formatação do input para transformar e-mails em minúsculo, capitalizar apenas campos do tipo `text` e preservar o valor original de campos do tipo `password` e `number`.
+### `./src/@Types/EventTypes/index.ts:` Adicionado o campo `endDate` nas tipagens de eventos, criação e edição, representando a data final opcional do evento.
+
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Adicionado controle de `isMultiDay`, `endDateRef` e `loadedEndDate`, carregando a data final na edição, validando se ela é posterior ou igual à data inicial e enviando `endDate` junto ao payload quando o evento tiver múltiplos dias.
+
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` Inserido o checkbox "Evento ocorre em mais de um dia?" e o campo "Data final do Evento", exibido somente quando o checkbox está marcado.
+
+### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Atualizado o envio da criação de eventos para incluir `endDate` quando o evento possuir data final.
+
+### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Ajustado o envio de edição via `FormData` para permitir limpar campos nulos, possibilitando remover a data final quando o evento voltar a ser de apenas um dia.
+
+### `./src/hooks/pages/(private)/Events/useEventsPage/index.ts:` Ajustada a formatação da tabela administrativa de eventos para exibir intervalo de datas quando existir `endDate`.
+
+### `./src/components/CardEvents/index.tsx:` Ajustados os cards públicos para exibir o intervalo de datas e para filtrar eventos por interseção com o período pesquisado, considerando eventos que começam antes e terminam dentro do filtro.
+
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Atualizada a exibição da data do evento para mostrar intervalo quando houver data final.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

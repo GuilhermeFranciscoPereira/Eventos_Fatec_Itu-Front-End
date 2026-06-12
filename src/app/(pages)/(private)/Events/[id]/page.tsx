@@ -32,7 +32,7 @@ const FieldShell = ({ label, children, className }: { label: string; children: R
 }
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValues, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isOtherLocation, today, loadedDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValues, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isMultiDay, isOtherLocation, today, loadedDate, loadedEndDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, endDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleEndDateChange, handleMultiDayChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -154,6 +154,32 @@ export default function EventForm(): React.ReactElement {
               required
             />
           </FieldShell>
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.restrictedCheckboxWrapper}>
+            <InputCheckbox
+              checked={isMultiDay}
+              label="Evento ocorre em mais de um dia?"
+              onChange={(event) => handleMultiDayChange(event.target.checked)}
+            />
+          </div>
+
+          {isMultiDay ? (
+            <FieldShell label="Data final do Evento">
+              <input
+                ref={endDateRef}
+                type="date"
+                className={styles.nativeField}
+                defaultValue={loadedEndDate || ''}
+                min={startDateRef.current?.value || loadedDate || today}
+                onChange={handleEndDateChange}
+                required
+              />
+            </FieldShell>
+          ) : (
+            <div />
+          )}
         </div>
 
         <div className={styles.row}>

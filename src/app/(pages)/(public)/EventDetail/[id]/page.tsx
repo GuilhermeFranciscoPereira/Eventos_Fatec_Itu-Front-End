@@ -29,6 +29,13 @@ export default function EventDetail(): React.ReactElement {
         ? event.courseNames
         : courseIds.map((courseId) => publicCourses.find(c => c.id === courseId)?.name ?? 'Carregando...');
     const courseLabel = courseIds.length ? courseNames.join(', ') : 'Todos os cursos';
+    const startDateLabel = new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    const endDateLabel = event.endDate
+        ? new Date(event.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+        : null;
+    const dateLabel = endDateLabel && endDateLabel !== startDateLabel
+        ? `${startDateLabel} até ${endDateLabel}`
+        : startDateLabel;
     if (loading) return <Loader />;
 
     return (
@@ -90,7 +97,7 @@ export default function EventDetail(): React.ReactElement {
                         <MdEvent size={20} className={styles.icon} />
                         <strong className={styles.label}>Data:</strong>
                         <p className={styles.infoText}>
-                            {new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} – {' '}
+                            {dateLabel} – {' '}
                             {[event.startTime, event.endTime].map(t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' às ')}
                         </p>
                     </div>

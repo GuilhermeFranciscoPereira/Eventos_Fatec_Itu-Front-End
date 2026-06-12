@@ -26,9 +26,23 @@
 
 ## 🛎️ Updates to this commit
 
-### `System Input Flow:` Adjusted the behavior of the reusable input component to apply automatic capitalization formatting only to `text` type fields, keeping password and numeric fields without automatic value changes.
+### `Multi-Day Event Flow:` Added to the front-end the ability to mark that an event occurs over more than one day, allowing you to specify an end date for cases such as hackathons, academic weeks, and long events.
 
-### `./src/components/Inputs/InputField/index.tsx:` Changed the input formatting rule to convert emails to lowercase, capitalize only `text` type fields, and preserve the original value of `password` and `number` type fields.
+### `./src/@Types/EventTypes/index.ts:` Added the `endDate` field to event types, creation and editing, representing the optional end date of the event.
+
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Added control of `isMultiDay`, `endDateRef`, and `loadedEndDate`, loading the end date on edit, validating if it is later than or equal to the start date, and sending `endDate` along with the payload when the event spans multiple days.
+
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx:` Added the checkbox "Does the event occur over more than one day?" and the field "Event end date", displayed only when the checkbox is checked.
+
+### `./src/hooks/api/Events/Post/useCreateEvent/index.ts:` Updated the event creation submission to include `endDate` when the event has an end date.
+
+### `./src/hooks/api/Events/Patch/useEditEvent/index.ts:` Adjusted the edit submission via `FormData` to allow clearing null fields, making it possible to remove the end date when the event reverts to being a single-day event.
+
+### `./src/hooks/pages/(private)/Events/useEventsPage/index.ts:` Adjusted the formatting of the administrative events table to display a date range when `endDate` exists.
+
+### `./src/components/CardEvents/index.tsx:` Adjusted public cards to display the date range and to filter events by intersection with the searched period, considering events that start before and end within the filter.
+
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Updated the event date display to show the range when an end date exists.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

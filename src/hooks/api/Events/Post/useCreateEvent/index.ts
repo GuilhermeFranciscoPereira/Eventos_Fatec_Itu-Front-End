@@ -23,6 +23,7 @@ export function useCreateEvent(): UseCreateEvent {
         if (dto.customLocation) form.append('customLocation', dto.customLocation)
         form.append('speakerName', dto.speakerName)
         form.append('startDate', dto.startDate)
+        if (dto.endDate) form.append('endDate', dto.endDate)
         form.append('startTime', dto.startTime)
         form.append('endTime', dto.endTime)
         if (dto.duration !== undefined) form.append('duration', String(dto.duration))

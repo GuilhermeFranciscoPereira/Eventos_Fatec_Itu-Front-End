@@ -19,6 +19,11 @@ export function useEditEvent(): useEditEventProps {
             Object.entries(dto).forEach(([k, v]) => {
                 if (v === undefined || k === 'image') return;
 
+                if (v === null) {
+                    form.append(k, '');
+                    return;
+                }
+
                 if (k === 'courseIds' && Array.isArray(v)) {
                     if (v.length) {
                         v.forEach((courseId) => form.append('courseIds', String(courseId)));

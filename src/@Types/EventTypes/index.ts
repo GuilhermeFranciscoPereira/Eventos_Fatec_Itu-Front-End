@@ -25,6 +25,7 @@ export interface EventProps {
     customLocation: string | null;
     speakerName: string;
     startDate: string;
+    endDate: string | null;
     startTime: string;
     endTime: string;
     duration: number | null;
@@ -46,6 +47,7 @@ export interface CreateEventDto {
     customLocation?: string;
     speakerName: string;
     startDate: string;
+    endDate?: string | null;
     startTime: string;
     endTime: string;
     duration?: number;
@@ -66,6 +68,7 @@ export interface UpdateEventDto {
     customLocation?: string;
     speakerName?: string;
     startDate?: string;
+    endDate?: string | null;
     startTime?: string;
     endTime?: string;
     duration?: number;
@@ -94,6 +97,7 @@ export type EventPublicResponse = {
     customLocation: string | null;
     speakerName: string;
     startDate: Date;
+    endDate: Date | null;
     startTime: Date;
     endTime: Date;
     duration: number | null;

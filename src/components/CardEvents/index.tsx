@@ -49,16 +49,17 @@ export default function CardEvents({
             if (showFilters) {
                 if (filters.name && !e.name.toLowerCase().includes(filters.name.toLowerCase())) return false;
 
-                const evDate = new Date(e.startDate);
+                const evStartDate = new Date(e.startDate);
+                const evEndDate = e.endDate ? new Date(e.endDate) : evStartDate;
 
                 if (filters.startDate) {
                     const start = new Date(`${filters.startDate}T00:00:00`);
-                    if (!isNaN(start.getTime()) && evDate < start) return false;
+                    if (!isNaN(start.getTime()) && evEndDate < start) return false;
                 }
 
                 if (filters.endDate) {
                     const end = new Date(`${filters.endDate}T23:59:59`);
-                    if (!isNaN(end.getTime()) && evDate > end) return false;
+                    if (!isNaN(end.getTime()) && evStartDate > end) return false;
                 }
 
                 if (typeof filters.categoryId === 'number' && e.categoryId !== filters.categoryId) return false;
@@ -121,7 +122,16 @@ export default function CardEvents({
 
             {hasItems ? (
                 <section className={styles.cardEventsSection}>
-                    {filtered.map((event: EventPublicResponse) => (
+                    {filtered.map((event: EventPublicResponse) => {
+                        const startDateLabel = new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const endDateLabel = event.endDate
+                            ? new Date(event.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+                            : null;
+                        const dateLabel = endDateLabel && endDateLabel !== startDateLabel
+                            ? `${startDateLabel} até ${endDateLabel}`
+                            : startDateLabel;
+
+                        return (
                         <article key={event.id} className={styles.card}>
                             <div className={styles.cardInt}>
                                 {event.isRestricted && <span className={styles.badge}>Fatecano</span>}
@@ -138,7 +148,7 @@ export default function CardEvents({
                                     <p className={styles.title}>{event.name}</p>
                                     <p>
                                         Data:{' '}
-                                        {new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })} -{' '}
+                                        {dateLabel} -{' '}
                                         {[event.startTime, event.endTime]
                                             .map((t) =>
                                                 new Date(t).toLocaleTimeString('pt-BR', {
@@ -164,7 +174,8 @@ export default function CardEvents({
                                 </div>
                             </div>
                         </article>
-                    ))}
+                        );
+                    })}
                 </section>
             ) : (
                 <section className={styles.emptyStateSection}>
