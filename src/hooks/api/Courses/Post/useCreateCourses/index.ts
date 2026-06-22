@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 
 export type CreateCourseDto = { name: string };
@@ -11,11 +12,10 @@ export function useCreateCourse(): useCreateCourseProps {
     const showToast = useToastStore((s) => s.showToast);
 
     return useCallback(async (dto: CreateCourseDto) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/courses/create`, {
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/courses/create`, {
             method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            csrf: true,
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dto),
         });
         if (!response.ok) {

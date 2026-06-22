@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { CreateLocationDto } from '@/@Types/LocationsTypes';
 
@@ -10,12 +11,10 @@ export function useCreateLocation(): useCreateLocationProps {
     const showToast = useToastStore((s) => s.showToast);
 
     return useCallback(async (dto: CreateLocationDto) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/locations/create`, {
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/locations/create`, {
             method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            csrf: true,
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dto),
         });
 

@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { apiFetch } from '@/hooks/api/client'
 import { CreateEventDto } from '@/@Types/EventTypes'
 import { useToastStore } from '@/stores/useToastStore'
 
@@ -10,8 +11,6 @@ export function useCreateEvent(): UseCreateEvent {
     const showToast = useToastStore(s => s.showToast)
 
     return useCallback(async (dto) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(r => r.json())
-
         const form = new FormData()
         form.append('name', dto.name)
         form.append('description', dto.description)
@@ -31,10 +30,9 @@ export function useCreateEvent(): UseCreateEvent {
         if (dto.presenceSecret) form.append('presenceSecret', dto.presenceSecret)
         form.append('image', dto.image)
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/create`, {
+        const res = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/events/create`, {
             method: 'POST',
-            credentials: 'include',
-            headers: { 'X-CSRF-Token': csrfToken },
+            csrf: true,
             body: form,
         })
 

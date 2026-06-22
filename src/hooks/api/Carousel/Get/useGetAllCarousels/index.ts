@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { getMe } from '@/hooks/api/Auth/Get/getMe';
+import { apiFetch } from '@/hooks/api/client';
 import { useCallback, useState, useEffect } from 'react';
 import { CarouselProps, CarouselPublicResponse } from '@/@Types/CarouselTypes';
 
@@ -21,20 +21,11 @@ export function useGetAllCarousels(): useGetAllCarouselsProps {
 
     const fetchAll = useCallback(async () => {
         setLoading(true);
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-
-        let response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel`, {
-            credentials: 'include', headers: { 'X-CSRF-Token': csrfToken }
-        });
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel`);
         if (response.status === 401) {
-            try {
-                await getMe();
-                response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel`, { credentials: 'include', headers: { 'X-CSRF-Token': csrfToken } });
-            }
-            catch (err: unknown) {
-                console.log('Error in: useCodeInputValidation() <---> Erro:', err instanceof Error ? err.message : String(err));
-                return router.push('/');
-            }
+            router.push('/');
+            setLoading(false);
+            return;
         }
         const data = await response.json();
         setRecords(data);
@@ -62,4 +53,4 @@ export function useGetAllCarouselsPublic(): useGetAllCarouselsPublicProps {
     useEffect(() => { fetchAll() }, [fetchAll]);
 
     return { records, refetch: fetchAll };
-} 
+}

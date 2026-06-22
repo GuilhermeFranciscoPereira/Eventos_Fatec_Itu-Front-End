@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 
 type useGetAvailabilityDatesProps = {
     (locationId: number): Promise<string[]>;
@@ -6,7 +7,7 @@ type useGetAvailabilityDatesProps = {
 
 export function useGetAvailabilityDates(): useGetAvailabilityDatesProps {
     return useCallback(async (locationId: number) => {
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/availability/dates?locationId=${encodeURIComponent(locationId)}`, { credentials: 'include' });
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/events/availability/dates?locationId=${encodeURIComponent(locationId)}`);
         if (!response.ok) {
             const err = await response.json();
             console.log(err);

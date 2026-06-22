@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { CreateCarouselDto } from '@/@Types/CarouselTypes';
 
@@ -10,18 +11,15 @@ export function useCreateCarousel(): useCreateCarouselProps {
     const showToast = useToastStore(s => s.showToast);
 
     return useCallback(async (dto: CreateCarouselDto) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-
         const form = new FormData();
         form.append('name', dto.name);
         if (dto.order !== undefined) form.append('order', String(dto.order));
         form.append('isActive', String(dto.isActive));
         form.append('image', dto.image);
 
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/create`, {
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/create`, {
             method: 'POST',
-            credentials: 'include',
-            headers: { 'X-CSRF-Token': csrfToken },
+            csrf: true,
             body: form
         });
         if (!response.ok) throw new Error((await response.json()).message);

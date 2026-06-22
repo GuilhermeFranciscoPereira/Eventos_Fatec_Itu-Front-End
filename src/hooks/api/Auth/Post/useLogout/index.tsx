@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { SlLogout } from 'react-icons/sl';
 import { useRouter } from 'next/navigation';
+import { apiFetch } from '@/hooks/api/client';
 import { useUserStore } from '@/stores/useUserStore';
 import { useModalStore } from '@/stores/useModalStore';
 import { useToastStore } from '@/stores/useToastStore';
@@ -16,11 +17,10 @@ export function useLogout(): useLogout {
 
     const executeLogout = useCallback(async () => {
         try {
-            const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-            const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/auth/logout`, {
+            const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/auth/logout`, {
                 method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+                csrf: true,
+                headers: { 'Content-Type': 'application/json' },
             });
             if (!response.ok) {
                 showToast({ message: 'Falha no logout, tente novamente!', type: 'error' });

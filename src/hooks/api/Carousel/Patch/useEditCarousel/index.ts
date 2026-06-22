@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { UpdateCarouselDto } from '@/@Types/CarouselTypes';
 
@@ -19,7 +20,6 @@ export function useEditCarousel(): useEditCarouselProps {
 
   return useCallback(
     async (id, dto) => {
-      const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
       let response: Response;
       if (dto.image) {
         const form = new FormData();
@@ -28,17 +28,16 @@ export function useEditCarousel(): useEditCarouselProps {
         if (dto.isActive !== undefined) form.append('isActive', String(dto.isActive));
         form.append('image', dto.image);
 
-        response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/${id}`, {
+        response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/${id}`, {
           method: 'PATCH',
-          credentials: 'include',
-          headers: { 'X-CSRF-Token': csrfToken },
+          csrf: true,
           body: form,
         });
       } else {
-        response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/${id}`, {
+        response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/${id}`, {
           method: 'PATCH',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+          csrf: true,
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: dto.name,
             order: dto.order,
@@ -61,12 +60,10 @@ export function useEditCarousel(): useEditCarouselProps {
 export function useReorderCarousel(): useReorderCarouselProps {
   return useCallback(
     async (id: number, order: number) => {
-      const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-
-      const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/${id}`, {
+      const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/${id}`, {
         method: 'PATCH',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+        csrf: true,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ order }),
       });
 
@@ -84,12 +81,10 @@ export function useToggleActiveCarousel(): useToggleActiveCarouselProps {
 
   return useCallback(
     async (id: number, isActive: boolean) => {
-      const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-
-      const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/toggle/${id}`, {
+      const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/patch/toggle/${id}`, {
         method: 'PATCH',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+        csrf: true,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isActive }),
       });
       if (!response.ok) {

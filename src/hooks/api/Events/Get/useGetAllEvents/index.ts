@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { getMe } from '@/hooks/api/Auth/Get/getMe';
+import { apiFetch } from '@/hooks/api/client';
 import { useState, useEffect, useCallback } from 'react';
 import { EventProps, EventPublicResponse } from '@/@Types/EventTypes';
 
@@ -22,18 +22,10 @@ export function useGetAllEvents(): useGetAllEventsProps {
     const fetchEvents = useCallback(async () => {
         setLoading(true);
         try {
-            let response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events`, {
-                credentials: 'include'
-            });
+            const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/events`);
             if (response.status === 401) {
-                try {
-                    await getMe();
-                    response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events`, { credentials: 'include' });
-                }
-                catch (err: unknown) {
-                    console.log('Error in: useCodeInputValidation() <---> Erro:', err instanceof Error ? err.message : String(err));
-                    return router.push('/');
-                }
+                router.push('/');
+                return;
             }
             if (!response.ok) {
                 const err = await response.json();

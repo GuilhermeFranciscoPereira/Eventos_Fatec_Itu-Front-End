@@ -26,19 +26,17 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Fluxo de gerenciamento do carrossel:` Adicionada reordenação por arrastar e soltar na lista de itens do carrossel e ajustada a regra do campo `Ordem` para aceitar apenas inteiros positivos dentro do limite permitido em criação e edição.
+### `Fluxo de renovação automática de sessão:` Corrigido o problema em que o usuário perdia acesso às rotas administrativas após a expiração do `access_token`, fazendo o front-end usar o `refresh_token`, atualizar o estado do usuário autenticado e refazer a requisição original automaticamente.
 
-### `./src/@Types/CarouselTypes/index.ts:` Ajustada a tipagem de criação do carrossel para permitir `order` opcional, possibilitando que uma nova imagem seja inserida automaticamente na última posição quando o campo vier vazio.
+### `./src/hooks/api/client.ts:` Criado um cliente centralizado para chamadas HTTP autenticadas, com envio automático de cookies, suporte a CSRF, captura de respostas `401`, chamada única compartilhada para refresh em requisições simultâneas, atualização da `useUserStore` e retry da requisição original.
 
-### `./src/app/(pages)/(private)/Carousel/page.tsx:` Substituída a tabela por uma lista responsiva com estado local de ordenação, suporte a drag and drop, ícone visual de grip após a lixeira, persistência da nova posição via API e rollback visual caso a requisição falhe.
+### `./src/hooks/api/Auth/Get/getMe/index.ts:` Ajustado para usar o novo `apiFetch`, permitindo que a busca do usuário autenticado também participe do fluxo automático de refresh.
 
-### `./src/app/(pages)/(private)/Carousel/Carousel.module.css:` Criados os estilos da nova lista do carrossel, incluindo estados de item arrastado, item de destino, ações por ícone, badge de ordem, preview da imagem e ajustes responsivos para telas menores.
+### `./src/middleware.ts:` Atualizado para considerar a presença do cookie de refresh ao liberar rotas privadas, evitando que o middleware redirecione o usuário antes que o front-end consiga renovar a sessão.
 
-### `./src/hooks/api/Carousel/Post/useCreateCarousel/index.ts:` Ajustado o envio de criação para incluir `order` no `FormData` somente quando o usuário informar uma ordem.
+### `./src/hooks/api/Auth/Post/useLogout/index.tsx:` Ajustado para usar o novo cliente HTTP autenticado, mantendo CSRF e permitindo logout mesmo quando o `access_token` já expirou e ainda existe `refresh_token` válido.
 
-### `./src/hooks/api/Carousel/Patch/useEditCarousel/index.ts:` Adicionado o hook `useReorderCarousel`, responsável por persistir apenas a nova ordem do item via PATCH sem disparar toast a cada arraste.
-
-### `./src/hooks/pages/(private)/Carousel/useCarouselPage/index.ts:` Exposto o novo hook de reordenação para a tela de gerenciamento do carrossel, mantendo a integração com criação, edição, exclusão, ativação e recarregamento da listagem.
+### `./src/hooks/api/Carousel, Categories, Courses, Events, Locations, Participants e Users:` Atualizadas as chamadas administrativas protegidas para usar `apiFetch`, garantindo refresh automático e repetição da requisição em listagens, criações, edições, exclusões, alternância de status e consultas de disponibilidade.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -80,7 +78,7 @@
 
 - `./.dockerignore` Define quais arquivos e diretórios devem ser ignorados durante o build da imagem Docker.
 
-- `./src/middleware.ts:` Arquivo de middleware de borda que autentica usuários via cookie JWT, valida a expiração do token e, com base nas variáveis de ambiente, redireciona quem não está autenticado para rotas públicas ou quem já está autenticado para rotas privadas, impedindo acessos indevidos.`
+- `./src/middleware.ts:` Arquivo de middleware de borda que controla o acesso às rotas públicas e privadas com base nos cookies de sessão. Considera tanto o cookie de acesso quanto o cookie de refresh, permitindo que o front-end renove a sessão antes de redirecionar o usuário quando apenas o `access_token` expirou.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código
     - `CarouselTypes:` Tipagens compartilhadas da tela de Carousel
@@ -139,9 +137,10 @@
 
 - `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.
     - `api`:` Aqui ocorrem os métodos HTTP fazendo requisições para o back-end
+        - `client.ts:` Cliente centralizado para requisições autenticadas. Ele envia cookies automaticamente, busca token CSRF quando necessário, intercepta respostas `401`, chama a rota de refresh, atualiza o usuário autenticado na store e refaz a requisição original uma vez.
         - `Auth:` Todas as requisições para o back-end nas rotas de /auth/
             - `Get:` Requisições GET nas rotas de /auth/
-                - `getMe:` Utilizado para pegar com o back-end os dados do usuário, como nome, e-mail, role e etc.
+                - `getMe:` Utilizado para pegar com o back-end os dados do usuário, como nome, e-mail, role e etc, usando o cliente centralizado para respeitar o refresh automático da sessão.
             - `Post:` Requisições POST nas rotas de /auth/
                 - `useLogin:` Requisições para o back-end para fazer a solicitação de login (gerar código 2fa) e confirmar código 2fa para entrar na conta
                 - `useLogout:` Bate na rota de logout para permitir o usuário a se deslogar 

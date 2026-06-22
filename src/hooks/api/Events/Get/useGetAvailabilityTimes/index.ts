@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { AvailabilityTime } from '@/@Types/EventTypes';
 
 type useGetAvailabilityTimesProps = {
@@ -12,7 +13,7 @@ export function useGetAvailabilityTimes(): useGetAvailabilityTimesProps {
         url.searchParams.set('date', date);
         if (exceptId !== undefined) url.searchParams.set('exceptId', String(exceptId));
 
-        const response: Response = await fetch(url.toString(), { credentials: 'include' });
+        const response: Response = await apiFetch(url.toString());
         if (!response.ok) {
             const err = await response.json();
             throw new Error(err.message || 'Falha ao buscar horários disponíveis');

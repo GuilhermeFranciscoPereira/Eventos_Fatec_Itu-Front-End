@@ -26,19 +26,17 @@
 
 ## 🛎️ Updates to this commit
 
-### `Carousel management flow:` Added drag-and-drop reordering to the carousel item list and adjusted the `Order` field rule to accept only positive integers within the allowed limit during creation and editing.
+### `Automatic session refresh flow:` Fixed the issue where the user lost access to administrative routes after the `access_token` expired, making the front-end use the `refresh_token`, update the authenticated user state, and retry the original request automatically.
 
-### `./src/@Types/CarouselTypes/index.ts:` Adjusted the carousel creation type to allow optional `order`, making it possible to automatically place a new image in the last position when the field is left empty.
+### `./src/hooks/api/client.ts:` Created a centralized client for authenticated HTTP calls, with automatic cookie sending, CSRF support, `401` response handling, a single shared refresh call for simultaneous requests, `useUserStore` updates, and retry of the original request.
 
-### `./src/app/(pages)/(private)/Carousel/page.tsx:` Replaced the table with a responsive list using local ordering state, drag-and-drop support, a visual grip icon after the trash icon, API persistence for the new position, and visual rollback if the request fails.
+### `./src/hooks/api/Auth/Get/getMe/index.ts:` Adjusted to use the new `apiFetch`, allowing authenticated user loading to participate in the automatic refresh flow.
 
-### `./src/app/(pages)/(private)/Carousel/Carousel.module.css:` Created the styles for the new carousel list, including dragged item state, target item state, icon actions, order badge, image preview, and responsive adjustments for smaller screens.
+### `./src/middleware.ts:` Updated to consider the refresh cookie when allowing private routes, preventing the middleware from redirecting the user before the front-end can renew the session.
 
-### `./src/hooks/api/Carousel/Post/useCreateCarousel/index.ts:` Adjusted the creation request to include `order` in the `FormData` only when the user provides an order.
+### `./src/hooks/api/Auth/Post/useLogout/index.tsx:` Adjusted to use the new authenticated HTTP client, keeping CSRF and allowing logout even when the `access_token` has already expired and a valid `refresh_token` still exists.
 
-### `./src/hooks/api/Carousel/Patch/useEditCarousel/index.ts:` Added the `useReorderCarousel` hook, responsible for persisting only the item's new order through PATCH without triggering a toast on every drag.
-
-### `./src/hooks/pages/(private)/Carousel/useCarouselPage/index.ts:` Exposed the new reordering hook to the carousel management screen, keeping integration with creation, editing, deletion, activation, and list reloading.
+### `./src/hooks/api/Carousel, Categories, Courses, Events, Locations, Participants and Users:` Updated protected administrative calls to use `apiFetch`, ensuring automatic refresh and request retry for listings, creations, edits, deletions, status toggles, and availability queries.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -80,7 +78,7 @@
 
 - `./.dockerignore` Defines which files and directories should be ignored during the Docker image build.
 
-- `./src/middleware.ts:` Edge middleware file that authenticates users via JWT cookie, validates token expiration and, based on environment variables, redirects those who are not authenticated to public routes or those who are already authenticated to private routes, preventing unauthorized access.`
+- `./src/middleware.ts:` Edge middleware file that controls access to public and private routes based on session cookies. It considers both the access cookie and the refresh cookie, allowing the front-end to renew the session before redirecting the user when only the `access_token` has expired.`
 
 - `./src/@Types:` Stores the typings that are reused in the code.
     - `CarouselTypes:` Shared typings from the Carousel screen
@@ -139,9 +137,10 @@
 
 - `./src/hooks:` Here we will store our custom hooks with the logical parts of the application. We separate our hooks by types such as pages, components, and api. 
     - `api:` Here, HTTP methods make requests to the backend.
+        - `client.ts:` Centralized client for authenticated requests. It automatically sends cookies, fetches a CSRF token when needed, intercepts `401` responses, calls the refresh route, updates the authenticated user in the store, and retries the original request once.
         - `Auth:` All requests to the backend on /auth/ routes.
             - `Get:` GET requests on /auth/ routes.
-                - `getMe:` Used to retrieve user data from the backend, such as name, email, role, etc. 
+                - `getMe:` Used to retrieve user data from the backend, such as name, email, role, etc, using the centralized client to follow the automatic session refresh flow.
             - `Post:` POST requests in the /auth/ routes
                 - `useLogin:` Requests to the backend to make the login request (generate 2FA code) and confirm the 2FA code to access the account
                 - `useLogout:` Calls the logout route to allow the user to log out

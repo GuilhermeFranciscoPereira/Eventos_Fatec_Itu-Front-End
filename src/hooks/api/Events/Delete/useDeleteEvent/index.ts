@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 
 type useDeleteEventProps = {
@@ -9,11 +10,9 @@ export function useDeleteEvent(): useDeleteEventProps {
     const showToast = useToastStore((s) => s.showToast);
 
     return useCallback(async (id) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/delete/${id}`, {
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/events/delete/${id}`, {
             method: 'DELETE',
-            credentials: 'include',
-            headers: { 'X-CSRF-Token': csrfToken },
+            csrf: true,
         });
         if (!response.ok) {
             const err = await response.json();

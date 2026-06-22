@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { UserProps } from '@/@Types/UsersTypes';
-import { getMe } from '@/hooks/api/Auth/Get/getMe';
+import { apiFetch } from '@/hooks/api/client';
 import { useState, useEffect, useCallback } from 'react';
 
 type useGetAllUsersProps = {
@@ -17,16 +17,10 @@ export function useGetAllUsers(): useGetAllUsersProps {
     const fetchUsers = useCallback(async () => {
         setLoading(true);
         try {
-            let response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/users`, { credentials: 'include' });
+            const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/users`);
             if (response.status === 401) {
-                try {
-                    await getMe();
-                    response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/users`, { credentials: 'include' });
-                }
-                catch (err: unknown) {
-                    console.log('Error in: useCodeInputValidation() <---> Erro:', err instanceof Error ? err.message : String(err));
-                    return router.push('/');
-                }
+                router.push('/');
+                return;
             }
             if (!response.ok) throw new Error('Falha ao buscar usuários');
             const data = await response.json();

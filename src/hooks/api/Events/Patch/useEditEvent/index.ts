@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { UpdateEventDto } from '@/@Types/EventTypes';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -10,8 +11,6 @@ export function useEditEvent(): useEditEventProps {
     const showToast = useToastStore((s) => s.showToast);
 
     return useCallback(async (id, dto) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-
         let response: Response;
 
         if (dto.image) {
@@ -37,24 +36,22 @@ export function useEditEvent(): useEditEventProps {
             });
             form.append('image', dto.image);
 
-            response = await fetch(
+            response = await apiFetch(
                 `${process.env.NEXT_PUBLIC_URL_API}/events/patch/${id}`,
                 {
                     method: 'PATCH',
-                    credentials: 'include',
-                    headers: { 'X-CSRF-Token': csrfToken },
+                    csrf: true,
                     body: form,
                 },
             );
         } else {
-            response = await fetch(
+            response = await apiFetch(
                 `${process.env.NEXT_PUBLIC_URL_API}/events/patch/${id}`,
                 {
                     method: 'PATCH',
-                    credentials: 'include',
+                    csrf: true,
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-Token': csrfToken,
                     },
                     body: JSON.stringify(dto),
                 },

@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { getMe } from '@/hooks/api/Auth/Get/getMe';
+import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { useState, useEffect, useCallback } from 'react';
 import { ParticipantProps } from '@/@Types/ParticipantsTypes';
@@ -20,16 +20,10 @@ export function useGetAllParticipants(eventId: number): UseGetParticipantsReturn
     const fetchParticipants = useCallback(async () => {
         setLoading(true);
         try {
-            let response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/participants/event/${eventId}`, { credentials: 'include' });
+            const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/participants/event/${eventId}`);
             if (response.status === 401) {
-                try {
-                    await getMe();
-                    response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/participants/event/${eventId}`, { credentials: 'include' });
-                }
-                catch (err: unknown) {
-                    console.log('Error in: useCodeInputValidation() <---> Erro:', err instanceof Error ? err.message : String(err));
-                    return router.push('/');
-                }
+                router.push('/');
+                return;
             }
             if (!response.ok) throw new Error('Falha para carregar as categorias');
             setParticipants(await response.json());

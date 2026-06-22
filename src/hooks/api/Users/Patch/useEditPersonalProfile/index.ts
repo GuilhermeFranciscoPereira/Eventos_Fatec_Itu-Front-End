@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { getMe } from '@/hooks/api/Auth/Get/getMe';
+import { apiFetch } from '@/hooks/api/client';
 import { useUserStore } from '@/stores/useUserStore';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -22,12 +23,9 @@ export function useEditPersonalProfile(): useEditPersonalProfile {
         if (dto.email) form.append('email', dto.email);
         if (dto.photo) form.append('photo', dto.photo);
 
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/users/profile`, {
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/users/profile`, {
             method: 'PATCH',
-            credentials: 'include',
-            headers: { 'X-CSRF-Token': csrfToken },
+            csrf: true,
             body: form
         });
         if (!response.ok) {

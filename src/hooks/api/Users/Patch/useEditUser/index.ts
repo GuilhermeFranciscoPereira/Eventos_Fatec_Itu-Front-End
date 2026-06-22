@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { apiFetch } from '@/hooks/api/client';
 import { UpdateUserDto } from '@/@Types/UsersTypes';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -10,11 +11,10 @@ export function useEditUser(): useEditUserProps {
     const showToast = useToastStore((s) => s.showToast);
 
     return useCallback(async (id: number, dto: UpdateUserDto) => {
-        const { csrfToken } = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/csrf-token`, { credentials: 'include' }).then(res => res.json());
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/users/patch/${id}`, {
+        const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/users/patch/${id}`, {
             method: 'PATCH',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            csrf: true,
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dto),
         });
         if (!response.ok) {

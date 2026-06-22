@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { MiddlewareConfig, NextRequest } from 'next/server';
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN || '';
+const REFRESH_TOKEN = process.env.NEXT_PUBLIC_REFRESH_TOKEN || '';
 const AUTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_AUTHENTICATED_ROUTE || '';
 const UNAUNTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_NOT_AUTHENTICATED_ROUTE || '';
 
@@ -23,9 +24,10 @@ const publicRoutes: Array<publicRoutesProps> = [
 
 export function middleware(request: NextRequest) {
     const publicRoute: publicRoutesProps | undefined = publicRoutes.find(route => route.type === 'exact' ? request.nextUrl.pathname === route.path : request.nextUrl.pathname.startsWith(`${route.path}/`));
+    const hasSessionCookie = Boolean(request.cookies.get(ACCESS_TOKEN)?.value || request.cookies.get(REFRESH_TOKEN)?.value);
 
     // User not authenticated ( without token JWT ) 
-    if (!request.cookies.get(ACCESS_TOKEN)?.value) {
+    if (!hasSessionCookie) {
         // User not authenticated + Public route => Allow access
         if (publicRoute) return NextResponse.next();
 
