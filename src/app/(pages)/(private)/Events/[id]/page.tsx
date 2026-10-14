@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Loader from '@/components/Loader';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import InputImage from '@/components/Inputs/InputImage';
+import { EVENT_IMAGE_RECOMMENDATION } from '@/utils/imageCrop';
 import InputField from '@/components/Inputs/InputField';
 import InputSelect from '@/components/Inputs/InputSelect';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
@@ -46,6 +47,7 @@ export default function EventForm(): React.ReactElement {
         <div className={styles.upload}>
           <InputImage
             id="event-image"
+            recommendedSize={EVENT_IMAGE_RECOMMENDATION}
             initialUrl={initialUrl ?? undefined}
             onChange={(file) => setSelectedFile(file)}
             className={styles.previewImage}

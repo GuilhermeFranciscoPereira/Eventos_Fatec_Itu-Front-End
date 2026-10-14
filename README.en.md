@@ -26,23 +26,21 @@
 
 ## 🛎️ Updates to this commit
 
-### `New institutional e-mail domain:` The API now accepts `@aluno.cps.sp.gov.br` in addition to `@fatec.sp.gov.br`, `@cms.sp.gov.br` and `@cps.sp.gov.br`, and the front-end now shows the message with the full list of domains, which used to be cut off.
+### `Image size recommendation:` The image field of the event form (create and edit) and of the carousel (create and edit) now shows the recommended size for the best quality: `1600 × 600 px` (8:3 ratio) for events, which is the banner of the event detail page, and `1920 × 480 px` (4:1 ratio) for the home page carousel. After an image is chosen, the field footer shows its real size and whether it is ideal or below the recommendation.
 
-### `Complete error messages:` Fixed the issue where API messages were cut at the first comma (for example, "E-mail deve ser institucional (@fatec.sp.gov.br"). When the API returns more than one error, each one is shown on its own line.
+### `Image crop editor:` Selecting an image automatically opens an editor to crop it, which can also be opened through the new crop button in the field, including to crop the already saved image when editing an event or carousel item. The editor offers the options: `Recommended`, where the crop area already comes in the recommended size and the user only adjusts where to crop, saving the image exactly in the ideal size; `Free`; `16:9`; `4:3` and `Square`.
 
-### `./src/utils/apiErrorMessage/index.ts:` Created the `getApiErrorMessage()` function, which reads the API error message both as text and as a list without cutting it, falling back to a friendly default message when the API sends none.
+### `Crop quality warnings:` The editor shows the crop size in pixels and warns when it is smaller than recommended (the image may look blurry) or when the ratio differs from the recommended one (the site will cut the edges). In Recommended mode, dashed lines mark the central strip that stays visible on phones, where the sides of the image are cut.
 
-### `./src/hooks/api/**:` Every API hook now uses `getApiErrorMessage()`, and technical default messages (such as "erro em: useDeleteCategory()") were replaced with end-user texts.
+### `./src/components/ImageCropper/index.tsx:` Created the crop editor component, opened in its own window above the modal, closing with the Esc key, focusing the editor when opened and locking the page scroll. It works with mouse and touch, and adapts to the screen height on laptops and phones.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Removed the comma-based message splitting that broke the texts and fixed the broken accent in "posterior Ã  data inicial".
+### `./src/components/Inputs/InputImage/index.tsx:` Added the optional `recommendedSize` prop, which enables the size recommendation and cropping. Cropping always starts from the original selected image, so cropping more than once does not lose quality. When the prop is not passed (as in the profile photo), the field stays the same. The preview no longer stretches the image and now shows it whole, the way it will be saved.
 
-### `./src/components/Toast/Toast.module.css and ./src/components/Modal/Modal.module.css:` Added `white-space: pre-line` to show multiple error messages, one per line.
+### `./src/utils/imageCrop/index.ts:` Created the constants with the recommended sizes (`EVENT_IMAGE_RECOMMENDATION` and `CAROUSEL_IMAGE_RECOMMENDATION`) and the functions that crop the image on a canvas and generate the file sent to the API, downscaling the image in steps to keep it sharp and limiting the longest side to 2560 px to make the upload lighter.
 
-### `Fatec RA validation:` The registration form validates the RA against the official SIGA format (`FFF CCC AA S T NNN`: unit, course, entry year, semester, shift and sequence) before submitting, showing which part of the RA is wrong. The same rule is also enforced by the API.
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx and ./src/app/(pages)/(private)/Carousel/page.tsx:` The image fields now use the recommended size of each screen.
 
-### `./src/utils/fatecRa/index.ts:` Created `normalizeFatecRa()`, which removes typed dots, dashes and spaces, and `getFatecRaError()`, with the same validation rule as the API.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Registration validates the RA before calling the API, and the RA field now opens the numeric keyboard on mobile.
+### `New dependency:` Added the `react-image-crop` library, responsible for the crop selection area with resize handles, touch support and ratio locking.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -128,11 +126,12 @@
     - `Footer:` Footer that contains information such as: Address, telephone number, links to student areas
     - `Header:` A component that remains fixed on all pages because it was inserted within `layout.tsx` and is located at the top of the website. On non-mobile screens, it is also responsible for displaying the main navigation in a centralized area with support for dropdown and subdropdown on hover.
     - `ImageCloudinary:` Responsible for rendering images hosted on Cloudinary in an optimized way with the next Image tag, making a component that can be reused anywhere, making the image stay 100% within the parent element correctly
+    - `ImageCropper:` Image crop editor opened above the screen, with crop options in the recommended size, free, 16:9, 4:3 and square. It shows the crop size, warns when the resolution or the ratio are not ideal and marks the area visible on phones.
     - `Inputs:`
         - `FiltersHome:` Combinable filters for events, filters to filter by event name, by categories and by dates based on start and end, this filter component is used in CardEvents
         - `InputCheckbox:` Checkbox input that is reusable in code for boolean fields
         - `InputField:` Reusable input that changes data based on received props.
-        - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected.
+        - `InputImage:` Allows you to select images by click, drag and drop, or paste. Displays a local or existing URL preview, visually indicates when a file is dragged, and provides a button to remove the image, enabled only when a file is selected. With the `recommendedSize` prop, it shows the recommended image size, indicates whether the chosen image has the ideal size and allows cropping it with the `ImageCropper`.
         `InputMultiSelect:` A customized and reusable multi-select component, allowing you to choose none, one, or multiple values ​​via a dropdown with checkboxes. It has an "All" option when no item is selected, displays the chosen values ​​in the field, closes automatically when clicked outside, and supports labels, placeholders, disabled state, dynamic options, and custom className.
         - `InputSelect:` A reusable custom select component, allowing you to replace the use of native `<select>` with a standardized interface in the project, supporting labels, placeholders, disabled state, and dynamic options.
     - `Loader:` Component that shows the user that something is loading.
@@ -269,6 +268,7 @@
 
 - `./src/utils:` Folder that groups generic utility functions, without dependence on specific components, used throughout the application for common DOM and export operations.
     - `downloadSectionAsPdf`: Function that captures a section of the page (identified by ID) and generates a PDF file with its entire extent, including A4 page breaks. It allows the user to download any part of the interface as a portable document.
+    - `imageCrop`: Centralizes the recommended sizes of event and carousel images and the functions that crop the image on a canvas and generate the final file sent to the API.
     - `navigationData`: File responsible for centralizing the configuration of navigation items reused in the Header and Sidebar, including internal routes, external links, dropdown, subdropdown, and visibility control based on the user's role.
     - `printSection`: Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, maintaining the exact colors of the table header. It serves to trigger the browser's print dialog and print only the desired content.
     - `wrapperVLibras`: Client utility component responsible for globally initializing the integration with the VLibras plugin within the application. It serves to make the accessibility feature of translation into Libras (Brazilian Sign Language) available on all pages when imported into `layout.tsx`.

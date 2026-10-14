@@ -26,23 +26,21 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Novo domínio de e-mail institucional:` A API passou a aceitar `@aluno.cps.sp.gov.br` além de `@fatec.sp.gov.br`, `@cms.sp.gov.br` e `@cps.sp.gov.br`, e o front-end agora exibe a mensagem com a lista completa de domínios, que antes aparecia cortada.
+### `Recomendação de tamanho de imagem:` O campo de imagem do formulário de eventos (criar e editar) e do carrossel (criar e editar) passou a exibir o tamanho recomendado para a melhor qualidade: `1600 × 600 px` (proporção 8:3) para eventos, que é o banner da página de detalhes do evento, e `1920 × 480 px` (proporção 4:1) para o carrossel da tela inicial. Depois de escolher a imagem, o rodapé do campo mostra o tamanho real dela e indica se está ideal ou abaixo do recomendado.
 
-### `Mensagens de erro completas:` Corrigido o problema em que as mensagens da API eram cortadas na primeira vírgula (por exemplo, "E-mail deve ser institucional (@fatec.sp.gov.br"). Quando a API retorna mais de um erro, cada um aparece em uma linha.
+### `Editor de recorte de imagem:` Ao selecionar uma imagem, abre automaticamente um editor para recortá-la, que também pode ser aberto pelo novo botão de recorte no campo, inclusive para recortar a imagem já salva ao editar um evento ou item do carrossel. O editor oferece as opções: `Recomendado`, em que a área de recorte já vem no tamanho recomendado e o usuário só ajusta onde quer recortar, salvando a imagem exatamente no tamanho ideal; `Livre`; `16:9`; `4:3` e `Quadrado`.
 
-### `./src/utils/apiErrorMessage/index.ts:` Criada a função `getApiErrorMessage()`, que lê a mensagem de erro da API tanto em texto quanto em lista, sem cortar o conteúdo, e usa uma mensagem padrão amigável quando a API não envia nenhuma.
+### `Avisos de qualidade no recorte:` O editor mostra o tamanho do recorte em pixels e avisa quando ele é menor que o recomendado (a imagem pode ficar desfocada) ou quando a proporção é diferente da recomendada (o site cortará as bordas). No modo Recomendado, linhas tracejadas marcam a faixa central que fica visível no celular, onde as laterais da imagem são cortadas.
 
-### `./src/hooks/api/**:` Todos os hooks de chamada à API passaram a usar `getApiErrorMessage()`, e as mensagens padrão técnicas (como "erro em: useDeleteCategory()") foram trocadas por textos para o usuário final.
+### `./src/components/ImageCropper/index.tsx:` Criado o componente do editor de recorte, aberto em uma janela própria por cima do modal, com fechamento pela tecla Esc, foco no editor ao abrir e bloqueio da rolagem da página. Funciona com mouse e toque, e se adapta à altura da tela no notebook e no celular.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Removida a separação das mensagens por vírgula, que quebrava os textos, e corrigido o acento quebrado em "posterior Ã  data inicial".
+### `./src/components/Inputs/InputImage/index.tsx:` Adicionada a prop opcional `recommendedSize`, que ativa a recomendação de tamanho e o recorte. O recorte sempre parte da imagem original selecionada, então recortar mais de uma vez não perde qualidade. Quando a prop não é informada (como na foto de perfil), o campo continua igual. A pré-visualização deixou de esticar a imagem e passou a mostrá-la inteira, do jeito que será salva.
 
-### `./src/components/Toast/Toast.module.css e ./src/components/Modal/Modal.module.css:` Adicionado `white-space: pre-line` para exibir várias mensagens de erro, uma por linha.
+### `./src/utils/imageCrop/index.ts:` Criadas as constantes com os tamanhos recomendados (`EVENT_IMAGE_RECOMMENDATION` e `CAROUSEL_IMAGE_RECOMMENDATION`) e as funções que recortam a imagem em canvas e geram o arquivo enviado à API, reduzindo a imagem em etapas para manter a nitidez e limitando o lado maior a 2560 px para deixar o envio mais leve.
 
-### `Validação do RA da Fatec:` O formulário de inscrição valida o RA no padrão oficial do SIGA (`FFF CCC AA S T NNN`: unidade, curso, ano de ingresso, semestre, turno e sequência) antes de enviar, mostrando qual parte do RA está incorreta. A mesma regra também é aplicada na API.
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx e ./src/app/(pages)/(private)/Carousel/page.tsx:` Os campos de imagem passaram a usar o tamanho recomendado de cada tela.
 
-### `./src/utils/fatecRa/index.ts:` Criadas as funções `normalizeFatecRa()`, que remove pontos, traços e espaços digitados, e `getFatecRaError()`, com a mesma regra de validação da API.
-
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` A inscrição valida o RA antes de chamar a API e o campo de RA passou a abrir o teclado numérico no celular.
+### `Nova dependência:` Adicionada a biblioteca `react-image-crop`, responsável pela área de seleção do recorte com alças para redimensionar, suporte a toque e travamento de proporção.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -128,11 +126,12 @@
     - `Footer:` Rodapé que contem as informações como: Endereço, número de telefone, links das áres dos alunos.
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site. Em telas não mobile ele também é responsável por exibir a navegação principal centralizada com suporte à dropdown e subdropdown por hover.
     - `ImageCloudinary:` Responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizavel em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
+    - `ImageCropper:` Editor de recorte de imagem aberto por cima da tela, com as opções de recorte no tamanho recomendado, livre, 16:9, 4:3 e quadrado. Mostra o tamanho do recorte, avisa quando a resolução ou a proporção não são as ideais e marca a área visível no celular.
     - `Inputs:`
         - `FiltersHome:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em CardEvents
         - `InputCheckbox:` Input de checkbox que é reutilizável no código para campos booleanos
         - `InputField:` Input reutilizável alterando os dados com base nas props recebidas
-        - `InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado
+        - `InputImage:` Permite selecionar imagens por clique, arrastar e soltar ou colar. Exibe pré-visualização local ou de URL existente, indica visualmente quando um arquivo é arrastado e oferece botão para remover a imagem, habilitado apenas quando há arquivo selecionado. Com a prop `recommendedSize`, exibe o tamanho recomendado da imagem, indica se a imagem escolhida está no tamanho ideal e permite recortá-la com o `ImageCropper`
         `InputMultiSelect:` Componente customizado e reutilizável de seleção múltipla, permitindo escolher nenhum, um ou vários valores por meio de dropdown com checkboxes. Possui opção "Todos" quando nenhum item está selecionado, exibe os valores escolhidos no campo, fecha automaticamente ao clicar fora e conta com suporte a label, placeholder, estado desabilitado, opções dinâmicas e className personalizada.
         - `InputSelect:` Componente customizado de select reutilizável, permitindo substituir o uso de `<select>` nativo por uma interface padronizada no projeto, com suporte a label, placeholder, estado desabilitado e opções dinâmicas.
     - `Loader:` Componente que mostra ao usuário que algo está carregando
@@ -271,6 +270,7 @@
 
 - `./src/utils:` Pasta que agrupa funções utilitárias genéricas, sem dependência de componentes específicos, usadas em toda a aplicação para operações comuns de DOM e exportação.
     - `downloadSectionAsPdf:` Função que captura uma seção da página (identificada por ID) e gera um arquivo PDF com toda a sua extensão, incluindo quebras de página em A4. Serve para permitir ao usuário baixar qualquer parte da interface como documento portátil.
+    - `imageCrop:` Centraliza os tamanhos recomendados das imagens de eventos e do carrossel e as funções que recortam a imagem em canvas e geram o arquivo final enviado à API.
      - `navigationData:` Arquivo responsável por centralizar a configuração dos itens de navegação reutilizados no Header e no Sidebar, incluindo rotas internas, links externos, dropdown, subdropdown e controle de visibilidade com base na role do usuário.
     - `printSection:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
     - `wrapperVLibras:` Componente utilitário cliente responsável por inicializar globalmente a integração com o plugin VLibras dentro da aplicação. Serve para disponibilizar o recurso de acessibilidade de tradução para Libras em todas as páginas ao ser importado no `layout.tsx`.

@@ -1,0 +1,378 @@
+/* Above Modal (998) and Loader (999): the cropper opens from inside the modal. */
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    background: rgba(0, 0, 0, 0.75);
+    animation: fadeIn .2s ease-out;
+}
+
+.dialog {
+    width: min(60rem, 100%);
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    border-radius: 16px;
+    background: var(--background);
+    color: var(--text-color);
+    box-shadow: var(--box-shadow);
+    overflow-y: auto;
+    outline: none;
+    text-align: left;
+    animation: popIn .25s ease-out;
+}
+
+/* When the dialog hits max-height it must scroll, not squeeze the stage under the image. */
+.dialog > * {
+    flex-shrink: 0;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    margin: 4px 0 0;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.subtitle > strong {
+    color: var(--red-primary);
+    white-space: nowrap;
+}
+
+.closeButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.closeButton:hover {
+    background: rgba(163, 53, 53, 0.12);
+    transform: rotate(90deg);
+}
+
+.modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.modeButton {
+    padding: 8px 14px;
+    border: 1px solid var(--red-primary);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+.modeButton:hover {
+    background: rgba(163, 53, 53, 0.12);
+    transform: translateY(-2px);
+}
+
+.modeButtonActive,
+.modeButtonActive:hover {
+    background: var(--red-primary);
+    color: #F9F9F9;
+}
+
+.stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    padding: 12px;
+    border-radius: 12px;
+    background:
+        repeating-conic-gradient(rgba(128, 128, 128, 0.18) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px,
+        rgba(0, 0, 0, 0.06);
+}
+
+/* ReactCrop sizes the <img> with max-height: inherit, so the limit lives on its root.
+   dvh: the stage has to fit while Safari's toolbar shows and hides. */
+.cropper {
+    max-width: 100%;
+    /* 380px ≈ header, options, info and footer: the whole editor fits short laptop screens without scrolling. */
+    max-height: max(200px, min(55dvh, calc(100dvh - 380px)));
+}
+
+.image {
+    display: block;
+    max-width: 100%;
+    user-select: none;
+}
+
+.mobileGuide {
+    --side: calc((1 - var(--visible)) * 50%);
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right,
+        rgba(0, 0, 0, 0.3) 0 var(--side),
+        transparent var(--side) calc(100% - var(--side)),
+        rgba(0, 0, 0, 0.3) calc(100% - var(--side)) 100%);
+    pointer-events: none;
+}
+
+.mobileGuideZone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--side);
+    right: var(--side);
+    border-left: 2px dashed rgba(255, 255, 255, 0.9);
+    border-right: 2px dashed rgba(255, 255, 255, 0.9);
+}
+
+.mobileGuideLabel {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.9rem;
+}
+
+.info > p {
+    margin: 0;
+}
+
+.dimensions > strong {
+    font-variant-numeric: tabular-nums;
+}
+
+.status,
+.hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.4;
+}
+
+.status > svg,
+.hint > svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.statusOk {
+    color: #1f8a4c;
+}
+
+.statusWarning {
+    color: #b26a00;
+}
+
+.statusError {
+    color: #d32f2f;
+}
+
+.hint {
+    opacity: 0.8;
+}
+
+:global(.DarkTheme) .statusOk {
+    color: #4cc38a;
+}
+
+:global(.DarkTheme) .statusWarning {
+    color: #f5b041;
+}
+
+:global(.DarkTheme) .statusError {
+    color: #ff6b6b;
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.footerRight {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.actionButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 42px;
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+.actionButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.actionButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ghostButton {
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    background: transparent;
+    color: var(--text-color);
+}
+
+.ghostButton:hover:not(:disabled) {
+    border-color: var(--red-primary);
+    color: var(--red-primary);
+}
+
+.primaryButton {
+    border: 1px solid var(--red-primary);
+    background: var(--red-primary);
+    color: #F9F9F9;
+}
+
+.primaryButton:hover:not(:disabled) {
+    box-shadow: 0 6px 16px rgba(163, 53, 53, 0.35);
+}
+
+.modeButton:focus-visible,
+.actionButton:focus-visible,
+.closeButton:focus-visible {
+    outline: 2px solid var(--red-primary);
+    outline-offset: 2px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: translateY(12px) scale(.98); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 600px) {
+    .dialog {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .title {
+        font-size: 1.15rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    /* One row that scrolls sideways keeps more height for the image. */
+    .modes {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin: 0 -16px;
+        padding: 2px 16px 4px;
+        scrollbar-width: none;
+    }
+
+    .modes::-webkit-scrollbar {
+        display: none;
+    }
+
+    .modeButton {
+        flex-shrink: 0;
+        padding: 7px 12px;
+    }
+
+    .stage {
+        padding: 6px;
+    }
+
+    .cropper {
+        max-height: 40dvh;
+    }
+
+    .info {
+        font-size: 0.85rem;
+    }
+
+    .footer,
+    .footerRight {
+        width: 100%;
+    }
+
+    .footer > .actionButton,
+    .footerRight > .actionButton {
+        flex: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .overlay,
+    .dialog {
+        animation: none;
+    }
+
+    .modeButton,
+    .actionButton,
+    .closeButton {
+        transition: none;
+    }
+
+    .modeButton:hover,
+    .actionButton:hover:not(:disabled),
+    .closeButton:hover {
+        transform: none;
+    }
+}

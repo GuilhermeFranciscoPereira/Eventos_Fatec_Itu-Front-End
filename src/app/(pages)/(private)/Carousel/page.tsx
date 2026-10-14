@@ -4,6 +4,7 @@ import Loader from '@/components/Loader';
 import { RiImageAddLine } from 'react-icons/ri';
 import { MdEdit, MdDelete, MdDragIndicator } from 'react-icons/md';
 import InputImage from '@/components/Inputs/InputImage';
+import { CAROUSEL_IMAGE_RECOMMENDATION } from '@/utils/imageCrop';
 import InputField from '@/components/Inputs/InputField';
 import ImageCloudinary from '@/components/ImageCloudinary';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
@@ -226,6 +227,7 @@ export default function Carousel(): React.ReactElement {
                     <div className={styles.formGroup}>
                         <InputImage
                             id="carousel-create-image"
+                            recommendedSize={CAROUSEL_IMAGE_RECOMMENDATION}
                             onChange={(file) => { selectedFileRef.current = file; }}
                         />
                     </div>
@@ -283,6 +285,7 @@ export default function Carousel(): React.ReactElement {
                         <div className={styles.previewWrapperEdit}>
                             <InputImage
                                 id="carousel-edit-image"
+                                recommendedSize={CAROUSEL_IMAGE_RECOMMENDATION}
                                 initialUrl={item.imageUrl}
                                 onChange={(file) => { selectedFileRef.current = file; }}
                             />

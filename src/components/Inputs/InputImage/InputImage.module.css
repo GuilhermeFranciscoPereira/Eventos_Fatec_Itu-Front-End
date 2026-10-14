@@ -52,6 +52,11 @@
     pointer-events: none;
 }
 
+/* Shows the whole image without stretching, so the crop result is what the admin sees. */
+.container > .header > .imageWrapper > img {
+    object-fit: contain;
+}
+
 .container > .header > .uploadPlaceholder {
     display: flex;
     flex-direction: column;
@@ -108,7 +113,7 @@
     padding: 6px;
 }
 
-.container > .footer > .footerIconRightButton {
+.container > .footer .footerIconRightButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -119,22 +124,100 @@
     transition: opacity .2s ease, transform .2s ease, color .2s ease;
 }
 
-.container > .footer > .footerIconRightButton > svg {
+.container > .footer .footerIconRightButton > svg {
     font-size: 1.8rem;
 }
 
-.container > .footer > .footerIconRightButtonDisabled {
+.container > .footer .footerIconRightButtonDisabled {
     color: gray;
     cursor: not-allowed;
     opacity: 0.6;
 }
 
-.container > .footer > .footerIconRightButtonActive {
+.container > .footer .footerIconRightButtonActive {
     color: var(--red-primary);
 }
 
-.container > .footer > .footerIconRightButtonActive:hover {
+.container > .footer .footerIconRightButtonActive:hover {
     transform: scale(1.05);
+}
+
+.container > .footer .footerIconRightButton:focus-visible {
+    outline: 2px solid var(--red-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.container > .footer > .footerActions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.container > .footer > .sizeInfo {
+    flex: 1;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: safe center;
+    gap: 6px;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.container > .footer > .sizeInfo > svg {
+    flex-shrink: 0;
+}
+
+.container > .footer > .sizeInfo strong {
+    color: var(--red-primary);
+}
+
+.container > .footer > .sizeInfoOk {
+    color: #1f8a4c;
+    font-weight: 600;
+}
+
+.container > .footer > .sizeInfoWarning {
+    color: #b26a00;
+    font-weight: 600;
+}
+
+:global(.DarkTheme) .container > .footer > .sizeInfoOk {
+    color: #4cc38a;
+}
+
+:global(.DarkTheme) .container > .footer > .sizeInfoWarning {
+    color: #f5b041;
+}
+
+.container > .footer > .sizeInfo .sizeInfoDetail {
+    font-weight: 400;
+}
+
+.container > .header > .uploadPlaceholder > p.recommendation {
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.container > .header > .uploadPlaceholder > p.recommendation > strong {
+    color: var(--red-primary);
+}
+
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spinning {
+        animation: none;
+    }
 }
 
 .container > .fileInput {
