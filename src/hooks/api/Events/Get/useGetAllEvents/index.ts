@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/hooks/api/client';
 import { useState, useEffect, useCallback } from 'react';
 import { EventProps, EventPublicResponse } from '@/@Types/EventTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useGetAllEventsProps = {
     events: EventProps[];
@@ -29,7 +30,7 @@ export function useGetAllEvents(): useGetAllEventsProps {
             }
             if (!response.ok) {
                 const err = await response.json();
-                throw new Error(err.message || 'Falha ao carregar eventos');
+                throw new Error(getApiErrorMessage(err, 'Falha ao carregar eventos.'));
             }
             setEvents((await response.json()) as EventProps[]);
         } catch (err: unknown) {

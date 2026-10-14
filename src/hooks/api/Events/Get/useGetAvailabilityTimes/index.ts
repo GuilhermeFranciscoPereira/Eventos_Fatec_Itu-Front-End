@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { AvailabilityTime } from '@/@Types/EventTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useGetAvailabilityTimesProps = {
     (locationId: number, date: string, exceptId?: number): Promise<AvailabilityTime[]>;
@@ -16,7 +17,7 @@ export function useGetAvailabilityTimes(): useGetAvailabilityTimesProps {
         const response: Response = await apiFetch(url.toString());
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao buscar horários disponíveis');
+            throw new Error(getApiErrorMessage(err, 'Falha ao buscar horários disponíveis.'));
         }
         return (await response.json()) as AvailabilityTime[];
     }, []);

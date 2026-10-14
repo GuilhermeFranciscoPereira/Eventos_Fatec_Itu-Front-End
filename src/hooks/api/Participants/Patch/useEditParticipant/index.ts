@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type UseEditParticipantProps = (id: number, isPresent: boolean) => Promise<void>;
 
@@ -16,7 +17,7 @@ export function useEditParticipant(): UseEditParticipantProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao atualizar participante');
+            throw new Error(getApiErrorMessage(err, 'Falha ao atualizar participante.'));
         }
         showToast({ message: 'Presença atualizada!', type: 'success' });
     }, [showToast]);

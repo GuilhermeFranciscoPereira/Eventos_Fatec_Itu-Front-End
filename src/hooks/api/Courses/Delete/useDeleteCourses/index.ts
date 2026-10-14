@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useDeleteCourseProps = {
     (id: number): Promise<void>;
@@ -17,7 +18,7 @@ export function useDeleteCourse(): useDeleteCourseProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao deletar curso, erro em: useDeleteCourse()');
+            throw new Error(getApiErrorMessage(err, 'Falha ao excluir curso.'));
         }
         showToast({ message: 'Curso excluído!', type: 'success' });
     }, [showToast]);

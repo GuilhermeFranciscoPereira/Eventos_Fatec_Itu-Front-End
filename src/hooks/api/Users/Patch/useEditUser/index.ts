@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { UpdateUserDto } from '@/@Types/UsersTypes';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useEditUserProps = {
     (id: number, dto: UpdateUserDto): Promise<void>;
@@ -19,7 +20,7 @@ export function useEditUser(): useEditUserProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha em useEditUser()');
+            throw new Error(getApiErrorMessage(err, 'Falha ao editar usuário.'));
         }
         showToast({ message: 'Usuário editado!', type: 'success' });
         return response.json();

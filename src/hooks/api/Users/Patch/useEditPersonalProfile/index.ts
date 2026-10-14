@@ -3,6 +3,7 @@ import { getMe } from '@/hooks/api/Auth/Get/getMe';
 import { apiFetch } from '@/hooks/api/client';
 import { useUserStore } from '@/stores/useUserStore';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type UpdateProfileDto = {
     name?: string;
@@ -30,7 +31,7 @@ export function useEditPersonalProfile(): useEditPersonalProfile {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao atualizar perfil');
+            throw new Error(getApiErrorMessage(err, 'Falha ao atualizar perfil.'));
         }
         showToast({ message: 'Perfil atualizado!', type: 'success' });
         const updated = await getMe();

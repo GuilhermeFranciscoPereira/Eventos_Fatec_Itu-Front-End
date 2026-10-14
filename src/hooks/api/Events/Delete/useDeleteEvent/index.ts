@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useDeleteEventProps = {
     (id: number): Promise<void>;
@@ -16,7 +17,7 @@ export function useDeleteEvent(): useDeleteEventProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao excluir evento');
+            throw new Error(getApiErrorMessage(err, 'Falha ao excluir evento.'));
         }
         showToast({ message: 'Evento deletado!', type: 'success' });
     },

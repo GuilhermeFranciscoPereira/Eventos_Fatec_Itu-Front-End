@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { CreateCarouselDto } from '@/@Types/CarouselTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useCreateCarouselProps = {
     (dto: CreateCarouselDto): Promise<void>;
@@ -22,7 +23,7 @@ export function useCreateCarousel(): useCreateCarouselProps {
             csrf: true,
             body: form
         });
-        if (!response.ok) throw new Error((await response.json()).message);
+        if (!response.ok) throw new Error(getApiErrorMessage(await response.json().catch(() => null), 'Falha ao adicionar imagem.'));
         showToast({ message: 'Imagem adicionada!', type: 'success' });
     }, [showToast]);
 }

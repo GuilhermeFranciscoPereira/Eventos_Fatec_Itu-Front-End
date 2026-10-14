@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useToastStore } from '@/stores/useToastStore';
 import { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type UseCreateParticipant = (dto: CreateParticipantDto) => Promise<void>;
 
@@ -17,7 +18,7 @@ export function useCreateParticipant(): UseCreateParticipant {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error((Array.isArray(err.message) ? err.message[0] : String(err.message ?? 'Falha ao inscrever participante').split(',')[0]).trim());
+            throw new Error(getApiErrorMessage(err, 'Falha ao realizar inscrição.'));
         }
         showToast({ message: 'Inscrição realizada, verifique o seu e-mail!', type: 'success' });
     }, [showToast]);

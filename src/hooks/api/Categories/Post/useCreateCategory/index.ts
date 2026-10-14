@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 export type CreateCategoryDto = { name: string };
 
@@ -20,7 +21,7 @@ export function useCreateCategory(): useCreateCategoryProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao criar nova categoria, erro em: useCreateCategory');
+            throw new Error(getApiErrorMessage(err, 'Falha ao criar categoria.'));
         }
         showToast({ message: 'Categoria salva!', type: 'success' });
         return response.json();

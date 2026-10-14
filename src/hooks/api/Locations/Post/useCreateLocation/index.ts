@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { CreateLocationDto } from '@/@Types/LocationsTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useCreateLocationProps = {
     (dto: CreateLocationDto): Promise<void>;
@@ -20,7 +21,7 @@ export function useCreateLocation(): useCreateLocationProps {
 
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao criar novo local');
+            throw new Error(getApiErrorMessage(err, 'Falha ao criar local.'));
         }
 
         showToast({ message: 'Local salvo!', type: 'success' });

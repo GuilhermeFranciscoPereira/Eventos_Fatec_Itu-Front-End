@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useDeleteUserProps = {
     (id: number): Promise<void>
@@ -17,7 +18,7 @@ export function useDeleteUser(): useDeleteUserProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao excluir usuário');
+            throw new Error(getApiErrorMessage(err, 'Falha ao excluir usuário.'));
         }
         showToast({ message: 'Usuário deletado!', type: 'success' });
     }, [showToast]);

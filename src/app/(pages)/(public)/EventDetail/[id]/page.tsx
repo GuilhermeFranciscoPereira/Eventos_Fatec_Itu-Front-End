@@ -10,6 +10,7 @@ import InputField from '@/components/Inputs/InputField';
 import InputSelect from '@/components/Inputs/InputSelect';
 import ImageCloudinary from '@/components/ImageCloudinary';
 import InputCheckbox from '@/components/Inputs/InputCheckbox';
+import { getFatecRaError, normalizeFatecRa } from '@/utils/fatecRa';
 import type { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
 import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
 import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
@@ -162,13 +163,17 @@ export default function EventDetail(): React.ReactElement {
             ),
             confirmLabel: 'Confirmar inscrição',
             onConfirm: async () => {
+                const ra = raRef.current?.value ? normalizeFatecRa(raRef.current.value) : null;
+                const raError = ra ? getFatecRaError(ra) : null;
+                if (raError) throw new Error(raError);
+
                 const dto: CreateParticipantDto = {
                     name: nameRef.current!.value.trim(),
                     email: emailRef.current!.value.trim(),
                     eventId,
                     courseId: selectedCourse ? Number(selectedCourse) : undefined,
                     semester: selectedSemester ? (selectedSemester as Semester) : null,
-                    ra: raRef.current && raRef.current.value ? raRef.current.value.trim() : null,
+                    ra,
                 };
                 await createParticipant(dto);
             },
@@ -246,7 +251,7 @@ const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ n
                             ]}
                         />
                     </div>
-                    <InputField ref={raRef} label="RA" minLength={13} maxLength={13} />
+                    <InputField ref={raRef} label="RA" minLength={13} maxLength={13} inputMode="numeric" pattern="\d{13}" />
                 </>
             )}
         </form>

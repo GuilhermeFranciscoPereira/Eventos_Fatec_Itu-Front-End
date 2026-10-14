@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useDeleteCarouselProps = {
     (id: number): Promise<void>;
@@ -16,7 +17,7 @@ export function useDeleteCarousel(): useDeleteCarouselProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message);
+            throw new Error(getApiErrorMessage(err, 'Falha ao excluir imagem.'));
         }
         showToast({ message: 'Imagem excluída!', type: 'success' });
     }, [showToast]);

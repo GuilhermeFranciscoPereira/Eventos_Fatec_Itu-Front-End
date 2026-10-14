@@ -4,6 +4,7 @@ import { getMe } from '@/hooks/api/Auth/Get/getMe';
 import { UserJwtProps } from '@/@Types/UserJwtProps';
 import { useUserStore } from '@/stores/useUserStore';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useLoginProps = {
   emailRef: React.RefObject<HTMLInputElement | null>;
@@ -62,7 +63,7 @@ export function useLogin(): useLoginProps {
 
       const payload = await response.json();
 
-      if (!response.ok && !payload.requires2FA) throw new Error(payload.message || 'Erro ao efetuar login');
+      if (!response.ok && !payload.requires2FA) throw new Error(getApiErrorMessage(payload, 'Erro ao efetuar login.'));
 
       if (payload.requires2FA || payload.message?.toLowerCase().includes('2fa')) {
         setStage('confirm');
@@ -102,7 +103,7 @@ export function useTwoFactor(): useTwoFactorProps {
 
       const data = await response.json();
 
-      if (!response.ok) { throw new Error(data.message || 'Falha na validação do código 2FA') };
+      if (!response.ok) { throw new Error(getApiErrorMessage(data, 'Falha na validação do código.')) };
 
       const user: UserJwtProps | null = await getMe();
       if (user) { useUserStore.getState().setUser(user) };

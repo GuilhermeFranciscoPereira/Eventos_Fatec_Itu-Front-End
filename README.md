@@ -26,17 +26,23 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Fluxo de renovação automática de sessão:` Corrigido o problema em que o usuário perdia acesso às rotas administrativas após a expiração do `access_token`, fazendo o front-end usar o `refresh_token`, atualizar o estado do usuário autenticado e refazer a requisição original automaticamente.
+### `Novo domínio de e-mail institucional:` A API passou a aceitar `@aluno.cps.sp.gov.br` além de `@fatec.sp.gov.br`, `@cms.sp.gov.br` e `@cps.sp.gov.br`, e o front-end agora exibe a mensagem com a lista completa de domínios, que antes aparecia cortada.
 
-### `./src/hooks/api/client.ts:` Criado um cliente centralizado para chamadas HTTP autenticadas, com envio automático de cookies, suporte a CSRF, captura de respostas `401`, chamada única compartilhada para refresh em requisições simultâneas, atualização da `useUserStore` e retry da requisição original.
+### `Mensagens de erro completas:` Corrigido o problema em que as mensagens da API eram cortadas na primeira vírgula (por exemplo, "E-mail deve ser institucional (@fatec.sp.gov.br"). Quando a API retorna mais de um erro, cada um aparece em uma linha.
 
-### `./src/hooks/api/Auth/Get/getMe/index.ts:` Ajustado para usar o novo `apiFetch`, permitindo que a busca do usuário autenticado também participe do fluxo automático de refresh.
+### `./src/utils/apiErrorMessage/index.ts:` Criada a função `getApiErrorMessage()`, que lê a mensagem de erro da API tanto em texto quanto em lista, sem cortar o conteúdo, e usa uma mensagem padrão amigável quando a API não envia nenhuma.
 
-### `./src/middleware.ts:` Atualizado para considerar a presença do cookie de refresh ao liberar rotas privadas, evitando que o middleware redirecione o usuário antes que o front-end consiga renovar a sessão.
+### `./src/hooks/api/**:` Todos os hooks de chamada à API passaram a usar `getApiErrorMessage()`, e as mensagens padrão técnicas (como "erro em: useDeleteCategory()") foram trocadas por textos para o usuário final.
 
-### `./src/hooks/api/Auth/Post/useLogout/index.tsx:` Ajustado para usar o novo cliente HTTP autenticado, mantendo CSRF e permitindo logout mesmo quando o `access_token` já expirou e ainda existe `refresh_token` válido.
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Removida a separação das mensagens por vírgula, que quebrava os textos, e corrigido o acento quebrado em "posterior Ã  data inicial".
 
-### `./src/hooks/api/Carousel, Categories, Courses, Events, Locations, Participants e Users:` Atualizadas as chamadas administrativas protegidas para usar `apiFetch`, garantindo refresh automático e repetição da requisição em listagens, criações, edições, exclusões, alternância de status e consultas de disponibilidade.
+### `./src/components/Toast/Toast.module.css e ./src/components/Modal/Modal.module.css:` Adicionado `white-space: pre-line` para exibir várias mensagens de erro, uma por linha.
+
+### `Validação do RA da Fatec:` O formulário de inscrição valida o RA no padrão oficial do SIGA (`FFF CCC AA S T NNN`: unidade, curso, ano de ingresso, semestre, turno e sequência) antes de enviar, mostrando qual parte do RA está incorreta. A mesma regra também é aplicada na API.
+
+### `./src/utils/fatecRa/index.ts:` Criadas as funções `normalizeFatecRa()`, que remove pontos, traços e espaços digitados, e `getFatecRaError()`, com a mesma regra de validação da API.
+
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` A inscrição valida o RA antes de chamar a API e o campo de RA passou a abrir o teclado numérico no celular.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

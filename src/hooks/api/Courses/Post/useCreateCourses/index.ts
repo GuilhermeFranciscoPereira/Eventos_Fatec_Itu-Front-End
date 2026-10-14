@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 export type CreateCourseDto = { name: string };
 
@@ -20,7 +21,7 @@ export function useCreateCourse(): useCreateCourseProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao criar novo curso, erro em: useCreateCourse');
+            throw new Error(getApiErrorMessage(err, 'Falha ao criar curso.'));
         }
         showToast({ message: 'Curso criado!', type: 'success' });
         return response.json();

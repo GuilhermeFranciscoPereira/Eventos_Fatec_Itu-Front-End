@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { CreateUserDto } from '@/@Types/UsersTypes';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useCreateUserProps = {
   (dto: CreateUserDto): Promise<void>;
@@ -19,7 +20,7 @@ export function useCreateUser(): useCreateUserProps {
     });
     if (!response.ok) {
       const err = await response.json();
-      throw new Error(err.message || 'Falha ao registrar usuário');
+      throw new Error(getApiErrorMessage(err, 'Falha ao criar usuário.'));
     } 
    showToast({ message: 'Usuário criado!', type: 'success' });
     return response.json();

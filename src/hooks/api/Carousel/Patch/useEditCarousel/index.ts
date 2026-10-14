@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { UpdateCarouselDto } from '@/@Types/CarouselTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useEditCarouselProps = {
   (id: number, dto: UpdateCarouselDto): Promise<void>;
@@ -48,7 +49,7 @@ export function useEditCarousel(): useEditCarouselProps {
 
       if (!response.ok) {
         const err = await response.json();
-        throw new Error(err.message || 'Falha ao atualizar carousel');
+        throw new Error(getApiErrorMessage(err, 'Falha ao atualizar carrossel.'));
       }
 
       showToast({ message: 'Carrossel atualizado!', type: 'success' });
@@ -69,7 +70,7 @@ export function useReorderCarousel(): useReorderCarouselProps {
 
       if (!response.ok) {
         const err = await response.json();
-        throw new Error(err.message || 'Falha ao reordenar carrossel');
+        throw new Error(getApiErrorMessage(err, 'Falha ao reordenar carrossel.'));
       }
     },
     []
@@ -89,7 +90,7 @@ export function useToggleActiveCarousel(): useToggleActiveCarouselProps {
       });
       if (!response.ok) {
         const err = await response.json();
-        throw new Error(err.message || 'Falha ao alternar ativo');
+        throw new Error(getApiErrorMessage(err, 'Falha ao ativar/desativar imagem.'));
       }
 
       showToast({ message: isActive ? 'Imagem ativada!' : 'Imagem desativada!', type: 'success' });

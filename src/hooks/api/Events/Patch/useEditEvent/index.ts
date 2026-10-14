@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { UpdateEventDto } from '@/@Types/EventTypes';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useEditEventProps = {
     (id: number, dto: UpdateEventDto): Promise<void>;
@@ -60,7 +61,7 @@ export function useEditEvent(): useEditEventProps {
 
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao atualizar evento');
+            throw new Error(getApiErrorMessage(err, 'Falha ao atualizar evento.'));
         }
         showToast({ message: 'Evento atualizado!', type: 'success' });
     },

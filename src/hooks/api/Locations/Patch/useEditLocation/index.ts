@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { UpdateLocationDto } from '@/@Types/LocationsTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useEditLocationProps = {
     (id: number, dto: UpdateLocationDto): Promise<void>;
@@ -20,7 +21,7 @@ export function useEditLocation(): useEditLocationProps {
 
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao atualizar local');
+            throw new Error(getApiErrorMessage(err, 'Falha ao atualizar local.'));
         }
 
         showToast({ message: 'Local atualizado!', type: 'success' });

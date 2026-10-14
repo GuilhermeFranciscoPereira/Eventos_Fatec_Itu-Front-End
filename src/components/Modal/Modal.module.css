@@ -60,6 +60,7 @@
     flex-direction: column;
     text-align: center;
     color: red;
+    white-space: pre-line;
     gap: 5px;
     padding: 10px 0px;
 }

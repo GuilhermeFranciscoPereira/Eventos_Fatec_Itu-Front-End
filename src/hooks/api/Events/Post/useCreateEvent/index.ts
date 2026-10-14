@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { apiFetch } from '@/hooks/api/client'
 import { CreateEventDto } from '@/@Types/EventTypes'
 import { useToastStore } from '@/stores/useToastStore'
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type UseCreateEvent = {
     (dto: CreateEventDto): Promise<void>
@@ -38,7 +39,7 @@ export function useCreateEvent(): UseCreateEvent {
 
         if (!res.ok) {
             const err = await res.json().catch(() => ({}))
-            throw new Error(err.message || 'Falha ao criar evento')
+            throw new Error(getApiErrorMessage(err, 'Falha ao criar evento.'))
         }
 
         showToast({ message: 'Evento criado!', type: 'success' })

@@ -275,7 +275,7 @@ export function useEventForm() {
         if (startDay && e.target.value && e.target.value < startDay) {
             e.target.value = ''
             setLoadedEndDate('')
-            showToast({ message: 'A data final deve ser igual ou posterior Ã  data inicial.', type: 'warning' })
+            showToast({ message: 'A data final deve ser igual ou posterior à data inicial.', type: 'warning' })
             return
         }
 
@@ -315,7 +315,7 @@ export function useEventForm() {
         }
 
         if (endDay < day) {
-            showToast({ message: 'A data final deve ser igual ou posterior Ã  data inicial.', type: 'warning' })
+            showToast({ message: 'A data final deve ser igual ou posterior à data inicial.', type: 'warning' })
             setLoading(false)
             return
         }
@@ -355,11 +355,8 @@ export function useEventForm() {
             router.push('/Events')
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err)
-            msg
-                .split(',')
-                .map(m => m.trim())
-                .filter(Boolean)
-                .forEach(m => showToast({ message: m, type: 'warning' }))
+            // The store keeps a single toast, so all API messages go in one (one per line)
+            showToast({ message: msg, type: 'warning' })
         } finally {
             setLoading(false)
         }

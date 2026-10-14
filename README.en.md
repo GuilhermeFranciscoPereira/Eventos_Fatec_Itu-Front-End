@@ -26,17 +26,23 @@
 
 ## 🛎️ Updates to this commit
 
-### `Automatic session refresh flow:` Fixed the issue where the user lost access to administrative routes after the `access_token` expired, making the front-end use the `refresh_token`, update the authenticated user state, and retry the original request automatically.
+### `New institutional e-mail domain:` The API now accepts `@aluno.cps.sp.gov.br` in addition to `@fatec.sp.gov.br`, `@cms.sp.gov.br` and `@cps.sp.gov.br`, and the front-end now shows the message with the full list of domains, which used to be cut off.
 
-### `./src/hooks/api/client.ts:` Created a centralized client for authenticated HTTP calls, with automatic cookie sending, CSRF support, `401` response handling, a single shared refresh call for simultaneous requests, `useUserStore` updates, and retry of the original request.
+### `Complete error messages:` Fixed the issue where API messages were cut at the first comma (for example, "E-mail deve ser institucional (@fatec.sp.gov.br"). When the API returns more than one error, each one is shown on its own line.
 
-### `./src/hooks/api/Auth/Get/getMe/index.ts:` Adjusted to use the new `apiFetch`, allowing authenticated user loading to participate in the automatic refresh flow.
+### `./src/utils/apiErrorMessage/index.ts:` Created the `getApiErrorMessage()` function, which reads the API error message both as text and as a list without cutting it, falling back to a friendly default message when the API sends none.
 
-### `./src/middleware.ts:` Updated to consider the refresh cookie when allowing private routes, preventing the middleware from redirecting the user before the front-end can renew the session.
+### `./src/hooks/api/**:` Every API hook now uses `getApiErrorMessage()`, and technical default messages (such as "erro em: useDeleteCategory()") were replaced with end-user texts.
 
-### `./src/hooks/api/Auth/Post/useLogout/index.tsx:` Adjusted to use the new authenticated HTTP client, keeping CSRF and allowing logout even when the `access_token` has already expired and a valid `refresh_token` still exists.
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Removed the comma-based message splitting that broke the texts and fixed the broken accent in "posterior Ã  data inicial".
 
-### `./src/hooks/api/Carousel, Categories, Courses, Events, Locations, Participants and Users:` Updated protected administrative calls to use `apiFetch`, ensuring automatic refresh and request retry for listings, creations, edits, deletions, status toggles, and availability queries.
+### `./src/components/Toast/Toast.module.css and ./src/components/Modal/Modal.module.css:` Added `white-space: pre-line` to show multiple error messages, one per line.
+
+### `Fatec RA validation:` The registration form validates the RA against the official SIGA format (`FFF CCC AA S T NNN`: unit, course, entry year, semester, shift and sequence) before submitting, showing which part of the RA is wrong. The same rule is also enforced by the API.
+
+### `./src/utils/fatecRa/index.ts:` Created `normalizeFatecRa()`, which removes typed dots, dashes and spaces, and `getFatecRaError()`, with the same validation rule as the API.
+
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx:` Registration validates the RA before calling the API, and the RA field now opens the numeric keyboard on mobile.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

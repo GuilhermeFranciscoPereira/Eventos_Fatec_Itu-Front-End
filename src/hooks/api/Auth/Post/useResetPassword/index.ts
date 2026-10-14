@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToastStore } from '@/stores/useToastStore';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type usePasswordResetRequestProps = {
     emailRef: React.RefObject<HTMLInputElement | null>;
@@ -45,7 +46,7 @@ export function usePasswordResetRequest(): usePasswordResetRequestProps {
             });
             const data = await resp.json();
             if (!resp.ok) {
-                setError(data.message || `Erro ${resp.status}`);
+                setError(getApiErrorMessage(data, 'Não foi possível enviar o código. Tente novamente.'));
                 return;
             }
             setStage('confirm');
@@ -90,7 +91,7 @@ export function usePasswordResetConfirm(): usePasswordResetConfirmProps {
             });
             const data = await resp.json();
             if (!resp.ok) {
-                throw new Error(data.message || 'Código inválido');
+                throw new Error(getApiErrorMessage(data, 'Código inválido.'));
             }
             router.push('/Login');
             showToast({ message: 'Senha alterada, faça login!', type: 'success' });

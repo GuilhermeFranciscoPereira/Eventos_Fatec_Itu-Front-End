@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { UpdateCourseDto } from '@/@Types/CoursesTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useEditCourseProps = {
     (id: number, dto: UpdateCourseDto): Promise<void>
@@ -19,7 +20,7 @@ export function useEditCourse(): useEditCourseProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao atualizar curso, erro em: useEditCourse()');
+            throw new Error(getApiErrorMessage(err, 'Falha ao atualizar curso.'));
         }
         showToast({ message: 'Curso atualizado!', type: 'success' });
         return response.json();

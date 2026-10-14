@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { UpdateCategoryDto } from '@/@Types/CategoriesTypes';
+import { getApiErrorMessage } from '@/utils/apiErrorMessage';
 
 type useEditCategoryProps = {
     (id: number, dto: UpdateCategoryDto): Promise<void>
@@ -19,7 +20,7 @@ export function useEditCategory(): useEditCategoryProps {
         });
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Falha ao atualizar categoria, erro em: useEditCategory()');
+            throw new Error(getApiErrorMessage(err, 'Falha ao atualizar categoria.'));
         }
         showToast({ message: 'Categoria atualizada!', type: 'success' });
         return response.json();
