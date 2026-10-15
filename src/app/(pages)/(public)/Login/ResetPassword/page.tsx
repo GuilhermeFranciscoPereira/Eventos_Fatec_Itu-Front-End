@@ -21,7 +21,6 @@ export default function ResetPassword(): React.ReactElement {
                     src="/assets/images/login/resetPage.png"
                     width={580}
                     height={420}
-                    quality={100}
                     className={styles.illustration}
                 />
             </section>
@@ -152,7 +151,6 @@ export default function ResetPassword(): React.ReactElement {
                             priority
                             width={120}
                             height={60}
-                            quality={100}
                         />
                     </div>
                 </div>

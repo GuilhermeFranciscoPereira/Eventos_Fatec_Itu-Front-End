@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/stores/useToastStore';
 import { apiFetch } from '@/hooks/api/client';
 import { useState, useEffect, useCallback } from 'react';
 import { EventProps, EventPublicResponse } from '@/@Types/EventTypes';
@@ -17,6 +18,7 @@ type useGetAllEventsPublicProps = {
 
 export function useGetAllEvents(): useGetAllEventsProps {
     const router = useRouter();
+    const showToast = useToastStore(s => s.showToast);
     const [loading, setLoading] = useState<boolean>(true);
     const [events, setEvents] = useState<EventProps[]>([]);
 
@@ -35,11 +37,11 @@ export function useGetAllEvents(): useGetAllEventsProps {
             setEvents((await response.json()) as EventProps[]);
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
-            console.log('Error in: useGetAllEvents() <---> Erro:', msg);
+            showToast({ message: msg, type: 'error' });
         } finally {
             setLoading(false);
         }
-    }, [router]);
+    }, [router, showToast]);
 
     useEffect(() => {
         fetchEvents();
@@ -54,7 +56,6 @@ export function useGetAllEventsPublic(): useGetAllEventsPublicProps {
     const fetchAll = useCallback(async () => {
         const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/publicAllEvents`);
         if (!response.ok) {
-            console.log('Erro ao carregar eventos públicos:', response.status);
             return;
         }
         const data = (await response.json()) as EventPublicResponse[];

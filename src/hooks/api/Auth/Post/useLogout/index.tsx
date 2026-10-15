@@ -29,9 +29,8 @@ export function useLogout(): useLogout {
             router.push('/');
             showToast({ message: 'Logout realizado, até breve!', type: 'success' });
             useUserStore.getState().setUser(null);
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : String(err);
-            console.log('Error in: useLogout() <---> Erro:', msg);
+        } catch {
+            showToast({ message: 'Falha no logout, tente novamente!', type: 'error' });
         }
     }, [showToast, router]);
 

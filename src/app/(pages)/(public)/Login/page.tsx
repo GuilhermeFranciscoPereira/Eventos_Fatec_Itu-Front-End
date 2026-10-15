@@ -21,7 +21,6 @@ export default function Login(): React.ReactElement {
                     src="/assets/images/login/loginPage.png"
                     width={580}
                     height={420}
-                    quality={100}
                     className={styles.illustration}
                 />
             </section>
@@ -135,7 +134,6 @@ export default function Login(): React.ReactElement {
                             priority
                             width={120}
                             height={60}
-                            quality={100}
                         />
                     </div>
                 </div>

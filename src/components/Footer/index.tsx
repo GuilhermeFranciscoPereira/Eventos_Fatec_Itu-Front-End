@@ -62,7 +62,6 @@ export default function Footer(): React.ReactElement {
                             width={140}
                             height={56}
                             className={styles.logo}
-                            quality={100}
                         />
                     </div>
 

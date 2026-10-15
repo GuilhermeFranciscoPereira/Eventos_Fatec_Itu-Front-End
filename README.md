@@ -12,7 +12,7 @@
 
 ## 📌 Sobre o projeto
 
-### Este sistema foi desenvolvido para que os eventos da Faculdade Fatec Itu - Dom Amaury Castanho pudessem ter um método de inscrição mais práticos, gerando facilidade tanto para os alunos, pessoas de fora e para os responsáveis pelos eventos. Claramente este sistema também é utilizado pelos responsáveis dos eventos, para gerenciamento e controle de eventos, usuários, carrossel, categorias, locais e demais estruturas administrativas. 
+### Este sistema foi desenvolvido para que os eventos da Faculdade Fatec Itu - Dom Amaury Castanho pudessem ter um método de inscrição mais prático, gerando facilidade tanto para os alunos, pessoas de fora e para os responsáveis pelos eventos. Claramente este sistema também é utilizado pelos responsáveis dos eventos, para gerenciamento e controle de eventos, usuários, carrossel, categorias, locais e demais estruturas administrativas. 
 
 ### 👥 Este sistema está sendo criado por: Guilherme Francisco Pereira como desenvolvimento de TCC / Sistema real
 
@@ -26,11 +26,25 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Data de hoje nos campos de data:` A data mínima do formulário de eventos e do filtro da tela inicial era calculada com `toISOString()`, que usa UTC. No Brasil, depois das 21h isso já retornava a data do dia seguinte e impedia escolher a data de hoje.
+### `Imagens mais leves:` As imagens eram pedidas com qualidade máxima (`quality={100}` e `q_auto:best` no Cloudinary), gerando arquivos bem maiores sem diferença visível. Agora o Cloudinary usa `q_auto`, que escolhe a menor qualidade sem perda perceptível, as imagens locais usam a qualidade padrão do Next e o `next.config.ts` passou a entregar AVIF além de WebP.
 
-### `./src/utils/localDate/index.ts:` Criada a função `getLocalDateString()`, que retorna a data de hoje no fuso horário do usuário, usada em `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts` e em `./src/components/Inputs/FiltersHome/index.tsx`.
+### `Fonte mais leve:` A Poppins era carregada em 6 pesos (400 a 900). Agora carrega só os 4 usados no site (400, 500, 600 e 700). Os únicos textos em 800 e 900 (o selo "Fatecano" dos cards e a letra do avatar no menu lateral) e o título em `bolder` do login passaram para 700.
 
-### `./src/middleware.ts:` Quando as variáveis `NEXT_PUBLIC_NOT_AUTHENTICATED_ROUTE` ou `NEXT_PUBLIC_AUTHENTICATED_ROUTE` não estavam definidas, o redirecionamento apontava para a própria página e entrava em loop. Agora elas têm os valores padrão `/Login` e `/`.
+### `./src/utils/downloadSectionAsPdf/index.ts:` As bibliotecas `jspdf` e `html2canvas`, que são pesadas, deixaram de ir no carregamento da página e passaram a ser baixadas apenas quando o usuário clica para baixar o PDF.
+
+### `SEO:` A página de cada evento passou a ter título, descrição, imagem de compartilhamento (1200 × 630, gerada pelo Cloudinary a partir da foto do evento) e link canônico próprios, além do JSON-LD do tipo `Event`, que permite ao Google mostrar data, local e palestrante nos resultados. O site ganhou `sitemap.xml` com todos os eventos públicos, `robots.txt`, imagem padrão de compartilhamento, JSON-LD da Fatec Itu, título com modelo por página (`Nome da página | Eventos Fatec Itu`) e um `h1` na tela inicial. As páginas administrativas, o login e a verificação de certificado foram marcadas para não aparecer nos buscadores.
+
+### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx e EventDetailView.tsx:` A página do evento foi dividida: o `page.tsx` agora é um componente de servidor que busca o evento na API e gera os metadados e o JSON-LD, e o conteúdo da tela, que continua igual, passou para o `EventDetailView.tsx`.
+
+### `./src/utils/seo/index.ts:` Criado o utilitário que centraliza a URL e a descrição do site, os dados da Fatec Itu, a busca dos eventos públicos no servidor (com tempo limite de 5 segundos, para a página não travar se a API demorar) e a montagem dos metadados e do JSON-LD. A URL do site pode ser trocada pela variável opcional `NEXT_PUBLIC_SITE_URL`.
+
+### `./src/app/sitemap.ts, robots.ts, opengraph-image.tsx e layouts de (private), Login e Verification:` Criados os arquivos de sitemap, robots, imagem de compartilhamento e os layouts que marcam as páginas que não devem ser indexadas. O `middleware.ts` passou a liberar a imagem de compartilhamento, que antes seria redirecionada para o login.
+
+### `Mensagens no console removidas:` Removidos os `console.log` dos hooks. Nas listagens administrativas (categorias, cursos, locais, eventos e usuários), uma falha ao carregar agora mostra um aviso na tela em vez de deixar a lista vazia sem explicação, e uma falha de conexão no logout passou a mostrar o mesmo aviso de falha no logout.
+
+### `package.json e README:` O `eslint-config-next` foi atualizado para 15.5.12, a mesma versão do Next, e a versão do Next no README foi corrigida de 15.4.2 para 15.5.12.
+
+### `Erros de escrita corrigidos:` "todas os eventos" na descrição do site; no README, "método mais práticos", "áres", "reutilizavel", "todas os dias/horários", "disponivel", "disponiveis", "horario", "contem", "rota publica", "obrigado à estar", o ".." duplicado e o nome do arquivo `globals.css`.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -47,7 +61,7 @@
 </div>
 
 ## Versões utilizadas:
-    - Next: 15.4.2
+    - Next: 15.5.12
     - React: 19.1.0
     - Typescript: 5
     - Docker: 28.3.2
@@ -86,11 +100,14 @@
     - `UserJwtProps.ts:` Tipagem de usuário e suas roles.
 
 - `./src/app:` Este é um projeto Next, caso não possua conhecimento em Next procure sobre "App Router Next" para entender mais sobre o projeto e sua estrutura de pastas e rotas! Dentro do app temos: 
-  - `global.css:` Estilizações globais, importado dentro do nosso layout.tsx para passar para toda a aplicação
-  - `layout.tsx:` Importa estilos globais e fontes, configura metadados (como título e descrição), e encapsula a aplicação.
+  - `globals.css:` Estilizações globais, importado dentro do nosso layout.tsx para passar para toda a aplicação. Também contém a classe `visuallyHidden`, que esconde um texto da tela mas o mantém para leitores de tela e buscadores.
+  - `layout.tsx:` Importa estilos globais e fontes, configura os metadados de SEO (título com modelo por página, descrição e Open Graph), adiciona o JSON-LD da organização (Fatec Itu) e encapsula a aplicação.
     - `loading.tsx:` Este é um componente especial do Next.js para exibir algo em carregamento durante o fetch de dados ou mudança de rota, para mostrar isso ao usuário inserimos o nosso componente Loader.
+  - `opengraph-image.tsx:` Gera a imagem padrão de compartilhamento (1200 × 630) com o logo da Fatec Itu, usada quando um link do site é enviado em redes sociais ou aplicativos de mensagem.
+  - `robots.ts:` Gera o `robots.txt`, liberando as páginas públicas para os buscadores, bloqueando as páginas administrativas e indicando o sitemap.
+  - `sitemap.ts:` Gera o `sitemap.xml` com a tela inicial e todos os eventos públicos, atualizado a cada 5 minutos.
   - `(pages):` Possui todas nossas rotas da aplicação, mas lembre-se, sempre que estiver dentro de parentes não será reconhecido como rota aquela pasta! Nossa páginas:
-    - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado à estar logado para poder acessar. Nela temos:
+    - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado a estar logado para poder acessar. O `layout.tsx` desta pasta marca todas essas páginas para não aparecerem nos buscadores. Nela temos:
         - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: `./src/hooks/api/Carousel` e parte lógica em: `./src/hooks/pages/private/Carousel/useCarouselPage`
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: `./src/hooks/api/Categories/` e parte lógica em: `./src/hooks/pages/private/Categories/useCategoriesPage`
         - `Courses:` Tela de gerenciamento de cursos, responsável por exibir a lista dos cursos cadastrados e oferecer as ações de criar, editar ou excluir cada curso, integrando-se aos hooks de API em: `./src/hooks/api/Courses/` e parte lógica em: `./src/hooks/pages/private/Courses/useCoursesPage`
@@ -99,11 +116,12 @@
             - `Participants:` Página que mostra quais são os participantes do evento desejado, trazendo o nome, email, RA, data de inscrição e opção para marcar a presença.
         - `Locations:` Tela de gerenciamento de locais, responsável por exibir a lista dos locais cadastrados e oferecer as ações de criar, editar ou excluir cada local, integrando-se aos hooks de API em: `./src/hooks/api/Locations/` e parte lógica em: `./src/hooks/pages/private/Locations/useLocationsPage`
         - `Users:` Tela de gerenciamento de usuários, responsável por exibir a lista de usuários cadastrados e oferecer as ações de criar, editar ou excluir cada usuário, integrando-se aos hooks de API em: `./src/hooks/api/Users/` e parte lógica em: `./src/hooks/pages/private/Users/useUsersPage`
-    - `(public):` Tudo que está dentro desta pasta são nossas páginas de rota publica, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
+    - `(public):` Tudo que está dentro desta pasta são nossas páginas de rota pública, onde mesmo sem estar logado o usuário pode acessar. Nela temos:
         - `page.tsx`: Nossa primeira página, também conhecido como o nosso "home", é a tela em que o usuário visualiza assim que acessa o site.
-        - `EventDetail:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento
-        - `Login:` Tela de login, ao acessar: /Login. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
+        - `EventDetail:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento. O `page.tsx` gera no servidor o título, a descrição, a imagem de compartilhamento e o JSON-LD do evento para buscadores e redes sociais, e o `EventDetailView.tsx` contém a tela
+        - `Login:` Tela de login, ao acessar: /Login. O `layout.tsx` desta pasta marca o login e a troca de senha para não aparecerem nos buscadores. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
             - `ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail, se existir troca para a tela para informar a nova senha, confirmar, e inserir o código de 6 dígitos enviado ao e-mail.
+        - `Verification:` Tela de verificação de certificado, ao acessar: /Verification/[token], link presente no QR Code do certificado. Mostra os dados do certificado para confirmar que ele é autêntico. O `layout.tsx` desta pasta marca a página para não aparecer nos buscadores, já que ela exibe o nome e o e-mail do aluno.
 
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
     - `Buttons:`
@@ -113,9 +131,9 @@
     - `CardEvents:` Cards que mostram os eventos aos usuários não autenticados, mostram apenas os eventos que ainda não ocorreram, nele tem breve informações como a foto, titulo, dia e horário e palestrante.
     - `CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
-    - `Footer:` Rodapé que contem as informações como: Endereço, número de telefone, links das áres dos alunos.
+    - `Footer:` Rodapé que contém as informações como: Endereço, número de telefone, links das áreas dos alunos.
     - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site. Em telas não mobile ele também é responsável por exibir a navegação principal centralizada com suporte à dropdown e subdropdown por hover.
-    - `ImageCloudinary:` Responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizavel em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
+    - `ImageCloudinary:` Responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizável em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
     - `ImageCropper:` Editor de recorte de imagem aberto por cima da tela, com as opções de recorte no tamanho recomendado, livre, 16:9, 4:3 e quadrado. Mostra o tamanho do recorte, avisa quando a resolução ou a proporção não são as ideais e marca a área visível no celular.
     - `Inputs:`
         - `FiltersHome:` Filtros combináveis para os eventos, filtros para filtrar por nome dos eventos, por categorias e por datas com base em inicio e fim, este componente de filtros é utilizado em CardEvents
@@ -181,8 +199,8 @@
                 - `useDeleteEvent.ts:` Hook que encapsula a lógica de remover um evento, enviando DELETE com proteção CSRF e tratando falhas para exibir mensagens de erro.
             - `Get:` Requisições GET nas rotas de /event
                 - `useGetAllevents.ts:` Responsável por carregar todos os eventos.
-                - `useGetAvailabilityDates.ts:` Responsável por pegar do banco de dados todas os dias que possuem pelo menos 1 horário disponivel no local escolhido para o evento, evitando de ter dois eventos no mesmo local.
-                - `useGetAvailabilityTimes.ts:` Responsável por pegar do banco de dados todas os horários disponiveis para não ocorrer que um evento sobreponha outro no mesmo dia, horario e local..
+                - `useGetAvailabilityDates.ts:` Responsável por pegar do banco de dados todos os dias que possuem pelo menos 1 horário disponível no local escolhido para o evento, evitando de ter dois eventos no mesmo local.
+                - `useGetAvailabilityTimes.ts:` Responsável por pegar do banco de dados todos os horários disponíveis para não ocorrer que um evento sobreponha outro no mesmo dia, horário e local.
             - `Patch:` Requisições PATCH nas rotas de /event/patch/:id
                 - `useEditEvent.ts:` Hook para editar um evento por completo, podendo substituir os valores.
             - `Post:` Requisições POST nas rotas de /event/create
@@ -264,6 +282,7 @@
     - `localDate:` Retorna a data de hoje no fuso horário do usuário no formato `AAAA-MM-DD`, usada como data mínima nos campos de data. O `toISOString()` usa UTC e, no Brasil, depois das 21h já retornava a data do dia seguinte.
      - `navigationData:` Arquivo responsável por centralizar a configuração dos itens de navegação reutilizados no Header e no Sidebar, incluindo rotas internas, links externos, dropdown, subdropdown e controle de visibilidade com base na role do usuário.
     - `printSection:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
+    - `seo:` Centraliza a URL e a descrição do site, os dados da Fatec Itu usados no JSON-LD, a busca dos eventos públicos no servidor (com tempo limite, para a página não travar se a API demorar) e a montagem dos metadados e do JSON-LD de cada evento.
     - `wrapperVLibras:` Componente utilitário cliente responsável por inicializar globalmente a integração com o plugin VLibras dentro da aplicação. Serve para disponibilizar o recurso de acessibilidade de tradução para Libras em todas as páginas ao ser importado no `layout.tsx`.
 
 ## ❔ Como rodar o projeto na minha máquina?
@@ -315,7 +334,7 @@
       npm run dev
       ```
 
-    - ⚠️ Lembre-se de criar o arquivo .env com base em tudo que contem no arquivo: `.env.example`
+    - ⚠️ Lembre-se de criar o arquivo .env com base em tudo que contém no arquivo: `.env.example`
 
 ##
 

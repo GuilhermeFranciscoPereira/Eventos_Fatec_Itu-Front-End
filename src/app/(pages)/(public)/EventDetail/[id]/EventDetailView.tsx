@@ -1,0 +1,262 @@
+'use client';
+import Loader from '@/components/Loader';
+import Footer from '@/components/Footer';
+import { useParams } from 'next/navigation';
+import { forwardRef, useState } from 'react';
+import CardEvents from '@/components/CardEvents';
+import type { Semester } from '@/@Types/EventTypes';
+import ButtonRay from '@/components/Buttons/ButtonRay';
+import InputField from '@/components/Inputs/InputField';
+import InputSelect from '@/components/Inputs/InputSelect';
+import ImageCloudinary from '@/components/ImageCloudinary';
+import InputCheckbox from '@/components/Inputs/InputCheckbox';
+import { getFatecRaError, normalizeFatecRa } from '@/utils/fatecRa';
+import type { CreateParticipantDto } from '@/@Types/ParticipantsTypes';
+import { useGetEventById } from '@/hooks/api/Events/Get/useGetEventById';
+import styles from '@/app/(pages)/(public)/EventDetail/[id]/EventDetail.module.css';
+import { useEventDetailPage } from '@/hooks/pages/(public)/EventDetail/id/useEventDetailPage';
+import type { SubscriptionFormProps } from '@/hooks/pages/(public)/EventDetail/id/useEventDetailPage';
+import { MdAssignmentAdd, MdPerson, MdEvent, MdLocationOn, MdDescription, MdSchool, MdLock, MdMenuBook } from 'react-icons/md';
+
+export default function EventDetailView(): React.ReactElement {
+    const { createParticipant, openModal, publicCourses, coursesLoading, raRef, nameRef, emailRef, semesterOptions } = useEventDetailPage();
+
+    const { id } = useParams() as { id: string };
+    const eventId = Number(id);
+    const { event, loading } = useGetEventById(eventId);
+    if (!event) return <h1>Evento não encontrado! </h1>;
+    const courseIds = event.courseIds?.length ? event.courseIds : event.courseId ? [event.courseId] : [];
+    const courseNames = event.courseNames?.length
+        ? event.courseNames
+        : courseIds.map((courseId) => publicCourses.find(c => c.id === courseId)?.name ?? 'Carregando...');
+    const courseLabel = courseIds.length ? courseNames.join(', ') : 'Todos os cursos';
+    const startDateLabel = new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    const endDateLabel = event.endDate
+        ? new Date(event.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+        : null;
+    const dateLabel = endDateLabel && endDateLabel !== startDateLabel
+        ? `${startDateLabel} até ${endDateLabel}`
+        : startDateLabel;
+    if (loading) return <Loader />;
+
+    return (
+        <>
+            <main className={styles.eventDetailPage}>
+                <div className={styles.detailPageInfo}>
+                    <div className={styles.detailPageHeader}>
+                        <ImageCloudinary
+                            src={event.imageUrl}
+                            alt={event.name}
+                            sizes="(max-width: 1024px) 100vw, 1200px"
+                            priority
+                        />
+                    </div>
+                    <h1 className={styles.title}>{event.name}</h1>
+                    <div className={styles.infoItem}>
+                        <MdPerson size={20} className={styles.icon} />
+                        <strong className={styles.label}>Palestrante:</strong>
+                        <p className={styles.infoText}>{event.speakerName}</p>
+                    </div>
+
+                    <div className={styles.infoItem}>
+                        <MdLock size={20} className={styles.icon} />
+                        <strong className={styles.label}>Evento restrito somente a alunos e colaboradores?</strong>
+                        <p className={styles.infoText}>
+                            {event.isRestricted
+                                ? 'Sim! O Evento é restrito somente à alunos e colaboradores da Fatec Itu!'
+                                : 'Não! O Evento é publico para todos: Alunos, colaboradores e pessoas de fora!'}
+                        </p>
+                    </div>
+
+                    {event.isRestricted && (
+                        <div className={styles.infoItem}>
+                            <MdMenuBook size={20} className={styles.icon} />
+                            <strong className={styles.label}>Curso(s):</strong>
+                            <p className={styles.infoText}>
+                                {courseIds.length
+                                    ? `Evento disponível somente para alunos ${courseIds.length === 1 ? 'do curso' : 'dos cursos'}: ${courseLabel}`
+                                    : 'Evento disponível para todos os cursos'}
+                            </p>
+                        </div>
+                    )}
+
+                    {event.isRestricted && (
+                        <div className={styles.infoItem}>
+                            <MdSchool size={20} className={styles.icon} />
+                            <strong className={styles.label}>Semestre:</strong>
+                            <p className={styles.infoText}>
+                                {event.semester === 'ALL' || !event.semester
+                                    ? 'Evento disponível para todos os semestres'
+                                    : event.semester === 'ESPECIAL'
+                                        ? 'Evento disponível somente para alunos em modelo especial'
+                                        : `Evento disponível somente para o ${event.semester.replace('SEMESTER', '')}º semestre`}
+                            </p>
+                        </div>
+                    )}
+
+                    <div className={styles.infoItem}>
+                        <MdEvent size={20} className={styles.icon} />
+                        <strong className={styles.label}>Data:</strong>
+                        <p className={styles.infoText}>
+                            {dateLabel} – {' '}
+                            {[event.startTime, event.endTime].map(t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })).join(' às ')}
+                        </p>
+                    </div>
+                    <div className={styles.infoItem}>
+                        <MdLocationOn size={20} className={styles.icon} />
+                        <strong className={styles.label}>Local:</strong>
+                        <p className={styles.infoText}>
+                            {event.locationName.toLowerCase() === 'outros'
+                                ? event.customLocation
+                                : event.locationName}
+                        </p>
+                    </div>
+                    <div className={styles.infoItem}>
+                        <MdDescription size={20} className={styles.icon} />
+                        <strong className={styles.label}>Descrição:</strong>
+                        <p className={styles.infoText}>{event.description}</p>
+                    </div>
+                    <div className={styles.subscribe}>
+                        <ButtonRay text="Inscreva-se" onClick={handleSubscribe} type="button" />
+                    </div>
+                </div>
+                <div className={styles.cardContainer}>
+                    <CardEvents
+                        categoryId={event.categoryId ?? null}
+                        showFilters={false}
+                        excludeId={event.id}
+                    />
+                </div>
+            </main>
+            <Footer />
+        </>
+    );
+
+    // Below we have the modals
+
+    function handleSubscribe(): void {
+        let selectedCourse = '';
+        let selectedSemester = '';
+
+        openModal({
+            title: 'Inscreva-se no evento!',
+            icon: <MdAssignmentAdd size={32} className={styles.icon} />,
+            message: (
+                <SubscriptionForm
+                    nameRef={nameRef}
+                    emailRef={emailRef}
+                    raRef={raRef}
+                    courseOptions={publicCourses}
+                    coursesLoading={coursesLoading}
+                    semesterOptions={semesterOptions}
+                    ref={null}
+                    onlyStudents={event?.isRestricted ? event?.isRestricted : false}
+                    courseValue={selectedCourse}
+                    semesterValue={selectedSemester}
+                    onCourseChange={(value) => {
+                        selectedCourse = value;
+                    }}
+                    onSemesterChange={(value) => {
+                        selectedSemester = value;
+                    }}
+                />
+            ),
+            confirmLabel: 'Confirmar inscrição',
+            onConfirm: async () => {
+                const ra = raRef.current?.value ? normalizeFatecRa(raRef.current.value) : null;
+                const raError = ra ? getFatecRaError(ra) : null;
+                if (raError) throw new Error(raError);
+
+                const dto: CreateParticipantDto = {
+                    name: nameRef.current!.value.trim(),
+                    email: emailRef.current!.value.trim(),
+                    eventId,
+                    courseId: selectedCourse ? Number(selectedCourse) : undefined,
+                    semester: selectedSemester ? (selectedSemester as Semester) : null,
+                    ra,
+                };
+                await createParticipant(dto);
+            },
+        });
+    }
+}
+
+const SubscriptionForm = forwardRef<HTMLFormElement, SubscriptionFormProps>(({ nameRef, emailRef, raRef, courseOptions, coursesLoading, semesterOptions, onlyStudents, courseValue, semesterValue, onCourseChange, onSemesterChange }, ref) => {
+    const [isStudent, setIsStudent] = useState(onlyStudents)
+    const [selectedCourse, setSelectedCourse] = useState<string>(courseValue);
+    const [selectedSemester, setSelectedSemester] = useState<string>(semesterValue);
+
+    return (
+        <form ref={ref} className={styles.form}>
+            <div className={styles.checkboxGroup}>
+                {!onlyStudents &&
+                    <InputCheckbox
+                        checked={isStudent}
+                        label="Sou aluno"
+                        onChange={() => {
+                            const nextValue = !isStudent;
+                            setIsStudent(nextValue);
+
+                            if (!nextValue) {
+                                setSelectedCourse('');
+                                setSelectedSemester('');
+                                onCourseChange('');
+                                onSemesterChange('');
+                            }
+                        }}
+                    />
+                }
+            </div>
+            <InputField ref={nameRef} label="Nome completo" required autoFocus />
+            <InputField ref={emailRef} label={isStudent ? 'E-mail institucional' : 'E-mail'} type="email" required />
+            {isStudent && (
+                <>
+                    <div className={styles.fieldGroup}>
+                        <InputSelect
+                            label="Curso"
+                            value={selectedCourse}
+                            onChange={(value) => {
+                                setSelectedCourse(value);
+                                onCourseChange(value);
+                            }}
+                            disabled={coursesLoading}
+                            options={[
+                                {
+                                    label: coursesLoading ? 'Carregando...' : (courseOptions.length ? 'Selecione' : 'Nenhum curso encontrado'),
+                                    value: '',
+                                },
+                                ...courseOptions
+                                    .filter((course) => course.name)
+                                    .map((course) => ({
+                                        label: course.name as string,
+                                        value: String(course.id),
+                                    })),
+                            ]}
+                        />
+                    </div>
+                    <div className={styles.fieldGroup}>
+                        <InputSelect
+                            label="Semestre"
+                            value={selectedSemester}
+                            onChange={(value) => {
+                                setSelectedSemester(value);
+                                onSemesterChange(value);
+                            }}
+                            options={[
+                                { label: 'Selecione', value: '' },
+                                ...semesterOptions.map((value) => ({
+                                    label: value === 'ESPECIAL' ? 'Especial' : `${value.replace('SEMESTER', '')}º`,
+                                    value,
+                                })),
+                            ]}
+                        />
+                    </div>
+                    <InputField ref={raRef} label="RA" minLength={13} maxLength={13} inputMode="numeric" pattern="\d{13}" />
+                </>
+            )}
+        </form>
+    )
+}
+)
+
+SubscriptionForm.displayName = 'SubscriptionForm'

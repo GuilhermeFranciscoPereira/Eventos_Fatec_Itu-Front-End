@@ -29,7 +29,7 @@ export default function ImageCloudinary(props: ImageCloudinaryProps): React.Reac
     const publicId: string = normalizePublicId(src);
     const cldLoader = ({ width }: ImageLoaderProps): string => {
         const base = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/`;
-        const transform = `f_${fetchFormat},q_auto:best,c_${cropMode},g_${gravity},w_${width}`;
+        const transform = `f_${fetchFormat},q_auto,c_${cropMode},g_${gravity},w_${width}`;
         return `${base}${transform}/${publicId}`;
     };
 
@@ -42,7 +42,6 @@ export default function ImageCloudinary(props: ImageCloudinaryProps): React.Reac
             sizes={sizes}
             priority={priority}
             className={className}
-            quality={100}
         />
     );
 }

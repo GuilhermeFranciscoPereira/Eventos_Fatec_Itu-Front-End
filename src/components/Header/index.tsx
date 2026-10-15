@@ -124,7 +124,6 @@ export default function Header(): React.ReactElement {
                     <Image
                         height={50}
                         width={100}
-                        quality={100}
                         src="/assets/images/Logo_FatecItu_WithoutBackground.png"
                         alt="Logo da faculdade Fatec Itu"
                     />

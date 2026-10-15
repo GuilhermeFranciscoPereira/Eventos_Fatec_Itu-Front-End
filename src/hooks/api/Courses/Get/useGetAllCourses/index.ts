@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/stores/useToastStore';
 import { apiFetch } from '@/hooks/api/client';
 import { useState, useEffect, useCallback } from 'react';
 import { CoursePublicResponse, CourseProps } from '@/@Types/CoursesTypes';
@@ -11,6 +12,7 @@ type useGetAllCoursesProps = {
 
 export function useGetAllCourses(): useGetAllCoursesProps {
     const router = useRouter();
+    const showToast = useToastStore(s => s.showToast);
     const [loading, setLoading] = useState<boolean>(true);
     const [courses, setCourses] = useState<CourseProps[]>([]);
 
@@ -26,11 +28,11 @@ export function useGetAllCourses(): useGetAllCoursesProps {
             setCourses(await response.json());
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
-            console.log(msg);
+            showToast({ message: msg, type: 'error' });
         } finally {
             setLoading(false);
         }
-    }, [router]);
+    }, [router, showToast]);
 
     useEffect(() => { fetchCourses(); }, [fetchCourses]);
 

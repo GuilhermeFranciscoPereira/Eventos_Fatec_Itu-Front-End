@@ -1,9 +1,9 @@
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-
 export async function downloadSectionAsPdf(sectionId: string, filename = 'Lista_de_Presença.pdf'): Promise<void> {
   const section = document.getElementById(sectionId);
   if (!section) return;
+
+  // Both libraries are heavy and only needed here, so they load on the click instead of with the page.
+  const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([import('html2canvas'), import('jspdf')]);
 
   const clone = section.cloneNode(true) as HTMLElement;
   clone.style.position = 'fixed';

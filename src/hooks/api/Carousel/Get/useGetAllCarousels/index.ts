@@ -43,7 +43,6 @@ export function useGetAllCarouselsPublic(): useGetAllCarouselsPublicProps {
     const fetchAll = useCallback(async () => {
         const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/carousel/publicAllCarousel`);
         if (!response.ok) {
-            console.log('Erro ao carregar carrossel público:', response.status);
             return;
         }
         const data = (await response.json()) as CarouselPublicResponse[];

@@ -53,7 +53,6 @@ export function usePasswordResetRequest(): usePasswordResetRequestProps {
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg);
-            console.log('Error in: usePasswordResetRequest() <---> Erro:', msg);
         } finally {
             setLoading(false);
         }
@@ -95,10 +94,6 @@ export function usePasswordResetConfirm(): usePasswordResetConfirmProps {
             }
             router.push('/Login');
             showToast({ message: 'Senha alterada, faça login!', type: 'success' });
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : String(err);
-            console.log('Error in: usePasswordResetConfirm() <---> Erro:', msg);
-            throw err;
         } finally {
             setLoading(false);
         }

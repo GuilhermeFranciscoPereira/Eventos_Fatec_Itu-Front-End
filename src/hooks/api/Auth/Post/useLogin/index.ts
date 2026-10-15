@@ -72,7 +72,6 @@ export function useLogin(): useLoginProps {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       setErrors({ password: msg });
-      console.log('Error in: useLogin() <---> Erro:', msg);
     } finally {
       setLoading(false);
     }
@@ -112,7 +111,6 @@ export function useTwoFactor(): useTwoFactorProps {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       setError(msg);
-      console.log('Error in: useTwoFactor() <---> Erro:', msg);
     } finally {
       setLoading(false);
     }

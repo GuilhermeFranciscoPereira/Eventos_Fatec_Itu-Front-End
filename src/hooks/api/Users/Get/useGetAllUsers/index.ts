@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/stores/useToastStore';
 import { UserProps } from '@/@Types/UsersTypes';
 import { apiFetch } from '@/hooks/api/client';
 import { useState, useEffect, useCallback } from 'react';
@@ -11,6 +12,7 @@ type useGetAllUsersProps = {
 
 export function useGetAllUsers(): useGetAllUsersProps {
     const router = useRouter();
+    const showToast = useToastStore(s => s.showToast);
     const [users, setUsers] = useState<UserProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -27,11 +29,11 @@ export function useGetAllUsers(): useGetAllUsersProps {
             setUsers(data);
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
-            console.log(`Erro em useGetAllUsers(): ${msg}`);
+            showToast({ message: msg, type: 'error' });
         } finally {
             setLoading(false);
         }
-    }, [router]);
+    }, [router, showToast]);
 
     useEffect(() => { fetchUsers() }, [fetchUsers]);
 

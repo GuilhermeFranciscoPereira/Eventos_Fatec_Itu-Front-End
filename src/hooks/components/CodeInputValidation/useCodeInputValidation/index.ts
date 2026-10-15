@@ -43,7 +43,6 @@ export default function useCodeInputValidation(validateFn: (code: string) => Pro
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg || 'Erro na validação');
-            console.log('Error in: useCodeInputValidation() <---> Erro:', msg);
         } finally {
             setLoading(false);
         }
