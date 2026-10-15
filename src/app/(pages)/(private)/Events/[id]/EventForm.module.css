@@ -192,6 +192,12 @@
     margin-top: 5px;
 }
 
+.formPage > .form > .row > .customTimeHint {
+    align-self: center;
+    font-size: .875rem;
+    opacity: .9;
+}
+
 @media (max-width: 480px) {
     .formPage {
         width: 90%;

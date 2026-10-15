@@ -56,6 +56,7 @@ export function useEventForm() {
     const [startTime, setStartTime] = useState<string>('')
     const [isOnline, setIsOnline] = useState<boolean>(false)
     const [isMultiDay, setIsMultiDay] = useState<boolean>(false)
+    const [isCustomTime, setIsCustomTime] = useState<boolean>(false)
     const [loadedDate, setLoadedDate] = useState<string>('')
     const [loadedEndDate, setLoadedEndDate] = useState<string>('')
     const [courseValues, setCourseValues] = useState<string[]>([])
@@ -107,31 +108,33 @@ export function useEventForm() {
                         ? [{ start: '07:00', end: '22:00' }]
                         : await getTimes(e.locationId, day, Number(id))
                     setAvailableTimes(times)
-                    setStartOptions(
-                        times.flatMap(({ start, end }) =>
-                            Array.from({ length: Math.floor((parseTime(end) - 30 - parseTime(start)) / 30) + 1 }, (_, i) =>
-                                formatTime(parseTime(start) + i * 30),
-                            ),
+                    const loadedStartOptions = times.flatMap(({ start, end }) =>
+                        Array.from({ length: Math.floor((parseTime(end) - 30 - parseTime(start)) / 30) + 1 }, (_, i) =>
+                            formatTime(parseTime(start) + i * 30),
                         ),
                     )
+                    setStartOptions(loadedStartOptions)
                     const init = e.startTime.slice(11, 16)
+                    const end = e.endTime.slice(11, 16)
                     setStartTime(init)
+                    let loadedEndOptions: string[]
                     if (endDay && endDay > day) {
                         const firstEnd = parseTime(BUSINESS_START)
                         const lastEnd = parseTime(BUSINESS_END)
-                        setEndOptions(Array.from({ length: Math.floor((lastEnd - firstEnd) / 30) + 1 }, (_, i) => formatTime(firstEnd + i * 30)))
+                        loadedEndOptions = Array.from({ length: Math.floor((lastEnd - firstEnd) / 30) + 1 }, (_, i) => formatTime(firstEnd + i * 30))
                     } else {
-                        setEndOptions(
-                            times.flatMap(({ end }) => {
-                                const s0 = parseTime(init) + 30
-                                const eMax = parseTime(end)
-                                return s0 > eMax
-                                    ? []
-                                    : Array.from({ length: Math.floor((eMax - s0) / 30) + 1 }, (_, i) => formatTime(s0 + i * 30))
-                            }),
-                        )
+                        loadedEndOptions = times.flatMap(({ end }) => {
+                            const s0 = parseTime(init) + 30
+                            const eMax = parseTime(end)
+                            return s0 > eMax
+                                ? []
+                                : Array.from({ length: Math.floor((eMax - s0) / 30) + 1 }, (_, i) => formatTime(s0 + i * 30))
+                        })
                     }
-                    setEndTime(e.endTime.slice(11, 16))
+                    setEndOptions(loadedEndOptions)
+                    setEndTime(end)
+                    // Saved with a custom time (e.g. 23:00 or 19:15): the class-hour selects could not show it.
+                    setIsCustomTime(!loadedStartOptions.includes(init) || !loadedEndOptions.includes(end))
                 } catch (err: unknown) {
                     const msg = err instanceof Error ? err.message : String(err)
                     if (!msg.includes('404')) showToast({ message: 'Falha ao carregar evento.', type: 'error' })
@@ -189,10 +192,13 @@ export function useEventForm() {
         startDateRef.current!.value = ''
         if (endDateRef.current) endDateRef.current.value = ''
         setLoadedEndDate('')
-        setStartTime('')
-        setEndTime('')
         setStartOptions([])
         setEndOptions([])
+        // A typed custom time does not depend on the location's free slots, so it is kept.
+        if (!isCustomTime) {
+            setStartTime('')
+            setEndTime('')
+        }
     }
 
     async function handleDateChange(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
@@ -219,9 +225,11 @@ export function useEventForm() {
                 ),
             ),
         )
-        setEndTime('')
-        setStartTime('')
         setEndOptions([])
+        if (!isCustomTime) {
+            setEndTime('')
+            setStartTime('')
+        }
     }
 
     function handleStartTimeChange(value: string): void {
@@ -263,10 +271,21 @@ export function useEventForm() {
         if (!checked) {
             if (endDateRef.current) endDateRef.current.value = ''
             setLoadedEndDate('')
-            setEndTime('')
             setEndOptions([])
+            if (isCustomTime) return
+            setEndTime('')
             if (startTime) handleStartTimeChange(startTime)
         }
+    }
+
+    function handleCustomTimeChange(checked: boolean): void {
+        setIsCustomTime(checked)
+        if (checked) return
+
+        // Back to the class-hour lists: a typed time may not be one of the options.
+        setStartTime('')
+        setEndTime('')
+        setEndOptions([])
     }
 
     function handleEndDateChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -280,6 +299,7 @@ export function useEventForm() {
         }
 
         setLoadedEndDate(e.target.value)
+        if (isCustomTime) return
         setEndTime('')
         if (startTime) handleStartTimeChange(startTime)
     }
@@ -318,6 +338,21 @@ export function useEventForm() {
             showToast({ message: 'A data final deve ser igual ou posterior à data inicial.', type: 'warning' })
             setLoading(false)
             return
+        }
+
+        if (isCustomTime) {
+            if (!startTime || !endTime) {
+                showToast({ message: 'Informe o horário de início e o horário de término.', type: 'warning' })
+                setLoading(false)
+                return
+            }
+
+            // Overnight events (e.g. 22:00 to 02:00) end on the next day, so they need a final date.
+            if (endDay === day && parseTime(endTime) <= parseTime(startTime)) {
+                showToast({ message: 'O horário de término deve ser depois do horário de início. Se o evento termina depois da meia-noite, marque "Evento ocorre em mais de um dia?" e informe a data final.', type: 'warning' })
+                setLoading(false)
+                return
+            }
         }
 
         const courseIds = courseValues.map(Number)
@@ -362,5 +397,5 @@ export function useEventForm() {
         }
     }
 
-    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValues, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isMultiDay, isOtherLocation, today, loadedDate, loadedEndDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, endDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleEndDateChange, handleMultiDayChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
+    return { initialUrl, loading, isNew, categories, courses, locations, semesterOptions, courseValues, semesterValue, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isMultiDay, isCustomTime, isOtherLocation, today, loadedDate, loadedEndDate, nameRef, descRef, locationValue, categoryValue, speakerRef, maxRef, customLocRef, startDateRef, endDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleEndDateChange, handleMultiDayChange, handleCustomTimeChange, handleStartTimeChange, handleSubmit, setStartTime, setEndTime, handleCourseChangeUI, handleSemesterChangeUI }
 }

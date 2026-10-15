@@ -26,21 +26,13 @@
 
 ## 🛎️ Updates to this commit
 
-### `Image size recommendation:` The image field of the event form (create and edit) and of the carousel (create and edit) now shows the recommended size for the best quality: `1600 × 600 px` (8:3 ratio) for events, which is the banner of the event detail page, and `1920 × 480 px` (4:1 ratio) for the home page carousel. After an image is chosen, the field footer shows its real size and whether it is ideal or below the recommendation.
+### `Custom time for events:` The event form (create and edit) now has the `Horário Personalizado` (custom time) checkbox. Unchecked, the start and end times stay limited to the location's free slots, every 30 minutes, within class hours. Checked, both fields become free time fields, allowing any time (for example 23:45), for events outside class hours, such as an all-night event.
 
-### `Image crop editor:` Selecting an image automatically opens an editor to crop it, which can also be opened through the new crop button in the field, including to crop the already saved image when editing an event or carousel item. The editor offers the options: `Recommended`, where the crop area already comes in the recommended size and the user only adjusts where to crop, saving the image exactly in the ideal size; `Free`; `16:9`; `4:3` and `Square`.
+### `Events that go past midnight:` With the custom time, an event that starts on one day and ends on the next (for example from 22:00 to 02:00) must be registered by checking "Evento ocorre em mais de um dia?" (multi-day event) and filling in the end date. If the end time is equal to or before the start time on the same day, the form warns and explains how to register it. The API still checks for conflicts with other events at the same location.
 
-### `Crop quality warnings:` The editor shows the crop size in pixels and warns when it is smaller than recommended (the image may look blurry) or when the ratio differs from the recommended one (the site will cut the edges). In Recommended mode, dashed lines mark the central strip that stays visible on phones, where the sides of the image are cut.
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Created the `isCustomTime` state and the `handleCustomTimeChange()` function. With the custom time checked, changing the location, the date or the end date no longer clears the typed times, and the date field is enabled even when the location has no free slots during class hours. When editing an event saved with a time that is not among the options (such as 23:00 or 19:15), the checkbox already comes checked, so the time is shown correctly.
 
-### `./src/components/ImageCropper/index.tsx:` Created the crop editor component, opened in its own window above the modal, closing with the Esc key, focusing the editor when opened and locking the page scroll. It works with mouse and touch, and adapts to the screen height on laptops and phones.
-
-### `./src/components/Inputs/InputImage/index.tsx:` Added the optional `recommendedSize` prop, which enables the size recommendation and cropping. Cropping always starts from the original selected image, so cropping more than once does not lose quality. When the prop is not passed (as in the profile photo), the field stays the same. The preview no longer stretches the image and now shows it whole, the way it will be saved.
-
-### `./src/utils/imageCrop/index.ts:` Created the constants with the recommended sizes (`EVENT_IMAGE_RECOMMENDATION` and `CAROUSEL_IMAGE_RECOMMENDATION`) and the functions that crop the image on a canvas and generate the file sent to the API, downscaling the image in steps to keep it sharp and limiting the longest side to 2560 px to make the upload lighter.
-
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx and ./src/app/(pages)/(private)/Carousel/page.tsx:` The image fields now use the recommended size of each screen.
-
-### `New dependency:` Added the `react-image-crop` library, responsible for the crop selection area with resize handles, touch support and ratio locking.
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx and EventForm.module.css:` Added the `Horário Personalizado` checkbox, a help text and the free time fields, which replace the time lists when the checkbox is checked.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

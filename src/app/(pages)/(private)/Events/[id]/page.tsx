@@ -33,7 +33,7 @@ const FieldShell = ({ label, children, className }: { label: string; children: R
 }
 
 export default function EventForm(): React.ReactElement {
-  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValues, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isMultiDay, isOtherLocation, today, loadedDate, loadedEndDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, endDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleEndDateChange, handleMultiDayChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
+  const { initialUrl, loading, isNew, categories, courses, semesterOptions, courseValues, categoryValue, semesterValue, locationValue, locations, availableDates, startOptions, endOptions, startTime, endTime, isOnline, isMultiDay, isCustomTime, isOtherLocation, today, loadedDate, loadedEndDate, nameRef, descRef, speakerRef, maxRef, customLocRef, startDateRef, endDateRef, durationRef, restrictedRef, presenceSecretRef, presenceSecret, setSelectedFile, handleCategoryChange, handleLocationChange, handleDateChange, handleEndDateChange, handleMultiDayChange, handleCustomTimeChange, handleStartTimeChange, setStartTime, setEndTime, handleSubmit, handleCourseChangeUI, handleSemesterChangeUI } = useEventForm();
 
   return (
     <main className={styles.formPage}>
@@ -151,7 +151,7 @@ export default function EventForm(): React.ReactElement {
               className={styles.nativeField}
               defaultValue={loadedDate || ''}
               min={isNew ? today : undefined}
-              disabled={isNew && !availableDates.length && !isOnline && !isOtherLocation}
+              disabled={isNew && !availableDates.length && !isOnline && !isOtherLocation && !isCustomTime}
               onChange={handleDateChange}
               required
             />
@@ -185,38 +185,80 @@ export default function EventForm(): React.ReactElement {
         </div>
 
         <div className={styles.row}>
-          <InputSelect
-            label="Horário de Início"
-            value={startTime}
-            disabled={!startOptions.length}
-            onChange={(value) => {
-              setStartTime(value);
-              handleStartTimeChange(value);
-              setEndTime('');
-            }}
-            options={[
-              { label: 'Horário de início', value: '' },
-              ...startOptions.map((slot) => ({
-                label: slot,
-                value: slot,
-              })),
-            ]}
-          />
+          <div className={styles.restrictedCheckboxWrapper}>
+            <InputCheckbox
+              checked={isCustomTime}
+              label="Horário Personalizado"
+              onChange={(event) => handleCustomTimeChange(event.target.checked)}
+            />
+          </div>
 
-          <InputSelect
-            label="Horário de Fim"
-            value={endTime}
-            disabled={!startTime}
-            onChange={setEndTime}
-            options={[
-              { label: 'Horário de fim', value: '' },
-              ...endOptions.map((slot) => ({
-                label: slot,
-                value: slot,
-              })),
-            ]}
-          />
+          {isCustomTime ? (
+            <span className={styles.customTimeHint}>
+              Informe qualquer horário, inclusive fora do horário de aula. Se o evento terminar depois da meia-noite, marque &quot;Evento ocorre em mais de um dia?&quot;.
+            </span>
+          ) : (
+            <div />
+          )}
         </div>
+
+        {isCustomTime ? (
+          <div className={styles.row}>
+            <FieldShell label="Horário de Início">
+              <input
+                type="time"
+                className={styles.nativeField}
+                value={startTime}
+                onChange={(event) => setStartTime(event.target.value)}
+                required
+              />
+            </FieldShell>
+
+            <FieldShell label="Horário de Fim">
+              <input
+                type="time"
+                className={styles.nativeField}
+                value={endTime}
+                onChange={(event) => setEndTime(event.target.value)}
+                required
+              />
+            </FieldShell>
+          </div>
+        ) : (
+          <div className={styles.row}>
+            <InputSelect
+              label="Horário de Início"
+              value={startTime}
+              disabled={!startOptions.length}
+              onChange={(value) => {
+                setStartTime(value);
+                handleStartTimeChange(value);
+                setEndTime('');
+              }}
+              options={[
+                { label: 'Horário de início', value: '' },
+                ...startOptions.map((slot) => ({
+                  label: slot,
+                  value: slot,
+                })),
+              ]}
+            />
+
+            <InputSelect
+              label="Horário de Fim"
+              value={endTime}
+              disabled={!startTime}
+              onChange={setEndTime}
+              options={[
+                { label: 'Horário de fim', value: '' },
+                ...endOptions.map((slot) => ({
+                  label: slot,
+                  value: slot,
+                })),
+              ]}
+            />
+          </div>
+        )}
 
         <div className={styles.row}>
           <div className={styles.presenceSecretWrapper}>

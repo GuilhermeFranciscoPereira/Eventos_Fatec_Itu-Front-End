@@ -26,21 +26,13 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Recomendação de tamanho de imagem:` O campo de imagem do formulário de eventos (criar e editar) e do carrossel (criar e editar) passou a exibir o tamanho recomendado para a melhor qualidade: `1600 × 600 px` (proporção 8:3) para eventos, que é o banner da página de detalhes do evento, e `1920 × 480 px` (proporção 4:1) para o carrossel da tela inicial. Depois de escolher a imagem, o rodapé do campo mostra o tamanho real dela e indica se está ideal ou abaixo do recomendado.
+### `Horário Personalizado nos eventos:` O formulário de eventos (criar e editar) ganhou o checkbox `Horário Personalizado`. Desmarcado, os horários de início e fim continuam limitados aos horários livres do local, de 30 em 30 minutos, dentro do horário de aula. Marcado, os dois campos viram campos de horário livres, permitindo qualquer horário (por exemplo 23:45), para eventos fora do horário de aula, como um corujão.
 
-### `Editor de recorte de imagem:` Ao selecionar uma imagem, abre automaticamente um editor para recortá-la, que também pode ser aberto pelo novo botão de recorte no campo, inclusive para recortar a imagem já salva ao editar um evento ou item do carrossel. O editor oferece as opções: `Recomendado`, em que a área de recorte já vem no tamanho recomendado e o usuário só ajusta onde quer recortar, salvando a imagem exatamente no tamanho ideal; `Livre`; `16:9`; `4:3` e `Quadrado`.
+### `Eventos que passam da meia-noite:` Com o horário personalizado, um evento que começa num dia e termina no outro (por exemplo das 22:00 às 02:00) deve ser cadastrado marcando "Evento ocorre em mais de um dia?" e informando a data final. Se o horário de término for igual ou anterior ao de início no mesmo dia, o formulário avisa e explica como cadastrar. A API continua verificando o conflito com outros eventos no mesmo local.
 
-### `Avisos de qualidade no recorte:` O editor mostra o tamanho do recorte em pixels e avisa quando ele é menor que o recomendado (a imagem pode ficar desfocada) ou quando a proporção é diferente da recomendada (o site cortará as bordas). No modo Recomendado, linhas tracejadas marcam a faixa central que fica visível no celular, onde as laterais da imagem são cortadas.
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Criados o estado `isCustomTime` e a função `handleCustomTimeChange()`. Com o horário personalizado marcado, trocar o local, a data ou a data final não apaga mais os horários digitados, e o campo de data fica liberado mesmo quando o local não tem horários livres no horário de aula. Ao editar um evento salvo com um horário que não existe nas opções (como 23:00 ou 19:15), o checkbox já vem marcado, para o horário aparecer corretamente.
 
-### `./src/components/ImageCropper/index.tsx:` Criado o componente do editor de recorte, aberto em uma janela própria por cima do modal, com fechamento pela tecla Esc, foco no editor ao abrir e bloqueio da rolagem da página. Funciona com mouse e toque, e se adapta à altura da tela no notebook e no celular.
-
-### `./src/components/Inputs/InputImage/index.tsx:` Adicionada a prop opcional `recommendedSize`, que ativa a recomendação de tamanho e o recorte. O recorte sempre parte da imagem original selecionada, então recortar mais de uma vez não perde qualidade. Quando a prop não é informada (como na foto de perfil), o campo continua igual. A pré-visualização deixou de esticar a imagem e passou a mostrá-la inteira, do jeito que será salva.
-
-### `./src/utils/imageCrop/index.ts:` Criadas as constantes com os tamanhos recomendados (`EVENT_IMAGE_RECOMMENDATION` e `CAROUSEL_IMAGE_RECOMMENDATION`) e as funções que recortam a imagem em canvas e geram o arquivo enviado à API, reduzindo a imagem em etapas para manter a nitidez e limitando o lado maior a 2560 px para deixar o envio mais leve.
-
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx e ./src/app/(pages)/(private)/Carousel/page.tsx:` Os campos de imagem passaram a usar o tamanho recomendado de cada tela.
-
-### `Nova dependência:` Adicionada a biblioteca `react-image-crop`, responsável pela área de seleção do recorte com alças para redimensionar, suporte a toque e travamento de proporção.
+### `./src/app/(pages)/(private)/Events/[id]/page.tsx e EventForm.module.css:` Adicionados o checkbox `Horário Personalizado`, um texto de ajuda e os campos de horário livres, que aparecem no lugar das listas de horários quando o checkbox está marcado.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
