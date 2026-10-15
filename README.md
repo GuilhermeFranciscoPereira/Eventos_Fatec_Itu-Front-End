@@ -16,7 +16,7 @@
 
 ### 👥 Este sistema está sendo criado por: Guilherme Francisco Pereira como desenvolvimento de TCC / Sistema real
 
-### ✨ Fato interessante!! Este é o único sistema desenvolvido somente por aluno que está implementado e em uso pela faculdade, tanto por alunos, professores, coordenadores, e etc!
+### ✨ Fato interessante: este é um dos sistemas desenvolvidos exclusivamente por alunos que já está implantado e sendo utilizado ativamente pela faculdade, beneficiando alunos, professores, coordenadores e demais envolvidos!
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=40E0D0&height=120&section=footer"/>
 
@@ -26,9 +26,15 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Correção de segurança:` A API deixou de retornar os inscritos e a palavra secreta de presença na rota pública de detalhes do evento. O formulário de edição de eventos passou a buscar esses dados pela nova rota privada da API, que exige login de ADMIN ou COORDENADOR.
+### `Navegação travando depois de um tempo logado:` Depois de 15 minutos logado, ao clicar em um link a página não mudava e era preciso apertar F5. O cookie de acesso dura 15 minutos e, depois disso, só o cookie de refresh continua no navegador. O middleware não reconhecia esse cookie porque a variável com o nome dele não era enviada ao build de produção, então tratava o usuário como deslogado e redirecionava a navegação antes de a página conseguir renovar a sessão.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Ao editar um evento, os dados agora são carregados de `GET /events/manage/:id` com a sessão do usuário (`apiFetch`), no lugar da rota pública `GET /events/:id`. A página pública de detalhes do evento continua usando a rota pública, que agora retorna apenas os dados públicos.
+### `./Dockerfile e ./.github/workflows/deploy.yml:` Adicionada a variável `NEXT_PUBLIC_REFRESH_TOKEN` ao build de produção, vinda do secret de mesmo nome no GitHub, para o middleware reconhecer o cookie de refresh.
+
+### `./.env.example:` Corrigido o nome da variável do cookie de refresh, que estava como `NEXT_PUBLIC_REFRESH_COOKIE` enquanto o código lê `NEXT_PUBLIC_REFRESH_TOKEN`, e adicionada a `NEXT_PUBLIC_ACCESS_TOKEN`, que faltava.
+
+### `./src/app/(pages)/(private)/Events/[id]/EventForm.module.css:` Corrigido o desalinhamento no formulário de eventos ao escolher o local "Outros": o campo de Localização ficava mais alto que o campo "Qual o local" ao lado. Os campos dessa linha agora ficam alinhados pela base, o que também vale para "Categoria" e "Duração (min)" em cursos online. No celular, os campos continuam empilhados ocupando a largura toda.
+
+### `README.md e README.en.md:` Atualizado o texto do "Fato interessante" para ficar igual ao do repositório do back-end.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

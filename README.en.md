@@ -16,7 +16,7 @@
 
 ### 👥 This system is being created by: Guilherme Francisco Pereira as a final project development / Real system
 
-### ✨ Interesting fact!! This is the only system developed solely by student that is implemented and used by the college, including students, professors, coordinators, and more!
+### ✨ Interesting fact: this is one of the systems developed exclusively by students that is already implemented and used by the college, benefiting students, professors, coordinators, and others involved!
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=40E0D0&height=120&section=footer"/>
 
@@ -26,9 +26,15 @@
 
 ## 🛎️ Updates to this commit
 
-### `Security fix:` The API no longer returns the registrations and the attendance secret word in the public event details route. The event edit form now fetches this data through the new private API route, which requires an ADMIN or COORDENADOR login.
+### `Navigation freezing after some time logged in:` After 15 minutes logged in, clicking a link did not change the page and F5 was needed. The access cookie lasts 15 minutes and, after that, only the refresh cookie stays in the browser. The middleware did not recognize this cookie because the variable with its name was not sent to the production build, so it treated the user as logged out and redirected the navigation before the page could renew the session.
 
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` When editing an event, the data is now loaded from `GET /events/manage/:id` with the user's session (`apiFetch`), instead of the public route `GET /events/:id`. The public event details page keeps using the public route, which now returns only the public data.
+### `./Dockerfile and ./.github/workflows/deploy.yml:` Added the `NEXT_PUBLIC_REFRESH_TOKEN` variable to the production build, coming from the GitHub secret with the same name, so the middleware recognizes the refresh cookie.
+
+### `./.env.example:` Fixed the name of the refresh cookie variable, which was `NEXT_PUBLIC_REFRESH_COOKIE` while the code reads `NEXT_PUBLIC_REFRESH_TOKEN`, and added `NEXT_PUBLIC_ACCESS_TOKEN`, which was missing.
+
+### `./src/app/(pages)/(private)/Events/[id]/EventForm.module.css:` Fixed the misalignment in the event form when choosing the "Outros" (other) location: the Location field sat higher than the "Qual o local" field next to it. The fields in this row are now aligned at the bottom, which also applies to "Categoria" and "Duração (min)" for online courses. On phones, the fields stay stacked using the full width.
+
+### `README.md and README.en.md:` Updated the "Interesting fact" text to match the back-end repository.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
