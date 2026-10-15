@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getLocalDateString } from '@/utils/localDate';
 import { HiMiniMagnifyingGlass } from 'react-icons/hi2';
 import InputSelect from '@/components/Inputs/InputSelect/index';
 import { CategoryPublicResponse } from '@/@Types/CategoriesTypes';
@@ -73,7 +74,7 @@ export default function Filters({ onFilterChange }: FiltersProps): React.ReactEl
                     <input
                         id="filter-start"
                         type="date"
-                        min={new Date().toISOString().split('T')[0]}
+                        min={getLocalDateString()}
                         value={startDate}
                         onChange={(e) => {
                             setStartDate(e.target.value);

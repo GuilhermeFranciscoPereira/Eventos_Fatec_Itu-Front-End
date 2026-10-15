@@ -26,15 +26,11 @@
 
 ## 🛎️ Updates to this commit
 
-### `Navigation freezing after some time logged in:` After 15 minutes logged in, clicking a link did not change the page and F5 was needed. The access cookie lasts 15 minutes and, after that, only the refresh cookie stays in the browser. The middleware did not recognize this cookie because the variable with its name was not sent to the production build, so it treated the user as logged out and redirected the navigation before the page could renew the session.
+### `Today's date in date fields:` The minimum date of the event form and of the home page filter was calculated with `toISOString()`, which uses UTC. In Brazil, after 9 p.m. it already returned the next day's date and did not allow choosing today's date.
 
-### `./Dockerfile and ./.github/workflows/deploy.yml:` Added the `NEXT_PUBLIC_REFRESH_TOKEN` variable to the production build, coming from the GitHub secret with the same name, so the middleware recognizes the refresh cookie.
+### `./src/utils/localDate/index.ts:` Created the `getLocalDateString()` function, which returns today's date in the user's time zone, used in `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts` and in `./src/components/Inputs/FiltersHome/index.tsx`.
 
-### `./.env.example:` Fixed the name of the refresh cookie variable, which was `NEXT_PUBLIC_REFRESH_COOKIE` while the code reads `NEXT_PUBLIC_REFRESH_TOKEN`, and added `NEXT_PUBLIC_ACCESS_TOKEN`, which was missing.
-
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.module.css:` Fixed the misalignment in the event form when choosing the "Outros" (other) location: the Location field sat higher than the "Qual o local" field next to it. The fields in this row are now aligned at the bottom, which also applies to "Categoria" and "Duração (min)" for online courses. On phones, the fields stay stacked using the full width.
-
-### `README.md and README.en.md:` Updated the "Interesting fact" text to match the back-end repository.
+### `./src/middleware.ts:` When the `NEXT_PUBLIC_NOT_AUTHENTICATED_ROUTE` or `NEXT_PUBLIC_AUTHENTICATED_ROUTE` variables were not set, the redirect pointed to the same page and looped. Now they default to `/Login` and `/`.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -263,6 +259,7 @@
 - `./src/utils:` Folder that groups generic utility functions, without dependence on specific components, used throughout the application for common DOM and export operations.
     - `downloadSectionAsPdf`: Function that captures a section of the page (identified by ID) and generates a PDF file with its entire extent, including A4 page breaks. It allows the user to download any part of the interface as a portable document.
     - `imageCrop`: Centralizes the recommended sizes of event and carousel images and the functions that crop the image on a canvas and generate the final file sent to the API.
+    - `localDate`: Returns today's date in the user's time zone in the `YYYY-MM-DD` format, used as the minimum date in date fields. `toISOString()` uses UTC and, in Brazil, after 9 p.m. it already returned the next day's date.
     - `navigationData`: File responsible for centralizing the configuration of navigation items reused in the Header and Sidebar, including internal routes, external links, dropdown, subdropdown, and visibility control based on the user's role.
     - `printSection`: Function that clones and prepares a section of the page (identified by ID) for printing, centering it and applying margins, maintaining the exact colors of the table header. It serves to trigger the browser's print dialog and print only the desired content.
     - `wrapperVLibras`: Client utility component responsible for globally initializing the integration with the VLibras plugin within the application. It serves to make the accessibility feature of translation into Libras (Brazilian Sign Language) available on all pages when imported into `layout.tsx`.

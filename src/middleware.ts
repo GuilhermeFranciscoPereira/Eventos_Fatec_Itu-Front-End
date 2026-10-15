@@ -3,8 +3,9 @@ import type { MiddlewareConfig, NextRequest } from 'next/server';
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN || '';
 const REFRESH_TOKEN = process.env.NEXT_PUBLIC_REFRESH_TOKEN || '';
-const AUTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_AUTHENTICATED_ROUTE || '';
-const UNAUNTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_NOT_AUTHENTICATED_ROUTE || '';
+// Without a fallback, a missing variable makes the redirect point to the same URL and loop forever.
+const AUTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_AUTHENTICATED_ROUTE || '/';
+const UNAUNTHENTICATEDREDIRECTPATH: string = process.env.NEXT_PUBLIC_NOT_AUTHENTICATED_ROUTE || '/Login';
 
 type publicRoutesProps = {
     path: string;

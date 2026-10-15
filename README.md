@@ -26,15 +26,11 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Navegação travando depois de um tempo logado:` Depois de 15 minutos logado, ao clicar em um link a página não mudava e era preciso apertar F5. O cookie de acesso dura 15 minutos e, depois disso, só o cookie de refresh continua no navegador. O middleware não reconhecia esse cookie porque a variável com o nome dele não era enviada ao build de produção, então tratava o usuário como deslogado e redirecionava a navegação antes de a página conseguir renovar a sessão.
+### `Data de hoje nos campos de data:` A data mínima do formulário de eventos e do filtro da tela inicial era calculada com `toISOString()`, que usa UTC. No Brasil, depois das 21h isso já retornava a data do dia seguinte e impedia escolher a data de hoje.
 
-### `./Dockerfile e ./.github/workflows/deploy.yml:` Adicionada a variável `NEXT_PUBLIC_REFRESH_TOKEN` ao build de produção, vinda do secret de mesmo nome no GitHub, para o middleware reconhecer o cookie de refresh.
+### `./src/utils/localDate/index.ts:` Criada a função `getLocalDateString()`, que retorna a data de hoje no fuso horário do usuário, usada em `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts` e em `./src/components/Inputs/FiltersHome/index.tsx`.
 
-### `./.env.example:` Corrigido o nome da variável do cookie de refresh, que estava como `NEXT_PUBLIC_REFRESH_COOKIE` enquanto o código lê `NEXT_PUBLIC_REFRESH_TOKEN`, e adicionada a `NEXT_PUBLIC_ACCESS_TOKEN`, que faltava.
-
-### `./src/app/(pages)/(private)/Events/[id]/EventForm.module.css:` Corrigido o desalinhamento no formulário de eventos ao escolher o local "Outros": o campo de Localização ficava mais alto que o campo "Qual o local" ao lado. Os campos dessa linha agora ficam alinhados pela base, o que também vale para "Categoria" e "Duração (min)" em cursos online. No celular, os campos continuam empilhados ocupando a largura toda.
-
-### `README.md e README.en.md:` Atualizado o texto do "Fato interessante" para ficar igual ao do repositório do back-end.
+### `./src/middleware.ts:` Quando as variáveis `NEXT_PUBLIC_NOT_AUTHENTICATED_ROUTE` ou `NEXT_PUBLIC_AUTHENTICATED_ROUTE` não estavam definidas, o redirecionamento apontava para a própria página e entrava em loop. Agora elas têm os valores padrão `/Login` e `/`.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -265,6 +261,7 @@
 - `./src/utils:` Pasta que agrupa funções utilitárias genéricas, sem dependência de componentes específicos, usadas em toda a aplicação para operações comuns de DOM e exportação.
     - `downloadSectionAsPdf:` Função que captura uma seção da página (identificada por ID) e gera um arquivo PDF com toda a sua extensão, incluindo quebras de página em A4. Serve para permitir ao usuário baixar qualquer parte da interface como documento portátil.
     - `imageCrop:` Centraliza os tamanhos recomendados das imagens de eventos e do carrossel e as funções que recortam a imagem em canvas e geram o arquivo final enviado à API.
+    - `localDate:` Retorna a data de hoje no fuso horário do usuário no formato `AAAA-MM-DD`, usada como data mínima nos campos de data. O `toISOString()` usa UTC e, no Brasil, depois das 21h já retornava a data do dia seguinte.
      - `navigationData:` Arquivo responsável por centralizar a configuração dos itens de navegação reutilizados no Header e no Sidebar, incluindo rotas internas, links externos, dropdown, subdropdown e controle de visibilidade com base na role do usuário.
     - `printSection:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
     - `wrapperVLibras:` Componente utilitário cliente responsável por inicializar globalmente a integração com o plugin VLibras dentro da aplicação. Serve para disponibilizar o recurso de acessibilidade de tradução para Libras em todas as páginas ao ser importado no `layout.tsx`.

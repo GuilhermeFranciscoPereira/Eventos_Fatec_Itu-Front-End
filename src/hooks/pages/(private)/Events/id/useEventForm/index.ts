@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { apiFetch } from '@/hooks/api/client';
+import { getLocalDateString } from '@/utils/localDate';
 import { useToastStore } from '@/stores/useToastStore';
 import { useEditEvent } from '@/hooks/api/Events/Patch/useEditEvent';
 import { useCreateEvent } from '@/hooks/api/Events/Post/useCreateEvent';
@@ -62,7 +63,7 @@ export function useEventForm() {
     const [loadedEndDate, setLoadedEndDate] = useState<string>('')
     const [courseValues, setCourseValues] = useState<string[]>([])
     const [endOptions, setEndOptions] = useState<string[]>([])
-    const today: string = new Date().toISOString().split('T')[0]
+    const today: string = getLocalDateString()
     const [categoryValue, setCategoryValue] = useState<string>('')
     const [startOptions, setStartOptions] = useState<string[]>([])
     const [initialUrl, setInitialUrl] = useState<string | null>(null)
