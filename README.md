@@ -26,13 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Horário Personalizado nos eventos:` O formulário de eventos (criar e editar) ganhou o checkbox `Horário Personalizado`. Desmarcado, os horários de início e fim continuam limitados aos horários livres do local, de 30 em 30 minutos, dentro do horário de aula. Marcado, os dois campos viram campos de horário livres, permitindo qualquer horário (por exemplo 23:45), para eventos fora do horário de aula, como um corujão.
+### `Correção de segurança:` A API deixou de retornar os inscritos e a palavra secreta de presença na rota pública de detalhes do evento. O formulário de edição de eventos passou a buscar esses dados pela nova rota privada da API, que exige login de ADMIN ou COORDENADOR.
 
-### `Eventos que passam da meia-noite:` Com o horário personalizado, um evento que começa num dia e termina no outro (por exemplo das 22:00 às 02:00) deve ser cadastrado marcando "Evento ocorre em mais de um dia?" e informando a data final. Se o horário de término for igual ou anterior ao de início no mesmo dia, o formulário avisa e explica como cadastrar. A API continua verificando o conflito com outros eventos no mesmo local.
-
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Criados o estado `isCustomTime` e a função `handleCustomTimeChange()`. Com o horário personalizado marcado, trocar o local, a data ou a data final não apaga mais os horários digitados, e o campo de data fica liberado mesmo quando o local não tem horários livres no horário de aula. Ao editar um evento salvo com um horário que não existe nas opções (como 23:00 ou 19:15), o checkbox já vem marcado, para o horário aparecer corretamente.
-
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx e EventForm.module.css:` Adicionados o checkbox `Horário Personalizado`, um texto de ajuda e os campos de horário livres, que aparecem no lugar das listas de horários quando o checkbox está marcado.
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Ao editar um evento, os dados agora são carregados de `GET /events/manage/:id` com a sessão do usuário (`apiFetch`), no lugar da rota pública `GET /events/:id`. A página pública de detalhes do evento continua usando a rota pública, que agora retorna apenas os dados públicos.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

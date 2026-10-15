@@ -26,13 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `Custom time for events:` The event form (create and edit) now has the `Horário Personalizado` (custom time) checkbox. Unchecked, the start and end times stay limited to the location's free slots, every 30 minutes, within class hours. Checked, both fields become free time fields, allowing any time (for example 23:45), for events outside class hours, such as an all-night event.
+### `Security fix:` The API no longer returns the registrations and the attendance secret word in the public event details route. The event edit form now fetches this data through the new private API route, which requires an ADMIN or COORDENADOR login.
 
-### `Events that go past midnight:` With the custom time, an event that starts on one day and ends on the next (for example from 22:00 to 02:00) must be registered by checking "Evento ocorre em mais de um dia?" (multi-day event) and filling in the end date. If the end time is equal to or before the start time on the same day, the form warns and explains how to register it. The API still checks for conflicts with other events at the same location.
-
-### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` Created the `isCustomTime` state and the `handleCustomTimeChange()` function. With the custom time checked, changing the location, the date or the end date no longer clears the typed times, and the date field is enabled even when the location has no free slots during class hours. When editing an event saved with a time that is not among the options (such as 23:00 or 19:15), the checkbox already comes checked, so the time is shown correctly.
-
-### `./src/app/(pages)/(private)/Events/[id]/page.tsx and EventForm.module.css:` Added the `Horário Personalizado` checkbox, a help text and the free time fields, which replace the time lists when the checkbox is checked.
+### `./src/hooks/pages/(private)/Events/id/useEventForm/index.ts:` When editing an event, the data is now loaded from `GET /events/manage/:id` with the user's session (`apiFetch`), instead of the public route `GET /events/:id`. The public event details page keeps using the public route, which now returns only the public data.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { apiFetch } from '@/hooks/api/client';
 import { useToastStore } from '@/stores/useToastStore';
 import { useEditEvent } from '@/hooks/api/Events/Patch/useEditEvent';
 import { useCreateEvent } from '@/hooks/api/Events/Post/useCreateEvent';
@@ -75,7 +76,7 @@ export function useEventForm() {
         setLoading(true)
             ; (async () => {
                 try {
-                    const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/${id}`)
+                    const response: Response = await apiFetch(`${process.env.NEXT_PUBLIC_URL_API}/events/manage/${id}`)
                     if (!response.ok) throw new Error(`Status ${response.status}`)
                     const e = await response.json()
                     setInitialUrl(e.imageUrl)
