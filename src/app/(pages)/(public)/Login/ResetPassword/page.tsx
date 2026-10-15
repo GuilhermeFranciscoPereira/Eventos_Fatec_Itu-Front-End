@@ -9,7 +9,7 @@ import { MdEmail, MdKey, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useResetPasswordPage } from '@/hooks/pages/(public)/Login/useResetPasswordPage';
 
 export default function ResetPassword(): React.ReactElement {
-    const { emailRef, handleRequest, loadingRequest, error, stage, newPasswordRef, confirmPasswordRef, handleConfirm, loadingConfirm, visible1, setVisible1, visible2, setVisible2 } = useResetPasswordPage();
+    const { emailRef, handleRequest, loadingRequest, error, info, stage, newPasswordRef, confirmPasswordRef, handleConfirm, loadingConfirm, visible1, setVisible1, visible2, setVisible2 } = useResetPasswordPage();
 
     return (
         <main className={styles.main}>
@@ -33,7 +33,10 @@ export default function ResetPassword(): React.ReactElement {
                         {stage === 'request' ? (
                             <p className={styles.description}>Informe seu e-mail para receber o código de redefinição</p>
                         ) : (
-                            <p className={styles.description}>Informe a nova senha e o código de redefinição</p>
+                            <>
+                                {info && <p className={styles.description} role="status">{info}</p>}
+                                <p className={styles.description}>Informe a nova senha e o código de redefinição</p>
+                            </>
                         )}
                     </div>
 

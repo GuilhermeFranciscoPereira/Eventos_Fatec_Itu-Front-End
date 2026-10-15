@@ -7,6 +7,7 @@ type usePasswordResetRequestProps = {
     emailRef: React.RefObject<HTMLInputElement | null>;
     loading: boolean;
     error: string | null;
+    info: string | null;
     stage: "request" | "confirm";
     handleRequest: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
@@ -21,6 +22,7 @@ type usePasswordResetConfirmProps = {
 export function usePasswordResetRequest(): usePasswordResetRequestProps {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [info, setInfo] = useState<string | null>(null);
     const [stage, setStage] = useState<'request' | 'confirm'>('request');
     const emailRef: React.RefObject<HTMLInputElement | null> = useRef(null);
 
@@ -49,6 +51,8 @@ export function usePasswordResetRequest(): usePasswordResetRequestProps {
                 setError(getApiErrorMessage(data, 'Não foi possível enviar o código. Tente novamente.'));
                 return;
             }
+            // The API answers the same way whether the e-mail exists or not, so the text never confirms an account.
+            setInfo(typeof data?.message === 'string' ? data.message : null);
             setStage('confirm');
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
@@ -58,7 +62,7 @@ export function usePasswordResetRequest(): usePasswordResetRequestProps {
         }
     };
 
-    return { emailRef, loading, error, stage, handleRequest };
+    return { emailRef, loading, error, info, stage, handleRequest };
 }
 
 export function usePasswordResetConfirm(): usePasswordResetConfirmProps {

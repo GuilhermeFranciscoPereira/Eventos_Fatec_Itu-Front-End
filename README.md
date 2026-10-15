@@ -26,25 +26,19 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `Imagens mais leves:` As imagens eram pedidas com qualidade máxima (`quality={100}` e `q_auto:best` no Cloudinary), gerando arquivos bem maiores sem diferença visível. Agora o Cloudinary usa `q_auto`, que escolhe a menor qualidade sem perda perceptível, as imagens locais usam a qualidade padrão do Next e o `next.config.ts` passou a entregar AVIF além de WebP.
+### `Nova tela de Auditoria (./src/app/(pages)/(private)/Audit):` Nova opção "Auditoria" no menu, visível apenas para administradores, que mostra em uma tabela tudo o que acontece no sistema: Quando (data e hora de Brasília), Responsável (nome e e-mail), O que aconteceu, Registro afetado (área e registro), Resultado (Sucesso, Erro ou Recusado) e Detalhe (ícone de olho). A tela tem busca por responsável, ação ou registro, filtros por resultado, área e período, paginação de 20 em 20 e botão para atualizar. No celular, as colunas de responsável e registro afetado ficam ocultas e o resultado aparece embaixo do resumo, mantendo o ícone de olho sempre visível.
 
-### `Fonte mais leve:` A Poppins era carregada em 6 pesos (400 a 900). Agora carrega só os 4 usados no site (400, 500, 600 e 700). Os únicos textos em 800 e 900 (o selo "Fatecano" dos cards e a letra do avatar no menu lateral) e o título em `bolder` do login passaram para 700.
+### `./src/components/AuditDetailModal:` Modal aberto pelo ícone de olho com todos os detalhes do registro: número, ação e área, responsável na ocasião (nome, e-mail, perfil e identificador), data e hora de Brasília, registro afetado, resultado com o código HTTP, motivo do erro ou da recusa, operação realizada, IP e navegador, uma tabela "O que mudou" (campo, antes e depois) e as seções "Todos os dados anteriores", "Todos os dados posteriores", "Dados enviados na operação", "Resposta da operação" e "Informações adicionais". Fecha pelo botão, pela tecla Esc ou clicando fora, devolve o foco ao ícone que o abriu e trava a rolagem da página enquanto está aberto. Senhas, códigos, tokens e a palavra secreta aparecem como "Oculto por segurança".
 
-### `./src/utils/downloadSectionAsPdf/index.ts:` As bibliotecas `jspdf` e `html2canvas`, que são pesadas, deixaram de ir no carregamento da página e passaram a ser baixadas apenas quando o usuário clica para baixar o PDF.
+### `./src/utils/auditLabels:` Traduz as ações, áreas, resultados, perfis e nomes de campos da auditoria para português e formata os valores (datas em horário de Brasília, horários dos eventos, sim/não, listas e valores protegidos).
 
-### `SEO:` A página de cada evento passou a ter título, descrição, imagem de compartilhamento (1200 × 630, gerada pelo Cloudinary a partir da foto do evento) e link canônico próprios, além do JSON-LD do tipo `Event`, que permite ao Google mostrar data, local e palestrante nos resultados. O site ganhou `sitemap.xml` com todos os eventos públicos, `robots.txt`, imagem padrão de compartilhamento, JSON-LD da Fatec Itu, título com modelo por página (`Nome da página | Eventos Fatec Itu`) e um `h1` na tela inicial. As páginas administrativas, o login e a verificação de certificado foram marcadas para não aparecer nos buscadores.
+### `./src/hooks/api/Audit e ./src/hooks/pages/(private)/Audit:` Hooks que buscam a lista paginada com os filtros (com espera de 400 ms na busca para não chamar a API a cada tecla) e os detalhes de um registro, além da lógica da tela. Um usuário sem permissão é avisado e levado para a tela inicial.
 
-### `./src/app/(pages)/(public)/EventDetail/[id]/page.tsx e EventDetailView.tsx:` A página do evento foi dividida: o `page.tsx` agora é um componente de servidor que busca o evento na API e gera os metadados e o JSON-LD, e o conteúdo da tela, que continua igual, passou para o `EventDetailView.tsx`.
+### `./src/utils/navigationData e ./src/components/Header:` Adicionado o item "Auditoria" no header e no menu lateral, só para ADMIN. Com o novo item, o menu do administrador não cabia entre 1151 px e cerca de 1316 px de largura e cobria o logo e o botão de sair; nessa faixa (até 1366 px) os itens agora ficam mais compactos.
 
-### `./src/utils/seo/index.ts:` Criado o utilitário que centraliza a URL e a descrição do site, os dados da Fatec Itu, a busca dos eventos públicos no servidor (com tempo limite de 5 segundos, para a página não travar se a API demorar) e a montagem dos metadados e do JSON-LD. A URL do site pode ser trocada pela variável opcional `NEXT_PUBLIC_SITE_URL`.
+### `Redefinição de senha:` A API passou a responder sempre a mesma mensagem, exista ou não o e-mail, para não revelar quais e-mails têm conta. A tela mostra essa mensagem ("Se o e-mail informado estiver cadastrado, você receberá um código...") ao avançar para a etapa da nova senha.
 
-### `./src/app/sitemap.ts, robots.ts, opengraph-image.tsx e layouts de (private), Login e Verification:` Criados os arquivos de sitemap, robots, imagem de compartilhamento e os layouts que marcam as páginas que não devem ser indexadas. O `middleware.ts` passou a liberar a imagem de compartilhamento, que antes seria redirecionada para o login.
-
-### `Mensagens no console removidas:` Removidos os `console.log` dos hooks. Nas listagens administrativas (categorias, cursos, locais, eventos e usuários), uma falha ao carregar agora mostra um aviso na tela em vez de deixar a lista vazia sem explicação, e uma falha de conexão no logout passou a mostrar o mesmo aviso de falha no logout.
-
-### `package.json e README:` O `eslint-config-next` foi atualizado para 15.5.12, a mesma versão do Next, e a versão do Next no README foi corrigida de 15.4.2 para 15.5.12.
-
-### `Erros de escrita corrigidos:` "todas os eventos" na descrição do site; no README, "método mais práticos", "áres", "reutilizavel", "todas os dias/horários", "disponivel", "disponiveis", "horario", "contem", "rota publica", "obrigado à estar", o ".." duplicado e o nome do arquivo `globals.css`.
+### `Dependências:` `next` atualizado de 15.5.12 para 15.5.28, `eslint-config-next` para 15.5.28 e `jspdf` para 4.2.1; o `sharp` usado pelo Next foi para 0.35.5 e o `postcss` interno do Next foi forçado para 8.5.30 pelo `overrides` do `package.json`. O `npm audit` foi de 18 alertas (2 críticos) para 5, nenhum crítico: os restantes estão no `eslint-config-next`, usado só no desenvolvimento, e no pacote `braces`, que ainda não tem versão corrigida.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 
@@ -61,7 +55,7 @@
 </div>
 
 ## Versões utilizadas:
-    - Next: 15.5.12
+    - Next: 15.5.28
     - React: 19.1.0
     - Typescript: 5
     - Docker: 28.3.2
@@ -89,6 +83,7 @@
 - `./src/middleware.ts:` Arquivo de middleware de borda que controla o acesso às rotas públicas e privadas com base nos cookies de sessão. Considera tanto o cookie de acesso quanto o cookie de refresh, permitindo que o front-end renove a sessão antes de redirecionar o usuário quando apenas o `access_token` expirou.`
 
 - `./src/@Types:` Armazena as tipagens que são reutilizadas no código
+    - `AuditTypes:` Tipagens compartilhadas da tela de Audit (registro resumido, registro detalhado, página da listagem e filtros)
     - `CarouselTypes:` Tipagens compartilhadas da tela de Carousel
     - `CategoriesTypes:` Tipagens compartilhadas da tela de Categories
     - `CertificateTypes:` Tipagens compartilhadas para gestão de certificados automáticos
@@ -108,6 +103,7 @@
   - `sitemap.ts:` Gera o `sitemap.xml` com a tela inicial e todos os eventos públicos, atualizado a cada 5 minutos.
   - `(pages):` Possui todas nossas rotas da aplicação, mas lembre-se, sempre que estiver dentro de parentes não será reconhecido como rota aquela pasta! Nossa páginas:
     - `(private):` Tudo que está dentro desta pasta são nossas páginas de rota privada, onde o usuário é obrigado a estar logado para poder acessar. O `layout.tsx` desta pasta marca todas essas páginas para não aparecerem nos buscadores. Nela temos:
+        - `Audit:` Tela de auditoria, visível apenas para ADMIN, com a tabela de tudo o que acontece no sistema (quando, responsável, o que aconteceu, registro afetado, resultado e detalhe), busca, filtros por resultado, área e período, paginação e o modal de detalhes `AuditDetailModal`, integrando-se aos hooks de API em: `./src/hooks/api/Audit/` e parte lógica em: `./src/hooks/pages/private/Audit/useAuditPage`
         - `Carousel`: Tela de gerenciamento do carrossel, controlas as fotos ativas no carrossel, titulo, ordem que irá aparecer cada foto no carrossel, adicionar nova foto, apagar foto, e editar fotos, tudo isso integrando-se aos hooks de API em: `./src/hooks/api/Carousel` e parte lógica em: `./src/hooks/pages/private/Carousel/useCarouselPage`
         - `Categories:` Tela de gerenciamento de categorias, responsável por exibir a lista de categorias cadastradas e oferecer as ações de criar, editar ou excluir cada categoria, integrando-se aos hooks de API em: `./src/hooks/api/Categories/` e parte lógica em: `./src/hooks/pages/private/Categories/useCategoriesPage`
         - `Courses:` Tela de gerenciamento de cursos, responsável por exibir a lista dos cursos cadastrados e oferecer as ações de criar, editar ou excluir cada curso, integrando-se aos hooks de API em: `./src/hooks/api/Courses/` e parte lógica em: `./src/hooks/pages/private/Courses/useCoursesPage`
@@ -120,10 +116,11 @@
         - `page.tsx`: Nossa primeira página, também conhecido como o nosso "home", é a tela em que o usuário visualiza assim que acessa o site.
         - `EventDetail:` Tela para mostrar o evento com mais detalhes aos usuários não autenticados, possibilitando também que se inscrevam no evento. O `page.tsx` gera no servidor o título, a descrição, a imagem de compartilhamento e o JSON-LD do evento para buscadores e redes sociais, e o `EventDetailView.tsx` contém a tela
         - `Login:` Tela de login, ao acessar: /Login. O `layout.tsx` desta pasta marca o login e a troca de senha para não aparecerem nos buscadores. Solicita e-mail e senha para o usuário acessar a plataforma, caso o e-mail e senha estejam correto o usuário troca para o stage de 'confirm' onde insere os 6 digitos enviado ao e-mail para acessar ( 2FA )
-            - `ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail, se existir troca para a tela para informar a nova senha, confirmar, e inserir o código de 6 dígitos enviado ao e-mail.
+            - `ResetPassword:` Tela para o usuário trocar de senha, ao acessar: /Login/ResetPassword. Solicita primeiro o e-mail e, exista ele ou não, avança para a etapa da nova senha mostrando a mensagem neutra da API, para não revelar quais e-mails têm conta. Depois o usuário informa a nova senha, confirma e insere o código de 6 dígitos enviado ao e-mail.
         - `Verification:` Tela de verificação de certificado, ao acessar: /Verification/[token], link presente no QR Code do certificado. Mostra os dados do certificado para confirmar que ele é autêntico. O `layout.tsx` desta pasta marca a página para não aparecer nos buscadores, já que ela exibe o nome e o e-mail do aluno.
 
 - `./src/components:` Onde está os componentes que serão reutilizados em diversas partes do código. Neste projeto temos os components:
+    - `AuditDetailModal:` Modal com todos os detalhes de um registro de auditoria: responsável na ocasião, data e hora de Brasília, registro afetado, resultado, operação, IP, navegador, a tabela do que mudou e os dados anteriores, posteriores, enviados e a resposta. Fecha pelo botão, pela tecla Esc ou clicando fora e devolve o foco a quem o abriu.
     - `Buttons:`
         - `ButtonDarkMode:` Botão responsável por cuidar do dark mode do site ( modo claro / escuro ).
         - `ButtonRay:` Botão que é reutilizado em diversas partes do código, alterando o texto e etc com base nas props
@@ -132,7 +129,7 @@
     - `CarouselComponent:` Componente do carrossel que aparece na tela inicial apresentando as imagens escolhidas pelos administradores / coordenadores.
     - `CodeInputValidation:` Componente reutilizável com 6 caixinhas para o 2fa, tanto para confirmar login quando para resetar a senha
     - `Footer:` Rodapé que contém as informações como: Endereço, número de telefone, links das áreas dos alunos.
-    - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site. Em telas não mobile ele também é responsável por exibir a navegação principal centralizada com suporte à dropdown e subdropdown por hover.
+    - `Header:` Componente que fica fixo em todas as páginas pois foi inserido dentro de `layout.tsx` e fica localizado ao topo superior do site. Em telas não mobile ele também é responsável por exibir a navegação principal centralizada com suporte à dropdown e subdropdown por hover. Entre 1151 px e 1366 px os itens ficam mais compactos para que todos os itens do administrador caibam sem cobrir o logo ou o botão de sair.
     - `ImageCloudinary:` Responsável por renderizar imagens hospedadas no Cloudinary de forma otimizada com a tag Image do next, tornando um componente que pode ser reutilizável em qualquer local, fazendo a imagem ficar 100% dentro do elemento pai de forma correta
     - `ImageCropper:` Editor de recorte de imagem aberto por cima da tela, com as opções de recorte no tamanho recomendado, livre, 16:9, 4:3 e quadrado. Mostra o tamanho do recorte, avisa quando a resolução ou a proporção não são as ideais e marca a área visível no celular.
     - `Inputs:`
@@ -151,13 +148,18 @@
 - `./src/hooks:` Armazenaremos aqui os nossos hooks personalizados com as partes lógicas da aplicação, nós separamos os nossos hooks, por tipos como: pages, components e api.
     - `api`:` Aqui ocorrem os métodos HTTP fazendo requisições para o back-end
         - `client.ts:` Cliente centralizado para requisições autenticadas. Ele envia cookies automaticamente, busca token CSRF quando necessário, intercepta respostas `401`, chama a rota de refresh, atualiza o usuário autenticado na store e refaz a requisição original uma vez.
+        - `Audit:` Todas as requisições para o back-end nas rotas de /audit/
+            - `Get:` Requisições GET nas rotas de /audit/
+                - `useGetAuditLogs:` Busca a lista paginada de registros de auditoria com busca, resultado, área e período, avisando e levando para a tela inicial quem não tem permissão.
+                - `useGetAuditLogById:` Busca todos os detalhes de um registro de auditoria para o modal.
+
         - `Auth:` Todas as requisições para o back-end nas rotas de /auth/
             - `Get:` Requisições GET nas rotas de /auth/
                 - `getMe:` Utilizado para pegar com o back-end os dados do usuário, como nome, e-mail, role e etc, usando o cliente centralizado para respeitar o refresh automático da sessão.
             - `Post:` Requisições POST nas rotas de /auth/
                 - `useLogin:` Requisições para o back-end para fazer a solicitação de login (gerar código 2fa) e confirmar código 2fa para entrar na conta
                 - `useLogout:` Bate na rota de logout para permitir o usuário a se deslogar 
-                - `useResetPassword:` Requisições para o back-end para fazer a solicitação de troca de senha (gerar código 2fa) e confirmar código 2fa para trocar a senha
+                - `useResetPassword:` Requisições para o back-end para fazer a solicitação de troca de senha (gerar código 2fa) e confirmar código 2fa para trocar a senha. Guarda a mensagem neutra devolvida pela API para mostrar na tela.
 
         - `Carousel:` Todas as requisições para o back-end nas rotas de /carousel/
             - `Delete:` Requisições DELETE nas rotas de /carousel/delete/:id
@@ -245,6 +247,8 @@
     
     - `pages:` Lógicas das páginas, arquivos page.tsx que fica dentro de app
         - `(private):` Partes lógicas das páginas de rotas privadas (pages/private)
+            - `Audit:`
+                - `useAuditPage:` Partes lógicas à serem usadas no page de Audit: filtros, busca com espera de 400 ms, paginação e abertura do modal de detalhes
             - `Carousel:`
                 - `useCarouselPage:` Partes lógicas à serem usadas no page de Carousel
             - `Categories:`
@@ -277,10 +281,11 @@
         - `index.ts:` Para setar o usuário na aplicação
 
 - `./src/utils:` Pasta que agrupa funções utilitárias genéricas, sem dependência de componentes específicos, usadas em toda a aplicação para operações comuns de DOM e exportação.
+    - `auditLabels:` Traduz para português as ações, áreas, resultados, perfis e campos da auditoria e formata os valores (datas em horário de Brasília, horários dos eventos, sim/não, listas e valores protegidos).
     - `downloadSectionAsPdf:` Função que captura uma seção da página (identificada por ID) e gera um arquivo PDF com toda a sua extensão, incluindo quebras de página em A4. Serve para permitir ao usuário baixar qualquer parte da interface como documento portátil.
     - `imageCrop:` Centraliza os tamanhos recomendados das imagens de eventos e do carrossel e as funções que recortam a imagem em canvas e geram o arquivo final enviado à API.
     - `localDate:` Retorna a data de hoje no fuso horário do usuário no formato `AAAA-MM-DD`, usada como data mínima nos campos de data. O `toISOString()` usa UTC e, no Brasil, depois das 21h já retornava a data do dia seguinte.
-     - `navigationData:` Arquivo responsável por centralizar a configuração dos itens de navegação reutilizados no Header e no Sidebar, incluindo rotas internas, links externos, dropdown, subdropdown e controle de visibilidade com base na role do usuário.
+     - `navigationData:` Arquivo responsável por centralizar a configuração dos itens de navegação reutilizados no Header e no Sidebar, incluindo rotas internas, links externos, dropdown, subdropdown e controle de visibilidade com base na role do usuário. O item Auditoria aparece apenas para ADMIN.
     - `printSection:` Função que clona e prepara uma seção da página (identificada por ID) para impressão, centralizando-a e aplicando margens, mantendo cores exatas do cabeçalho da tabela. Serve para acionar o diálogo de impressão do navegador e imprimir apenas o conteúdo desejado.
     - `seo:` Centraliza a URL e a descrição do site, os dados da Fatec Itu usados no JSON-LD, a busca dos eventos públicos no servidor (com tempo limite, para a página não travar se a API demorar) e a montagem dos metadados e do JSON-LD de cada evento.
     - `wrapperVLibras:` Componente utilitário cliente responsável por inicializar globalmente a integração com o plugin VLibras dentro da aplicação. Serve para disponibilizar o recurso de acessibilidade de tradução para Libras em todas as páginas ao ser importado no `layout.tsx`.

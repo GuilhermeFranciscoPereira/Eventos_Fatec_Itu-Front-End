@@ -244,6 +244,32 @@
     color: var(--red-primary);
 }
 
+/* With every admin item the menu needs about 960px: up to 1366px it gets tighter so it never covers the logo or the buttons. */
+@media (min-width: 1151px) and (max-width: 1366px) {
+    .header > .headerContent {
+        grid-template-columns: auto 1fr auto;
+        column-gap: 12px;
+    }
+
+    .header > .headerContent > .desktopNav > .desktopNavList {
+        gap: 0;
+    }
+
+    .header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink {
+        padding: 10px 7px;
+        font-size: 13px;
+    }
+
+    .header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink::after {
+        left: 7px;
+        width: calc(100% - 14px);
+    }
+
+    .header > .headerContent > .actions > .authButton {
+        padding: 0 10px;
+    }
+}
+
 @media (max-width: 1150px) {
     .header > .headerContent > .desktopNav {
         display: none;

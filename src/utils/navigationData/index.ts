@@ -1,7 +1,7 @@
 import type { IconType } from 'react-icons';
 import { UserRoleTypes } from '@/@Types/UserJwtProps';
 import { GiKnightBanner, GiPartyPopper } from 'react-icons/gi';
-import { FaBook, FaHome, FaLayerGroup, FaUserEdit } from 'react-icons/fa';
+import { FaBook, FaClipboardCheck, FaHome, FaLayerGroup, FaUserEdit } from 'react-icons/fa';
 
 export type NavRole = UserRoleTypes[] | 'all';
 
@@ -56,6 +56,12 @@ export const navigationItems: readonly NavItem[] = [
         label: 'Locais',
         href: '/Locations',
         Icon: FaUserEdit,
+        role: ['ADMIN']
+    },
+    {
+        label: 'Auditoria',
+        href: '/Audit',
+        Icon: FaClipboardCheck,
         role: ['ADMIN']
     },
     {
