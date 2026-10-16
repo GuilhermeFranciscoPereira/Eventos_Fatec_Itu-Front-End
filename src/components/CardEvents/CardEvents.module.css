@@ -1,134 +1,329 @@
-.cardEventsSection {
-    position: relative;
-    width: 95%;
-    left: 2.5%;
-    top: 10px;
-    display: grid;
-    gap: 15px;
-    grid-template-columns: repeat(4, 1fr);
+.cardEvents {
+    width: 100%;
+}
+
+.resultCount {
+    margin: 1.25rem 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.resultCount > strong {
+    color: var(--red-text);
+    font-size: 1.05rem;
+}
+
+.otherHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 3rem 0 1.25rem;
+}
+
+.otherEyebrow {
+    color: var(--red-text);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .otherEventsH2 {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    margin: 2rem 0 1rem;
-}
-
-.cardEventsSection>.card {
-    padding: 8px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-    transition: transform .2s ease;
-}
-
-.cardEventsSection>.card:hover {
-    transform: translateY(-5px);
-}
-
-.cardEventsSection>.card>.cardInt {
-    position: relative;
-    overflow: hidden;
-    border-radius: 6px;
-}
-
-.cardEventsSection>.card>.cardInt>.badge {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    z-index: 1;
-    font-size: 13px;
+    font-size: clamp(1.35rem, calc(1.9 * var(--dvw)), 1.9rem);
     font-weight: 700;
-    background-color: var(--red-primary);
-    color: var(--text-color-reverse);
-    padding: 5px 10px;
-    border-radius: 10px;
+    letter-spacing: -0.01em;
 }
 
-.cardEventsSection>.card>.cardInt>.previewWrapper {
+.cardEventsSection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    height: 100%;
+}
+
+.cardLink {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .25s ease;
+}
+
+.cardLink:hover,
+.cardLink:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--red-soft);
+}
+
+.media {
     position: relative;
     width: 100%;
-    height: 140px;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: 10px;
+    background: var(--surface-3);
 }
 
-.cardEventsSection>.card>.cardInt>.cardData>.title {
-    font-weight: bold;
-    font-size: 18px;
+.mediaImage {
+    transition: transform .7s var(--ease-out);
 }
 
-.cardEventsSection>.card>.cardInt>.cardData>p {
-    margin: 6px 0px;
-    font-size: 14px;
+.cardLink:hover .mediaImage {
+    transform: scale(1.07);
 }
 
-.cardEventsSection>.card>.cardInt>.cardData>p.local>span{
-    font-weight: bold;
+.media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), transparent 35%, transparent 70%, rgba(0, 0, 0, 0.15));
+    pointer-events: none;
 }
 
-.cardEventsSection>.card>.cardInt>.cardData>a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-}
-
-.cardEventsSection>.card>.cardInt>.cardData>a>button {
-    margin: 12px 0px 4px;
-    height: 40px;
-    width: 60%;
-}
-
-.emptyStateSection {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-}
-
-.emptyStateSection > .emptyStateBox {
-    width: 100%;
-    max-width: 700px;
+.dateBadge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 32px 24px;
-    border-radius: 16px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    min-width: 3.25rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text-color);
+    box-shadow: var(--shadow-md);
+    line-height: 1;
+    transition: transform .35s var(--ease-spring);
 }
 
-.emptyStateSection > .emptyStateBox > .emptyStateTitle {
-    font-size: 2rem;
+.cardLink:hover .dateBadge {
+    transform: translateY(-2px) rotate(-3deg);
+}
+
+.dateBadge > strong {
+    font-size: 1.35rem;
     font-weight: 700;
-    margin: 0;
+    color: var(--red-text);
 }
 
-.emptyStateSection > .emptyStateBox > .emptyStateText {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 0;
-    opacity: 0.9;
+.dateBadge > span {
+    margin-top: 0.15rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
 }
 
-@media (max-width: 769px) {
-    .cardEventsSection {
-        grid-template-columns: repeat(2, 1fr);
+.badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: var(--red-primary);
+    color: var(--on-red);
+    font-size: 0.72rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-red);
+}
+
+.cardData {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.6rem;
+    padding: 1.1rem 1.2rem 1.25rem;
+}
+
+.category {
+    align-self: flex-start;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    background: var(--red-soft);
+    color: var(--red-text);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.35;
+    transition: color .2s ease;
+}
+
+.cardLink:hover .title {
+    color: var(--red-text);
+}
+
+.meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    list-style: none;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+}
+
+.meta > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    min-width: 0;
+}
+
+.meta > li > svg {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    color: var(--red-text);
+}
+
+.meta > li > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.seats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+}
+
+.seatsBar {
+    width: 100%;
+    height: 0.4rem;
+    border-radius: var(--radius-full);
+    background: var(--surface-3);
+    overflow: hidden;
+}
+
+.seatsBar > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--red-bright), var(--red-primary));
+    transform-origin: left;
+    animation: fill 1.1s .2s var(--ease-out) both;
+}
+
+.seatsLabel {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.seatsAlmostFull .seatsLabel {
+    color: var(--warning);
+    font-weight: 600;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.25rem;
+    color: var(--red-text);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.cta > svg {
+    transition: transform .3s var(--ease-out);
+}
+
+.cardLink:hover .cta > svg {
+    transform: translateX(5px);
+}
+
+.emptyStateBox {
+    margin-top: 1.5rem;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+}
+
+.skeletonCard {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    overflow: hidden;
+}
+
+.skeletonMedia,
+.skeletonLine {
+    background: linear-gradient(90deg, var(--surface-3), var(--surface-2), var(--surface-3));
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
+}
+
+.skeletonMedia {
+    aspect-ratio: 16 / 9;
+}
+
+.skeletonBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.1rem 1.15rem 1.4rem;
+}
+
+.skeletonLine {
+    display: block;
+    height: 0.8rem;
+    border-radius: var(--radius-full);
+}
+
+.skeletonLine:first-child {
+    width: 35%;
+}
+
+.skeletonLine:nth-child(2) {
+    height: 1.1rem;
+    width: 85%;
+}
+
+.skeletonLine:last-child {
+    width: 60%;
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
     }
 }
 
-@media (max-width: 480px) {
-    .cardEventsSection {
-        grid-template-columns: repeat(1, 1fr);
-        width: 95%;
-        left: 2.5%;
+@keyframes fill {
+    from {
+        transform: scaleX(0);
     }
+}
 
-    .cardEventsSection>.card>.cardInt>.previewWrapper {
-        height: 150px;
+@media (max-width: 640px) {
+    .cardEventsSection {
+        grid-template-columns: 1fr;
+        gap: 1.1rem;
     }
 }

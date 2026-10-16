@@ -1,8 +1,10 @@
 'use client';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { IoArrowBack } from 'react-icons/io5';
+import Button from '@/components/Buttons/Button';
 import styles from '@/app/(pages)/(public)/Verification/[token]/Verification.module.css';
 import { useGetVerifyCertificate } from '@/hooks/api/Certificate/Get/useGetVerifyCertificate';
+import { MdAccessTime, MdCancel, MdEvent, MdEventNote, MdLocationOn, MdMenuBook, MdPerson, MdVerified, MdWorkspacePremium } from 'react-icons/md';
 
 export default function Verification(): React.ReactElement {
     const { token } = useParams() as { token: string };
@@ -11,8 +13,10 @@ export default function Verification(): React.ReactElement {
     if (loading) {
         return (
             <main className={styles.page}>
-                <section className={styles.validSection}>
-                    <h1 className={styles.validTitle}>Validando certificado...</h1>
+                <section className={styles.card} aria-busy="true">
+                    <span className={styles.spinner} aria-hidden />
+                    <h1 className={styles.title}>Validando certificado...</h1>
+                    <p className={styles.subtitle}>Conferindo a autenticidade do código informado.</p>
                 </section>
             </main>
         );
@@ -21,74 +25,43 @@ export default function Verification(): React.ReactElement {
     if (!data) {
         return (
             <main className={styles.page}>
-                <section className={styles.invalidSection}>
-                    <h1 className={styles.invalidTitle}>Certificado inválido</h1>
-                    <p className={styles.invalidText}>Não foi possível validar este certificado.</p>
-                    <Link href="/" className={styles.invalidText}>Voltar</Link>
+                <section className={`${styles.card} ${styles.invalid}`}>
+                    <span className={styles.statusIcon} aria-hidden><MdCancel /></span>
+                    <h1 className={styles.title}>Certificado inválido</h1>
+                    <p className={styles.subtitle}>Não foi possível validar este certificado. Confira se o link ou o QR Code está completo.</p>
+                    <Button href="/" variant="secondary" icon={<IoArrowBack />}>Voltar para a agenda</Button>
                 </section>
             </main>
         );
     }
 
+    const items = [
+        { label: 'Evento', value: data.evento, Icon: MdEventNote },
+        { label: 'Palestrante', value: data.palestrante, Icon: MdPerson },
+        { label: 'Data', value: data.data, Icon: MdEvent },
+        { label: 'Horário', value: data.horario, Icon: MdAccessTime },
+        { label: 'Local', value: data.local, Icon: MdLocationOn },
+        ...(data.curso ? [{ label: 'Curso', value: data.curso, Icon: MdMenuBook }] : []),
+        { label: 'Emitido em', value: new Date(data.emitidoEm).toLocaleDateString('pt-BR'), Icon: MdWorkspacePremium },
+    ];
+
     return (
         <main className={styles.page}>
-            <section className={`${styles.validSection}`}>
-                <h1 className={styles.validTitle}>Certificado Válido!</h1>
-                <p className={styles.validSubtitle}>Este certificado pertence a <span>{data.aluno}.</span></p>
+            <section className={`${styles.card} ${styles.valid}`}>
+                <span className={styles.statusIcon} aria-hidden><MdVerified /></span>
+                <h1 className={styles.title}>Certificado válido!</h1>
+                <p className={styles.subtitle}>Este certificado pertence a <strong>{data.aluno}</strong>.</p>
 
                 <div className={styles.cardsSection}>
-                    <div className={styles.card}>
-                        <div>
-                            <span className={styles.spanLabel}>Evento</span>
-                            <span className={styles.spanText}>{data.evento}</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.card}>
-                        <div>
-                            <span className={styles.spanLabel}>Palestrante</span>
-                            <span className={styles.spanText}>{data.palestrante}</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.card}>
-                        <div>
-                            <span className={styles.spanLabel}>Data</span>
-                            <span className={styles.spanText}>{data.data}</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.card}>
-                        <div>
-                            <span className={styles.spanLabel}>Horário</span>
-                            <span className={styles.spanText}>{data.horario}</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.card}>
-                        <div>
-                            <span className={styles.spanLabel}>Local</span>
-                            <span className={styles.spanText}>{data.local}</span>
-                        </div>
-                    </div>
-
-                    {data.curso && (
-                        <div className={styles.card}>
+                    {items.map(({ label, value, Icon }, index) => (
+                        <div key={label} className={styles.item} style={{ '--item-index': index } as React.CSSProperties}>
+                            <span className={styles.itemIcon} aria-hidden><Icon /></span>
                             <div>
-                                <span className={styles.spanLabel}>Curso</span>
-                                <span className={styles.spanText}>{data.curso}</span>
+                                <span className={styles.spanLabel}>{label}</span>
+                                <span className={styles.spanText}>{value}</span>
                             </div>
                         </div>
-                    )}
-
-                    <div className={styles.card}>
-                        <div>
-                            <span className={styles.spanLabel}>Emitido em</span>
-                            <span className={styles.spanText}>
-                                {new Date(data.emitidoEm).toLocaleDateString('pt-BR')}
-                            </span>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </section>
         </main>

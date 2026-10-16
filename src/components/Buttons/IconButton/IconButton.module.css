@@ -1,0 +1,94 @@
+.iconButton {
+    --tone: var(--text-muted);
+    --tone-bg: var(--surface-3);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.375rem;
+    height: 2.375rem;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .25s var(--ease-spring), background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.iconButton:hover {
+    color: var(--tone);
+    background: var(--tone-bg);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.iconButton:active {
+    transform: scale(0.94);
+}
+
+.iconButton:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.iconButton::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    z-index: 5;
+    padding: 0.3rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: var(--background-reverse);
+    color: var(--text-color-reverse);
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 4px);
+    transition: opacity .15s ease, transform .15s ease;
+}
+
+.iconButton:hover::after,
+.iconButton:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.neutral {
+    --tone: var(--text-color);
+    --tone-bg: var(--surface-3);
+}
+
+.info {
+    --tone: var(--info);
+    --tone-bg: var(--info-soft);
+}
+
+.success {
+    --tone: var(--success);
+    --tone-bg: var(--success-soft);
+}
+
+.danger {
+    --tone: var(--danger);
+    --tone-bg: var(--danger-soft);
+}
+
+.brand {
+    --tone: var(--red-text);
+    --tone-bg: var(--red-soft);
+}
+
+@media (hover: none) {
+    .iconButton::after {
+        display: none;
+    }
+}

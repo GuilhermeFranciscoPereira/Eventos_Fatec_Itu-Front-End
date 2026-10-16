@@ -1,23 +1,32 @@
 .header {
     position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 70px;
-    border-bottom: 1px solid var(--red-primary);
-    background-color: var(--background);
+    inset: 0 0 auto 0;
     z-index: 900;
-    transition: color .4s ease-in-out, background .4s ease-in-out;
+    height: var(--header-height);
+    border-bottom: 1px solid transparent;
+    background: color-mix(in srgb, var(--background) 78%, transparent);
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+
+.scrolled {
+    border-bottom-color: var(--border);
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    box-shadow: var(--shadow-sm);
 }
 
 .header > .headerContent {
     position: relative;
     display: grid;
-    grid-template-columns: 160px 1fr 160px;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    column-gap: 1.25rem;
     width: 100%;
+    max-width: 96rem;
     height: 100%;
-    padding: 10px 20px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
 }
 
 .header > .headerContent > .logoLink {
@@ -25,6 +34,21 @@
     align-items: center;
     justify-self: start;
     text-decoration: none;
+    transition: transform .3s var(--ease-spring);
+}
+
+.header > .headerContent > .logoLink:hover {
+    transform: scale(1.04);
+}
+
+.logo {
+    width: 6.25rem;
+    height: auto;
+    transform: translateY(8%);
+}
+
+:global(.DarkTheme) .logo {
+    filter: brightness(1.7) saturate(1.1);
 }
 
 .header > .headerContent > .desktopNav {
@@ -38,7 +62,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 0.15rem;
     list-style: none;
 }
 
@@ -53,80 +77,95 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    min-height: 42px;
-    padding: 10px 12px;
+    gap: 0.3rem;
+    min-height: 2.4rem;
+    padding: 0.45rem 0.75rem;
     border: none;
+    border-radius: var(--radius-full);
     background: transparent;
-    color: var(--text-color);
+    color: var(--text-muted);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
     white-space: nowrap;
-    transition: color .2s ease, background .2s ease;
-}
-
-.header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink::after {
-    content: '';
-    position: absolute;
-    left: 12px;
-    bottom: 6px;
-    width: calc(100% - 24px);
-    height: 2px;
-    background: var(--red-primary);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform .25s ease;
-}
-
-.header > .headerContent > .desktopNav > .desktopNavList > .navItem:hover > .navLink::after,
-.header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink.active::after {
-    transform: scaleX(1);
+    transition: color .2s ease, background-color .2s ease;
 }
 
 .header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink:hover,
-.header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink.active {
-    color: var(--red-primary);
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem:hover > .navLink {
+    color: var(--red-text);
+    background: var(--red-softer);
 }
 
-.header > .headerContent > .desktopNav > .desktopNavList > .navItem.hasDropdown > .navLink {
-    pointer-events: none;
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink.active {
+    color: var(--red-text);
+    background: var(--red-soft);
+    font-weight: 600;
+}
+
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0.2rem;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background: var(--red-primary);
+    transform: translateX(-50%);
+}
+
+.chevron {
+    font-size: 0.8rem;
+    transition: transform .25s var(--ease-out);
+}
+
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem.hasDropdown:hover .chevron,
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem.hasDropdown:has(:focus-visible) .chevron {
+    transform: rotate(180deg);
 }
 
 .header > .headerContent > .desktopNav > .desktopNavList > .navItem > .dropdown {
     position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    min-width: 250px;
-    padding: 10px;
-    border: 1px solid rgba(0, 0, 0, .08);
-    border-radius: 16px;
-    background: var(--background);
-    box-shadow: var(--box-shadow);
+    top: calc(100% + 0.6rem);
+    left: 50%;
+    min-width: 15rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(12px);
-    transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+    transform: translate(-50%, 0.6rem) scale(0.98);
+    transition: opacity .2s ease, transform .25s var(--ease-out), visibility .2s ease;
 }
 
-.header > .headerContent > .desktopNav > .desktopNavList > .navItem:hover > .dropdown {
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem > .dropdown::before {
+    content: '';
+    position: absolute;
+    inset: -0.75rem 0 auto 0;
+    height: 0.75rem;
+}
+
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem:hover > .dropdown,
+.header > .headerContent > .desktopNav > .desktopNavList > .navItem:has(:focus-visible) > .dropdown {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
-    list-style: none;
+    transform: translate(-50%, 0) scale(1);
 }
 
 .header > .headerContent > .desktopNav .dropdownList {
     display: grid;
-    gap: 4px;
+    gap: 2px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.header > .headerContent > .desktopNav > .desktopNavList > .navItem > .dropdown > .dropdownList > .dropdownItem {
+.header > .headerContent > .desktopNav .dropdownItem {
     position: relative;
 }
 
@@ -134,51 +173,54 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 0.75rem;
     width: 100%;
-    min-height: 42px;
-    padding: 10px 12px;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.8rem;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: transparent;
     color: var(--text-color);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
     font-family: inherit;
+    text-align: left;
     cursor: pointer;
     white-space: nowrap;
-    transition: background .2s ease, color .2s ease;
+    transition: background-color .15s ease, color .15s ease, padding-left .2s var(--ease-out);
 }
 
 .header > .headerContent > .desktopNav .dropdownLink:hover,
 .header > .headerContent > .desktopNav .dropdownLink.active {
-    background: rgba(163, 53, 53, .08);
-    color: var(--red-primary);
+    background: var(--red-softer);
+    color: var(--red-text);
+    padding-left: 1rem;
 }
 
 .header > .headerContent > .desktopNav .dropdownLink > .dropdownArrow {
-    font-size: 18px;
+    font-size: 1.1rem;
     line-height: 1;
 }
 
 .header > .headerContent > .desktopNav .subDropdown {
     position: absolute;
-    top: 0;
-    left: calc(100% + 8px);
-    min-width: 250px;
-    padding: 10px;
-    border: 1px solid rgba(0, 0, 0, .08);
-    border-radius: 16px;
-    background: var(--background);
-    box-shadow: var(--box-shadow);
+    top: -0.5rem;
+    left: calc(100% + 0.5rem);
+    min-width: 15rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(12px);
-    transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+    transform: translateX(0.6rem);
+    transition: opacity .2s ease, transform .25s var(--ease-out), visibility .2s ease;
 }
 
-.header > .headerContent > .desktopNav .dropdownItem:hover > .subDropdown {
+.header > .headerContent > .desktopNav .dropdownItem:hover > .subDropdown,
+.header > .headerContent > .desktopNav .dropdownItem:has(:focus-visible) > .subDropdown {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
@@ -188,85 +230,158 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 0.75rem;
 }
 
 .header > .headerContent > .actions > .authLink {
-    height: 40px;
-    padding: 0 16px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--red-primary);
-    border-radius: 12px;
-    color: var(--red-primary);
+    min-height: 2.5rem;
+    padding: 0 1.15rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--red-bright), var(--red-strong));
+    color: var(--on-red);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
-    transition: background .2s ease, color .2s ease, transform .2s ease;
+    box-shadow: var(--shadow-red);
+    transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
 }
 
 .header > .headerContent > .actions > .authLink:hover {
-    background: var(--red-primary);
-    color: #ffffff;
+    transform: translateY(-2px);
 }
 
-.header > .headerContent > .actions > .authButton {
-    height: 40px;
-    padding: 0 14px;
+.userMenu {
+    position: relative;
+}
+
+.userButton {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid rgba(255, 0, 0, .16);
-    border-radius: 12px;
-    background: rgba(255, 0, 0, .06);
+    gap: 0.5rem;
+    min-height: 2.6rem;
+    padding: 0.25rem 0.7rem 0.25rem 0.3rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--surface);
     color: var(--text-color);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
-    font-family: inherit;
     cursor: pointer;
-    transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
-.header > .headerContent > .actions > .authButton:hover {
-    background: rgba(255, 0, 0, .14);
-    border-color: rgba(255, 0, 0, .26);
-    color: var(--red-primary);
+.userButton:hover,
+.userButtonOpen {
+    border-color: var(--red-primary);
+    box-shadow: var(--shadow-sm);
 }
 
-.header > .headerContent > .actions > .authButton > svg {
-    width: 16px;
-    height: 16px;
+.userButtonOpen .chevron {
+    transform: rotate(180deg);
+}
+
+.userName {
+    max-width: 7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.userDropdown {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    width: 17.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+    animation: menuIn .22s var(--ease-out) both;
+}
+
+.userCard {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.4rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+}
+
+.userCardTexts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.userCardTexts > strong {
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.userCardTexts > span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.userCardTexts > .roleBadge {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--red-soft);
+    color: var(--red-text);
+    font-weight: 600;
+}
+
+.userMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    min-height: 2.6rem;
+    padding: 0.5rem 0.8rem;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease, padding-left .2s var(--ease-out);
+}
+
+.userMenuItem:hover {
+    background: var(--red-softer);
+    color: var(--red-text);
+    padding-left: 1rem;
+}
+
+.logoutItem:hover {
+    background: var(--danger-soft);
+    color: var(--danger);
 }
 
 .active {
-    color: var(--red-primary);
+    color: var(--red-text);
 }
 
-/* With every admin item the menu needs about 960px: up to 1366px it gets tighter so it never covers the logo or the buttons. */
-@media (min-width: 1151px) and (max-width: 1366px) {
-    .header > .headerContent {
-        grid-template-columns: auto 1fr auto;
-        column-gap: 12px;
-    }
-
-    .header > .headerContent > .desktopNav > .desktopNavList {
-        gap: 0;
-    }
-
-    .header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink {
-        padding: 10px 7px;
-        font-size: 13px;
-    }
-
-    .header > .headerContent > .desktopNav > .desktopNavList > .navItem > .navLink::after {
-        left: 7px;
-        width: calc(100% - 14px);
-    }
-
-    .header > .headerContent > .actions > .authButton {
-        padding: 0 10px;
+@keyframes menuIn {
+    from {
+        opacity: 0;
+        transform: translateY(-0.4rem) scale(0.97);
     }
 }
 
@@ -278,7 +393,7 @@
     .header > .headerContent {
         grid-template-columns: 1fr;
         justify-items: center;
-        padding: 10px;
+        padding: 0 1rem;
     }
 
     .header > .headerContent > .logoLink {
@@ -287,13 +402,17 @@
 
     .header > .headerContent > .actions {
         position: absolute;
-        right: 20px;
+        right: 1rem;
         top: 50%;
         transform: translateY(-50%);
     }
 
     .header > .headerContent > .actions > .authLink,
-    .header > .headerContent > .actions > .authButton {
+    .userMenu {
         display: none;
+    }
+
+    .logo {
+        width: 5.5rem;
     }
 }

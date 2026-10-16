@@ -1,0 +1,35 @@
+.avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(140deg, var(--red-bright), var(--red-strong));
+    color: var(--on-red);
+    box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--red-soft);
+}
+
+.sm {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.7rem;
+}
+
+.md {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.85rem;
+}
+
+.lg {
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 1.05rem;
+}
+
+.initials {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}

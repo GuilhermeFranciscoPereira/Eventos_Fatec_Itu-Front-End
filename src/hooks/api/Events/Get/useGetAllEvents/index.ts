@@ -13,6 +13,7 @@ type useGetAllEventsProps = {
 
 type useGetAllEventsPublicProps = {
     datas: EventPublicResponse[];
+    loading: boolean;
     refetch: () => Promise<void>;
 }
 
@@ -52,17 +53,23 @@ export function useGetAllEvents(): useGetAllEventsProps {
 
 export function useGetAllEventsPublic(): useGetAllEventsPublicProps {
     const [datas, setDatas] = useState<EventPublicResponse[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const fetchAll = useCallback(async () => {
-        const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/publicAllEvents`);
-        if (!response.ok) {
-            return;
+        try {
+            const response: Response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/events/publicAllEvents`);
+            if (!response.ok) {
+                return;
+            }
+            const data = (await response.json()) as EventPublicResponse[];
+            setDatas(data);
+        } catch {
+        } finally {
+            setLoading(false);
         }
-        const data = (await response.json()) as EventPublicResponse[];
-        setDatas(data);
     }, []);
 
     useEffect(() => { fetchAll() }, [fetchAll]);
 
-    return { datas, refetch: fetchAll };
+    return { datas, loading, refetch: fetchAll };
 }

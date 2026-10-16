@@ -5,21 +5,21 @@
 .menuBtn {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 56px;
-    height: 70px;
+    left: 0.25rem;
+    z-index: 997;
     display: none;
     align-items: center;
     justify-content: center;
+    width: 3.5rem;
+    height: var(--header-height);
     border: none;
     background: transparent;
-    z-index: 997;
     cursor: pointer;
 }
 
 .menuBtn > .xAnimated {
-    width: 50px;
-    height: 50px;
+    width: 2.75rem;
+    height: 2.75rem;
     transition: transform .6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -54,16 +54,6 @@
     display: none;
 }
 
-.profileForm {
-    display: grid;
-    gap: 12px;
-}
-
-.profileForm > .formGroup {
-    display: grid;
-    gap: 8px;
-}
-
 @media (max-width: 1150px) {
     .menuBtn {
         display: inline-flex;
@@ -72,17 +62,18 @@
     .sidebar {
         position: fixed;
         inset: 0 auto 0 0;
-        width: 260px;
-        height: 100dvh;
-        display: grid;
-        grid-template-rows: 120px 1fr auto;
-        background: var(--background);
-        border-right: 1px solid rgba(0, 0, 0, .06);
-        box-shadow: 0 0 1px rgba(0, 0, 0, .08), 0 8px 24px rgba(0, 0, 0, .12);
         z-index: 996;
+        display: flex;
+        flex-direction: column;
+        width: min(19rem, 86vw);
+        height: 100dvh;
+        padding-top: env(safe-area-inset-top);
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        box-shadow: var(--shadow-lg);
         overflow: hidden;
-        transform: translateX(-100%);
-        transition: transform .3s ease;
+        transform: translateX(-105%);
+        transition: transform .35s var(--ease-out);
     }
 
     .mobileOpen {
@@ -92,110 +83,136 @@
     .backdrop {
         position: fixed;
         inset: 0;
+        z-index: 995;
         display: block;
         border: none;
-        background: rgba(0, 0, 0, .35);
-        z-index: 995;
+        background: rgba(15, 12, 11, 0.45);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        animation: fadeIn .25s ease both;
     }
 
     .sidebar > .header {
-        display: grid;
-        grid-template-rows: auto auto;
-        align-content: flex-start;
-        justify-items: center;
-        margin-top: 10px;
-        padding: 12px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
+        padding: 1.25rem 1rem 1rem;
+        background: linear-gradient(140deg, var(--red-bright), var(--red-strong));
+        color: var(--on-red);
     }
 
-    .sidebar > .header > .logoRow {
-        width: 100%;
-        height: 50px;
-        display: grid;
-        align-items: flex-start;
-        justify-items: center;
-    }
-
-    .sidebar > .header > .logoRow > .brandTitle {
-        margin: 0;
-        line-height: 1;
-        text-align: center;
-        font-size: 28px;
+    .sidebar > .header > .brandTitle {
+        font-size: 1.75rem;
         font-weight: 700;
+        line-height: 1;
         white-space: nowrap;
     }
 
-    .sidebar > .header > .logoRow > .brandTitle > .brandRed {
-        color: var(--red-primary);
+    .sidebar > .header > .brandTitle > .brandRed {
+        color: #FFD6D4;
     }
 
-    .sidebar > .header > .brandInfo {
+    .sidebar > .header > .brandSub {
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.85;
+    }
+
+    .userCard {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0.9rem 0.9rem 0.25rem;
+        padding: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: var(--surface-2);
+    }
+
+    .userMeta {
         display: grid;
-        width: 100%;
-        padding: 0 12px;
+        gap: 0.05rem;
+        min-width: 0;
     }
 
-    .sidebar > .header > .brandInfo > .brandSub {
-        display: block;
-        width: 100%;
-        text-align: center;
-        font-size: 15px;
-        border-top: 1px solid rgba(0, 0, 0, .15);
-        border-bottom: 1px solid rgba(0, 0, 0, .15);
-        padding: 6px 10px;
-        letter-spacing: .2px;
-        color: var(--text-color);
-        overflow: hidden;
+    .userName {
+        font-size: 0.9rem;
+        font-weight: 600;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .userEmail {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .userRole {
+        justify-self: start;
+        margin-top: 0.2rem;
+        padding: 0.05rem 0.5rem;
+        border-radius: var(--radius-full);
+        background: var(--red-soft);
+        color: var(--red-text);
+        font-size: 0.7rem;
+        font-weight: 600;
     }
 
     .sidebar > .nav {
-        padding: 0 10px 12px;
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 0.75rem 0.75rem 1rem;
         overflow-y: auto;
         overflow-x: hidden;
+        overscroll-behavior: contain;
     }
 
-    .sidebar > .nav > .mobileTree,
     .sidebar > .nav .mobileTree {
         display: grid;
-        gap: 8px;
+        gap: 0.2rem;
         margin: 0;
         padding: 0;
         list-style: none;
     }
 
-    .sidebar > .nav > .mobileTree > .mobileTreeItem,
-    .sidebar > .nav .mobileTree > .mobileTreeItem {
+    .sidebar > .nav .mobileTreeItem {
         display: grid;
         list-style: none;
     }
 
     .sidebar > .nav .mobileTreeLink,
-    .sidebar > .nav .mobileSummary,
-    .sidebar > .nav .profileAction {
+    .sidebar > .nav .mobileSummary {
         width: 100%;
-        min-height: 44px;
+        min-height: 2.9rem;
         display: grid;
         align-items: center;
         color: var(--text-color);
         font: inherit;
-        font-size: 14px;
+        font-size: 0.9rem;
+        font-weight: 500;
         text-decoration: none;
         border: none;
-        border-radius: 12px;
+        border-radius: var(--radius-md);
         background: transparent;
         text-align: left;
         cursor: pointer;
-        transition: background .15s ease, color .15s ease;
+        transition: background-color .15s ease, color .15s ease, padding-left .2s var(--ease-out);
     }
 
     .sidebar > .nav .mobileTreeLink {
-        gap: 12px;
-        padding: 10px;
+        gap: 0.75rem;
+        padding: 0.6rem 0.75rem;
         min-width: 0;
     }
 
     .sidebar > .nav .mobileTreeLinkWithIcon {
-        grid-template-columns: 24px minmax(0, 1fr);
+        grid-template-columns: 1.4rem minmax(0, 1fr);
     }
 
     .sidebar > .nav .mobileTreeLinkWithoutIcon {
@@ -203,17 +220,13 @@
     }
 
     .sidebar > .nav .mobileTreeLink > svg {
-        width: 22px;
-        height: 22px;
+        width: 1.25rem;
+        height: 1.25rem;
+        color: var(--text-subtle);
+        transition: color .15s ease;
     }
 
-    .sidebar > .nav .mobileTreeLink > span {
-        min-width: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
+    .sidebar > .nav .mobileTreeLink > span,
     .sidebar > .nav .mobileSummary > span {
         display: block;
         min-width: 0;
@@ -224,11 +237,10 @@
 
     .sidebar > .nav .mobileSummary {
         grid-template-columns: minmax(0, 1fr) auto;
-        gap: 12px;
-        padding: 10px;
+        gap: 0.75rem;
+        padding: 0.6rem 0.75rem;
         list-style: none;
         min-width: 0;
-        width: 100%;
     }
 
     .sidebar > .nav .mobileSummary::-webkit-details-marker {
@@ -236,138 +248,102 @@
     }
 
     .sidebar > .nav .mobileSummary::after {
-        content: '+';
-        font-size: 18px;
-        line-height: 1;
-        transition: transform .2s ease;
+        content: '';
+        width: 0.45rem;
+        height: 0.45rem;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg);
+        transition: transform .25s var(--ease-out);
     }
 
     .sidebar > .nav .mobileDetails[open] > .mobileSummary::after {
-        content: '−';
+        transform: rotate(225deg);
     }
 
     .sidebar > .nav .mobileTreeLink:hover,
-    .sidebar > .nav .mobileSummary:hover,
-    .sidebar > .nav .profileAction:hover {
-        background: rgba(0, 0, 0, .04);
+    .sidebar > .nav .mobileSummary:hover {
+        background: var(--red-softer);
+        color: var(--red-text);
+        padding-left: 1rem;
+    }
+
+    .sidebar > .nav .mobileTreeLink:hover > svg {
+        color: var(--red-text);
     }
 
     .sidebar > .nav .mobileTreeLink.active,
     .sidebar > .nav .mobileSummary.active {
-        background: rgba(0, 0, 0, .08);
-        color: var(--red-primary);
+        background: var(--red-soft);
+        color: var(--red-text);
+        font-weight: 600;
+    }
+
+    .sidebar > .nav .mobileTreeLink.active > svg {
+        color: var(--red-text);
     }
 
     .sidebar > .nav .mobileDetails {
         display: grid;
-        gap: 6px;
+        gap: 0.2rem;
     }
 
     .sidebar > .nav .mobileDetails > .mobileTree {
-        padding-left: 14px;
-    }
-
-    .sidebar > .nav .mobileDetails > .mobileTree > .mobileTreeItem > .mobileDetails > .mobileTree {
-        padding-left: 14px;
-    }
-
-    .sidebar > .nav > .profileActionWrap {
-        margin-top: 12px;
-    }
-
-    .sidebar > .nav > .profileActionWrap > .profileAction {
-        grid-template-columns: 24px minmax(0, 1fr);
-        gap: 12px;
-        padding: 10px;
-        min-width: 0;
-    }
-
-    .sidebar > .nav > .profileActionWrap > .profileAction > span {
-        min-width: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        margin-left: 0.85rem;
+        padding-left: 0.6rem;
+        border-left: 2px solid var(--border);
     }
 
     .sidebar > .footer {
         display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+        padding: 0.75rem 0.75rem max(0.75rem, env(safe-area-inset-bottom));
+        border-top: 1px solid var(--border);
+        background: var(--surface-2);
+    }
+
+    .footerAction {
+        display: inline-flex;
         align-items: center;
-        padding: 12px;
-        background: var(--background);
-        border-top: 1px solid rgba(0, 0, 0, .06);
-    }
-
-    .sidebar > .footer > .userBox {
-        display: grid;
-        grid-template-columns: 42px 1fr auto;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
-        min-width: 0;
-    }
-
-    .sidebar > .footer > .userBox > .avatar {
-        position: relative;
-        width: 42px;
-        height: 42px;
-        border-radius: 999px;
-        overflow: hidden;
-        border: 1px solid rgba(0, 0, 0, .06);
-        background: rgba(0, 0, 0, .06);
-        display: grid;
-        place-items: center;
-    }
-
-    .sidebar > .footer > .userBox > .avatar > .avatarFallback {
-        font-size: 13px;
-        font-weight: 700;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 2.75rem;
+        padding: 0.5rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--surface);
         color: var(--text-color);
-    }
-
-    .sidebar > .footer > .userBox > .userMeta {
-        display: grid;
-        gap: 2px;
-        min-width: 0;
-    }
-
-    .sidebar > .footer > .userBox > .userMeta > .userName {
-        font-size: 13px;
+        font-size: 0.875rem;
         font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    .sidebar > .footer > .userBox > .userMeta > .userRole {
-        font-size: 11px;
-        color: #8b8b94;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    .sidebar > .footer > .userBox > .logout {
-        display: grid;
-        place-items: center;
-        width: 40px;
-        height: 36px;
-        border-radius: 10px;
-        border: none;
-        background: rgba(0, 0, 0, .04);
-        color: var(--text-color);
         cursor: pointer;
-        transition: background .15s ease;
+        transition: background-color .2s ease, color .2s ease, border-color .2s ease;
     }
 
-    .sidebar > .footer > .userBox > .logout:hover {
-        background: rgba(255, 0, 0, .2);
+    .footerAction:hover {
+        border-color: var(--red-primary);
+        color: var(--red-text);
+    }
+
+    .footerAction.logout:hover {
+        background: var(--danger-soft);
+        color: var(--danger);
+        border-color: transparent;
     }
 
     .sidebar > .loginArea {
-        inline-size: 90%;
-        margin: 0 auto 10px;
+        padding: 0.75rem 1rem max(1rem, env(safe-area-inset-bottom));
+        border-top: 1px solid var(--border);
     }
 
     .sidebar > .loginArea > .loginWrap {
         display: grid;
         text-decoration: none;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
 }

@@ -147,7 +147,8 @@ export default function InputImage({ initialUrl = null, onChange, accept = 'imag
     return (
         <>
             <div
-                className={`${styles.container} ${hasDraggedOver ? styles.containerDragOver : ''} ${className ?? ''}`}
+                className={`${styles.container} ${recommendedSize ? styles.containerRatio : ''} ${hasDraggedOver ? styles.containerDragOver : ''} ${className ?? ''}`}
+                style={recommendedSize ? { '--image-ratio': `${recommendedSize.width} / ${recommendedSize.height}` } as React.CSSProperties : undefined}
                 onDragOver={(e) => { e.preventDefault(); if (!disabled) setHasDraggedOver(true); }}
                 onDragEnter={(e) => { e.preventDefault(); if (!disabled) setHasDraggedOver(true); }}
                 onDragLeave={() => setHasDraggedOver(false)}
@@ -187,7 +188,8 @@ export default function InputImage({ initialUrl = null, onChange, accept = 'imag
                                 <ImageCloudinary
                                     src={currentUrl}
                                     alt="Imagem existente"
-                                    sizes="100vw"
+                                    sizes="(max-width: 768px) 100vw, 900px"
+                                    fit="contain"
                                 />
                             )}
                         </div>

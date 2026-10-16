@@ -11,6 +11,8 @@ type ImageCloudinaryProps = {
     cropMode?: CropMode;
     gravity?: string;
     fetchFormat?: FetchFormat;
+    fit?: 'cover' | 'contain';
+    position?: string;
 };
 
 const CLOUD_NAME: string = process.env.NEXT_PUBLIC_CLOUDINARY_NAME as string;
@@ -25,7 +27,7 @@ function normalizePublicId(input: string): string {
 }
 
 export default function ImageCloudinary(props: ImageCloudinaryProps): React.ReactElement {
-    const { src, alt, sizes = '100vw', className, priority, cropMode = 'fill', gravity = 'auto', fetchFormat = 'auto' } = props;
+    const { src, alt, sizes = '100vw', className, priority, cropMode = 'fill', gravity = 'auto', fetchFormat = 'auto', fit = 'cover', position = 'center' } = props;
     const publicId: string = normalizePublicId(src);
     const cldLoader = ({ width }: ImageLoaderProps): string => {
         const base = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/`;
@@ -42,6 +44,7 @@ export default function ImageCloudinary(props: ImageCloudinaryProps): React.Reac
             sizes={sizes}
             priority={priority}
             className={className}
+            style={{ objectFit: fit, objectPosition: position }}
         />
     );
 }

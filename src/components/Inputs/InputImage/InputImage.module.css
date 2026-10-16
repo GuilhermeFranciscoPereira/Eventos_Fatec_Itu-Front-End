@@ -1,21 +1,28 @@
 .container {
-    height: 230px;
+    height: 15rem;
     width: 100%;
-    max-width: 900px;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
+    max-width: 100%;
+    border: 2px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: 5px;
-    background-color: var(--background);
+    overflow: hidden;
+    background-color: var(--surface-2);
     color: var(--text-color);
+    transition: border-color .2s ease, background-color .2s ease, transform .25s var(--ease-out);
+}
+
+.container:hover {
+    border-color: var(--red-text);
+    background-color: var(--red-softer);
 }
 
 .containerDragOver {
-    outline: 2px dashed var(--red-primary);
-    outline-offset: 4px;
+    border-color: var(--red-text);
+    background-color: var(--red-soft);
+    transform: scale(1.01);
 }
 
 .container > .header {
@@ -29,6 +36,16 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+}
+
+.containerRatio {
+    height: auto;
+}
+
+.containerRatio > .header {
+    flex: none;
+    aspect-ratio: var(--image-ratio);
+    min-height: 13rem;
 }
 
 .container > .header > .headerIcon {
@@ -61,8 +78,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.75rem;
-    padding: 0 12px;
+    gap: 1rem;
+    padding: 1.5rem 1.25rem;
     text-align: center;
 }
 
@@ -70,7 +87,15 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    color: var(--text-color);
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-full);
+    background: var(--red-soft);
+    color: var(--red-text);
+    transition: transform .3s var(--ease-spring);
+}
+
+.container:hover > .header > .uploadPlaceholder > .uploadIcons {
+    transform: translateY(-3px) scale(1.05);
 }
 
 .container > .header > .uploadPlaceholder > .uploadIcons > .headerIcon {
@@ -79,10 +104,10 @@
 }
 
 .container > .header > .uploadPlaceholder > .uploadIcons > span {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1;
     font-weight: 700;
-    color: var(--text-color);
+    opacity: 0.5;
 }
 
 .container > .header > .uploadPlaceholder > p {
@@ -92,7 +117,8 @@
 }
 
 .container > .footer {
-    background-color: rgba(178, 0, 0, 0.08);
+    background-color: var(--surface);
+    border-top: 1px solid var(--border) !important;
     width: 100%;
     height: 48px;
     padding: 8px 10px;
@@ -109,7 +135,7 @@
     width: 38px;
     height: 38px;
     flex-shrink: 0;
-    color: var(--red-primary);
+    color: var(--red-text);
     padding: 6px;
 }
 
@@ -135,7 +161,7 @@
 }
 
 .container > .footer .footerIconRightButtonActive {
-    color: var(--red-primary);
+    color: var(--red-text);
 }
 
 .container > .footer .footerIconRightButtonActive:hover {
@@ -172,7 +198,7 @@
 }
 
 .container > .footer > .sizeInfo strong {
-    color: var(--red-primary);
+    color: var(--red-text);
 }
 
 .container > .footer > .sizeInfoOk {
@@ -203,7 +229,7 @@
 }
 
 .container > .header > .uploadPlaceholder > p.recommendation > strong {
-    color: var(--red-primary);
+    color: var(--red-text);
 }
 
 .spinning {

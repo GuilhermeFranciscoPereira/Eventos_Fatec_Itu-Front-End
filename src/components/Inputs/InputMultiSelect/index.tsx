@@ -1,6 +1,8 @@
 'use client';
+import { createPortal } from 'react-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from '@/components/Inputs/InputMultiSelect/InputMultiSelect.module.css';
+import { moveOptionFocus, useFloatingDropdown } from '@/hooks/components/useFloatingDropdown';
 
 type InputMultiSelectOption = {
     label: string;
@@ -20,7 +22,9 @@ type InputMultiSelectProps = {
 
 export default function InputMultiSelect({ label, value, options, placeholder = 'Selecione', disabled = false, onChange, className, allLabel = 'Todos' }: InputMultiSelectProps): React.ReactElement {
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const { dropdownRef, style, placement, focusOptionOnOpen } = useFloatingDropdown(triggerRef, isOpen && !disabled, 15);
 
     const selectedLabels = useMemo(() => {
         return options
@@ -38,7 +42,8 @@ export default function InputMultiSelect({ label, value, options, placeholder = 
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent): void {
-            if (!wrapperRef.current?.contains(event.target as Node)) {
+            const target = event.target as Node;
+            if (!wrapperRef.current?.contains(target) && !dropdownRef.current?.contains(target)) {
                 setIsOpen(false);
             }
         }
@@ -48,7 +53,7 @@ export default function InputMultiSelect({ label, value, options, placeholder = 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [dropdownRef]);
 
     function handleToggle(optionValue: string): void {
         if (value.includes(optionValue)) {
@@ -59,22 +64,60 @@ export default function InputMultiSelect({ label, value, options, placeholder = 
         onChange([...value, optionValue]);
     }
 
+    function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            if (disabled) return;
+            event.preventDefault();
+            const direction = event.key === 'ArrowDown' ? 1 : -1;
+
+            if (!isOpen) {
+                focusOptionOnOpen(direction);
+                setIsOpen(true);
+                return;
+            }
+
+            moveOptionFocus(dropdownRef.current, direction);
+            return;
+        }
+
+        if (!isOpen) return;
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            setIsOpen(false);
+            triggerRef.current?.focus();
+            return;
+        }
+
+        if (event.key === 'Tab') {
+            if (dropdownRef.current?.contains(document.activeElement)) triggerRef.current?.focus();
+            setIsOpen(false);
+        }
+    }
+
     return (
-        <div className={`${styles.inputMultiSelectField} ${className ?? ''}`.trim()} ref={wrapperRef}>
+        <div className={`${styles.inputMultiSelectField} ${className ?? ''}`.trim()} ref={wrapperRef} onKeyDown={handleKeyDown}>
             {label && <span className={styles.fieldLabel}>{label}</span>}
 
             <button
+                ref={triggerRef}
                 type="button"
                 className={styles.trigger}
                 disabled={disabled}
                 onClick={() => setIsOpen(prev => !prev)}
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
             >
                 <span className={styles.triggerText}>{triggerText}</span>
                 <span className={`${styles.arrow} ${isOpen ? styles.arrowOpen : ''}`} />
             </button>
 
-            {isOpen && !disabled && (
-                <div className={styles.dropdown}>
+            {isOpen && !disabled && style && createPortal(
+                <div
+                    ref={dropdownRef}
+                    className={`${styles.dropdown} ${placement === 'top' ? styles.dropdownTop : ''}`}
+                    style={style}
+                >
                     <ul className={styles.dropdownList}>
                         <li className={styles.dropdownItem}>
                             <button
@@ -104,7 +147,8 @@ export default function InputMultiSelect({ label, value, options, placeholder = 
                             );
                         })}
                     </ul>
-                </div>
+                </div>,
+                document.body,
             )}
         </div>
     );

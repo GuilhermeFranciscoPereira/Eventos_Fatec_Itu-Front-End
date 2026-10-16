@@ -1,9 +1,11 @@
 'use client';
-import Loader from '@/components/Loader';
-import { FaEye } from 'react-icons/fa';
+import { FaEye, FaClipboardCheck } from 'react-icons/fa';
+import PageHeader from '@/components/PageHeader';
+import Button from '@/components/Buttons/Button';
 import { Table } from '@/components/Table';
 import { MdRefresh, MdFilterAltOff } from 'react-icons/md';
 import AuditDetailModal from '@/components/AuditDetailModal';
+import InputSelect from '@/components/Inputs/InputSelect';
 import type { AuditLogSummary, AuditOutcome } from '@/@Types/AuditTypes';
 import styles from '@/app/(pages)/(private)/Audit/Audit.module.css';
 import { useAuditPage } from '@/hooks/pages/(private)/Audit/useAuditPage';
@@ -14,6 +16,11 @@ const OUTCOME_OPTIONS: Array<{ value: '' | AuditOutcome; label: string }> = [
     { value: 'SUCCESS', label: OUTCOME_LABELS.SUCCESS },
     { value: 'ERROR', label: OUTCOME_LABELS.ERROR },
     { value: 'DENIED', label: OUTCOME_LABELS.DENIED },
+];
+
+const RESOURCE_OPTIONS: Array<{ value: string; label: string }> = [
+    { value: '', label: 'Todas' },
+    ...Object.entries(RESOURCE_LABELS).map(([value, label]) => ({ value, label })),
 ];
 
 // Lets long e-mails wrap before the @ instead of in the middle of a word.
@@ -92,15 +99,12 @@ export default function Audit(): React.ReactElement {
 
     return (
         <main className={styles.auditPage}>
-            <header className={styles.auditPageHeader}>
-                <div>
-                    <h1>Auditoria</h1>
-                    <p className={styles.subtitle}>Quem fez o quê, quando e com qual resultado. Senhas, códigos e tokens nunca são registrados.</p>
-                </div>
-                <button type="button" className={styles.refreshBtn} onClick={() => void refetch()}>
-                    <MdRefresh aria-hidden /> Atualizar
-                </button>
-            </header>
+            <PageHeader
+                icon={<FaClipboardCheck />}
+                title="Auditoria"
+                description="Quem fez o quê, quando e com qual resultado. Senhas, códigos e tokens nunca são registrados."
+                actions={<Button variant="secondary" icon={<MdRefresh />} onClick={() => void refetch()}>Atualizar</Button>}
+            />
 
             <form className={styles.filters} onSubmit={(e) => e.preventDefault()} role="search" aria-label="Filtrar registros de auditoria">
                 <label className={`${styles.field} ${styles.fieldSearch}`}>
@@ -114,20 +118,23 @@ export default function Audit(): React.ReactElement {
                     />
                 </label>
 
-                <label className={styles.field}>
-                    <span>Resultado</span>
-                    <select value={filters.outcome} onChange={(e) => updateFilter('outcome', e.target.value as '' | AuditOutcome)}>
-                        {OUTCOME_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
-                    </select>
-                </label>
+                <InputSelect
+                    label="Resultado"
+                    value={filters.outcome}
+                    options={OUTCOME_OPTIONS}
+                    onChange={(value) => updateFilter('outcome', value as '' | AuditOutcome)}
+                    className={styles.selectField}
+                    triggerClassName={styles.selectTrigger}
+                />
 
-                <label className={styles.field}>
-                    <span>Área</span>
-                    <select value={filters.resource} onChange={(e) => updateFilter('resource', e.target.value)}>
-                        <option value="">Todas</option>
-                        {Object.entries(RESOURCE_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-                    </select>
-                </label>
+                <InputSelect
+                    label="Área"
+                    value={filters.resource}
+                    options={RESOURCE_OPTIONS}
+                    onChange={(value) => updateFilter('resource', value)}
+                    className={styles.selectField}
+                    triggerClassName={styles.selectTrigger}
+                />
 
                 <label className={styles.field}>
                     <span>De</span>
@@ -144,18 +151,21 @@ export default function Audit(): React.ReactElement {
                 </button>
             </form>
 
-            {loading && <Loader />}
-
             <Table<AuditLogSummary>
                 records={data.items}
                 schema={schemaTable}
                 getIdentifier={(log) => log.id}
                 hiddenOnMobile={['actor', 'target', 'outcome']}
+                loading={loading}
+                caption="Registros de auditoria"
+                emptyState={hasFilters
+                    ? { title: 'Nenhum registro com esses filtros', description: 'Ajuste a busca, o resultado, a área ou o período.' }
+                    : { title: 'Nenhum registro ainda', description: 'As ações feitas no sistema aparecem aqui assim que acontecem.' }}
             />
 
             <nav className={styles.pagination} aria-label="Paginação da auditoria">
                 <p aria-live="polite">
-                    {data.total ? `Mostrando ${firstItem}–${lastItem} de ${data.total.toLocaleString('pt-BR')} registros` : 'Nenhum registro encontrado'}
+                    {data.total ? `Mostrando ${firstItem}–${lastItem} de ${data.total.toLocaleString('pt-BR')} registros` : loading ? 'Carregando registros...' : 'Nenhum registro encontrado'}
                 </p>
                 <div className={styles.pageControls}>
                     <button type="button" onClick={() => setPage(page - 1)} disabled={page <= 1 || loading}>Anterior</button>

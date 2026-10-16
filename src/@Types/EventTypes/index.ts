@@ -19,6 +19,7 @@ export interface EventProps {
     courseNames?: string[];
     semester: Semester | null;
     maxParticipants: number;
+    currentParticipants?: number;
     isRestricted: boolean;
     locationId: number;
     locationName: string;

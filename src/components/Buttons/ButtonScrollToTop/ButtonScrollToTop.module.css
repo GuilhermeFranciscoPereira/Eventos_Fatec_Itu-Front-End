@@ -6,7 +6,7 @@
     height: 56px;
     border: 1px solid color-mix(in srgb, var(--background) 35%, transparent);
     border-radius: 999px;
-    background: var(--red-primary);
+    background: linear-gradient(135deg, var(--red-bright), var(--red-strong));
     box-shadow:
         0 10px 24px rgba(0, 0, 0, 0.18),
         inset 0 1px 2px rgba(255, 255, 255, 0.12);
@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 9999;
+    z-index: 990;
     transition:
         opacity 0.28s ease,
         transform 0.28s ease,
@@ -52,8 +52,8 @@
 .scrollToTopButton > .arrow {
     width: 14px;
     height: 14px;
-    border-top: 3px solid var(--text-color-reverse);
-    border-left: 3px solid var(--text-color-reverse);
+    border-top: 3px solid var(--on-red);
+    border-left: 3px solid var(--on-red);
     transform: rotate(45deg) translate(2px, 2px);
 }
 

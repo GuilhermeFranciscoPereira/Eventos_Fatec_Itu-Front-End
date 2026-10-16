@@ -26,6 +26,19 @@ export default function useCodeInputValidation(validateFn: (code: string) => Pro
         if (key === 'Backspace' && !val) shift(idx, -1);
     }
 
+    function handlePaste(idx: number, text: string): void {
+        const digits = text.replace(/\D/g, '');
+        if (!digits) return;
+        const start = digits.length >= length ? 0 : idx;
+        const chars = digits.slice(0, length - start).split('');
+        chars.forEach((char, offset) => {
+            const input = inputRefs[start + offset]?.current;
+            if (input) input.value = char;
+        });
+        inputRefs[Math.min(start + chars.length, length - 1)]?.current?.focus();
+        recalc();
+    }
+
     function clearAll(): void {
         inputRefs.forEach(r => { if (r.current) r.current.value = ''; });
         inputRefs[0]?.current?.focus();
@@ -48,5 +61,5 @@ export default function useCodeInputValidation(validateFn: (code: string) => Pro
         }
     }
 
-    return { inputRefs, handleInput, handleKey, clearAll, handleSubmit, loading, error, isComplete: code.length === length };
+    return { inputRefs, handleInput, handleKey, handlePaste, clearAll, handleSubmit, loading, error, isComplete: code.length === length };
 }

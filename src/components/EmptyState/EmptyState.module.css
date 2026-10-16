@@ -1,0 +1,81 @@
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 3.5rem 1.5rem;
+    text-align: center;
+    animation: emptyIn .5s var(--ease-out) both;
+}
+
+.compact {
+    padding: 2rem 1rem;
+}
+
+.iconHalo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 50%;
+    background: var(--red-soft);
+}
+
+.iconHalo::before {
+    content: '';
+    position: absolute;
+    inset: -0.5rem;
+    border-radius: 50%;
+    border: 2px dashed var(--red-soft);
+    animation: spin 18s linear infinite;
+}
+
+.icon {
+    display: inline-flex;
+    font-size: 2.2rem;
+    color: var(--red-text);
+    animation: float 3.5s ease-in-out infinite;
+}
+
+.title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.description {
+    max-width: 30rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.action {
+    margin-top: 0.75rem;
+}
+
+@keyframes float {
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes emptyIn {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}

@@ -3,12 +3,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { SlLogout } from 'react-icons/sl';
+import { FaUserCircle } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
-import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
+import { IoChevronDown } from 'react-icons/io5';
+import { useEffect, useRef, useState } from 'react';
+import UserAvatar from '@/components/UserAvatar';
 import { useUserStore } from '@/stores/useUserStore';
+import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Header/Header.module.css';
 import ButtonDarkMode from '@/components/Buttons/ButtonDarkMode';
+import { useManageProfile } from '@/hooks/components/useManageProfile';
 import { filterNavigationByRole, isTreeActive, type NavItem, navigationItems } from '@/utils/navigationData';
+
+const ROLE_LABELS: Record<string, string> = {
+    ADMIN: 'Administrador',
+    COORDENADOR: 'Coordenador',
+    AUXILIAR: 'Auxiliar docente',
+};
 
 function RenderNavLink({
     item,
@@ -58,8 +69,9 @@ function DesktopNavItem({ item, pathname }: {
 
     return (
         <li className={`${styles.navItem} ${styles.hasDropdown}`}>
-            <button type="button" className={`${styles.navLink} ${active ? styles.active : ''}`}>
+            <button type="button" className={`${styles.navLink} ${active ? styles.active : ''}`} aria-haspopup="true">
                 <span>{item.label}</span>
+                <IoChevronDown className={styles.chevron} aria-hidden />
             </button>
 
             <div className={styles.dropdown}>
@@ -111,14 +123,83 @@ function DesktopNavItem({ item, pathname }: {
     );
 }
 
-export default function Header(): React.ReactElement {
-    const pathname = usePathname();
+function UserMenu(): React.ReactElement | null {
     const handleLogout = useLogout();
+    const manageProfile = useManageProfile();
     const user = useUserStore(s => s.user);
-    const desktopItems = filterNavigationByRole(navigationItems, user?.role);
+    const menuRef = useRef<HTMLDivElement>(null);
+    const [open, setOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!open) return;
+        function onPointerDown(event: MouseEvent): void {
+            if (!menuRef.current?.contains(event.target as Node)) setOpen(false);
+        }
+        function onKeyDown(event: KeyboardEvent): void {
+            if (event.key === 'Escape') setOpen(false);
+        }
+        document.addEventListener('mousedown', onPointerDown);
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('mousedown', onPointerDown);
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [open]);
+
+    if (!user) return null;
 
     return (
-        <header className={styles.header}>
+        <div className={styles.userMenu} ref={menuRef}>
+            <button
+                type="button"
+                className={`${styles.userButton} ${open ? styles.userButtonOpen : ''}`}
+                onClick={() => setOpen(v => !v)}
+                aria-haspopup="menu"
+                aria-expanded={open}
+                aria-label={`Menu do usuário ${user.name}`}
+            >
+                <UserAvatar name={user.name} imageUrl={user.imageUrl} size="sm" />
+                <span className={styles.userName}>{user.name.split(' ')[0]}</span>
+                <IoChevronDown className={styles.chevron} aria-hidden />
+            </button>
+
+            {open && (
+                <div className={styles.userDropdown} role="menu">
+                    <div className={styles.userCard}>
+                        <UserAvatar name={user.name} imageUrl={user.imageUrl} size="lg" />
+                        <div className={styles.userCardTexts}>
+                            <strong>{user.name}</strong>
+                            <span>{user.email}</span>
+                            <span className={styles.roleBadge}>{ROLE_LABELS[user.role] ?? user.role}</span>
+                        </div>
+                    </div>
+                    <button type="button" role="menuitem" className={styles.userMenuItem} onClick={() => { setOpen(false); manageProfile(); }}>
+                        <FaUserCircle aria-hidden /> Gerenciar perfil
+                    </button>
+                    <button type="button" role="menuitem" className={`${styles.userMenuItem} ${styles.logoutItem}`} onClick={() => { setOpen(false); handleLogout(); }}>
+                        <SlLogout aria-hidden /> Sair
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default function Header(): React.ReactElement {
+    const pathname = usePathname();
+    const user = useUserStore(s => s.user);
+    const [scrolled, setScrolled] = useState<boolean>(false);
+    const desktopItems = filterNavigationByRole(navigationItems, user?.role);
+
+    useEffect(() => {
+        const onScroll = (): void => setScrolled(window.scrollY > 8);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    return (
+        <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
             <div className={styles.headerContent}>
                 <Link href="/" className={styles.logoLink} aria-label="Ir para a página inicial">
                     <Image
@@ -126,6 +207,8 @@ export default function Header(): React.ReactElement {
                         width={100}
                         src="/assets/images/Logo_FatecItu_WithoutBackground.png"
                         alt="Logo da faculdade Fatec Itu"
+                        className={styles.logo}
+                        priority
                     />
                 </Link>
 
@@ -139,13 +222,10 @@ export default function Header(): React.ReactElement {
 
                 <div className={styles.actions}>
                     {user ? (
-                        <button type="button" className={styles.authButton} onClick={handleLogout} aria-label="Sair">
-                            <SlLogout />
-                            <span>Sair</span>
-                        </button>
+                        <UserMenu />
                     ) : (
                         <Link href="/Login" className={styles.authLink}>
-                            <span>Login</span>
+                            <span>Entrar</span>
                         </Link>
                     )}
                     <ButtonDarkMode />

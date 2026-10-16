@@ -3,18 +3,21 @@
 import Link from 'next/link';
 import { SlLogout } from 'react-icons/sl';
 import { FaUserCircle } from 'react-icons/fa';
-import { useRef, useState, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
+import UserAvatar from '@/components/UserAvatar';
 import { useUserStore } from '@/stores/useUserStore';
 import ButtonRay from '@/components/Buttons/ButtonRay';
-import { useModalStore } from '@/stores/useModalStore';
-import InputImage from '@/components/Inputs/InputImage';
-import ImageCloudinary from '@/components/ImageCloudinary';
-import InputField from '@/components/Inputs/InputField';
 import { useLogout } from '@/hooks/api/Auth/Post/useLogout';
 import styles from '@/components/Sidebar/Sidebar.module.css';
-import { useEditPersonalProfile } from '@/hooks/api/Users/Patch/useEditPersonalProfile';
+import { useManageProfile } from '@/hooks/components/useManageProfile';
 import { filterNavigationByRole, isTreeActive, type NavItem, navigationItems } from '@/utils/navigationData';
-import { usePathname } from 'next/navigation';
+
+const ROLE_LABELS: Record<string, string> = {
+    ADMIN: 'Administrador',
+    COORDENADOR: 'Coordenador',
+    AUXILIAR: 'Auxiliar docente',
+};
 
 function MobileLink({
     item,
@@ -101,22 +104,31 @@ function MobileNavTree({
 export default function Sidebar(): React.ReactElement {
     const pathname = usePathname();
     const handleLogout = useLogout();
+    const manageProfile = useManageProfile();
     const user = useUserStore(s => s.user);
-    const photoRef = useRef<File | null>(null);
-    const editProfile = useEditPersonalProfile();
-    const nameRef = useRef<HTMLInputElement>(null);
-    const emailRef = useRef<HTMLInputElement>(null);
-    const openModal = useModalStore(s => s.openModal);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const closeMobile = useCallback(() => setIsMobileOpen(false), []);
     const toggleMobile = useCallback(() => setIsMobileOpen(v => !v), []);
     const mobileItems = filterNavigationByRole(navigationItems, user?.role);
+
+    useEffect(() => {
+        if (!isMobileOpen) return;
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        const onKeyDown = (event: KeyboardEvent): void => { if (event.key === 'Escape') setIsMobileOpen(false); };
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.body.style.overflow = originalOverflow;
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [isMobileOpen]);
 
     return (
         <>
             <button
                 type="button"
                 aria-label={isMobileOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-expanded={isMobileOpen}
                 className={`${styles.menuBtn} ${isMobileOpen ? styles.menuOpen : ''}`}
                 onClick={toggleMobile}
             >
@@ -131,62 +143,49 @@ export default function Sidebar(): React.ReactElement {
 
             <aside className={`${styles.sidebar} ${isMobileOpen ? styles.mobileOpen : ''}`} aria-label="Barra lateral">
                 <div className={styles.header}>
-                    <div className={styles.logoRow}>
-                        <span className={styles.brandTitle}>
-                            <span className={styles.brandRed}>F</span>atec <span className={styles.brandRed}>I</span>tu
-                        </span>
-                    </div>
-
-                    <div className={styles.brandInfo}>
-                        <span className={styles.brandSub}>{user?.email || 'Visitante'}</span>
-                    </div>
+                    <span className={styles.brandTitle}>
+                        <span className={styles.brandRed}>F</span>atec <span className={styles.brandRed}>I</span>tu
+                    </span>
+                    <span className={styles.brandSub}>Agenda de eventos</span>
                 </div>
+
+                {user && (
+                    <div className={styles.userCard}>
+                        <UserAvatar name={user.name} imageUrl={user.imageUrl} size="lg" />
+                        <div className={styles.userMeta}>
+                            <span className={styles.userName}>{user.name}</span>
+                            <span className={styles.userEmail}>{user.email}</span>
+                            <span className={styles.userRole}>{ROLE_LABELS[user.role] ?? user.role}</span>
+                        </div>
+                    </div>
+                )}
 
                 <nav className={styles.nav}>
                     <MobileNavTree items={mobileItems} pathname={pathname} closeMobile={closeMobile} />
-
-                    {user && (
-                        <div className={styles.profileActionWrap}>
-                            <button
-                                type="button"
-                                className={styles.profileAction}
-                                onClick={() => {
-                                    handleManageProfile();
-                                    closeMobile();
-                                }}
-                            >
-                                <FaUserCircle aria-hidden focusable={false} />
-                                <span>Gerenciar Perfil</span>
-                            </button>
-                        </div>
-                    )}
                 </nav>
 
                 {user ? (
                     <div className={styles.footer}>
-                        <div className={styles.userBox}>
-                            <div className={styles.avatar}>
-                                {user.imageUrl ? (
-                                    <ImageCloudinary src={user.imageUrl} alt="Foto de perfil do usuário" />
-                                ) : (
-                                    <div className={styles.avatarFallback}>{user?.name.slice(0, 1).toUpperCase() || '?'}</div>
-                                )}
-                            </div>
-
-                            <div className={styles.userMeta}>
-                                <span className={styles.userName}>{user.name}</span>
-                                <span className={styles.userRole}>{user.role}</span>
-                            </div>
-
-                            <button className={styles.logout} onClick={handleLogout} aria-label="Sair">
-                                <SlLogout />
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            className={styles.footerAction}
+                            onClick={() => {
+                                closeMobile();
+                                manageProfile();
+                            }}
+                        >
+                            <FaUserCircle aria-hidden focusable={false} />
+                            <span>Gerenciar perfil</span>
+                        </button>
+                        <button type="button" className={`${styles.footerAction} ${styles.logout}`} onClick={() => { closeMobile(); handleLogout(); }}>
+                            <SlLogout aria-hidden focusable={false} />
+                            <span>Sair</span>
+                        </button>
                     </div>
                 ) : (
                     <div className={styles.loginArea}>
                         <Link href="/Login" className={styles.loginWrap} onClick={closeMobile}>
-                            <ButtonRay text="Login" type="button" />
+                            <ButtonRay text="Entrar" type="button" />
                         </Link>
                     </div>
                 )}
@@ -195,36 +194,4 @@ export default function Sidebar(): React.ReactElement {
             {isMobileOpen ? <button type="button" aria-label="Fechar menu" className={styles.backdrop} onClick={closeMobile} /> : null}
         </>
     );
-
-    function handleManageProfile(): void {
-        openModal({
-            icon: <FaUserCircle size={32} />,
-            title: 'Gerenciar perfil',
-            message: (
-                <form className={styles.profileForm}>
-                    <InputField ref={nameRef} label="Nome" defaultValue={user?.name} />
-                    <InputField ref={emailRef} label="E-mail" defaultValue={user?.email} />
-                    <br />
-                    <div className={styles.formGroup}>
-                        <InputImage
-                            initialUrl={user?.imageUrl ?? null}
-                            onChange={file => {
-                                photoRef.current = file;
-                            }}
-                        />
-                    </div>
-                </form>
-            ),
-            confirmLabel: 'Salvar',
-            onConfirm: async () => {
-                const dto = {
-                    name: nameRef.current!.value,
-                    email: emailRef.current!.value,
-                    photo: photoRef.current ?? undefined
-                };
-
-                await editProfile(dto);
-            }
-        });
-    }
 }

@@ -1,6 +1,8 @@
 'use client';
+import { createPortal } from 'react-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from '@/components/Inputs/InputSelect/InputSelect.module.css';
+import { moveOptionFocus, useFloatingDropdown } from '@/hooks/components/useFloatingDropdown';
 
 type InputSelectOption = {
     label: string;
@@ -22,7 +24,9 @@ type InputSelectProps = {
 
 export default function InputSelect({ label, value, options, placeholder = 'Selecione', disabled = false, onChange, className, hideOptionValue, triggerClassName, labelClassName }: InputSelectProps): React.ReactElement {
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const { dropdownRef, style, placement, focusOptionOnOpen } = useFloatingDropdown(triggerRef, isOpen && !disabled, 14);
 
     const selectedOption = useMemo(
         () => options.find(option => option.value === value),
@@ -31,7 +35,8 @@ export default function InputSelect({ label, value, options, placeholder = 'Sele
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent): void {
-            if (!wrapperRef.current?.contains(event.target as Node)) {
+            const target = event.target as Node;
+            if (!wrapperRef.current?.contains(target) && !dropdownRef.current?.contains(target)) {
                 setIsOpen(false);
             }
         }
@@ -41,13 +46,45 @@ export default function InputSelect({ label, value, options, placeholder = 'Sele
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [dropdownRef]);
 
     function handleSelect(optionValue: string): void {
         if (hideOptionValue && optionValue === hideOptionValue && value !== hideOptionValue) return;
 
         onChange(optionValue);
         setIsOpen(false);
+        triggerRef.current?.focus();
+    }
+
+    function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            if (disabled) return;
+            event.preventDefault();
+            const direction = event.key === 'ArrowDown' ? 1 : -1;
+
+            if (!isOpen) {
+                focusOptionOnOpen(direction);
+                setIsOpen(true);
+                return;
+            }
+
+            moveOptionFocus(dropdownRef.current, direction);
+            return;
+        }
+
+        if (!isOpen) return;
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            setIsOpen(false);
+            triggerRef.current?.focus();
+            return;
+        }
+
+        if (event.key === 'Tab') {
+            if (dropdownRef.current?.contains(document.activeElement)) triggerRef.current?.focus();
+            setIsOpen(false);
+        }
     }
 
     const filteredOptions = useMemo(() => {
@@ -58,14 +95,17 @@ export default function InputSelect({ label, value, options, placeholder = 'Sele
     }, [options, value, hideOptionValue]);
 
     return (
-        <div className={`${styles.inputSelectField} ${className ?? ''}`.trim()} ref={wrapperRef}>
+        <div className={`${styles.inputSelectField} ${className ?? ''}`.trim()} ref={wrapperRef} onKeyDown={handleKeyDown}>
             {label && <span className={`${styles.fieldLabel} ${labelClassName ?? ''}`.trim()}>{label}</span>}
 
             <button
+                ref={triggerRef}
                 type="button"
                 className={`${styles.trigger} ${triggerClassName ?? ''}`.trim()}
                 disabled={disabled}
                 onClick={() => setIsOpen(prev => !prev)}
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
             >
                 <span className={styles.triggerText}>
                     {selectedOption?.label ?? placeholder}
@@ -73,8 +113,12 @@ export default function InputSelect({ label, value, options, placeholder = 'Sele
                 <span className={`${styles.arrow} ${isOpen ? styles.arrowOpen : ''}`} />
             </button>
 
-            {isOpen && !disabled && (
-                <div className={styles.dropdown}>
+            {isOpen && !disabled && style && createPortal(
+                <div
+                    ref={dropdownRef}
+                    className={`${styles.dropdown} ${placement === 'top' ? styles.dropdownTop : ''}`}
+                    style={style}
+                >
                     <ul className={styles.dropdownList}>
                         {filteredOptions.map(option => (
                             <li key={option.value} className={styles.dropdownItem}>
@@ -88,7 +132,8 @@ export default function InputSelect({ label, value, options, placeholder = 'Sele
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div>,
+                document.body,
             )}
         </div>
     );

@@ -1,13 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import Filters from '@/components/Inputs/FiltersHome';
-import ButtonRay from '@/components/Buttons/ButtonRay';
+import Reveal from '@/components/Reveal';
+import EmptyState from '@/components/EmptyState';
+import { IoArrowForward } from 'react-icons/io5';
+import { useUserStore } from '@/stores/useUserStore';
 import { useCallback, useMemo, useState } from 'react';
+import Filters from '@/components/Inputs/FiltersHome';
 import { EventPublicResponse } from '@/@Types/EventTypes';
 import ImageCloudinary from '@/components/ImageCloudinary';
 import styles from '@/components/CardEvents/CardEvents.module.css';
 import { useGetAllEventsPublic } from '@/hooks/api/Events/Get/useGetAllEvents';
+import { MdAccessTime, MdEventBusy, MdLocationOn, MdPerson, MdSchool } from 'react-icons/md';
 import { useGetAllCategoriesPublic } from '@/hooks/api/Categories/Get/useGetAllCategories';
 
 type CardEventsProps = {
@@ -23,13 +27,38 @@ type FiltersState = {
     categoryId?: number;
 };
 
+const dayFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', timeZone: 'UTC' });
+const monthFormatter = new Intl.DateTimeFormat('pt-BR', { month: 'short', timeZone: 'UTC' });
+const dateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' });
+const timeFormatter = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+
+function describeEvent(event: EventPublicResponse) {
+    const start = new Date(event.startDate);
+    const startLabel = dateFormatter.format(start);
+    const endLabel = event.endDate ? dateFormatter.format(new Date(event.endDate)) : null;
+    const remaining = Math.max(event.maxParticipants - event.currentParticipants, 0);
+    const filledPercent = event.maxParticipants ? Math.min(100, Math.round((event.currentParticipants / event.maxParticipants) * 100)) : 0;
+
+    return {
+        day: dayFormatter.format(start),
+        month: monthFormatter.format(start).replace('.', ''),
+        dateLabel: endLabel && endLabel !== startLabel ? `${startLabel} até ${endLabel}` : startLabel,
+        timeLabel: `${timeFormatter.format(new Date(event.startTime))} às ${timeFormatter.format(new Date(event.endTime))}`,
+        location: event.locationName.toLowerCase() === 'outros' ? event.customLocation ?? 'Local a definir' : event.locationName,
+        remaining,
+        filledPercent,
+        almostFull: event.maxParticipants > 0 && remaining <= Math.max(3, Math.ceil(event.maxParticipants * 0.1)),
+    };
+}
+
 export default function CardEvents({
     excludeId,
     showFilters = true,
     categoryId = null,
 }: CardEventsProps): React.ReactElement | null {
-    const { datas } = useGetAllEventsPublic();
+    const { datas, loading } = useGetAllEventsPublic();
     const { datas: categories } = useGetAllCategoriesPublic();
+    const user = useUserStore(s => s.user);
 
     const [filters, setFilters] = useState<FiltersState>({});
 
@@ -40,6 +69,8 @@ export default function CardEvents({
     const formatDate = useCallback((date: string): string => {
         return new Date(`${date}T00:00:00`).toLocaleDateString('pt-BR');
     }, []);
+
+    const categoryNames = useMemo(() => new Map(categories.map(category => [category.id, category.name])), [categories]);
 
     const filtered = useMemo(() => {
         return datas.filter((e: EventPublicResponse) => {
@@ -77,7 +108,7 @@ export default function CardEvents({
 
     const emptyMessage = useMemo(() => {
         if (!showFilters || !hasActiveFilters) {
-            return 'Nenhum evento disponível no momento.';
+            return 'Novos eventos aparecem aqui assim que forem publicados. Volte em breve!';
         }
 
         const parts: string[] = [];
@@ -102,89 +133,111 @@ export default function CardEvents({
         }
 
         if (!parts.length) {
-            return 'Nenhum evento disponível no momento.';
+            return 'Novos eventos aparecem aqui assim que forem publicados. Volte em breve!';
         }
 
-        return `Nenhum evento encontrado para o filtro: ${parts.join(', ')}.`;
+        return `Nenhum evento encontrado para o filtro: ${parts.join(', ')}. Tente outra combinação.`;
     }, [showFilters, hasActiveFilters, filters, categories, formatDate]);
 
-    if (!showFilters && !hasItems) {
+    if (!showFilters && (loading || !hasItems)) {
         return null;
     }
 
     return (
-        <>
+        <div className={styles.cardEvents}>
             {showFilters ? (
-                <Filters onFilterChange={handleFilterChange} />
+                <>
+                    <Filters onFilterChange={handleFilterChange} />
+                    {hasItems && (
+                        <p className={styles.resultCount} aria-live="polite">
+                            <strong>{filtered.length}</strong> {filtered.length === 1 ? 'evento disponível' : 'eventos disponíveis'}
+                        </p>
+                    )}
+                </>
             ) : (
-                hasItems && <h2 className={styles.otherEventsH2}>Outros eventos que podem te interessar:</h2>
+                <header className={styles.otherHeader}>
+                    <span className={styles.otherEyebrow}>Continue explorando</span>
+                    <h2 className={styles.otherEventsH2}>Outros eventos que podem te interessar</h2>
+                </header>
             )}
 
-            {hasItems ? (
-                <section className={styles.cardEventsSection}>
-                    {filtered.map((event: EventPublicResponse) => {
-                        const startDateLabel = new Date(event.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-                        const endDateLabel = event.endDate
-                            ? new Date(event.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })
-                            : null;
-                        const dateLabel = endDateLabel && endDateLabel !== startDateLabel
-                            ? `${startDateLabel} até ${endDateLabel}`
-                            : startDateLabel;
+            {loading ? (
+                <div className={styles.cardEventsSection} aria-busy="true" aria-label="Carregando eventos">
+                    {Array.from({ length: 4 }, (_, index) => (
+                        <div key={index} className={styles.skeletonCard} aria-hidden>
+                            <div className={styles.skeletonMedia} />
+                            <div className={styles.skeletonBody}>
+                                <span className={styles.skeletonLine} />
+                                <span className={styles.skeletonLine} />
+                                <span className={styles.skeletonLine} />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : hasItems ? (
+                <section className={styles.cardEventsSection} aria-label="Eventos">
+                    {filtered.map((event: EventPublicResponse, index: number) => {
+                        const info = describeEvent(event);
+                        const categoryName = event.categoryId ? categoryNames.get(event.categoryId) : null;
 
                         return (
-                        <article key={event.id} className={styles.card}>
-                            <div className={styles.cardInt}>
-                                {event.isRestricted && <span className={styles.badge}>Fatecano</span>}
-
-                                <div className={styles.previewWrapper}>
-                                    <ImageCloudinary
-                                        src={event.imageUrl}
-                                        alt={event.name}
-                                        sizes="(max-width: 769px) 50vw, 300px"
-                                    />
-                                </div>
-
-                                <div className={styles.cardData}>
-                                    <p className={styles.title}>{event.name}</p>
-                                    <p>
-                                        Data:{' '}
-                                        {dateLabel} -{' '}
-                                        {[event.startTime, event.endTime]
-                                            .map((t) =>
-                                                new Date(t).toLocaleTimeString('pt-BR', {
-                                                    hour: '2-digit',
-                                                    minute: '2-digit',
-                                                    timeZone: 'UTC',
-                                                }),
-                                            )
-                                            .join(' às ')}
-                                    </p>
-                                    <p className={styles.local}>
-                                        Local:{' '}
-                                        <span>
-                                            {event.locationName.toLowerCase() === 'outros'
-                                                ? event.customLocation
-                                                : event.locationName}
+                            <Reveal as="article" key={event.id} className={styles.card} delay={(index % 4) * 80}>
+                                <Link href={`/EventDetail/${event.id}`} className={styles.cardLink} aria-label={`Ver detalhes do evento ${event.name}`}>
+                                    <div className={styles.media}>
+                                        <ImageCloudinary
+                                            src={event.imageUrl}
+                                            alt={event.name}
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                            className={styles.mediaImage}
+                                        />
+                                        <span className={styles.dateBadge} aria-hidden>
+                                            <strong>{info.day}</strong>
+                                            <span>{info.month}</span>
                                         </span>
-                                    </p>
-                                    <p>Palestrante: {event.speakerName}</p>
-                                    <Link href={`/EventDetail/${event.id}`}>
-                                        <ButtonRay text="Ver Mais" type="button" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </article>
+                                        {event.isRestricted && (
+                                            <span className={styles.badge}><MdSchool aria-hidden /> Exclusivo Fatec</span>
+                                        )}
+                                    </div>
+
+                                    <div className={styles.cardData}>
+                                        {categoryName && <span className={styles.category}>{categoryName}</span>}
+                                        <h3 className={styles.title}>{event.name}</h3>
+
+                                        <ul className={styles.meta}>
+                                            <li><MdAccessTime aria-hidden /> <span>{info.dateLabel} · {info.timeLabel}</span></li>
+                                            <li><MdLocationOn aria-hidden /> <span>{info.location}</span></li>
+                                            <li><MdPerson aria-hidden /> <span>{event.speakerName}</span></li>
+                                        </ul>
+
+                                        {user && (
+                                            <div className={`${styles.seats} ${info.almostFull ? styles.seatsAlmostFull : ''}`}>
+                                                <div className={styles.seatsBar} aria-hidden>
+                                                    <span style={{ width: `${info.filledPercent}%` }} />
+                                                </div>
+                                                <span className={styles.seatsLabel}>
+                                                    {info.almostFull ? 'Últimas vagas: ' : ''}{info.remaining} {info.remaining === 1 ? 'vaga restante' : 'vagas restantes'}
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        <span className={styles.cta}>
+                                            Ver detalhes <IoArrowForward aria-hidden />
+                                        </span>
+                                    </div>
+                                </Link>
+                            </Reveal>
                         );
                     })}
                 </section>
             ) : (
-                <section className={styles.emptyStateSection}>
-                    <div className={styles.emptyStateBox}>
-                        <h2 className={styles.emptyStateTitle}>Ops...</h2>
-                        <p className={styles.emptyStateText}>{emptyMessage}</p>
-                    </div>
-                </section>
+                <div className={styles.emptyStateBox}>
+                    <EmptyState
+                        icon={<MdEventBusy />}
+                        title={hasActiveFilters ? 'Nenhum evento com esses filtros' : 'Nenhum evento disponível no momento'}
+                        description={emptyMessage}
+                    />
+                </div>
             )}
-        </>
+        </div>
     );
 }

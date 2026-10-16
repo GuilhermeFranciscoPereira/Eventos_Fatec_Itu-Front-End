@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import styles from '@/app/(pages)/(private)/AdminPage.module.css';
 
 export const metadata: Metadata = {
     title: 'Área administrativa',
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function PrivateLayout({ children }: { children: React.ReactNode }): React.ReactNode {
-    return children;
+    return <div className={styles.adminShell}>{children}</div>;
 }

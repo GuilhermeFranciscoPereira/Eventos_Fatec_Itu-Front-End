@@ -6,6 +6,7 @@ export async function downloadSectionAsPdf(sectionId: string, filename = 'Lista_
   const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([import('html2canvas'), import('jspdf')]);
 
   const clone = section.cloneNode(true) as HTMLElement;
+  clone.classList.add('printSurface');
   clone.style.position = 'fixed';
   clone.style.left = '-9999px';
   clone.style.backgroundColor = '#fff';

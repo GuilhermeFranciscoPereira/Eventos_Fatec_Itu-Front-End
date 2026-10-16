@@ -8,7 +8,7 @@ type CodeInputValidationProps = {
 };
 
 export default function CodeInputValidation({ infoTitle, children, validateFn }: CodeInputValidationProps): React.ReactElement {
-    const { inputRefs, handleInput, handleKey, clearAll, handleSubmit, loading, error, isComplete } = useCodeInputValidation(validateFn);
+    const { inputRefs, handleInput, handleKey, handlePaste, clearAll, handleSubmit, loading, error, isComplete } = useCodeInputValidation(validateFn);
 
     return (
         <div className={styles.container}>
@@ -30,8 +30,12 @@ export default function CodeInputValidation({ infoTitle, children, validateFn }:
                             maxLength={1}
                             autoFocus={idx === 0}
                             onKeyDown={e => {
-                                if (e.key.length === 1 && !/^[0-9]$/.test(e.key)) e.preventDefault();
+                                if (e.key.length === 1 && !/^[0-9]$/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault();
                                 handleKey(idx, e.key, e.currentTarget.value);
+                            }}
+                            onPaste={e => {
+                                e.preventDefault();
+                                handlePaste(idx, e.clipboardData.getData('text'));
                             }}
                             onChange={e => {
                                 const v = e.currentTarget.value.replace(/\D/g, '');

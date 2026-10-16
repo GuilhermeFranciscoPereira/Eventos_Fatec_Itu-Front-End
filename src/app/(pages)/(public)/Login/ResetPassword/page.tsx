@@ -1,163 +1,131 @@
 'use client';
 import Link from 'next/link';
-import Image from 'next/image';
 import Loader from '@/components/Loader';
+import AuthShell from '@/components/AuthShell';
 import ButtonRay from '@/components/Buttons/ButtonRay';
 import styles from '@/app/(pages)/(public)/Login/Login.module.css';
 import CodeInputValidation from '@/components/CodeInputValidation';
-import { MdEmail, MdKey, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { MdEmail, MdKey, MdVisibility, MdVisibilityOff, MdArrowBack } from 'react-icons/md';
 import { useResetPasswordPage } from '@/hooks/pages/(public)/Login/useResetPasswordPage';
 
 export default function ResetPassword(): React.ReactElement {
     const { emailRef, handleRequest, loadingRequest, error, info, stage, newPasswordRef, confirmPasswordRef, handleConfirm, loadingConfirm, visible1, setVisible1, visible2, setVisible2 } = useResetPasswordPage();
 
     return (
-        <main className={styles.main}>
+        <AuthShell illustration="/assets/images/login/resetPage.png" illustrationAlt="Ilustração de alunos sentados em frente à faculdade Fatec Itu">
             {(loadingRequest || loadingConfirm) && <Loader />}
 
-            <section className={styles.imageSection}>
-                <Image
-                    alt="Imagem de alunos sentados em frente à faculdade Fatec Itu"
-                    src="/assets/images/login/resetPage.png"
-                    width={580}
-                    height={420}
-                    className={styles.illustration}
-                />
-            </section>
+            <div className={styles.intro}>
+                <span className={styles.step}>{stage === 'request' ? 'Etapa 1 de 2' : 'Etapa 2 de 2'}</span>
+                <h1 className={styles.title}>Recuperação de acesso</h1>
+                <p className={styles.description}>
+                    {stage === 'request'
+                        ? 'Informe o seu e-mail para receber o código de redefinição.'
+                        : 'Crie a nova senha e confirme com o código recebido.'}
+                </p>
+            </div>
 
-            <section className={styles.formSection}>
-                <div className={styles.formDiv}>
-                    <div>
-                        <h1>Recuperação de acesso</h1>
-                        <h2><span>F</span>atec <span>I</span>tu</h2>
-                        {stage === 'request' ? (
-                            <p className={styles.description}>Informe seu e-mail para receber o código de redefinição</p>
-                        ) : (
-                            <>
-                                {info && <p className={styles.description} role="status">{info}</p>}
-                                <p className={styles.description}>Informe a nova senha e o código de redefinição</p>
-                            </>
-                        )}
+            {stage === 'confirm' && info && <p className={styles.info} role="status">{info}</p>}
+
+            {stage === 'request' && (
+                <form
+                    className={styles.form}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleRequest(e);
+                    }}
+                    method="post"
+                >
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="resetEmail">E-mail</label>
+                        <div className={styles.control}>
+                            <span className={styles.iconLeft}><MdEmail aria-hidden /></span>
+                            <input
+                                id="resetEmail"
+                                name="email"
+                                type="email"
+                                placeholder="nome@fatec.sp.gov.br"
+                                ref={emailRef as React.RefObject<HTMLInputElement>}
+                                autoComplete="email"
+                                required
+                                autoFocus
+                            />
+                        </div>
                     </div>
 
-                    {stage === 'request' && (
-                        <form
-                            className={styles.form}
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                handleRequest(e);
-                            }}
-                            method="post"
-                        >
-                            <div className={styles.inputGroup}>
-                                <label htmlFor="resetEmail">E-mail</label>
-                                <div className={styles.control}>
-                                    <span className={styles.iconLeft}><MdEmail /></span>
-                                    <input
-                                        id="resetEmail"
-                                        name="email"
-                                        type="email"
-                                        placeholder="exemplo@gmail.com"
-                                        ref={emailRef as React.RefObject<HTMLInputElement>}
-                                        autoComplete="email"
-                                        required
-                                        autoFocus
-                                    />
-                                </div>
-                            </div>
+                    {error && <p className={styles.error}>{error}</p>}
 
-                            {error && <p className={styles.error}>{error}</p>}
+                    <ButtonRay text='Enviar código' type='submit' />
 
-                            <ButtonRay text='Enviar código' type='submit' />
+                    <div className={styles.rowCenter}>
+                        <Link href="/Login" className={styles.link}><MdArrowBack aria-hidden /> Voltar para o login</Link>
+                    </div>
+                </form>
+            )}
 
-                            <div className={styles.rowAlt}>
-                                <Link href="/Login" className={styles.backLogin}>Voltar para o login</Link>
-                            </div>
-                        </form>
-                    )}
-
-                    {stage === 'confirm' && (
-                        <div className={styles.form}>
-                            <div className={styles.inputGroup}>
-                                <label htmlFor="newpassword">Nova senha</label>
-                                <div className={styles.control}>
-                                    <span className={styles.iconLeft}><MdKey /></span>
-                                    <input
-                                        id="newpassword"
-                                        name="newpassword"
-                                        type={visible1 ? 'text' : 'password'}
-                                        placeholder="********"
-                                        ref={newPasswordRef as React.RefObject<HTMLInputElement>}
-                                        autoComplete="new-password"
-                                        required
-                                        autoFocus
-                                    />
-                                    <button
-                                        type="button"
-                                        aria-label={visible1 ? 'Ocultar senha' : 'Mostrar senha'}
-                                        onClick={() => setVisible1((v) => v ? false : true)}
-                                        className={styles.iconRight}
-                                    >
-                                        {visible1 ? <MdVisibilityOff size={18} /> : <MdVisibility size={18} />}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label htmlFor="confirmpassword">Confirmar nova senha</label>
-                                <div className={styles.control}>
-                                    <span className={styles.iconLeft}><MdKey /></span>
-                                    <input
-                                        id="confirmpassword"
-                                        name="confirmpassword"
-                                        type={visible2 ? 'text' : 'password'}
-                                        placeholder="********"
-                                        ref={confirmPasswordRef as React.RefObject<HTMLInputElement>}
-                                        autoComplete="new-password"
-                                        required
-                                    />
-                                    <button
-                                        type="button"
-                                        aria-label={visible2 ? 'Ocultar senha' : 'Mostrar senha'}
-                                        onClick={() => setVisible2((v) => v ? false : true)}
-                                        className={styles.iconRight}
-                                    >
-                                        {visible2 ? <MdVisibilityOff size={18} /> : <MdVisibility size={18} />}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <CodeInputValidation
-                                infoTitle="Digite o código enviado"
-                                validateFn={handleConfirm}
+            {stage === 'confirm' && (
+                <div className={styles.form}>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="newpassword">Nova senha</label>
+                        <div className={styles.control}>
+                            <span className={styles.iconLeft}><MdKey aria-hidden /></span>
+                            <input
+                                id="newpassword"
+                                name="newpassword"
+                                type={visible1 ? 'text' : 'password'}
+                                placeholder="••••••••"
+                                ref={newPasswordRef as React.RefObject<HTMLInputElement>}
+                                autoComplete="new-password"
+                                required
+                                autoFocus
+                            />
+                            <button
+                                type="button"
+                                aria-label={visible1 ? 'Ocultar senha' : 'Mostrar senha'}
+                                onClick={() => setVisible1((v) => v ? false : true)}
+                                className={styles.iconRight}
                             >
-                                {loadingConfirm && <Loader />}
-                            </CodeInputValidation>
-
-                            <br />
-                            <hr />
-
-                            <div className={styles.rowAlt}>
-                                <Link href="/Login" className={styles.backLogin}>Voltar para o login</Link>
-                            </div>
-
-                            <hr />
+                                {visible1 ? <MdVisibilityOff size={18} /> : <MdVisibility size={18} />}
+                            </button>
                         </div>
-                    )}
+                    </div>
 
-                    <div className={styles.logorumoradares}>
-                        <Image
-                            alt="Logo da faculdade Fatec Itu"
-                            src="/assets/images/Logo_FatecItu_WithoutBackground.png"
-                            priority
-                            width={120}
-                            height={60}
-                        />
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="confirmpassword">Confirmar nova senha</label>
+                        <div className={styles.control}>
+                            <span className={styles.iconLeft}><MdKey aria-hidden /></span>
+                            <input
+                                id="confirmpassword"
+                                name="confirmpassword"
+                                type={visible2 ? 'text' : 'password'}
+                                placeholder="••••••••"
+                                ref={confirmPasswordRef as React.RefObject<HTMLInputElement>}
+                                autoComplete="new-password"
+                                required
+                            />
+                            <button
+                                type="button"
+                                aria-label={visible2 ? 'Ocultar senha' : 'Mostrar senha'}
+                                onClick={() => setVisible2((v) => v ? false : true)}
+                                className={styles.iconRight}
+                            >
+                                {visible2 ? <MdVisibilityOff size={18} /> : <MdVisibility size={18} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <CodeInputValidation
+                        infoTitle="Código enviado por e-mail"
+                        validateFn={handleConfirm}
+                    >
+                        {loadingConfirm && <Loader />}
+                    </CodeInputValidation>
+
+                    <div className={styles.rowCenter}>
+                        <Link href="/Login" className={styles.link}><MdArrowBack aria-hidden /> Voltar para o login</Link>
                     </div>
                 </div>
-            </section>
-        </main>
+            )}
+        </AuthShell>
     );
 }

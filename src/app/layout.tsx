@@ -43,12 +43,18 @@ const organizationJsonLd = serializeJsonLd({ '@context': 'https://schema.org', .
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700']
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
 })
+
+const themeScript = `(function(){document.documentElement.classList.add('js');try{var s=localStorage.getItem('theme');var d=s==='dark'||(s!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('DarkTheme');}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={poppins.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className={poppins.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: organizationJsonLd }} />
         <ZustandWrapper />

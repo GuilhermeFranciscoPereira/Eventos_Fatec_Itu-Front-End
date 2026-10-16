@@ -2,7 +2,14 @@
 import { useEffect, useRef, useState, type DragEvent, type KeyboardEvent } from 'react';
 import Loader from '@/components/Loader';
 import { RiImageAddLine } from 'react-icons/ri';
-import { MdEdit, MdDelete, MdDragIndicator } from 'react-icons/md';
+import { GiKnightBanner } from 'react-icons/gi';
+import PageHeader from '@/components/PageHeader';
+import Button from '@/components/Buttons/Button';
+import EmptyState from '@/components/EmptyState';
+import IconButton from '@/components/Buttons/IconButton';
+import StatCard, { StatGrid } from '@/components/StatCard';
+import { MdEdit, MdDelete, MdDragIndicator, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import adminStyles from '@/app/(pages)/(private)/AdminPage.module.css';
 import InputImage from '@/components/Inputs/InputImage';
 import { CAROUSEL_IMAGE_RECOMMENDATION } from '@/utils/imageCrop';
 import InputField from '@/components/Inputs/InputField';
@@ -46,29 +53,49 @@ export default function Carousel(): React.ReactElement {
         setOrderedCarousels(sorted);
     }, [carousels]);
 
+    const activeCount = carousels.filter(item => item.isActive).length;
+    const firstLoad = loading && !carousels.length;
+
     return (
-        <main className={styles.carouselPage}>
-            <header className={styles.carouselPageHeader}>
-                <h1>Gerenciamento de Carrossel</h1>
-                <button className={styles.createBtn} onClick={handleCreate}>
-                    <RiImageAddLine /> Nova Imagem
-                </button>
-            </header>
+        <main className={adminStyles.page}>
+            <PageHeader
+                icon={<GiKnightBanner />}
+                title="Carrossel"
+                description="Imagens em destaque no topo da página inicial. Arraste pelo ícone à direita para mudar a ordem."
+                actions={<Button icon={<RiImageAddLine />} onClick={handleCreate}>Nova imagem</Button>}
+            />
 
-            {(loading || isReordering) && <Loader />}
+            <StatGrid>
+                <StatCard icon={<GiKnightBanner />} label="Imagens cadastradas" value={carousels.length} loading={firstLoad} />
+                <StatCard icon={<MdVisibility />} tone="success" label="Aparecendo no site" value={activeCount} loading={firstLoad} />
+                <StatCard icon={<MdVisibilityOff />} tone="neutral" label="Ocultas" value={carousels.length - activeCount} loading={firstLoad} />
+            </StatGrid>
 
-            <section className={styles.carouselList}>
-                {orderedCarousels.length === 0 && !loading ? (
-                    <div className={styles.emptyState}>Nenhum item disponível</div>
+            {isReordering && <Loader />}
+
+            <section className={styles.carouselList} aria-busy={loading}>
+                {firstLoad ? (
+                    Array.from({ length: 3 }, (_, idx) => <div key={idx} className={styles.skeletonItem} aria-hidden />)
+                ) : orderedCarousels.length === 0 ? (
+                    <div className={styles.emptyState}>
+                        <EmptyState
+                            icon={<GiKnightBanner />}
+                            title="Nenhuma imagem no carrossel"
+                            description="Adicione uma imagem no formato 1920 × 480 px para ela aparecer no topo da página inicial."
+                            action={<Button icon={<RiImageAddLine />} onClick={handleCreate}>Nova imagem</Button>}
+                        />
+                    </div>
                 ) : (
-                    orderedCarousels.map(item => (
+                    orderedCarousels.map((item, index) => (
                         <article
                             key={item.id}
                             className={[
                                 styles.carouselItem,
                                 draggedId === item.id ? styles.dragging : '',
-                                dragOverId === item.id && draggedId !== item.id ? styles.dragOver : ''
+                                dragOverId === item.id && draggedId !== item.id ? styles.dragOver : '',
+                                !item.isActive ? styles.inactive : '',
                             ].filter(Boolean).join(' ')}
+                            style={{ '--item-index': index } as React.CSSProperties}
                             onDragOver={(event) => handleDragOver(event, item.id)}
                             onDrop={handleDrop}
                         >
@@ -77,44 +104,37 @@ export default function Carousel(): React.ReactElement {
                                 <ImageCloudinary
                                     src={item.imageUrl}
                                     alt={item.name}
+                                    sizes="(max-width: 720px) 100vw, 320px"
                                 />
                             </div>
                             <div className={styles.itemInfo}>
                                 <strong className={styles.itemTitle}>{item.name}</strong>
-                                <span className={styles.itemMeta}>Ordem {item.order}</span>
+                                <span className={`${adminStyles.chip} ${adminStyles.chipDot} ${item.isActive ? adminStyles.chipSuccess : adminStyles.chipNeutral}`}>
+                                    {item.isActive ? 'Aparecendo no site' : 'Oculta'}
+                                </span>
                             </div>
                             <div className={styles.actions}>
-                                <InputCheckbox
-                                    checked={item.isActive}
-                                    onChange={() => handleToggle(item.id, !item.isActive)}
-                                />
+                                <span className={styles.activeToggle} title={item.isActive ? 'Ocultar do site' : 'Mostrar no site'}>
+                                    <InputCheckbox
+                                        checked={item.isActive}
+                                        aria-label={item.isActive ? `Ocultar ${item.name}` : `Mostrar ${item.name}`}
+                                        onChange={() => handleToggle(item.id, !item.isActive)}
+                                    />
+                                    <span>Ativa</span>
+                                </span>
+                                <IconButton label={`Editar ${item.name}`} tone="info" onClick={() => handleEdit(item)}><MdEdit /></IconButton>
+                                <IconButton label={`Excluir ${item.name}`} tone="danger" onClick={() => handleDelete(item)}><MdDelete /></IconButton>
                                 <button
                                     type="button"
-                                    className={`${styles.iconButton} ${styles.editButton}`}
-                                    aria-label={`Editar ${item.name}`}
-                                    onClick={() => handleEdit(item)}
-                                >
-                                    <MdEdit size={24} />
-                                </button>
-                                <button
-                                    type="button"
-                                    className={`${styles.iconButton} ${styles.deleteButton}`}
-                                    aria-label={`Excluir ${item.name}`}
-                                    onClick={() => handleDelete(item)}
-                                >
-                                    <MdDelete size={24} />
-                                </button>
-                                <button
-                                    type="button"
-                                    className={`${styles.iconButton} ${styles.dragHandle}`}
+                                    className={styles.dragHandle}
                                     aria-label={`Arrastar ${item.name}`}
-                                    title="Arrastar"
+                                    title="Arrastar para reordenar"
                                     draggable={!isReordering}
                                     onDragStart={(event) => handleDragStart(event, item.id)}
                                     onDragEnd={handleDragEnd}
                                     disabled={isReordering}
                                 >
-                                    <MdDragIndicator size={24} />
+                                    <MdDragIndicator size={22} />
                                 </button>
                             </div>
                         </article>

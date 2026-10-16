@@ -1,27 +1,44 @@
+.carouselShell {
+    width: 100%;
+    max-width: 96rem;
+    margin: 0 auto;
+    padding: 1.25rem var(--gutter) 0;
+}
+
 .carousel {
     position: relative;
-    width: 95%;
-    left: 2.5%;
-    top: 10px;
-    height: 50vh;
+    width: 100%;
+    aspect-ratio: 4 / 1;
     overflow: hidden;
-    margin-bottom: 30px;
+    border-radius: var(--radius-xl);
+    background: var(--surface-3);
+    box-shadow: var(--shadow-lg);
     cursor: grab;
-    border-radius: 10px;
-    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.5);
+    isolation: isolate;
+    animation: bannerIn .8s var(--ease-out) both;
 }
 
 .carousel:active {
     cursor: grabbing;
 }
 
-.carousel > .slider {
-    display: flex;
-    height: 100%;
-    transition: transform .5s ease-in-out;
+.carousel::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 1;
+    height: 35%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent);
+    pointer-events: none;
 }
 
-.carousel > .slider > .slide {
+.slider {
+    display: flex;
+    height: 100%;
+    transition: transform .7s var(--ease-out);
+}
+
+.slide {
     position: relative;
     width: 100%;
     height: 100%;
@@ -29,44 +46,118 @@
     overflow: hidden;
 }
 
-.carousel > .slider > .slide > .image {
+.slide > .image {
     user-select: none;
     pointer-events: none;
+    transform: scale(1.06);
+    transition: transform 7s ease-out;
 }
 
-.carousel > .indicators {
+.activeSlide > .image {
+    transform: scale(1);
+}
+
+.arrow {
     position: absolute;
-    bottom: 10px;
-    width: 100%;
-    display: flex;
+    top: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    gap: 8px;
-    pointer-events: none;
-}
-
-.carousel > .indicators > .dot {
-    width: 12px;
-    height: 12px;
+    width: 2.9rem;
+    height: 2.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 50%;
+    background: rgba(20, 16, 15, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    font-size: 1.35rem;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s;
-    pointer-events: all;
+    opacity: 0;
+    transition: opacity .3s ease, transform .3s var(--ease-out), background-color .2s ease;
 }
 
-.carousel > .indicators > .activeDot {
-    background-color: black;
+.arrowPrev {
+    left: 1rem;
+    transform: translate(-0.5rem, -50%);
 }
 
-@media (max-width: 768px) {
-    .carousel {
-        height: 30vh;
+.arrowNext {
+    right: 1rem;
+    transform: translate(0.5rem, -50%);
+}
+
+.carousel:hover .arrow,
+.arrow:focus-visible {
+    opacity: 1;
+    transform: translate(0, -50%);
+}
+
+.arrow:hover {
+    background: var(--red-primary);
+    border-color: var(--red-primary);
+}
+
+.indicators {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    z-index: 2;
+    display: flex;
+    gap: 0.45rem;
+    padding: 0.4rem 0.55rem;
+    border-radius: var(--radius-full);
+    background: rgba(20, 16, 15, 0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transform: translateX(-50%);
+}
+
+.dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    transition: width .35s var(--ease-out), background-color .25s ease;
+}
+
+.dot:hover {
+    background: #FFFFFF;
+}
+
+.activeDot {
+    width: 1.6rem;
+    background: #FFFFFF;
+}
+
+@keyframes bannerIn {
+    from {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.99);
     }
 }
 
-@media (max-width: 480px) {
+@media (hover: none) {
+    .arrow {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .carouselShell {
+        padding-top: 0.75rem;
+    }
+
     .carousel {
-        width: calc(95%);
-        height: 20vh;
+        aspect-ratio: 2.2 / 1;
+        border-radius: var(--radius-lg);
+    }
+
+    .indicators {
+        bottom: 0.6rem;
     }
 }

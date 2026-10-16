@@ -1,60 +1,35 @@
 'use client';
-import Loader from '@/components/Loader';
-import { Table } from '@/components/Table';
+import { FaLayerGroup } from 'react-icons/fa';
+import RecordsPage from '@/components/RecordsPage';
 import InputField from '@/components/Inputs/InputField';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
-import styles from '@/app/(pages)/(private)/Categories/Categories.module.css';
+import styles from '@/app/(pages)/(private)/AdminPage.module.css';
 import { useCategoriesPage } from '@/hooks/pages/(private)/Categories/useCategoriesPage';
 import type { CategoryProps, CreateCategoryDto, UpdateCategoryDto } from '@/@Types/CategoriesTypes';
 
 export default function Categories(): React.ReactElement {
     const { editCategory, createCategory, deleteCategory, openModal, categories, loading, refetch, nameRef, newNameRef } = useCategoriesPage();
 
-    const schemaTable = [
-        { id: 'name', header: 'Nome', accessor: (c: CategoryProps) => c.name },
-        {
-            id: 'createdAt', header: 'Criado em',
-            accessor: (c: CategoryProps) => new Date(c.createdAt).toLocaleString('pt-BR').replace(',', ' -')
-        },
-        {
-            id: 'updatedAt', header: 'Editado última vez em',
-            accessor: (c: CategoryProps) => new Date(c.updatedAt).toLocaleString('pt-BR').replace(',', ' -')
-        },
-        {
-            id: 'actions', header: 'Ações', accessor: () => null, cellRenderer: (c: CategoryProps) => (
-                <div className={styles.actions}>
-                    <MdEdit className={styles.icon} size={20} onClick={() => handleEdit(c)} />
-                    <MdDelete className={styles.icon} size={20} onClick={() => handleDelete(c)} />
-                </div>
-            ),
-        },
-    ];
-
     return (
-        <main className={styles.categoriesPage}>
-            <header className={styles.categoriesPageHeader}>
-                <h1>Gerenciamento de Categorias</h1>
-                <button className={styles.createBtn} onClick={handleCreate}>
-                    <MdAssignmentAdd /> Criar nova categoria
-                </button>
-            </header>
-
-            {loading && <Loader />}
-
-            <Table<CategoryProps>
-                records={categories}
-                schema={schemaTable}
-                getIdentifier={c => c.id}
-                hiddenOnMobile={['createdAt', 'updatedAt']}
-            />
-        </main>
+        <RecordsPage<CategoryProps>
+            icon={<FaLayerGroup />}
+            rowIcon={<FaLayerGroup />}
+            title="Categorias"
+            description="Organize os eventos por tema. As categorias aparecem nos filtros da agenda pública."
+            nouns={{ one: 'categoria', many: 'categorias', newLabel: 'Nova categoria' }}
+            records={categories}
+            loading={loading}
+            onCreate={handleCreate}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+        />
     );
 
     // Below we have the modals
 
     function handleCreate(): void {
         openModal({
-            icon: <MdAssignmentAdd size={32} />,
+            icon: <MdAssignmentAdd />,
             title: 'Criar nova categoria',
             message: (
                 <form className={styles.form}>
@@ -68,36 +43,36 @@ export default function Categories(): React.ReactElement {
                 refetch();
             },
         });
-    };
+    }
 
-    function handleEdit(cat: CategoryProps): void {
+    function handleEdit(record: CategoryProps): void {
         openModal({
-            icon: <MdEdit size={32} />,
+            icon: <MdEdit />,
             title: 'Editar categoria',
             message: (
                 <form className={styles.form}>
-                    <InputField ref={nameRef} label="Nome da categoria" defaultValue={cat.name} autoFocus />
+                    <InputField ref={nameRef} label="Nome da categoria" defaultValue={record.name} autoFocus />
                 </form>
             ),
             confirmLabel: 'Salvar categoria',
             onConfirm: async () => {
                 const dto: UpdateCategoryDto = { name: nameRef.current?.value };
-                await editCategory(cat.id, dto);
+                await editCategory(record.id, dto);
                 refetch();
             },
         });
-    };
+    }
 
-    function handleDelete(cat: CategoryProps): void {
+    function handleDelete(record: CategoryProps): void {
         openModal({
-            icon: <MdDelete size={32} color='red' />,
-            title: 'Deletar categoria',
-            message: <p>Você tem certeza que deseja excluir a categoria <strong>{cat.name}</strong>?</p>,
-            confirmLabel: 'Sim, deletar',
+            icon: <MdDelete />,
+            title: 'Excluir categoria',
+            message: <p>Você tem certeza que deseja excluir a categoria <strong>{record.name}</strong>? Essa ação não pode ser desfeita.</p>,
+            confirmLabel: 'Sim, excluir',
             onConfirm: async () => {
-                await deleteCategory(cat.id);
+                await deleteCategory(record.id);
                 refetch();
             },
         });
-    };
+    }
 }

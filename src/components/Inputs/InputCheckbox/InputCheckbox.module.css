@@ -1,6 +1,6 @@
 .container {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     cursor: pointer;
 }
@@ -9,57 +9,86 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px 0;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    transition: border-color .2s ease, background-color .2s ease;
+}
+
+.containerInputWithText:hover {
+    border-color: var(--border-strong);
+}
+
+.containerInputWithText:has(> .checkboxInput:checked) {
+    border-color: var(--red-primary);
+    background: var(--red-softer);
+}
+
+.containerInputWithText > p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.35;
 }
 
 .container > .checkboxInput {
     position: absolute;
     opacity: 0;
+    width: 1px;
+    height: 1px;
 }
 
 .container > .checkmark {
-    width: 23px;
-    height: 23px;
     position: relative;
-    border: 2px solid #323232;
-    border-radius: 5px;
-    box-shadow: 4px 4px #323232;
-    background-color: #ccc;
-    transition: all 0.3s;
+    flex-shrink: 0;
+    width: 1.35rem;
+    height: 1.35rem;
+    border: 2px solid var(--border-strong);
+    border-radius: 0.4rem;
+    background-color: var(--surface);
+    transition: background-color .2s ease, border-color .2s ease, transform .25s var(--ease-spring), box-shadow .2s ease;
 }
 
-.container > .checkboxInput:checked~.checkmark {
+.container:hover > .checkmark {
+    border-color: var(--red-primary);
+}
+
+.container > .checkboxInput:focus-visible ~ .checkmark {
+    box-shadow: var(--ring);
+}
+
+.container > .checkboxInput:checked ~ .checkmark {
     background-color: var(--red-primary);
+    border-color: var(--red-primary);
+    transform: scale(1.06);
 }
 
 .container > .checkmark::after {
     content: '';
-    width: 5px;
-    height: 10px;
     position: absolute;
-    top: 2px;
-    left: 6px;
-    display: none;
+    top: 45%;
+    left: 50%;
+    box-sizing: border-box;
+    width: 0.38rem;
+    height: 0.7rem;
     border: solid #fff;
-    border-width: 0 2.5px 2.5px 0;
-    transform: rotate(45deg);
+    border-width: 0 0.16rem 0.16rem 0;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    transition: transform .25s var(--ease-spring);
 }
 
-.container > .checkboxInput:checked~.checkmark::after {
-    display: block;
+.container > .checkboxInput:checked ~ .checkmark::after {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
 }
 
 .container:has(> .checkboxInput:disabled) {
-    opacity: 0.8;
+    opacity: 0.6;
     cursor: not-allowed;
 }
 
-.container:has(> .checkboxInput:disabled) > .checkmark {
-    cursor: not-allowed;
-}
-
+.container:has(> .checkboxInput:disabled) > .checkmark,
 .container:has(> .checkboxInput:disabled) > p {
     cursor: not-allowed;
 }

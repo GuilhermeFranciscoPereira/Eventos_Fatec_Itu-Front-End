@@ -1,301 +1,209 @@
-.main {
-    width: calc(100vw - 70px);
-    min-height: calc(100vh - 70px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 30px;
-}
-
-.imageSection {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-}
-
-.imageSection > .illustration {
-    width: 100%;
-    height: auto;
-    max-width: 640px;
-}
-
-.formSection {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 50%;
-}
-
-.formSection > .formDiv {
-    width: 100%;
-    max-width: 500px;
-    color: var(--text-color);
-    border-radius: 20px;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4);
-    padding: 15px 28px;
+.intro {
     display: flex;
     flex-direction: column;
+    gap: 0.4rem;
 }
 
-.formSection > .formDiv > div > h1 {
-    font-weight: 500;
-    font-size: 1.2rem;
-    color: var(--red-primary);
+.step {
+    align-self: flex-start;
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-full);
+    background: var(--red-soft);
+    color: var(--red-text);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
-.formSection > .formDiv > div > h2 {
+.title {
+    font-size: clamp(1.45rem, calc(1.9 * var(--dvw)), 1.9rem);
     font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
 }
 
-.formSection > .formDiv > div > h2 > span {
-    color: var(--red-primary);
-}
-
-.formSection > .formDiv > div > .description {
-    font-size: 0.9rem;
-    color: #111827;
-    margin-top: -25px;
-    margin-bottom: 20px;
-}
-
-.formSection > .formDiv > .form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.formSection > .formDiv > .form > .inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.formSection > .formDiv > .form > .inputGroup > label {
+.description {
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
-.formSection > .formDiv > .form > .inputGroup > .control {
+.info {
+    padding: 0.85rem 1rem;
+    border-left: 4px solid var(--success);
+    border-radius: var(--radius-md);
+    background: var(--success-soft);
+    color: var(--text-color);
+    font-size: 0.875rem;
+    animation: fadeIn .4s ease both;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
     width: 100%;
-    height: 56px;
-    background: #eee;
-    border-radius: 10px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.inputGroup > label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.control {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 0 12px 0 44px;
-    border: 1px solid transparent;
+    width: 100%;
+    height: 3.25rem;
+    padding: 0 0.75rem 0 2.9rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
 }
 
-.formSection > .formDiv > .form > .inputGroup > .control:focus-within {
-    border-color: #c7cad1;
-    background: #f2f2f2;
+.control:hover {
+    border-color: var(--text-subtle);
 }
 
-.formSection > .formDiv > .form > .inputGroup > .control > .iconLeft {
+.control:focus-within {
+    border-color: var(--red-primary);
+    background: var(--surface);
+    box-shadow: var(--ring);
+}
+
+.iconLeft {
     position: absolute;
-    left: 14px;
+    left: 0.95rem;
     top: 50%;
-    transform: translateY(-50%);
     display: grid;
     place-items: center;
-    font-size: 20px;
-    color: #111827;
+    font-size: 1.25rem;
+    color: var(--text-subtle);
+    transform: translateY(-50%);
+    transition: color .2s ease, transform .25s var(--ease-spring);
 }
 
-.formSection > .formDiv > .form > .inputGroup > .control > input {
+.control:focus-within > .iconLeft {
+    color: var(--red-text);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.control > input {
     width: 100%;
     height: 100%;
     border: 0;
     outline: 0;
     background: transparent;
     color: var(--text-color);
-    font-size: 1rem;
+    font-size: 16px;
 }
 
-.formSection > .formDiv > .form > .inputGroup > .control > .iconRight {
+@media (min-width: 1024px) {
+    .control > input {
+        font-size: 0.95rem;
+    }
+}
+
+.control > input::placeholder {
+    color: var(--text-subtle);
+}
+
+.iconRight {
     position: absolute;
-    right: 10px;
+    right: 0.5rem;
     top: 50%;
-    transform: translateY(-50%);
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    width: 2.3rem;
+    height: 2.3rem;
     border: 0;
-    border-radius: 8px;
+    border-radius: 50%;
     background: transparent;
+    color: var(--text-muted);
     cursor: pointer;
-    color: #111827;
+    transform: translateY(-50%);
+    transition: background-color .2s ease, color .2s ease;
 }
 
-.formSection > .formDiv > .form > .row {
+.iconRight:hover {
+    background: var(--red-soft);
+    color: var(--red-text);
+}
+
+.row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    margin: 5px 0px;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
-.formSection > .formDiv > .form > .row > .remember {
+.rowCenter {
     display: flex;
+    justify-content: center;
+}
+
+.remember {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.95rem;
-    color: #4b5563;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
     cursor: pointer;
 }
 
-.formSection > .formDiv > .form > .row > .remember > input {
+.remember > input {
+    width: 1.05rem;
+    height: 1.05rem;
     cursor: pointer;
     accent-color: var(--red-primary);
 }
 
-.formSection > .formDiv > .form > .row > .forgot {
-    font-size: 0.95rem;
-    color: #4b5563;
-    text-decoration: none;
+.link {
     position: relative;
-    display: inline-block;
-}
-
-.formSection > .formDiv > .form > .row > .forgot::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: 2px;
-    background: var(--red-primary);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease-in-out;
-}
-
-.formSection > .formDiv > .form > .row > .forgot:hover::after {
-    transform: scaleX(1);
-}
-
-.formSection > .formDiv > .form > .rowAlt {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: flex-end;
-}
-
-.formSection > .formDiv > .form > .rowAlt > .backLogin {
-    font-size: 0.95rem;
-    color: #4b5563;
+    gap: 0.35rem;
+    color: var(--red-text);
+    font-size: 0.875rem;
+    font-weight: 600;
     text-decoration: none;
-    position: relative;
-    display: inline-block;
 }
 
-.formSection > .formDiv > .form > .rowAlt > .backLogin::after {
+.link::after {
     content: '';
     position: absolute;
     left: 0;
     bottom: -2px;
     width: 100%;
     height: 2px;
-    background: var(--red-primary);
+    background: currentColor;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s ease-in-out;
+    transition: transform .3s var(--ease-out);
 }
 
-.formSection > .formDiv > .form > .rowAlt > .backLogin:hover::after {
+.link:hover::after {
     transform: scaleX(1);
-}
-
-.formSection > .formDiv > .form > .inputGroup > .helper {
-    width: 100%;
-    color: red;
-    text-align: center;
-}
-
-.formSection > .formDiv > .form > .error {
-    width: 100%;
-    color: #b91c1c;
-    font-size: 0.9rem;
-    margin-top: -2px;
 }
 
 .error {
-    width: 100%;
-    color: #b91c1c;
-    font-size: 0.9rem;
-    margin-top: -2px;
+    color: var(--danger);
+    font-size: 0.8125rem;
 }
 
-.formSection > .formDiv > .form > .submit {
-    width: 100%;
-    height: 48px;
-    border: 0;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 17px;
-    border-radius: 10px;
-    transition: .4s ease-in-out;
-    background: var(--red-primary);
-}
-
-.formSection > .formDiv > .form > .submit:hover {
-    transform: scale(1.05);
-}
-
-.formSection > .formDiv > .form > .submit:active {
-    transform: scale(.98);
-}
-
-.formSection > .formDiv > .logorumoradares {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-
-@media (max-width: 480px) {
-    .main {
-        width: 100vw;
-        max-height: 100vh;
-        margin-left: 0px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 0px;
-        gap: 12px;
-    }
-
-    .formSection {
-        width: 95vw;
-    }
-
-    .formSection > .formDiv {
-        border-radius: 16px;
-        padding: 22px;
-    }
-
-    .imageSection {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .illustration {
-        height: 100%;
-        width: 100%;
-    }
-
-    .formSection > .formDiv > .form > .inputGroup > .control {
-        height: 52px;
-    }
-
-    .formSection > .formDiv > .form > .submit {
-        height: 46px;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-0.4rem);
     }
 }

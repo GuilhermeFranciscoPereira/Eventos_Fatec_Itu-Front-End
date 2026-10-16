@@ -1,69 +1,462 @@
-.eventDetailPage > .detailPageInfo {
-    max-width: 800px;
-    width: 95%;
-    margin: 1rem auto;
-    box-shadow: var(--box-shadow);
-    border-radius: 20px;
-    overflow: hidden;
-    transition: background 0.4s, color 0.4s;
-}
-
-.eventDetailPage > .detailPageInfo > .detailPageHeader {
+.eventDetailPage {
     width: 100%;
-    height: 300px;
+    max-width: 90rem;
+    margin: 0 auto;
+    padding: 1.25rem var(--gutter) 0;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    animation: fadeUp .5s var(--ease-out) both;
+}
+
+.breadcrumb > a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.breadcrumb > a:hover {
+    color: var(--red-text);
+}
+
+.breadcrumb > span {
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.hero {
     position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 6;
+    min-height: 18rem;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--surface-3);
+    box-shadow: var(--shadow-lg);
+    isolation: isolate;
+    animation: heroIn .8s var(--ease-out) both;
 }
 
-.eventDetailPage > .detailPageInfo > .title {
-    font-size: 1.75rem;
+.heroMedia {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+.heroBackdrop {
+    filter: blur(1.5rem) brightness(0.75);
+    transform: scale(1.2);
+}
+
+.heroImage {
+    transform: scale(1.08);
+    animation: heroZoom 9s ease-out forwards;
+}
+
+.heroMedia::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to top, rgba(15, 10, 9, 0.88) 0%, rgba(15, 10, 9, 0.45) 45%, rgba(15, 10, 9, 0.05) 75%),
+        linear-gradient(to right, rgba(133, 39, 39, 0.35), transparent 60%);
+}
+
+.heroContent {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 2rem 2.25rem;
+    color: #FFFFFF;
+}
+
+.heroBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    animation: fadeUp .6s .25s var(--ease-out) both;
+}
+
+.heroChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 0.78rem;
     font-weight: 600;
-    text-align: center;
-    margin: 10px auto 20px;
 }
 
-.eventDetailPage > .detailPageInfo > .infoItem {
+.heroChipRestricted {
+    background: var(--red-primary);
+    border-color: var(--red-primary);
+}
+
+.title {
+    max-width: 52rem;
+    font-size: clamp(1.6rem, calc(3.1 * var(--dvw)), 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+    animation: fadeUp .7s .35s var(--ease-out) both;
+}
+
+.heroSpeaker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    animation: fadeUp .7s .45s var(--ease-out) both;
+}
+
+.heroSpeaker > strong {
+    color: #FFFFFF;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    align-items: start;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+}
+
+.panel {
+    padding: 1.6rem 1.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+}
+
+.panelTitle {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 0.9rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.panelTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    bottom: 0.2em;
+    width: 4px;
+    border-radius: var(--radius-full);
+    background: var(--red-primary);
+}
+
+.description {
+    color: var(--text-muted);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    white-space: pre-line;
+}
+
+.requirements {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+    list-style: none;
+}
+
+.requirements > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: var(--surface-2);
+    transition: transform .3s var(--ease-out), background-color .2s ease;
+}
+
+.requirements > li:hover {
+    transform: translateY(-3px);
+    background: var(--red-softer);
+}
+
+.requirements strong {
+    font-size: 0.9rem;
+}
+
+.requirements p {
+    margin-top: 0.15rem;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+}
+
+.reqIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    background: var(--red-soft);
+    color: var(--red-text);
+    font-size: 1.15rem;
+}
+
+.sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + 1rem);
+    animation: fadeUp .7s .3s var(--ease-out) both;
+}
+
+.infoCard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+}
+
+.infoList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+}
+
+.infoList > li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.infoList > li > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.infoList strong {
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.capitalize::first-letter {
+    text-transform: uppercase;
+}
+
+.infoLabel {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+}
+
+.infoIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: var(--radius-md);
+    background: var(--red-soft);
+    color: var(--red-text);
+    font-size: 1.25rem;
+}
+
+.seats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: var(--surface-2);
+}
+
+.seatsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+}
+
+.seatsHeader > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text-muted);
+}
+
+.seatsHeader > strong {
+    color: var(--red-text);
+}
+
+.seatsBar {
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--surface-3);
+    overflow: hidden;
+}
+
+.seatsBar > span {
     display: block;
-    padding: 0px 0px 30px 10px;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--red-bright), var(--red-primary));
+    transform-origin: left;
+    animation: fill 1.2s .5s var(--ease-out) both;
 }
 
-.eventDetailPage > .detailPageInfo > .infoItem > .icon {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 10px;
-    color: var(--red-primary);
+.seatsHint {
+    font-size: 0.75rem;
+    color: var(--text-subtle);
 }
 
-.eventDetailPage > .detailPageInfo > .infoItem > .label {
-    display: inline-block;
-    vertical-align: middle;
-    font-weight: 600;
+.infoNote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: -0.5rem;
+    color: var(--text-subtle);
+    font-size: 0.78rem;
 }
 
-.eventDetailPage > .detailPageInfo > .infoItem > .infoText {
-    font-weight: 400;
-    margin-left: 30px;
+.notFound {
+    margin: 3rem auto 0;
+    max-width: 40rem;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
 }
 
-.eventDetailPage > .detailPageInfo > .subscribe {
-    width: 35%;
-    margin: 20px auto 10px;
+.heroSkeleton,
+.skeletonBlock {
+    background: linear-gradient(90deg, var(--surface-3), var(--surface-2), var(--surface-3));
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
 }
 
-.eventDetailPage > .cardContainer {
-    padding: 20px 0px;
+.skeletonBlock {
+    height: 16rem;
+    border-radius: var(--radius-xl);
 }
 
-.form > .fieldGroup {
-    margin: 10px 0px;
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-@media (max-width: 480px) {
-    .eventDetailPage > .detailPageInfo > .detailPageHeader {
-        height: 230px;
+.checkboxGroup {
+    margin-bottom: 0.25rem;
+}
+
+.fieldRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.fieldGroup {
+    min-width: 0;
+}
+
+@keyframes heroIn {
+    from {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.99);
+    }
+}
+
+@keyframes heroZoom {
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(0.75rem);
+    }
+}
+
+@keyframes fill {
+    from {
+        transform: scaleX(0);
+    }
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .layout {
+        grid-template-columns: 1fr;
     }
 
-    .eventDetailPage > .detailPageInfo > .infoItem > .label {
-        display: inline;
+    .sidebar {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero {
+        aspect-ratio: 4 / 3;
+        min-height: 0;
+        border-radius: var(--radius-lg);
+    }
+
+    .heroImage {
+        object-fit: cover !important;
+    }
+
+    .heroBackdrop {
+        display: none;
+    }
+
+    .heroContent {
+        padding: 1.25rem;
+    }
+
+    .panel {
+        padding: 1.25rem;
+    }
+
+    .fieldRow {
+        grid-template-columns: 1fr;
     }
 }

@@ -1,0 +1,207 @@
+.authPage {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 90rem;
+    min-height: calc(100svh - var(--header-height));
+    margin: 0 auto;
+    padding: 1.25rem var(--gutter) 1.5rem;
+}
+
+.brandPanel {
+    position: relative;
+    min-height: 32rem;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--red-strong);
+    box-shadow: var(--shadow-lg);
+    isolation: isolate;
+    animation: panelIn .8s var(--ease-out) both;
+}
+
+.brandImage {
+    z-index: -2;
+    object-fit: cover;
+    transform: scale(1.06);
+    animation: slowZoom 12s ease-out forwards;
+}
+
+.brandPanel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(to top, rgba(60, 14, 14, 0.92) 0%, rgba(133, 39, 39, 0.55) 45%, rgba(133, 39, 39, 0.05) 80%);
+}
+
+.brandOverlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 2.25rem;
+    color: #FFFFFF;
+}
+
+.brandEyebrow {
+    align-self: flex-start;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    animation: fadeUp .6s .3s var(--ease-out) both;
+}
+
+.highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    list-style: none;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.highlights > li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    animation: fadeUp .6s var(--ease-out) both;
+}
+
+.highlights > li:nth-child(1) {
+    animation-delay: .55s;
+}
+
+.highlights > li:nth-child(2) {
+    animation-delay: .65s;
+}
+
+.highlights > li:nth-child(3) {
+    animation-delay: .75s;
+}
+
+.highlights > li > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.16);
+    font-size: 1.05rem;
+}
+
+.formPanel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formCard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 30rem;
+    padding: 2.25rem 2.25rem 1.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+    animation: cardIn .7s .15s var(--ease-out) both;
+}
+
+.cardLogo {
+    display: flex;
+    justify-content: center;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+}
+
+.logo {
+    width: 6.5rem;
+    height: auto;
+    opacity: 0.85;
+}
+
+:global(.DarkTheme) .logo {
+    filter: brightness(1.7);
+}
+
+@keyframes panelIn {
+    from {
+        opacity: 0;
+        transform: translateX(-1.25rem);
+    }
+}
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(1.25rem);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(0.75rem);
+    }
+}
+
+@keyframes slowZoom {
+    to {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 1024px) {
+    .authPage {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .brandPanel {
+        min-height: 13rem;
+        aspect-ratio: 16 / 7;
+    }
+
+    .highlights {
+        display: none;
+    }
+
+    .brandOverlay {
+        padding: 1.5rem;
+    }
+
+    .formCard {
+        max-width: 34rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .authPage {
+        padding-top: 0.75rem;
+        gap: 1rem;
+    }
+
+    .brandPanel {
+        min-height: 10rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .formCard {
+        padding: 1.5rem 1.25rem 1.25rem;
+    }
+}

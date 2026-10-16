@@ -1,65 +1,35 @@
 'use client';
-import Loader from '@/components/Loader';
-import { Table } from '@/components/Table';
+import { MdLocationOn } from 'react-icons/md';
+import RecordsPage from '@/components/RecordsPage';
 import InputField from '@/components/Inputs/InputField';
 import { MdEdit, MdDelete, MdAssignmentAdd } from 'react-icons/md';
-import styles from '@/app/(pages)/(private)/Locations/Locations.module.css';
+import styles from '@/app/(pages)/(private)/AdminPage.module.css';
 import { useLocationsPage } from '@/hooks/pages/(private)/Locations/useLocationsPage';
 import type { LocationProps, CreateLocationDto, UpdateLocationDto } from '@/@Types/LocationsTypes';
 
 export default function Locations(): React.ReactElement {
     const { editLocation, createLocation, deleteLocation, openModal, locations, loading, refetch, nameRef, newNameRef } = useLocationsPage();
 
-    const schemaTable = [
-        { id: 'name', header: 'Nome', accessor: (l: LocationProps) => l.name },
-        {
-            id: 'createdAt',
-            header: 'Criado em',
-            accessor: (l: LocationProps) => new Date(l.createdAt).toLocaleString('pt-BR').replace(',', ' -'),
-        },
-        {
-            id: 'updatedAt',
-            header: 'Editado última vez em',
-            accessor: (l: LocationProps) => new Date(l.updatedAt).toLocaleString('pt-BR').replace(',', ' -'),
-        },
-        {
-            id: 'actions',
-            header: 'Ações',
-            accessor: () => null,
-            cellRenderer: (l: LocationProps) => (
-                <div className={styles.actions}>
-                    <MdEdit className={styles.icon} size={20} onClick={() => handleEdit(l)} />
-                    <MdDelete className={styles.icon} size={20} onClick={() => handleDelete(l)} />
-                </div>
-            ),
-        },
-    ];
-
     return (
-        <main className={styles.locationsPage}>
-            <header className={styles.locationsPageHeader}>
-                <h1>Gerenciamento de Locais</h1>
-                <button className={styles.createBtn} onClick={handleCreate}>
-                    <MdAssignmentAdd /> Criar novo local
-                </button>
-            </header>
-
-            {loading && <Loader />}
-
-            <Table<LocationProps>
-                records={locations}
-                schema={schemaTable}
-                getIdentifier={l => l.id}
-                hiddenOnMobile={['createdAt', 'updatedAt']}
-            />
-        </main>
+        <RecordsPage<LocationProps>
+            icon={<MdLocationOn />}
+            rowIcon={<MdLocationOn />}
+            title="Locais"
+            description="Salas, auditórios e laboratórios onde os eventos acontecem. A agenda evita dois eventos no mesmo local e horário."
+            nouns={{ one: 'local', many: 'locais', newLabel: 'Novo local' }}
+            records={locations}
+            loading={loading}
+            onCreate={handleCreate}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+        />
     );
 
     // Below we have the modals
 
     function handleCreate(): void {
         openModal({
-            icon: <MdAssignmentAdd size={32} />,
+            icon: <MdAssignmentAdd />,
             title: 'Criar novo local',
             message: (
                 <form className={styles.form}>
@@ -75,32 +45,32 @@ export default function Locations(): React.ReactElement {
         });
     }
 
-    function handleEdit(location: LocationProps): void {
+    function handleEdit(record: LocationProps): void {
         openModal({
-            icon: <MdEdit size={32} />,
+            icon: <MdEdit />,
             title: 'Editar local',
             message: (
                 <form className={styles.form}>
-                    <InputField ref={nameRef} label="Nome do local" defaultValue={location.name} autoFocus />
+                    <InputField ref={nameRef} label="Nome do local" defaultValue={record.name} autoFocus />
                 </form>
             ),
             confirmLabel: 'Salvar local',
             onConfirm: async () => {
                 const dto: UpdateLocationDto = { name: nameRef.current?.value };
-                await editLocation(location.id, dto);
+                await editLocation(record.id, dto);
                 refetch();
             },
         });
     }
 
-    function handleDelete(location: LocationProps): void {
+    function handleDelete(record: LocationProps): void {
         openModal({
-            icon: <MdDelete size={32} color="red" />,
-            title: 'Deletar local',
-            message: <p>Você tem certeza que deseja excluir o local <strong>{location.name}</strong>?</p>,
-            confirmLabel: 'Sim, deletar',
+            icon: <MdDelete />,
+            title: 'Excluir local',
+            message: <p>Você tem certeza que deseja excluir o local <strong>{record.name}</strong>? Essa ação não pode ser desfeita.</p>,
+            confirmLabel: 'Sim, excluir',
             onConfirm: async () => {
-                await deleteLocation(location.id);
+                await deleteLocation(record.id);
                 refetch();
             },
         });

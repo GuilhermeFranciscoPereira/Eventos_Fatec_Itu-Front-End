@@ -1,184 +1,212 @@
 .filtersContainer {
     position: relative;
-    width: 95%;
-    left: 2.5%;
-    top: 0.625rem;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 1.875rem;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+    align-items: end;
     gap: 1rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+    animation: filtersIn .6s .1s var(--ease-out) both;
 }
 
-.filtersContainer > .leftSideFilters,
-.filtersContainer > .centerSideFilters {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 30%;
-    gap: 0.5rem;
-}
-
-.filtersContainer > .centerSideFilters > .customSelect > .customSelectLabel {
-    font-size: var(--field-label-font-size);
-    font-weight: 500;
-    line-height: 1.25;
-    color: var(--field-label-color);
-}
-
-.filtersContainer > .centerSideFilters > .customSelect > .customSelectTrigger {
-    border: 1px solid #ccc;
-}
-
-.filtersContainer > .leftSideFilters > .label,
-.filtersContainer > .centerSideFilters > .label,
-.filtersContainer > .rightSideFilters > .datesFilter > .label {
-    font-size: var(--field-label-font-size);
-    font-weight: 500;
-    line-height: 1.25;
-    color: var(--field-label-color);
-}
-
-.filtersContainer > .leftSideFilters > .searchBox {
-    position: relative;
-    width: 100%;
-}
-
-.filtersContainer > .leftSideFilters > .searchBox > .searchIcon {
-    position: absolute;
-    left: 0.875rem;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 1rem;
-    color: #888;
-}
-
-.filtersContainer > .leftSideFilters > .searchBox > .inputText {
-    width: var(--field-width);
-    min-height: var(--field-min-height);
-    padding: 5px 5px 5px 2.75rem;
-    border: 1px solid #ccc;
-    background-color: var(--field-bg);
-    color: var(--field-color);
-    outline: none;
-    border-radius: var(--field-radius);
-    font-family: var(--field-font-family);
-    font-size: var(--field-font-size);
-    line-height: 1.25;
-}
-
-.filtersContainer > .rightSideFilters {
-    display: flex;
-    gap: 1rem;
-}
-
-.filtersContainer > .rightSideFilters > .datesFilter {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-}
-
-.filtersContainer > .rightSideFilters > .datesFilter > .inputDate,
-.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate {
-    width: var(--field-width);
-    min-height: var(--field-min-height);
-    padding: var(--field-padding);
-    border: 1px solid #ccc;
-    border-radius: var(--field-radius);
-    background-color: var(--field-bg);
-    color: var(--field-color);
-    font-family: var(--field-font-family);
-    font-size: 15px;
-    line-height: 1.25;
-    cursor: pointer;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
-.filtersContainer > .rightSideFilters > .datesFilter > .inputDate:disabled,
-.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate:disabled {
-    cursor: not-allowed;
-    opacity: var(--field-disabled-opacity);
-}
-
-.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper {
-    position: relative;
+.label {
     display: block;
-    width: 100%;
+    min-height: 1.3rem;
+    margin-bottom: 0.45rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--red-text);
 }
 
-.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .tooltipBubble {
+.searchField,
+.categoryField,
+.dateField {
+    min-width: 0;
+}
+
+.searchBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchIcon {
     position: absolute;
-    bottom: calc(100% + 8px);
-    left: 40%;
-    transform: translateX(-50%) translateY(6px);
-    opacity: 0;
+    left: 0.9rem;
+    font-size: 1.15rem;
+    color: var(--text-subtle);
     pointer-events: none;
-    padding: 0.5rem 0.625rem;
-    border-radius: 0.5rem;
-    font-size: var(--font-size-sm);
-    line-height: 1.2;
-    background: white;
-    color: black;
-    box-shadow: var(--box-shadow);
-    transition: opacity .18s ease, transform .18s ease;
-    white-space: nowrap;
-    z-index: 3;
+    transition: color .2s ease, transform .25s var(--ease-spring);
 }
 
-.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper:hover > .tooltipBubble {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+.searchBox:focus-within .searchIcon {
+    color: var(--red-text);
+    transform: scale(1.1);
 }
 
-.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .tooltipVisible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+.inputText,
+.inputDate {
+    width: 100%;
+    min-height: var(--field-min-height);
+    padding: 0.7rem 0.9rem;
+    border: var(--field-border);
+    border-radius: var(--field-radius);
+    background: var(--field-bg);
+    color: var(--field-color);
+    font-size: var(--field-font-size);
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
 
-.filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .tooltipBubble > .tooltipArrow {
+.inputText {
+    padding-left: 2.6rem;
+}
+
+.inputText::placeholder {
+    color: var(--text-subtle);
+}
+
+.inputText:hover,
+.inputDate:hover:not(:disabled) {
+    border-color: var(--text-subtle);
+}
+
+.inputText:focus,
+.inputDate:focus {
+    outline: none;
+    border-color: var(--red-primary);
+    box-shadow: var(--ring);
+}
+
+.inputDate {
+    cursor: pointer;
+}
+
+.inputDate::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+:global(.DarkTheme) .inputDate::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.inputDate:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.emptyDate {
+    color: var(--text-subtle);
+}
+
+.dateFieldWrapper {
+    position: relative;
+}
+
+.tooltipBubble {
     position: absolute;
-    top: 100%;
-    left: 40%;
-    width: 0.625rem;
-    height: 0.625rem;
-    transform: translateX(-50%) rotate(45deg);
-    background: white;
-    box-shadow: var(--box-shadow);
+    left: 50%;
+    bottom: calc(100% + 0.6rem);
+    z-index: 10;
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--radius-sm);
+    background: var(--background-reverse);
+    color: var(--text-color-reverse);
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 4px);
+    transition: opacity .2s ease, transform .2s ease;
 }
 
-@media (max-width: 768px) {
+.tooltipVisible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.tooltipArrow {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top-color: var(--background-reverse);
+    transform: translateX(-50%);
+}
+
+.clearButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: var(--field-min-height);
+    padding: 0 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity .2s ease, color .2s ease, border-color .2s ease, background-color .2s ease;
+}
+
+.clearButton:disabled {
+    cursor: default;
+}
+
+.clearVisible {
+    opacity: 1;
+}
+
+.clearVisible:hover {
+    border-color: var(--red-primary);
+    background: var(--red-softer);
+    color: var(--red-text);
+}
+
+@keyframes filtersIn {
+    from {
+        opacity: 0;
+        transform: translateY(0.75rem);
+    }
+}
+
+@media (max-width: 1024px) {
     .filtersContainer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1.25rem;
-        width: 95%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .filtersContainer > .leftSideFilters,
-    .filtersContainer > .centerSideFilters,
-    .filtersContainer > .rightSideFilters {
-        width: 100%;
-        gap: 0.5rem;
+    .clearButton {
+        grid-column: 1 / -1;
     }
+}
 
-    .filtersContainer > .rightSideFilters > .datesFilter {
-        width: 50%;
+@media (max-width: 640px) {
+    .searchField,
+    .categoryField {
+        grid-column: 1 / -1;
     }
+}
 
-    .filtersContainer > .rightSideFilters > .datesFilter > .inputDate,
-    .filtersContainer > .rightSideFilters > .datesFilter > .dateFieldWrapper > .inputDate {
-        width: 100%;
-        box-sizing: border-box;
+@media (max-width: 480px) {
+    .filtersContainer {
+        padding: 1rem;
+        gap: 0.85rem;
     }
+}
 
-    .filtersContainer > .rightSideFilters > .datesFilter:nth-child(2) {
-        text-align: end;
-        align-items: flex-end;
+@media (max-width: 420px) {
+    .dateField {
+        grid-column: 1 / -1;
     }
-   
 }

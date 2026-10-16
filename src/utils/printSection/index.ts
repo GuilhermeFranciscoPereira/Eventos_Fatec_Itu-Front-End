@@ -4,6 +4,7 @@ export function printSection(sectionId: string): void {
   if (!orig) return;
 
   const clone = orig.cloneNode(true) as HTMLElement;
+  clone.classList.add('printSurface');
   clone.style.backgroundColor = '#fff';
   clone.style.boxSizing = 'border-box';
   clone.style.width = '95%';
