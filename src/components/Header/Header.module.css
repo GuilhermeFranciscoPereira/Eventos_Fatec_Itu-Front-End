@@ -234,6 +234,7 @@
 }
 
 .header > .headerContent > .actions > .authLink {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -246,11 +247,32 @@
     font-size: 0.875rem;
     font-weight: 600;
     box-shadow: var(--shadow-red);
-    transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
+    overflow: hidden;
+    isolation: isolate;
+    transition: box-shadow .25s var(--ease-out), filter .25s ease;
 }
 
-.header > .headerContent > .actions > .authLink:hover {
-    transform: translateY(-2px);
+.header > .headerContent > .actions > .authLink::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform .65s var(--ease-out);
+    pointer-events: none;
+}
+
+/* No translate on hover: the button must stay aligned with the theme toggle. */
+.header > .headerContent > .actions > .authLink:hover,
+.header > .headerContent > .actions > .authLink:focus-visible {
+    filter: brightness(1.08);
+    box-shadow: 0 14px 30px -10px rgba(163, 53, 53, 0.75);
+}
+
+.header > .headerContent > .actions > .authLink:hover::after,
+.header > .headerContent > .actions > .authLink:focus-visible::after {
+    transform: translateX(120%);
 }
 
 .userMenu {

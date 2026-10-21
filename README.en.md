@@ -26,7 +26,9 @@
 
 ## 🛎️ Updates to this commit
 
-### `./src/components/Footer:` In the logo at the top left of the footer, "Itu" was shown in red and is now white, like the rest of the logo. The same image is still used unchanged in the Header and the login screens: only the footer makes it fully white, because of its dark background.
+### `./src/components/Buttons/ButtonDarkMode:` The light/dark theme toggle sat about 3px above the center of the header, because the toggle drawing rested on the button's text line and left extra space below it. It is now centered inside its own button and lines up with the "Entrar" (Sign in) button (on mobile it is now centered in the header too).
+
+### `./src/components/Header:` The "Entrar" (Sign in) button moved up 2px on hover, and only then did it look aligned with the theme toggle. It no longer moves: on hover (and on keyboard focus) it gets slightly brighter, a stronger shadow and a shine that sweeps across it, the same effect used on the other red buttons of the system.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

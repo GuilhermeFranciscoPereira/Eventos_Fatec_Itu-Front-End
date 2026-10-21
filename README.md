@@ -26,7 +26,9 @@
 
 ## 🛎️ Atualizações deste commit
 
-### `./src/components/Footer:` No logo do canto superior esquerdo do rodapé, o "Itu" aparecia em vermelho e agora fica branco, como o restante do logo. A mesma imagem continua sendo usada no Header e nas telas de login sem alteração: só o rodapé a deixa toda branca, por causa do fundo escuro.
+### `./src/components/Buttons/ButtonDarkMode:` O botão de trocar entre tema claro e escuro ficava cerca de 3px acima do centro do header, porque o desenho do toggle se apoiava na linha de texto do botão e sobrava espaço embaixo. Agora ele é centralizado no próprio botão e fica alinhado com o botão "Entrar" (no celular, também passa a ficar centrado no header).
+
+### `./src/components/Header:` O botão "Entrar" subia 2px no hover, e era só nesse momento que parecia alinhado com o toggle de tema. Agora ele não se move mais: no hover (e no foco pelo teclado) ele fica um pouco mais claro, ganha uma sombra mais forte e um brilho que atravessa o botão, o mesmo efeito usado nos outros botões vermelhos do sistema.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer"/>
 

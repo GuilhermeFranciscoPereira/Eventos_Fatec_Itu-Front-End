@@ -1,9 +1,16 @@
+/* Flex + line-height 0: an inline-block toggle sits on the text baseline and leaves descender
+   space below it, which pushed the drawing ~3px above the other header actions. */
 .buttonWrapper {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
     border: none;
     background-color: transparent;
+    line-height: 0;
 }
 
 .buttonWrapper > .hideCheckbox {
+    position: absolute;
     opacity: 0;
     height: 0;
     width: 0;
@@ -12,7 +19,7 @@
 .buttonWrapper > .toggle {
     position: relative;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     width: 60px;
     height: 30px;
     background: #211042;
