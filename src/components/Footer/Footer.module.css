@@ -47,7 +47,8 @@
 .brandLogo {
     width: 7.5rem;
     height: auto;
-    filter: brightness(2.2) saturate(1.2);
+    /* The same PNG is used on light backgrounds (Header, AuthShell), so the footer turns it into a white silhouette here; this also makes the red "Itu" white */
+    filter: brightness(0) invert(1);
 }
 
 .brandText {
