@@ -51,7 +51,7 @@
 }
 
 .wrapper > .waveGroup > .inputField:focus ~ .label > .labelChar,
-.wrapper > .waveGroup > .inputField:valid ~ .label > .labelChar {
+.wrapper > .waveGroup > .inputField:not(:placeholder-shown) ~ .label > .labelChar {
     transform: translateY(var(--field-label-translate-y));
     font-size: 0.8125rem;
     font-weight: 600;

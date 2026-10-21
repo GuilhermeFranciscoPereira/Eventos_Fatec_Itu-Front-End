@@ -26,6 +26,10 @@
 
 ## 🛎️ Atualizações deste commit
 
+### `./src/components/Inputs/InputField:` O rótulo animado dos campos (texto, e-mail, senha e número) fica no alto sempre que houver pelo menos um caractere digitado. Antes ele só ficava no alto quando o valor era válido: num campo de e-mail ainda sem o "@", por exemplo, o rótulo descia ao sair do campo e ficava por cima do texto. Agora ele só volta para o meio quando o campo está vazio, inclusive nos campos opcionais, que antes ficavam com o rótulo no alto mesmo vazios.
+
+### `Lembrar-me no login (./src/hooks/api/Auth/Post/useLogin e ./src/hooks/pages/(public)/Login/useLoginPage):` A caixa "Lembrar-me" da tela de login passou a funcionar: ela é enviada ao back-end como `rememberMe` e, marcada, mantém a pessoa logada por 30 dias sem uso (antes eram sempre 3 dias e a caixa não fazia nada). Cada acesso renova o prazo, então a sessão só termina pelo "Sair", por troca de senha ou de perfil, ou por um novo login da mesma conta.
+
 ### `./src/components/Buttons/ButtonDarkMode:` O botão de trocar entre tema claro e escuro ficava cerca de 3px acima do centro do header, porque o desenho do toggle se apoiava na linha de texto do botão e sobrava espaço embaixo. Agora ele é centralizado no próprio botão e fica alinhado com o botão "Entrar" (no celular, também passa a ficar centrado no header).
 
 ### `./src/components/Header:` O botão "Entrar" subia 2px no hover, e era só nesse momento que parecia alinhado com o toggle de tema. Agora ele não se move mais: no hover (e no foco pelo teclado) ele fica um pouco mais claro, ganha uma sombra mais forte e um brilho que atravessa o botão, o mesmo efeito usado nos outros botões vermelhos do sistema.
