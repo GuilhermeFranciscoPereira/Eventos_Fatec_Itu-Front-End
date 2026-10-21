@@ -22,7 +22,8 @@ type useTwoFactorProps = {
   submitCode: (code: string) => Promise<void>;
 }
 
-export function useLogin(): useLoginProps {
+// rememberMe ("Lembrar-me") makes the API keep the session for 30 days without use instead of 3.
+export function useLogin(rememberMe = false): useLoginProps {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -58,7 +59,7 @@ export function useLogin(): useLoginProps {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
         credentials: 'include',
-        body: JSON.stringify(raw),
+        body: JSON.stringify({ ...raw, rememberMe }),
       });
 
       const payload = await response.json();

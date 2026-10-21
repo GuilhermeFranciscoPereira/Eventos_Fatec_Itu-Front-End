@@ -20,6 +20,8 @@ export default forwardRef<HTMLInputElement, InputFieldProps>(
                 <div className={styles.waveGroup}>
                     <input
                         {...inputProps}
+                        // An empty placeholder lets the CSS know when something was typed (:placeholder-shown), even if the value is still invalid
+                        placeholder={inputProps.placeholder ?? ' '}
                         ref={ref}
                         id={inputId}
                         className={styles.inputField}
