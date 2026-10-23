@@ -9,9 +9,11 @@ export type PixelArea = { x: number; y: number; width: number; height: number };
 
 export type ImageSize = { width: number; height: number };
 
-// Sizes come from where each image is displayed: the event detail banner (800x300 on desktop, @2x) and the home carousel (95vw x 50vh).
-export const EVENT_IMAGE_RECOMMENDATION: ImageRecommendation = { width: 1600, height: 600, mobileVisibleRatio: 0.6 };
-export const CAROUSEL_IMAGE_RECOMMENDATION: ImageRecommendation = { width: 1920, height: 480, mobileVisibleRatio: 0.55 };
+// Sizes come from where each image is displayed: the event detail banner (800x300 on desktop, @2x) and the home carousel (4:1, full width).
+// No mobileVisibleRatio: the event banner keeps 16:6 on phones too, so the whole crop shows on every screen.
+export const EVENT_IMAGE_RECOMMENDATION: ImageRecommendation = { width: 1600, height: 600 };
+// On phones the carousel is 3:1, so 3/4 of the 4:1 width stays visible.
+export const CAROUSEL_IMAGE_RECOMMENDATION: ImageRecommendation = { width: 1920, height: 480, mobileVisibleRatio: 0.75 };
 
 // Keeps uploads light: nothing on the site is displayed wider than this.
 const MAX_OUTPUT_SIDE = 2560;

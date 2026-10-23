@@ -433,23 +433,71 @@
     }
 }
 
+/* Phones: the image keeps its 16:6 and shows whole (contain + blurred backdrop for other ratios),
+   and the texts move below it instead of covering its bottom-left corner. */
 @media (max-width: 640px) {
     .hero {
-        aspect-ratio: 4 / 3;
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: auto;
         min-height: 0;
+        border: 1px solid var(--border);
         border-radius: var(--radius-lg);
+        background: var(--surface);
+        box-shadow: var(--shadow-md);
     }
 
-    .heroImage {
-        object-fit: cover !important;
+    .heroMedia {
+        position: relative;
+        inset: auto;
+        z-index: 0;
+        width: 100%;
+        aspect-ratio: 16 / 6;
+        overflow: hidden;
+        background: var(--surface-3);
     }
 
-    .heroBackdrop {
+    .heroMedia::after {
         display: none;
     }
 
     .heroContent {
-        padding: 1.25rem;
+        position: static;
+        gap: 0.6rem;
+        padding: 1.1rem 1.25rem 1.25rem;
+        color: var(--text-color);
+    }
+
+    .heroChip {
+        border-color: var(--border);
+        background: var(--surface-2);
+        color: var(--text-color);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .heroChipRestricted {
+        border-color: var(--red-primary);
+        background: var(--red-primary);
+        color: var(--on-red);
+    }
+
+    .title {
+        text-shadow: none;
+    }
+
+    .heroSpeaker {
+        color: var(--text-muted);
+    }
+
+    .heroSpeaker > strong {
+        color: var(--text-color);
+    }
+
+    /* The loading hero has no children to give it height once the ratio is auto. */
+    .heroSkeleton {
+        aspect-ratio: 16 / 6;
+        border: none;
     }
 
     .panel {

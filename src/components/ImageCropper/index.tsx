@@ -215,11 +215,15 @@ export default function ImageCropper({ file, recommendation, onApply, onCancel }
                             <FiAlertTriangle aria-hidden /> Proporção diferente da recomendada: o site vai cortar as bordas para encaixar a imagem.
                         </p>
                     )}
-                    {isRecommendedMode && recommendation.mobileVisibleRatio && (
+                    {isRecommendedMode && (recommendation.mobileVisibleRatio ? (
                         <p className={styles.hint}>
                             <FiSmartphone aria-hidden /> No celular, só a faixa central marcada aparece. Mantenha textos e rostos dentro dela.
                         </p>
-                    )}
+                    ) : (
+                        <p className={styles.hint}>
+                            <FiSmartphone aria-hidden /> No celular e no computador, a imagem aparece inteira, exatamente como neste recorte.
+                        </p>
+                    ))}
                     {errorMessage && <p className={`${styles.status} ${styles.statusError}`} role="alert">{errorMessage}</p>}
                 </div>
 

@@ -76,7 +76,7 @@ export default function Footer(): React.ReactElement {
             <div className={styles.bottomBar}>
                 <span>© {new Date().getFullYear()} Fatec Itu – Dom Amaury Castanho</span>
                 <Link
-                    href="https://github.com/GuilhermeFranciscoPereira/Eventos_Fatec_Itu-Back-End"
+                    href="https://github.com/GuilhermeFranciscoPereira"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.credits}
